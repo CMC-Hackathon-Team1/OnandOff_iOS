@@ -23,6 +23,7 @@
 		DB5AFE0E2960171100667336 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFE0D2960171100667336 /* HomeViewController.swift */; };
 		DB5AFE102960171E00667336 /* LookAroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFE0F2960171E00667336 /* LookAroundViewController.swift */; };
 		DB5AFE122960173900667336 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFE112960173800667336 /* MyPageViewController.swift */; };
+		DB7BDC8A2961601200AA304B /* CustomTopTabbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7BDC892961601200AA304B /* CustomTopTabbar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		DB5AFE0D2960171100667336 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		DB5AFE0F2960171E00667336 /* LookAroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookAroundViewController.swift; sourceTree = "<group>"; };
 		DB5AFE112960173800667336 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		DB7BDC892961601200AA304B /* CustomTopTabbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTopTabbar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 		DB5AFDF42960065200667336 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				DB7BDC8829615EDA00AA304B /* LookAround */,
 				DB5AFDFC296006B200667336 /* TempView.swift */,
 			);
 			path = View;
@@ -202,6 +205,14 @@
 			isa = PBXGroup;
 			children = (
 				DB5AFE0F2960171E00667336 /* LookAroundViewController.swift */,
+			);
+			path = LookAround;
+			sourceTree = "<group>";
+		};
+		DB7BDC8829615EDA00AA304B /* LookAround */ = {
+			isa = PBXGroup;
+			children = (
+				DB7BDC892961601200AA304B /* CustomTopTabbar.swift */,
 			);
 			path = LookAround;
 			sourceTree = "<group>";
@@ -328,6 +339,7 @@
 				DB5AFDE52960052D00667336 /* LoginViewController.swift in Sources */,
 				DB5AFDF92960068F00667336 /* UIColor+.swift in Sources */,
 				DB5AFE0E2960171100667336 /* HomeViewController.swift in Sources */,
+				DB7BDC8A2961601200AA304B /* CustomTopTabbar.swift in Sources */,
 				DB5AFE122960173900667336 /* MyPageViewController.swift in Sources */,
 				DB5AFE102960171E00667336 /* LookAroundViewController.swift in Sources */,
 				DB5AFE0129600B6F00667336 /* TempService.swift in Sources */,
