@@ -12,7 +12,7 @@ extension UIFont {
         case Bold, Regular
     }
     
-    static func notoSans(size: CGFloat = 14, family: Family = .Regular) -> UIFont {
+    static func notoSans(size: CGFloat, family: Family = .Regular) -> UIFont {
         return UIFont(name: "NotoSans-\(family)", size: size) ?? UIFont()
     }
 }
