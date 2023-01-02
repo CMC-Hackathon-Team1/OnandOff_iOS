@@ -22,8 +22,7 @@ class LoginViewController: UIViewController {
         label.text = "세상에 없던 멀티 자아 기록 플랫폼"
         label.numberOfLines = 3
         label.textColor = .white
-        // Font 적용 ?
-        label.font = UIFont.boldSystemFont(ofSize: 40)
+        label.font = .notoSans(size: 40, family: .Bold)
         return label
     }()
     
@@ -36,6 +35,7 @@ class LoginViewController: UIViewController {
     private lazy var loginButton: UIButton = {
         let button = UIButton()
         button.setTitle("로그인", for: .normal)
+        button.titleLabel?.font = .notoSans(size: 18, family: .Bold)
         button.tintColor = .black
         button.setTitleColor(#colorLiteral(red: 0.3450980392, green: 0.7215686275, blue: 0.631372549, alpha: 1), for: .normal)
         button.backgroundColor = .white
@@ -51,6 +51,9 @@ class LoginViewController: UIViewController {
     }
     
     // MARK: - Actions
+    @objc func handleLogin() {
+        print(#function)
+    }
     
     
     
@@ -78,7 +81,7 @@ class LoginViewController: UIViewController {
         }
         
         view.addSubview(loginButton)
-        // CornerRadius ??
+        // CornerRadius 확인 후 수정 예정
         loginButton.layer.cornerRadius = 46
         loginButton.snp.makeConstraints { make in
             make.centerX.equalTo(view.snp.centerX)
