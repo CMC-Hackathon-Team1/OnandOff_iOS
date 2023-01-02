@@ -37,29 +37,33 @@ final class FeedCell: UICollectionViewCell {
     }
     
     let followButton = UIButton(type: .system).then {
-        $0.setImage(UIImage(named: "follow"), for: .normal)
+        $0.setImage(UIImage(named: "follow")?.withRenderingMode(.alwaysOriginal), for: .normal)
     }
     
     let heartButton = UIButton(type: .system).then {
-        $0.setImage(UIImage(named: "heart"), for: .normal)
+        $0.setImage(UIImage(named: "heart")?.withRenderingMode(.alwaysOriginal), for: .normal)
     }
     
     //MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .white
-        self.layer.cornerRadius = 8
-        self.layer.shadowColor = UIColor.lightGray.cgColor
-        self.layer.shadowOffset = .init(width: 1, height: 1)
-        self.layer.shadowOpacity = 0.7
-        self.layer.position = self.center
-        
+        self.configure()
         self.addSubView()
         self.layout()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Configure
+    private func configure() {
+        self.backgroundColor = .white
+        self.layer.cornerRadius = 8
+        self.layer.shadowColor = UIColor.lightGray.cgColor
+        self.layer.shadowOffset = .init(width: 1, height: 1)
+        self.layer.shadowOpacity = 0.7
+        self.layer.position = self.center
     }
     
     //MARK: - addSubView
