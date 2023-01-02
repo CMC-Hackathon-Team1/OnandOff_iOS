@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let LookAroundVC = UINavigationController(rootViewController: LookAroundViewController())
         LookAroundVC.tabBarItem.image = UIImage(named: "magnifyingglass")
         
-        let myPageVC = MyPageViewController()
+        let myPageVC = UINavigationController(rootViewController: MyPageViewController())
         myPageVC.tabBarItem.image = UIImage(named: "user")
         
         let tabbar = UITabBarController().then {
