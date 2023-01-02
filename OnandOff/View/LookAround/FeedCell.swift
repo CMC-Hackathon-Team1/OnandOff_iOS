@@ -50,10 +50,20 @@ final class FeedCell: UICollectionViewCell {
         self.configure()
         self.addSubView()
         self.layout()
+        self.addTarget()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Selector
+    @objc private func didClickFollowButton(_ button: UIButton) {
+        print("didClickFllowButton")
+    }
+    
+    @objc private func didClickHeartButton(_ button: UIButton) {
+        print("didClickHeartButton")
     }
     
     //MARK: - Configure
@@ -111,5 +121,11 @@ final class FeedCell: UICollectionViewCell {
             $0.width.height.equalTo(22)
             $0.centerY.equalTo(self.profileImageView.snp.centerY)
         }
+    }
+    
+    //MARK: - AddTarget
+    private func addTarget() {
+        self.heartButton.addTarget(self, action: #selector(self.didClickHeartButton), for: .touchUpInside)
+        self.followButton.addTarget(self, action: #selector(self.didClickFollowButton), for: .touchUpInside)
     }
 }
