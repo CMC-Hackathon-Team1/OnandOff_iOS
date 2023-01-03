@@ -25,6 +25,7 @@
 		DB5AFE122960173900667336 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFE112960173800667336 /* MyPageViewController.swift */; };
 		DB7BDC8A2961601200AA304B /* CustomTopTabbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7BDC892961601200AA304B /* CustomTopTabbar.swift */; };
 		DB7BDC8C2961BCF400AA304B /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7BDC8B2961BCF400AA304B /* FeedCell.swift */; };
+		DBD8DD5F296315150081CD21 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD8DD5E296315150081CD21 /* ProfileView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		DB5AFE112960173800667336 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		DB7BDC892961601200AA304B /* CustomTopTabbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTopTabbar.swift; sourceTree = "<group>"; };
 		DB7BDC8B2961BCF400AA304B /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
+		DBD8DD5E296315150081CD21 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +121,7 @@
 		DB5AFDF42960065200667336 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				DBD8DD5D296315020081CD21 /* MyPage */,
 				DB7BDC8829615EDA00AA304B /* LookAround */,
 				DB5AFDFC296006B200667336 /* TempView.swift */,
 			);
@@ -218,6 +221,14 @@
 				DB7BDC8B2961BCF400AA304B /* FeedCell.swift */,
 			);
 			path = LookAround;
+			sourceTree = "<group>";
+		};
+		DBD8DD5D296315020081CD21 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				DBD8DD5E296315150081CD21 /* ProfileView.swift */,
+			);
+			path = MyPage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -348,6 +359,7 @@
 				DB5AFE102960171E00667336 /* LookAroundViewController.swift in Sources */,
 				DB5AFE0129600B6F00667336 /* TempService.swift in Sources */,
 				DB5AFDE12960052D00667336 /* AppDelegate.swift in Sources */,
+				DBD8DD5F296315150081CD21 /* ProfileView.swift in Sources */,
 				DB5AFDE32960052D00667336 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
