@@ -41,7 +41,6 @@ final class CustomTopTabbar: UIView {
         self.addSubView()
         self.layout()
         self.addTarget()
-        print("test")
     }
     
     required init?(coder: NSCoder) {
