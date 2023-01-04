@@ -43,7 +43,9 @@ final class LookAroundViewController: UIViewController {
     
     //MARK: - Selector
     @objc private func didClickCategory(_ button: UIButton) {
-        print("didClckCategory")
+        let ASFrame = CGRect(x: button.frame.origin.x, y: button.frame.origin.y + button.frame.height + 12, width: 165, height: 160)
+        let categoryActionSheet = CustomActionSheet(frame: self.view.frame, ASFrame: ASFrame)
+        self.view.addSubview(categoryActionSheet)
     }
     
     //MARK: - addSubView
