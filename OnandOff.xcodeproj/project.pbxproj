@@ -25,6 +25,7 @@
 		DB5AFE122960173900667336 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFE112960173800667336 /* MyPageViewController.swift */; };
 		E55E3699296689F000361B99 /* PostSubmitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55E3698296689F000361B99 /* PostSubmitViewController.swift */; };
 		E55E369B29668C6300361B99 /* EditPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55E369A29668C6300361B99 /* EditPostViewController.swift */; };
+		E55E369D29668F7B00361B99 /* EditOrDeleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55E369C29668F7B00361B99 /* EditOrDeleteViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		DB5AFE112960173800667336 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		E55E3698296689F000361B99 /* PostSubmitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSubmitViewController.swift; sourceTree = "<group>"; };
 		E55E369A29668C6300361B99 /* EditPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostViewController.swift; sourceTree = "<group>"; };
+		E55E369C29668F7B00361B99 /* EditOrDeleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditOrDeleteViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,6 +202,7 @@
 				DB5AFE0D2960171100667336 /* HomeViewController.swift */,
 				E55E3698296689F000361B99 /* PostSubmitViewController.swift */,
 				E55E369A29668C6300361B99 /* EditPostViewController.swift */,
+				E55E369C29668F7B00361B99 /* EditOrDeleteViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -328,6 +331,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E55E369D29668F7B00361B99 /* EditOrDeleteViewController.swift in Sources */,
 				DB5AFE082960134400667336 /* UIFont+.swift in Sources */,
 				DB5AFDFD296006B200667336 /* TempView.swift in Sources */,
 				DB5AFDFB2960069B00667336 /* TempModel.swift in Sources */,
