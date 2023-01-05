@@ -26,6 +26,7 @@
 		E55E3699296689F000361B99 /* PostSubmitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55E3698296689F000361B99 /* PostSubmitViewController.swift */; };
 		E55E369B29668C6300361B99 /* EditPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55E369A29668C6300361B99 /* EditPostViewController.swift */; };
 		E55E369D29668F7B00361B99 /* EditOrDeleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55E369C29668F7B00361B99 /* EditOrDeleteViewController.swift */; };
+		E55E369F2966906400361B99 /* CategorySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55E369E2966906400361B99 /* CategorySelectionViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		E55E3698296689F000361B99 /* PostSubmitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSubmitViewController.swift; sourceTree = "<group>"; };
 		E55E369A29668C6300361B99 /* EditPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostViewController.swift; sourceTree = "<group>"; };
 		E55E369C29668F7B00361B99 /* EditOrDeleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditOrDeleteViewController.swift; sourceTree = "<group>"; };
+		E55E369E2966906400361B99 /* CategorySelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySelectionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,6 +205,7 @@
 				E55E3698296689F000361B99 /* PostSubmitViewController.swift */,
 				E55E369A29668C6300361B99 /* EditPostViewController.swift */,
 				E55E369C29668F7B00361B99 /* EditOrDeleteViewController.swift */,
+				E55E369E2966906400361B99 /* CategorySelectionViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 				DB5AFDE12960052D00667336 /* AppDelegate.swift in Sources */,
 				E55E3699296689F000361B99 /* PostSubmitViewController.swift in Sources */,
 				DB5AFDE32960052D00667336 /* SceneDelegate.swift in Sources */,
+				E55E369F2966906400361B99 /* CategorySelectionViewController.swift in Sources */,
 				E55E369B29668C6300361B99 /* EditPostViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
