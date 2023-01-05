@@ -23,6 +23,7 @@
 		DB5AFE0E2960171100667336 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFE0D2960171100667336 /* HomeViewController.swift */; };
 		DB5AFE102960171E00667336 /* LookAroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFE0F2960171E00667336 /* LookAroundViewController.swift */; };
 		DB5AFE122960173900667336 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFE112960173800667336 /* MyPageViewController.swift */; };
+		E55E3699296689F000361B99 /* PostSubmitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E55E3698296689F000361B99 /* PostSubmitViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		DB5AFE0D2960171100667336 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		DB5AFE0F2960171E00667336 /* LookAroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookAroundViewController.swift; sourceTree = "<group>"; };
 		DB5AFE112960173800667336 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		E55E3698296689F000361B99 /* PostSubmitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSubmitViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,7 +68,6 @@
 				444E19A11B52940DAC691D1D /* Pods-OnandOff.debug.xcconfig */,
 				14B10D6834B0D34676CE9E9A /* Pods-OnandOff.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -195,6 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				DB5AFE0D2960171100667336 /* HomeViewController.swift */,
+				E55E3698296689F000361B99 /* PostSubmitViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -333,6 +335,7 @@
 				DB5AFE102960171E00667336 /* LookAroundViewController.swift in Sources */,
 				DB5AFE0129600B6F00667336 /* TempService.swift in Sources */,
 				DB5AFDE12960052D00667336 /* AppDelegate.swift in Sources */,
+				E55E3699296689F000361B99 /* PostSubmitViewController.swift in Sources */,
 				DB5AFDE32960052D00667336 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
