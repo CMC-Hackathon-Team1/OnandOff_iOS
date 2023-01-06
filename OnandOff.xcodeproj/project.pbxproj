@@ -29,6 +29,7 @@
 		DB7BDC8C2961BCF400AA304B /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7BDC8B2961BCF400AA304B /* FeedCell.swift */; };
 		DBD8DD5F296315150081CD21 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD8DD5E296315150081CD21 /* ProfileView.swift */; };
 		E5E05EB12967C2F5004C3891 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E05EB02967C2F5004C3891 /* PostViewController.swift */; };
+		E5E05EB32967CAC7004C3891 /* EditPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E05EB22967CAC7004C3891 /* EditPostViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +59,7 @@
 		DB7BDC8B2961BCF400AA304B /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		DBD8DD5E296315150081CD21 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		E5E05EB02967C2F5004C3891 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		E5E05EB22967CAC7004C3891 /* EditPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,6 +211,7 @@
 			children = (
 				DB5AFE0D2960171100667336 /* HomeViewController.swift */,
 				E5E05EB02967C2F5004C3891 /* PostViewController.swift */,
+				E5E05EB22967CAC7004C3891 /* EditPostViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -372,6 +375,7 @@
 				DB5AFDE12960052D00667336 /* AppDelegate.swift in Sources */,
 				DB0A9CF52963F3D5002AE81A /* CustomActionSheet.swift in Sources */,
 				DBD8DD5F296315150081CD21 /* ProfileView.swift in Sources */,
+				E5E05EB32967CAC7004C3891 /* EditPostViewController.swift in Sources */,
 				DB5AFDE32960052D00667336 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
