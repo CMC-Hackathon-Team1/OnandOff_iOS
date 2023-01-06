@@ -98,9 +98,9 @@ class EditPostViewController: UIViewController {
         print("didClickPhoto")
     }
     @objc func didClickCategory(sender: UITapGestureRecognizer) {
-//        let VC = CategorySelectonViewController()
-//        VC.modalPresentationStyle = .fullScreen
-//        present(VC, animated: true)
+        let VC = CategorySelectonViewController()
+        VC.modalPresentationStyle = .fullScreen
+        present(VC, animated: true)
         print("didClickCategory")
     }
     @objc func didClickAnonymous(sender: UITapGestureRecognizer) {
