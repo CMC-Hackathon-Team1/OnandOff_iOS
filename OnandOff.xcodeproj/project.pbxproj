@@ -33,6 +33,7 @@
 		E5E05EB52967CD2F004C3891 /* EditOrDeleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E05EB42967CD2F004C3891 /* EditOrDeleteViewController.swift */; };
 		E5E05EB72967D025004C3891 /* CategorySelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E05EB62967D025004C3891 /* CategorySelectionViewController.swift */; };
 		E5E05EB929697B87004C3891 /* ImageUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E05EB829697B87004C3891 /* ImageUploadViewController.swift */; };
+		E5E05EC329699795004C3891 /* SpecificPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E05EC229699795004C3891 /* SpecificPostViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +67,7 @@
 		E5E05EB42967CD2F004C3891 /* EditOrDeleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditOrDeleteViewController.swift; sourceTree = "<group>"; };
 		E5E05EB62967D025004C3891 /* CategorySelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySelectionViewController.swift; sourceTree = "<group>"; };
 		E5E05EB829697B87004C3891 /* ImageUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploadViewController.swift; sourceTree = "<group>"; };
+		E5E05EC229699795004C3891 /* SpecificPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificPostViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,6 +223,7 @@
 				E5E05EB42967CD2F004C3891 /* EditOrDeleteViewController.swift */,
 				E5E05EB62967D025004C3891 /* CategorySelectionViewController.swift */,
 				E5E05EB829697B87004C3891 /* ImageUploadViewController.swift */,
+				E5E05EC229699795004C3891 /* SpecificPostViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -376,6 +379,7 @@
 				E5E05EB12967C2F5004C3891 /* PostViewController.swift in Sources */,
 				DB5AFDFB2960069B00667336 /* TempModel.swift in Sources */,
 				DB5AFDE52960052D00667336 /* LoginViewController.swift in Sources */,
+				E5E05EC329699795004C3891 /* SpecificPostViewController.swift in Sources */,
 				DB5AFDF92960068F00667336 /* UIColor+.swift in Sources */,
 				E5E05EB929697B87004C3891 /* ImageUploadViewController.swift in Sources */,
 				DB5AFE0E2960171100667336 /* HomeViewController.swift in Sources */,
