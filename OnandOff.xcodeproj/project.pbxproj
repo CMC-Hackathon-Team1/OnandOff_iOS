@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		09DC8FD3F8AB39CCB7FE1B62 /* Pods_OnandOff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36AE5F0746509503177A09B9 /* Pods_OnandOff.framework */; };
+		4E98C79B2963EB94008A8272 /* PersonaCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E98C79A2963EB94008A8272 /* PersonaCollectionViewCell.swift */; };
 		DB5AFDE12960052D00667336 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFDE02960052D00667336 /* AppDelegate.swift */; };
 		DB5AFDE32960052D00667336 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFDE22960052D00667336 /* SceneDelegate.swift */; };
 		DB5AFDE52960052D00667336 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFDE42960052D00667336 /* LoginViewController.swift */; };
@@ -31,6 +32,7 @@
 		14B10D6834B0D34676CE9E9A /* Pods-OnandOff.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnandOff.release.xcconfig"; path = "Target Support Files/Pods-OnandOff/Pods-OnandOff.release.xcconfig"; sourceTree = "<group>"; };
 		36AE5F0746509503177A09B9 /* Pods_OnandOff.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OnandOff.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		444E19A11B52940DAC691D1D /* Pods-OnandOff.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnandOff.debug.xcconfig"; path = "Target Support Files/Pods-OnandOff/Pods-OnandOff.debug.xcconfig"; sourceTree = "<group>"; };
+		4E98C79A2963EB94008A8272 /* PersonaCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaCollectionViewCell.swift; sourceTree = "<group>"; };
 		DB5AFDDD2960052D00667336 /* OnandOff.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnandOff.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB5AFDE02960052D00667336 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DB5AFDE22960052D00667336 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 			isa = PBXGroup;
 			children = (
 				DB5AFE0D2960171100667336 /* HomeViewController.swift */,
+				4E98C79A2963EB94008A8272 /* PersonaCollectionViewCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -347,6 +350,7 @@
 				DB5AFE122960173900667336 /* MyPageViewController.swift in Sources */,
 				DB5AFE102960171E00667336 /* LookAroundViewController.swift in Sources */,
 				DB5AFE0129600B6F00667336 /* TempService.swift in Sources */,
+				4E98C79B2963EB94008A8272 /* PersonaCollectionViewCell.swift in Sources */,
 				DB5AFDE12960052D00667336 /* AppDelegate.swift in Sources */,
 				DB5AFDE32960052D00667336 /* SceneDelegate.swift in Sources */,
 			);
