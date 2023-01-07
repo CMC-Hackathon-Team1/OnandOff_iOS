@@ -21,6 +21,7 @@ class CategorySelectonViewController: UIViewController {
     }
     let mainLabel = UILabel().then{
         $0.text = "카테고리"
+        $0.font = UIFont(name: "notoSans", size : 16)
     }
     let artPic = UIImageView().then{
         $0.image = UIImage(named: "culture")?.withRenderingMode(.alwaysOriginal)
@@ -28,6 +29,7 @@ class CategorySelectonViewController: UIViewController {
     let artButton = UIButton().then{
         $0.setTitle("문화/예술", for: .normal)
         $0.setTitleColor(UIColor.black, for: .normal)
+        $0.titleLabel?.font = .notoSans(size: 14, family: .Regular)
         
     }
     let line = UIView().then{
@@ -39,6 +41,7 @@ class CategorySelectonViewController: UIViewController {
     let sportButton = UIButton().then{
         $0.setTitle("스포츠", for: .normal)
         $0.setTitleColor(UIColor.black, for: .normal)
+        $0.titleLabel?.font = .notoSans(size: 14, family: .Regular)
     }
     let line2 = UIView().then{
         $0.backgroundColor = UIColor.gray
@@ -49,6 +52,7 @@ class CategorySelectonViewController: UIViewController {
     let selfdevButton = UIButton().then{
         $0.setTitle("자기계발", for: .normal)
         $0.setTitleColor(UIColor.black, for: .normal)
+        $0.titleLabel?.font = .notoSans(size: 14, family: .Regular)
     }
     let line3 = UIView().then{
         $0.backgroundColor = UIColor.gray
@@ -59,6 +63,7 @@ class CategorySelectonViewController: UIViewController {
     let etcButton = UIButton().then{
         $0.setTitle("기타", for: .normal)
         $0.setTitleColor(UIColor.black, for: .normal)
+        $0.titleLabel?.font = .notoSans(size: 14, family: .Regular)
     }
     
 //MARK: - LifeCycle

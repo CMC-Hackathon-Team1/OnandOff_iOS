@@ -1,15 +1,15 @@
 //
-//  EditOrDeleteViewController.swift
+//  ImageUploadViewController.swift
 //  OnandOff
 //
-//  Created by 077tech on 2023/01/06.
+//  Created by 077tech on 2023/01/07.
 //
 
 import UIKit
 import SnapKit
 import Foundation
 
-class EditOrDeleteViewController: UIViewController {
+class ImageUploadViewController: UIViewController {
     
 //MARK: - Properties
     let mainView = UIView().then{
@@ -20,14 +20,14 @@ class EditOrDeleteViewController: UIViewController {
         $0.image = UIImage(named: "close")?.withRenderingMode(.alwaysOriginal)
     }
     let mainLabel = UILabel().then{
-        $0.text = "글 편집"
+        $0.text = "이미지 업로드"
         $0.font = UIFont(name: "notoSans", size : 16)
     }
-    let editPic = UIImageView().then{
-        $0.image = UIImage(named: "edit")?.withRenderingMode(.alwaysOriginal)
+    let searchFromAlbumPic = UIImageView().then{
+        $0.image = UIImage(named: "searchfromalbum")?.withRenderingMode(.alwaysOriginal)
     }
-    let editButton = UIButton().then{
-        $0.setTitle("수정", for: .normal)
+    let seachFromAlbumButton = UIButton().then{
+        $0.setTitle("엘범에서 찾기", for: .normal)
         $0.setTitleColor(UIColor.black, for: .normal)
         $0.titleLabel?.font = .notoSans(size: 14, family: .Regular)
         
@@ -35,11 +35,11 @@ class EditOrDeleteViewController: UIViewController {
     let line = UIView().then{
         $0.backgroundColor = UIColor.gray
     }
-    let deletePic = UIImageView().then{
-        $0.image = UIImage(named: "delete")?.withRenderingMode(.alwaysOriginal)
+    let cameraPic = UIImageView().then{
+        $0.image = UIImage(named: "camera")?.withRenderingMode(.alwaysOriginal)
     }
-    let deleteButton = UIButton().then{
-        $0.setTitle("삭제", for: .normal)
+    let cameraButton = UIButton().then{
+        $0.setTitle("촬영", for: .normal)
         $0.setTitleColor(UIColor.black, for: .normal)
         $0.titleLabel?.font = .notoSans(size: 14, family: .Regular)
     }
@@ -56,13 +56,13 @@ class EditOrDeleteViewController: UIViewController {
     }
     
 //MARK: - Selector
-    @objc private func didClickEdit(_ button: UIButton) {
+    @objc private func didClickseachFromAlbum(_ button: UIButton) {
         let detailVC = EditPostViewController()
         detailVC.modalPresentationStyle = .fullScreen
         present(detailVC, animated: true)
         print("didClickEdit")
     }
-    @objc private func didClickDelete(_ button: UIButton) {
+    @objc private func didClickCamera(_ button: UIButton) {
         print("didClickDelete")
     }
     @objc func didClickClose(sender: UITapGestureRecognizer) {
@@ -75,10 +75,10 @@ class EditOrDeleteViewController: UIViewController {
         self.view.addSubview(self.mainView)
         mainView.addSubview(self.closeButton)
         mainView.addSubview(self.mainLabel)
-        mainView.addSubview(self.editPic)
-        mainView.addSubview(self.editButton)
-        mainView.addSubview(self.deletePic)
-        mainView.addSubview(self.deleteButton)
+        mainView.addSubview(self.searchFromAlbumPic)
+        mainView.addSubview(self.seachFromAlbumButton)
+        mainView.addSubview(self.cameraPic)
+        mainView.addSubview(self.cameraButton)
         mainView.addSubview(self.line)
     }
     
@@ -98,47 +98,38 @@ class EditOrDeleteViewController: UIViewController {
             $0.top.equalTo(self.mainView.snp.top).offset(19.5)
             $0.centerX.equalTo(self.mainView)
         }
-        self.editPic.snp.makeConstraints{
+        self.searchFromAlbumPic.snp.makeConstraints{
             $0.top.equalTo(self.closeButton.snp.bottom).offset(19.58)
             $0.leading.equalTo(self.mainView.snp.leading).offset(24.5)
         }
-        self.editButton.snp.makeConstraints{
+        self.seachFromAlbumButton.snp.makeConstraints{
             $0.top.equalTo(self.mainView.snp.top).offset(53.5)
-            $0.leading.equalTo(self.editPic.snp.trailing).offset(21)
+            $0.leading.equalTo(self.searchFromAlbumPic.snp.trailing).offset(21)
         }
         self.line.snp.makeConstraints{
-            $0.top.equalTo(self.editPic.snp.bottom).offset(14)
+            $0.top.equalTo(self.searchFromAlbumPic.snp.bottom).offset(14)
             $0.leading.equalTo(self.mainView.snp.leading).offset(12.5)
             $0.trailing.equalTo(self.mainView.snp.trailing).offset(12.5)
             $0.size.height.equalTo(1)
         }
-        self.deletePic.snp.makeConstraints{
+        self.cameraPic.snp.makeConstraints{
             $0.top.equalTo(self.line.snp.bottom).offset(11.5)
             $0.leading.equalTo(self.mainView.snp.leading).offset(24.5)
         }
-        self.deleteButton.snp.makeConstraints{
+        self.cameraButton.snp.makeConstraints{
             $0.top.equalTo(self.line.snp.bottom).offset(9)
-            $0.leading.equalTo(self.deletePic.snp.trailing).offset(21)
+            $0.leading.equalTo(self.cameraPic.snp.trailing).offset(21)
         }
     }
     
     
 //MARK: - AddTarget
     private func addTarget() {
-        self.editButton.addTarget(self, action: #selector(self.didClickEdit(_:)), for: .touchUpInside)
-        self.deleteButton.addTarget(self, action: #selector(self.didClickDelete(_:)), for: .touchUpInside)
+        self.seachFromAlbumButton.addTarget(self, action: #selector(self.didClickseachFromAlbum(_:)), for: .touchUpInside)
+        self.cameraButton.addTarget(self, action: #selector(self.didClickCamera(_:)), for: .touchUpInside)
         
         let CloseBtn = UITapGestureRecognizer(target: self, action: #selector(didClickClose))
         closeButton.isUserInteractionEnabled = true
         closeButton.addGestureRecognizer(CloseBtn)
-    }
-}
-
-
-extension UIView {
-    func roundCorners(cornerRadius: CGFloat, maskedCorners: CACornerMask) {
-        clipsToBounds = true
-        layer.cornerRadius = cornerRadius
-        layer.maskedCorners = CACornerMask(arrayLiteral: maskedCorners)
     }
 }

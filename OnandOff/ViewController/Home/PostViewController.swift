@@ -88,12 +88,16 @@ class PostViewController: UIViewController {
     }
 //MARK: - Selector
     @objc private func didClickBack(_ button: UIButton) {
+        dismiss(animated: true)
         print("didClickBack")
     }
     @objc private func didClickSubmit(_ button: UIButton) {
         print("didClickSubmit")
     }
     @objc func didClickPhoto(sender: UITapGestureRecognizer) {
+        let VC = ImageUploadViewController()
+        VC.modalPresentationStyle = .fullScreen
+        present(VC, animated: true)
         print("didClickPhoto")
     }
     @objc func didClickCategory(sender: UITapGestureRecognizer) {
