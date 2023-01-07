@@ -83,7 +83,6 @@ class SpecificPostViewController: UIViewController {
 //MARK: - Selector
     
     
-    
 //MARK: - addSubView
     func setUpView(){
         self.view.addSubview(self.mainView)
@@ -102,6 +101,52 @@ class SpecificPostViewController: UIViewController {
     
 //MARK: - Layout
     func layout(){
+        self.mainView.snp.makeConstraints{
+            $0.bottom.equalToSuperview().offset(0)
+            $0.top.equalToSuperview().offset(73)
+            $0.trailing.equalToSuperview().offset(0)
+            $0.leading.equalToSuperview().offset(0)
+        }
+        self.closeButton.snp.makeConstraints{
+            $0.top.equalTo(self.mainView.snp.top).offset(20.8)
+            $0.leading.equalTo(self.mainView.snp.leading).offset(28.42)
+        }
+        self.profileImageView.snp.makeConstraints{
+            $0.top.equalTo(self.mainView.snp.top).offset(60)
+            $0.leading.equalToSuperview().offset(24)
+        }
+        self.nameLabel.snp.makeConstraints{
+            $0.top.equalTo(self.mainView.snp.top).offset(65)
+            $0.leading.equalTo(self.profileImageView.snp.trailing).offset(11)
+        }
+        self.dateLabel.snp.makeConstraints{
+            $0.top.equalTo(self.nameLabel.snp.bottom).offset(0)
+            $0.leading.equalTo(self.profileImageView.snp.trailing).offset(11)
+        }
+        self.heartButton.snp.makeConstraints{
+            $0.top.equalTo(self.mainView.snp.top).offset(65.68)
+            $0.right.equalTo(self.mainView.snp.trailing).offset(25.03)
+        }
+        self.likeCountLabel.snp.makeConstraints{
+            $0.top.equalTo(self.heartButton.snp.bottom).offset(1.79)
+            $0.trailing.equalTo(self.mainView.snp.trailing).offset(28)
+        }
+        self.tagLabel.snp.makeConstraints{
+            $0.top.equalTo(self.mainView.snp.top).offset(122)
+            $0.leading.equalTo(self.mainView.snp.leading).offset(24)
+        }
+        self.postImageView.snp.makeConstraints{
+            $0.top.equalTo(self.tagLabel.snp.bottom).offset(8)
+            $0.leading.equalTo(self.mainView.snp.leading).offset(23)
+            $0.size.height.equalTo(342)
+            $0.size.width.equalTo(342)
+        }
+        self.contentLabel.snp.makeConstraints{
+            $0.top.equalTo(self.postImageView.snp.bottom).offset(28)
+            $0.leading.equalTo(self.mainView.snp.leading).offset(30)
+            $0.trailing.equalTo(self.mainView.snp.trailing).offset(32)
+        }
+        
         
     }
     
