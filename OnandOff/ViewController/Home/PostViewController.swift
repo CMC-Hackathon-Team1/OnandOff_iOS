@@ -95,6 +95,9 @@ class PostViewController: UIViewController {
         print("didClickSubmit")
     }
     @objc func didClickPhoto(sender: UITapGestureRecognizer) {
+        let VC = ImageUploadViewController()
+        VC.modalPresentationStyle = .fullScreen
+        present(VC, animated: true)
         print("didClickPhoto")
     }
     @objc func didClickCategory(sender: UITapGestureRecognizer) {
