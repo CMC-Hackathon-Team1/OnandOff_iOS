@@ -88,6 +88,7 @@ class PostViewController: UIViewController {
     }
 //MARK: - Selector
     @objc private func didClickBack(_ button: UIButton) {
+        dismiss(animated: true)
         print("didClickBack")
     }
     @objc private func didClickSubmit(_ button: UIButton) {

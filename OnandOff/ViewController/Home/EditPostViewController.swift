@@ -17,7 +17,7 @@ class EditPostViewController: UIViewController {
         $0.font = UIFont(name: "notoSans", size : 16)
     }
     let backButton = UIButton().then{
-        $0.setImage(UIImage(named: "arrow")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        $0.setImage(UIImage(named: "backbutton")?.withRenderingMode(.alwaysOriginal), for: .normal)
     }
     let submitButton = UIButton().then{
         $0.setTitle("작성", for: .normal)

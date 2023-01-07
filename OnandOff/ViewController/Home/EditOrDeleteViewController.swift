@@ -21,6 +21,7 @@ class EditOrDeleteViewController: UIViewController {
     }
     let mainLabel = UILabel().then{
         $0.text = "글 편집"
+        $0.font = UIFont(name: "notoSans", size : 16)
     }
     let editPic = UIImageView().then{
         $0.image = UIImage(named: "edit")?.withRenderingMode(.alwaysOriginal)
@@ -28,6 +29,7 @@ class EditOrDeleteViewController: UIViewController {
     let editButton = UIButton().then{
         $0.setTitle("수정", for: .normal)
         $0.setTitleColor(UIColor.black, for: .normal)
+        $0.titleLabel?.font = .notoSans(size: 14, family: .Regular)
         
     }
     let line = UIView().then{
@@ -39,6 +41,7 @@ class EditOrDeleteViewController: UIViewController {
     let deleteButton = UIButton().then{
         $0.setTitle("삭제", for: .normal)
         $0.setTitleColor(UIColor.black, for: .normal)
+        $0.titleLabel?.font = .notoSans(size: 14, family: .Regular)
     }
     
 //MARK: - LifeCycle
@@ -61,6 +64,10 @@ class EditOrDeleteViewController: UIViewController {
     }
     @objc private func didClickDelete(_ button: UIButton) {
         print("didClickDelete")
+    }
+    @objc func didClickClose(sender: UITapGestureRecognizer) {
+        dismiss(animated: true)
+        print("didClickClose")
     }
     
 //MARK: - addSubView
@@ -120,6 +127,10 @@ class EditOrDeleteViewController: UIViewController {
     private func addTarget() {
         self.editButton.addTarget(self, action: #selector(self.didClickEdit(_:)), for: .touchUpInside)
         self.deleteButton.addTarget(self, action: #selector(self.didClickDelete(_:)), for: .touchUpInside)
+        
+        let CloseBtn = UITapGestureRecognizer(target: self, action: #selector(didClickClose))
+        closeButton.isUserInteractionEnabled = true
+        closeButton.addGestureRecognizer(CloseBtn)
     }
 }
 
