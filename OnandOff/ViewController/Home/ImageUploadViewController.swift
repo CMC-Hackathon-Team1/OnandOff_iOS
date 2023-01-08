@@ -57,13 +57,10 @@ class ImageUploadViewController: UIViewController {
     
 //MARK: - Selector
     @objc private func didClickseachFromAlbum(_ button: UIButton) {
-        let detailVC = EditPostViewController()
-        detailVC.modalPresentationStyle = .fullScreen
-        present(detailVC, animated: true)
-        print("didClickEdit")
+        print("didClickseachFromAlbum")
     }
     @objc private func didClickCamera(_ button: UIButton) {
-        print("didClickDelete")
+        print("didClickCamera")
     }
     @objc func didClickClose(sender: UITapGestureRecognizer) {
         dismiss(animated: true)
