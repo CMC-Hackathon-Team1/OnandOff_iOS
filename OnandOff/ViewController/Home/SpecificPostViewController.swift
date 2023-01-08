@@ -80,7 +80,7 @@ class SpecificPostViewController: UIViewController {
     }
 //MARK: - Selector
     @objc func didClickEllipsis(sender: UITapGestureRecognizer) {
-        let VC = EditPostViewController()
+        let VC = EditOrDeleteViewController()
         VC.modalPresentationStyle = .fullScreen
         present(VC, animated: true)
         print("didClickEllipsis")
