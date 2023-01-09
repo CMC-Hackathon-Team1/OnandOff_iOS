@@ -8,10 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		09DC8FD3F8AB39CCB7FE1B62 /* Pods_OnandOff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36AE5F0746509503177A09B9 /* Pods_OnandOff.framework */; };
-
+		5D23033D296BC30D00D62899 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D23033C296BC30D00D62899 /* LoginViewController.swift */; };
+		5DD2C37D296BAA6D00ACDFF3 /* MyPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD2C37C296BAA6D00ACDFF3 /* MyPageCell.swift */; };
+		5DD2C37F296BAAB600ACDFF3 /* PersonaCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD2C37E296BAAB600ACDFF3 /* PersonaCollectionViewCell.swift */; };
 		DB5AFDE12960052D00667336 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFDE02960052D00667336 /* AppDelegate.swift */; };
 		DB5AFDE32960052D00667336 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFDE22960052D00667336 /* SceneDelegate.swift */; };
-		DB5AFDE52960052D00667336 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFDE42960052D00667336 /* LoginViewController.swift */; };
+		DB5AFDE52960052D00667336 /* CustomActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFDE42960052D00667336 /* CustomActionSheet.swift */; };
 		DB5AFDEA2960053100667336 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB5AFDE92960053100667336 /* Assets.xcassets */; };
 		DB5AFDED2960053100667336 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB5AFDEB2960053100667336 /* LaunchScreen.storyboard */; };
 		DB5AFDF92960068F00667336 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFDF82960068F00667336 /* UIColor+.swift */; };
@@ -39,11 +41,14 @@
 		14B10D6834B0D34676CE9E9A /* Pods-OnandOff.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnandOff.release.xcconfig"; path = "Target Support Files/Pods-OnandOff/Pods-OnandOff.release.xcconfig"; sourceTree = "<group>"; };
 		36AE5F0746509503177A09B9 /* Pods_OnandOff.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OnandOff.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		444E19A11B52940DAC691D1D /* Pods-OnandOff.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnandOff.debug.xcconfig"; path = "Target Support Files/Pods-OnandOff/Pods-OnandOff.debug.xcconfig"; sourceTree = "<group>"; };
-
+		5D23033C296BC30D00D62899 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		5D23033E296BCF9900D62899 /* OnandOff.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OnandOff.entitlements; sourceTree = "<group>"; };
+		5DD2C37C296BAA6D00ACDFF3 /* MyPageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPageCell.swift; sourceTree = "<group>"; };
+		5DD2C37E296BAAB600ACDFF3 /* PersonaCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonaCollectionViewCell.swift; sourceTree = "<group>"; };
 		DB5AFDDD2960052D00667336 /* OnandOff.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnandOff.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB5AFDE02960052D00667336 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DB5AFDE22960052D00667336 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		DB5AFDE42960052D00667336 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		DB5AFDE42960052D00667336 /* CustomActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CustomActionSheet.swift; path = ../../View/LookAround/CustomActionSheet.swift; sourceTree = "<group>"; };
 		DB5AFDE92960053100667336 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DB5AFDEC2960053100667336 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DB5AFDEE2960053100667336 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -118,6 +123,7 @@
 		DB5AFDDF2960052D00667336 /* OnandOff */ = {
 			isa = PBXGroup;
 			children = (
+				5D23033E296BCF9900D62899 /* OnandOff.entitlements */,
 				DB5AFDFF296008DC00667336 /* Resource */,
 				DB5AFDFE296008CF00667336 /* Services */,
 				DB5AFDF72960067300667336 /* Utils */,
@@ -199,7 +205,8 @@
 		DB5AFE092960144000667336 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				DB5AFDE42960052D00667336 /* LoginViewController.swift */,
+				5D23033C296BC30D00D62899 /* LoginViewController.swift */,
+				DB5AFDE42960052D00667336 /* CustomActionSheet.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -218,11 +225,11 @@
 				DB5AFE0D2960171100667336 /* HomeViewController.swift */,
 				E5E05EB02967C2F5004C3891 /* PostViewController.swift */,
 				E5E05EB22967CAC7004C3891 /* EditPostViewController.swift */,
+				5DD2C37E296BAAB600ACDFF3 /* PersonaCollectionViewCell.swift */,
 				E5E05EB42967CD2F004C3891 /* EditOrDeleteViewController.swift */,
 				E5E05EB62967D025004C3891 /* CategorySelectionViewController.swift */,
 				E5E05EB829697B87004C3891 /* ImageUploadViewController.swift */,
 				E5E05EC229699795004C3891 /* SpecificPostViewController.swift */,
-
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -240,7 +247,6 @@
 			children = (
 				DB7BDC892961601200AA304B /* CustomTopTabbar.swift */,
 				DB7BDC8B2961BCF400AA304B /* FeedCell.swift */,
-				DB0A9CF42963F3D5002AE81A /* CustomActionSheet.swift */,
 			);
 			path = LookAround;
 			sourceTree = "<group>";
@@ -249,7 +255,7 @@
 			isa = PBXGroup;
 			children = (
 				DBD8DD5E296315150081CD21 /* ProfileView.swift */,
-				5DED5E23296410C7001B371D /* MyPageCell.swift */,
+				5DD2C37C296BAA6D00ACDFF3 /* MyPageCell.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -373,23 +379,23 @@
 				DB5AFE082960134400667336 /* UIFont+.swift in Sources */,
 				E5E05EB52967CD2F004C3891 /* EditOrDeleteViewController.swift in Sources */,
 				DB5AFDFD296006B200667336 /* TempView.swift in Sources */,
+				5D23033D296BC30D00D62899 /* LoginViewController.swift in Sources */,
 				E5E05EB72967D025004C3891 /* CategorySelectionViewController.swift in Sources */,
 				DB7BDC8C2961BCF400AA304B /* FeedCell.swift in Sources */,
+				5DD2C37F296BAAB600ACDFF3 /* PersonaCollectionViewCell.swift in Sources */,
 				E5E05EB12967C2F5004C3891 /* PostViewController.swift in Sources */,
 				DB5AFDFB2960069B00667336 /* TempModel.swift in Sources */,
-				DB5AFDE52960052D00667336 /* LoginViewController.swift in Sources */,
+				DB5AFDE52960052D00667336 /* CustomActionSheet.swift in Sources */,
 				E5E05EC329699795004C3891 /* SpecificPostViewController.swift in Sources */,
 				DB5AFDF92960068F00667336 /* UIColor+.swift in Sources */,
 				E5E05EB929697B87004C3891 /* ImageUploadViewController.swift in Sources */,
 				DB5AFE0E2960171100667336 /* HomeViewController.swift in Sources */,
 				DB7BDC8A2961601200AA304B /* CustomTopTabbar.swift in Sources */,
-				5DED5E24296410C7001B371D /* MyPageCell.swift in Sources */,
 				DB5AFE122960173900667336 /* MyPageViewController.swift in Sources */,
+				5DD2C37D296BAA6D00ACDFF3 /* MyPageCell.swift in Sources */,
 				DB5AFE102960171E00667336 /* LookAroundViewController.swift in Sources */,
 				DB5AFE0129600B6F00667336 /* TempService.swift in Sources */,
-				4E98C79B2963EB94008A8272 /* PersonaCollectionViewCell.swift in Sources */,
 				DB5AFDE12960052D00667336 /* AppDelegate.swift in Sources */,
-				DB0A9CF52963F3D5002AE81A /* CustomActionSheet.swift in Sources */,
 				DBD8DD5F296315150081CD21 /* ProfileView.swift in Sources */,
 				E5E05EB32967CAC7004C3891 /* EditPostViewController.swift in Sources */,
 				DB5AFDE32960052D00667336 /* SceneDelegate.swift in Sources */,
@@ -530,9 +536,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = OnandOff/OnandOff.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = V2YNV9QV27;
+				DEVELOPMENT_TEAM = A6UJ99J8Q8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OnandOff/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -562,9 +569,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = OnandOff/OnandOff.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = V2YNV9QV27;
+				DEVELOPMENT_TEAM = A6UJ99J8Q8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OnandOff/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
