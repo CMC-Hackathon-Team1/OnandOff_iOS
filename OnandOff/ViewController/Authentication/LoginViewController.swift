@@ -10,6 +10,8 @@ import UIKit
 import KakaoSDKUser
 import KakaoSDKAuth
 import KakaoSDKCommon
+import AuthenticationServices
+import GoogleSignIn
 
 class LoginViewController: UIViewController {
 
@@ -55,7 +57,7 @@ class LoginViewController: UIViewController {
         button.backgroundColor = .white
         button.clipsToBounds = true
         button.layer.cornerRadius = 10
-        button.addTarget(self, action: #selector(didTapkakaoLoginButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didTapKakaoLoginButton), for: .touchUpInside)
         return button
     }()
     
@@ -68,6 +70,7 @@ class LoginViewController: UIViewController {
         button.backgroundColor = .white
         button.clipsToBounds = true
         button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(didTapAppleLoginButton), for: .touchUpInside)
         return button
     }()
     
@@ -80,6 +83,7 @@ class LoginViewController: UIViewController {
         button.backgroundColor = .white
         button.clipsToBounds = true
         button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(didTapGoogleLoginButton), for: .touchUpInside)
         return button
     }()
     
@@ -122,7 +126,7 @@ class LoginViewController: UIViewController {
         print(#function)
     }
     
-    @objc func didTapkakaoLoginButton() {
+    @objc func didTapKakaoLoginButton() {
         print(#function)
         // 카카오톡 설치 여부 확인
         if (UserApi.isKakaoTalkLoginAvailable()) {
@@ -161,13 +165,41 @@ class LoginViewController: UIViewController {
         }
     }
     
-    @objc func didTapappleLoginButton() {
+    @objc func didTapAppleLoginButton() {
         print(#function)
+        let request = ASAuthorizationAppleIDProvider().createRequest()
+        request.requestedScopes = [.fullName, .email]
+
+        let controller = ASAuthorizationController(authorizationRequests: [request])
+        controller.delegate = self as? ASAuthorizationControllerDelegate
+        controller.presentationContextProvider = self as? ASAuthorizationControllerPresentationContextProviding
+        controller.performRequests()
     }
+
     
-    @objc func didTapgoogleLoginButton() {
+    @objc func didTapGoogleLoginButton() {
         print(#function)
+
+        let googleClientId = "237346784269-d5qkltgq5i6ccfn9fia49d52slp63180.apps.googleusercontent.com"
+        let signInConfig = GIDConfiguration.init(clientID: googleClientId)
+        
+        let accessToken = GIDSignIn.sharedInstance.currentUser?.accessToken
+        let userId = GIDSignIn.sharedInstance.currentUser?.userID
+        if accessToken == nil {
+            
+            GIDSignIn.sharedInstance.signIn(withPresenting: self) { signInResult, error in
+                if let error = error {
+                    print(error.localizedDescription)
+                } else {
+                    let userId = signInResult?.user.userID
+                    let accessToken = signInResult?.user.accessToken
+                    print("userID: ", userId)
+                    print("accessToken: ", accessToken)
+                }
+            }
+        }
     }
+
     
     // MARK: - Helpers
     func configureUI() {
@@ -239,3 +271,30 @@ extension LoginViewController {
         }
     }
 }
+
+// MARK: - AppleLogin
+extension LoginViewController: ASAuthorizationControllerDelegate {
+    // 성공 후 동작
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        if let credential = authorization.credential as? ASAuthorizationAppleIDCredential {
+
+            let idToken = credential.identityToken!
+            let tokeStr = String(data: idToken, encoding: .utf8)
+            print(tokeStr)
+
+            guard let code = credential.authorizationCode else { return }
+            let codeStr = String(data: code, encoding: .utf8)
+            print(codeStr)
+
+            let user = credential.user
+            print(user)
+
+        }
+    }
+
+    // 실패 후 동작
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        print("error")
+    }
+}
+
