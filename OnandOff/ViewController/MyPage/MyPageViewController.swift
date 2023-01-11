@@ -44,7 +44,7 @@ final class MyPageViewController: UIViewController {
     
     // MARK: - ConfigureCollectionView
     private func configureCollectionView() {
-        myPageCollectionView.register(MyPageCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+//        myPageCollectionView.register(MyPageCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         myPageCollectionView.backgroundColor = .white
         myPageCollectionView.dataSource = self
         myPageCollectionView.delegate = self
@@ -70,7 +70,7 @@ final class MyPageViewController: UIViewController {
             make.top.equalTo(profileView.snp.bottom).offset(12)
             make.bottom.equalToSuperview()
         }
-    }  
+    }
 }
 
 
@@ -84,8 +84,8 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MyPageCell
-        return cell
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MyPageCell
+        return UICollectionViewCell()
     }
 }
 

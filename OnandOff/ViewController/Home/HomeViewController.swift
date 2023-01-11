@@ -36,7 +36,28 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         return cv
     }()
     
-    let view1 = UIView().then {
+    let firstPersona = UIImageView().then {
+        $0.frame.size.width = 53
+        $0.frame.size.height = 53
+    }
+    
+    let profileMakeBtn = UIButton().then {
+        $0.frame.size.width = 53
+        $0.frame.size.height = 53
+        
+        let circle = UIImage(named: "ProfileMakeCircle")
+        $0.setBackgroundImage(circle, for: .normal)
+        $0.setImage(UIImage(named: "ProfileMakePlus"), for: .normal)
+        $0.addTarget(self, action: #selector(enterProfileMake), for: .touchUpInside)
+//        $0.layer.borderWidth = 2
+//        $0.layer.borderColor = UIColor.mainColor.cgColor
+//        $0.layer.cornerRadius = 26.5
+    }
+    
+    let view1 = UIView().then {_ in
+    }
+    
+    let view2 = UIView().then {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 20
         $0.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner)
@@ -58,7 +79,12 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     let introduceLbl = UILabel().then {
         $0.font = .notoSans(size: 20, family: .Regular)
-        $0.text = "오늘 당신의 하루를 공유해주세요✏️"
+        $0.text = "오늘 당신의 하루를 공유해주세요"
+    }
+    
+    let pencilLbl = UILabel().then {
+        $0.font = .notoSans(size: 20, family: .Regular)
+        $0.text = "✏️"
     }
     
     let writeBookManImg = UIImageView().then {
@@ -70,17 +96,16 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         $0.layer.cornerRadius = 5
         $0.setTitle("기록하기", for: .normal)
         $0.titleLabel?.font = .notoSans(size: 16, family: .Bold)
-        
     }
     
-    let view2 = UIView().then {_ in
+    let view3 = UIView().then {_ in
     }
     
-    let view3 = UIView().then {
+    let view4 = UIView().then {
         $0.backgroundColor = UIColor(rgb: 0xF2F2F2)
     }
     
-    let view4 = UIView().then {_ in
+    let view5 = UIView().then {_ in
     }
     
     let personaBottomLbl = UILabel().then {
@@ -216,41 +241,43 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         view.backgroundColor = .white
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        contentView.addSubview(collectionView)
         contentView.addSubview(view1)
-        view1.addSubview(personaLbl)
-        view1.addSubview(nickNameLbl)
-        view1.addSubview(introduceLbl)
-        view1.addSubview(writeBookManImg)
-        view1.addSubview(writeBtn)
-        view2.backgroundColor = .clear
-        view2.addSubview(calendar)
         contentView.addSubview(view2)
+        view1.addSubview(profileMakeBtn)
+        view2.addSubview(personaLbl)
+        view2.addSubview(nickNameLbl)
+        view2.addSubview(introduceLbl)
+        view2.addSubview(pencilLbl)
+        view2.addSubview(writeBookManImg)
+        view2.addSubview(writeBtn)
         contentView.addSubview(view3)
+        view3.backgroundColor = .clear
+        view3.addSubview(calendar)
         contentView.addSubview(view4)
-        view4.addSubview(personaBottomLbl)
-        view4.addSubview(nickNameBottomLbl)
-        view4.addSubview(writeLbl)
-        view4.addSubview(heartLbl)
-        view4.addSubview(peopleLbl)
-        view4.addSubview(monthlyReceiveHeartLbl1)
-        view4.addSubview(monthlyReceiveHeartCountLbl)
-        view4.addSubview(monthlyReceiveHeartLbl2)
-        view4.addSubview(monthlyReceiveHeartLbl3)
-        view4.addSubview(monthlyWriteLbl1)
-        view4.addSubview(monthlyWriteCountLbl)
-        view4.addSubview(monthlyWriteLbl2)
-        view4.addSubview(monthlyWriteLbl3)
-        view4.addSubview(monthlyReceiveFollowLbl1)
-        view4.addSubview(monthlyReceiveFollowCountLbl)
-        view4.addSubview(monthlyReceiveFollowLbl2)
-        view4.addSubview(monthlyReceiveFollowLbl3)
-        view4.addSubview(heartLblStackView)
-        view4.addSubview(writeLblStackView)
-        view4.addSubview(followLblStackView)
+        contentView.addSubview(view5)
+        view5.addSubview(personaBottomLbl)
+        view5.addSubview(nickNameBottomLbl)
+        view5.addSubview(writeLbl)
+        view5.addSubview(heartLbl)
+        view5.addSubview(peopleLbl)
+        view5.addSubview(monthlyReceiveHeartLbl1)
+        view5.addSubview(monthlyReceiveHeartCountLbl)
+        view5.addSubview(monthlyReceiveHeartLbl2)
+        view5.addSubview(monthlyReceiveHeartLbl3)
+        view5.addSubview(monthlyWriteLbl1)
+        view5.addSubview(monthlyWriteCountLbl)
+        view5.addSubview(monthlyWriteLbl2)
+        view5.addSubview(monthlyWriteLbl3)
+        view5.addSubview(monthlyReceiveFollowLbl1)
+        view5.addSubview(monthlyReceiveFollowCountLbl)
+        view5.addSubview(monthlyReceiveFollowLbl2)
+        view5.addSubview(monthlyReceiveFollowLbl3)
+        view5.addSubview(heartLblStackView)
+        view5.addSubview(writeLblStackView)
+        view5.addSubview(followLblStackView)
     }
     
-    private func layout() {
+    func layout() {
         
         scrollView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
@@ -262,15 +289,20 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             $0.centerX.top.bottom.equalToSuperview()
         }
         
-        collectionView.snp.makeConstraints {
-            $0.height.equalTo(115)
+        view1.snp.makeConstraints {
+            $0.height.equalTo(130)
             $0.top.leading.trailing.equalToSuperview()
         }
         
-        view1.snp.makeConstraints {
+        view2.snp.makeConstraints {
             $0.height.equalTo(317)
-            $0.top.equalTo(collectionView.snp.bottom)
+            $0.top.equalTo(view1.snp.bottom)
             $0.leading.trailing.equalToSuperview()
+        }
+        
+        profileMakeBtn.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(20)
+            $0.leading.equalToSuperview().inset(90)
         }
         
         personaLbl.snp.makeConstraints {
@@ -288,6 +320,11 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             $0.leading.equalToSuperview().inset(24)
         }
         
+        pencilLbl.snp.makeConstraints {
+            $0.top.equalTo(personaLbl.snp.bottom).offset(1)
+            $0.leading.equalTo(introduceLbl.snp.trailing).offset(2.3)
+        }
+        
         writeBookManImg.snp.makeConstraints {
             $0.top.equalTo(introduceLbl.snp.bottom).offset(14)
             $0.centerX.equalToSuperview()
@@ -299,21 +336,21 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             $0.bottom.equalToSuperview().inset(24)
         }
         
-        view2.snp.makeConstraints {
-            $0.height.equalTo(330)
-            $0.top.equalTo(view1.snp.bottom)
-            $0.leading.trailing.equalToSuperview()
-        }
-        
         view3.snp.makeConstraints {
-            $0.height.equalTo(4)
+            $0.height.equalTo(330)
             $0.top.equalTo(view2.snp.bottom)
             $0.leading.trailing.equalToSuperview()
         }
         
         view4.snp.makeConstraints {
-            $0.height.equalTo(225)
+            $0.height.equalTo(4)
             $0.top.equalTo(view3.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+        }
+        
+        view5.snp.makeConstraints {
+            $0.height.equalTo(225)
+            $0.top.equalTo(view4.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
         
@@ -398,6 +435,12 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             $0.top.equalTo(monthlyReceiveFollowLbl1.snp.bottom).offset(1)
             $0.leading.equalTo(monthlyReceiveFollowLbl1.snp.leading)
         }
+    }
+    
+    @objc func enterProfileMake(sender: UIButton!) {
+        let vc = ProfileMakeViewController()
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
     }
     
     func createLayout() -> UICollectionViewCompositionalLayout {
