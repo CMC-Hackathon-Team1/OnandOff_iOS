@@ -7,6 +7,11 @@
 
 import SnapKit
 import UIKit
+import KakaoSDKUser
+import KakaoSDKAuth
+import KakaoSDKCommon
+import AuthenticationServices
+import GoogleSignIn
 
 class LoginViewController: UIViewController {
 
@@ -43,6 +48,45 @@ class LoginViewController: UIViewController {
         return button
     }()
     
+    private lazy var kakaoLoginButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("카카오 로그인", for: .normal)
+        button.titleLabel?.font = .notoSans(size: 18, family: .Bold)
+        button.tintColor = .black
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .white
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(didTapKakaoLoginButton), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var appleLoginButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("애플 로그인", for: .normal)
+        button.titleLabel?.font = .notoSans(size: 18, family: .Bold)
+        button.tintColor = .black
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .white
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(didTapAppleLoginButton), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var googleLoginButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("구글 로그인", for: .normal)
+        button.titleLabel?.font = .notoSans(size: 18, family: .Bold)
+        button.tintColor = .black
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .white
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action: #selector(didTapGoogleLoginButton), for: .touchUpInside)
+        return button
+    }()
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,46 +94,207 @@ class LoginViewController: UIViewController {
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // 유효한 토큰 검사
+        if (AuthApi.hasToken()) {
+            UserApi.shared.accessTokenInfo { (_, error) in
+                if let error = error {
+                    if let sdkError = error as? SdkError, sdkError.isInvalidTokenError() == true  {
+                        // 로그인 필요
+                    }
+                    else {
+                        // 기타 에러
+                    }
+                }
+                else {
+                    // 토큰 유효성 체크 성공(필요 시 토큰 갱신됨)
+                    
+                    // 사용자 정보를 가져오고 화면전환을 하는 커스텀 메서드
+                    self.moveToHomeVC()
+                }
+            }
+        }
+        else {
+            // 로그인 필요
+        }
+    }
+    
     // MARK: - Actions
     @objc func handleLogin() {
         print(#function)
     }
     
+    @objc func didTapKakaoLoginButton() {
+        print(#function)
+        // 카카오톡 설치 여부 확인
+        if (UserApi.isKakaoTalkLoginAvailable()) {
+            UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
+                if let error = error {
+                    print(error)
+                }
+                else {
+                    print("loginWithKakaoTalk() success.")
+
+                    // 회원가입 성공 시 oauthToken 저장가능하다
+                    // _ = oauthToken
+
+                    // 사용자정보를 성공적으로 가져오면 화면전환 한다.
+                    self.moveToHomeVC()
+                }
+            }
+        }
+        //  카카오톡 미설치
+        else {
+            print("카카오톡 미설치")
+            UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
+                if let error = error {
+                    print(error)
+                }
+                else {
+                    print("loginWithKakaoAccount() success.")
+
+                    // 회원가입 성공 시 oauthToken 저장
+                    // _ = oauthToken
+
+                    // 사용자정보를 성공적으로 가져오면 화면전환 한다.
+                    self.moveToHomeVC()
+                }
+            }
+        }
+    }
     
+    @objc func didTapAppleLoginButton() {
+        print(#function)
+        let request = ASAuthorizationAppleIDProvider().createRequest()
+        request.requestedScopes = [.fullName, .email]
+
+        let controller = ASAuthorizationController(authorizationRequests: [request])
+        controller.delegate = self as? ASAuthorizationControllerDelegate
+        controller.presentationContextProvider = self as? ASAuthorizationControllerPresentationContextProviding
+        controller.performRequests()
+    }
+
+    
+    @objc func didTapGoogleLoginButton() {
+        print(#function)
+
+        let googleClientId = "237346784269-d5qkltgq5i6ccfn9fia49d52slp63180.apps.googleusercontent.com"
+        let signInConfig = GIDConfiguration.init(clientID: googleClientId)
+        
+        let accessToken = GIDSignIn.sharedInstance.currentUser?.accessToken
+        let userId = GIDSignIn.sharedInstance.currentUser?.userID
+        if accessToken == nil {
+            
+            GIDSignIn.sharedInstance.signIn(withPresenting: self) { signInResult, error in
+                if let error = error {
+                    print(error.localizedDescription)
+                } else {
+                    let userId = signInResult?.user.userID
+                    let accessToken = signInResult?.user.accessToken
+                    print("userID: ", userId)
+                    print("accessToken: ", accessToken)
+                }
+            }
+        }
+    }
+
     
     // MARK: - Helpers
     func configureUI() {
         view.addSubview(backgroundImageView)
-        backgroundImageView.snp.makeConstraints { make in
-            make.top.left.bottom.right.equalToSuperview()
+        backgroundImageView.snp.makeConstraints {
+            $0.top.left.bottom.right.equalToSuperview()
         }
         
         view.addSubview(titleLabel)
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.snp.top).offset(174)
-            make.left.equalTo(view.snp.left).offset(42)
-            make.width.equalTo(192)
-            make.height.equalTo(180)
+        titleLabel.snp.makeConstraints {
+            $0.top.equalTo(view.snp.top).offset(174)
+            $0.left.equalTo(view.snp.left).offset(42)
+            $0.width.equalTo(192)
+            $0.height.equalTo(180)
         }
         
         view.addSubview(logoImageView)
-        logoImageView.snp.makeConstraints { make in
-            make.top.equalTo(view.snp.top).offset(459)
-            make.left.equalTo(view.snp.left).offset(42)
-            make.width.equalTo(189)
-            make.height.equalTo(49)
+        logoImageView.snp.makeConstraints {
+            $0.top.equalTo(view.snp.top).offset(459)
+            $0.left.equalTo(view.snp.left).offset(42)
+            $0.width.equalTo(189)
+            $0.height.equalTo(49)
         }
         
         view.addSubview(loginButton)
         // CornerRadius 확인 후 수정 예정
-        loginButton.layer.cornerRadius = 46
-        loginButton.snp.makeConstraints { make in
-            make.centerX.equalTo(view.snp.centerX)
-            make.bottom.equalTo(-40)
-            make.width.equalTo(335)
-            make.height.equalTo(54)
+        loginButton.layer.cornerRadius = 20
+        loginButton.snp.makeConstraints {
+            $0.centerX.equalTo(view.snp.centerX)
+            $0.top.equalTo(view.snp.top).offset(555)
+            $0.width.equalTo(335)
+            $0.height.equalTo(54)
+        }
+        
+        let stackView = UIStackView(arrangedSubviews: [kakaoLoginButton, appleLoginButton, googleLoginButton])
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.spacing = 15
+        view.addSubview(stackView)
+        
+        stackView.snp.makeConstraints {
+            $0.top.equalTo(loginButton.snp.bottom).offset(31)
+            $0.left.equalTo(view.snp.left).offset(18)
+            $0.right.equalTo(view.snp.right).offset(-18)
         }
     }
 }
 
+// MARK: - KaKaoOAuth
+extension LoginViewController {
+    // 로그인 성공 -> 화면 전환
+    private func moveToHomeVC() {
+
+        // 사용자 정보 가져오기
+        UserApi.shared.me() {(user, error) in
+            if let error = error {
+                print(error)
+            }
+            else {
+                print("me() success.")
+
+                // 닉네임, 이메일 정보
+                // let nickname = user?.kakaoAccount?.profile?.nickname
+                // let email = user?.kakaoAccount?.email
+
+                // 화면전환
+                // self.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
+}
+
+// MARK: - AppleLogin
+extension LoginViewController: ASAuthorizationControllerDelegate {
+    // 성공 후 동작
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        if let credential = authorization.credential as? ASAuthorizationAppleIDCredential {
+
+            let idToken = credential.identityToken!
+            let tokeStr = String(data: idToken, encoding: .utf8)
+            print(tokeStr)
+
+            guard let code = credential.authorizationCode else { return }
+            let codeStr = String(data: code, encoding: .utf8)
+            print(codeStr)
+
+            let user = credential.user
+            print(user)
+
+        }
+    }
+
+    // 실패 후 동작
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        print("error")
+    }
+}
 
