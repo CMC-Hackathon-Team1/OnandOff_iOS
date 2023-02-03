@@ -15,13 +15,13 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     var persona = ""
     var nickName = ""
     
-    let calendar = FSCalendar(frame: CGRect(x: 15, y: 20, width: 380, height: 300))
+    let calendar = FSCalendar(frame: CGRect(x: 0, y: 0, width: 380, height: 300))
+    fileprivate let datesWithCat = ["20230105","20230115"]
     
     var monthlyReceiveHeartCount = "0"
     var monthlyWriteCount = "0"
     var monthlyFollowCount = "0"
     
-    let dateWithImg = ["20230105"]
     let dateFormatter = DateFormatter()
     
     let scrollView = UIScrollView().then {
@@ -233,8 +233,12 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         calendar.appearance.headerTitleColor = .black
         calendar.appearance.weekdayFont = UIFont.notoSans(size: 12)
         calendar.appearance.weekdayTextColor = .black
-        calendar.appearance.todayColor = UIColor.systemGray
-        calendar.appearance.selectionColor = UIColor.mainColor
+        calendar.appearance.todayColor = .white
+        calendar.appearance.titleTodayColor = .black
+        calendar.appearance.selectionColor = .white
+        calendar.appearance.titleSelectionColor = .black
+        
+      
     }
     
     func setUpView() {
@@ -340,6 +344,11 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             $0.height.equalTo(330)
             $0.top.equalTo(view2.snp.bottom)
             $0.leading.trailing.equalToSuperview()
+        }
+        
+        calendar.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview().inset(15)
+            $0.leading.trailing.equalToSuperview().inset(15)
         }
         
         view4.snp.makeConstraints {
@@ -474,6 +483,15 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
 //        print(collections[indexPath.row])
         return cell
     }
+    
+    // 특정 날짜에 이미지 세팅
+    func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
+        let imageDateFormatter = DateFormatter()
+        imageDateFormatter.dateFormat = "yyyyMMdd"
+        var dateStr = imageDateFormatter.string(from: date)
+        print("date : \(dateStr)")
+        return datesWithCat.contains(dateStr) ? UIImage(named: "culture") : nil
+    }
 }
 
 extension UIColor {
@@ -493,3 +511,4 @@ extension UIColor {
        )
    }
 }
+
