@@ -15,4 +15,8 @@ extension UIFont {
     static func notoSans(size: CGFloat, family: Family = .Regular) -> UIFont {
         return UIFont(name: "NotoSans-\(family)", size: size) ?? UIFont()
     }
+    
+    static func interBold(size: CGFloat) -> UIFont {
+        return UIFont(name: "Inter-Bold", size: size) ?? UIFont()
+    }
 }
