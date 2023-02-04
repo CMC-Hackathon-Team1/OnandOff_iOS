@@ -16,8 +16,9 @@
 		5D26120A2988A585005ED78B /* AuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2612092988A585005ED78B /* AuthModel.swift */; };
 		5D26120C29896977005ED78B /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D26120B29896977005ED78B /* String+.swift */; };
 		5D26120E29896C6F005ED78B /* TokenService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D26120D29896C6F005ED78B /* TokenService.swift */; };
-		5DD2C37D296BAA6D00ACDFF3 /* MyPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD2C37C296BAA6D00ACDFF3 /* MyPageCell.swift */; };
-		5DD2C37F296BAAB600ACDFF3 /* PersonaCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD2C37E296BAAB600ACDFF3 /* PersonaCollectionViewCell.swift */; };
+		DB000F00297011A50097D6C8 /* MyPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB000EFF297011A50097D6C8 /* MyPageCell.swift */; };
+		DB000F06297012010097D6C8 /* ProfileMakeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB000F05297012010097D6C8 /* ProfileMakeViewController.swift */; };
+		DB000F082970120A0097D6C8 /* PersonaCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB000F072970120A0097D6C8 /* PersonaCollectionViewCell.swift */; };
 		DB5AFDE12960052D00667336 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFDE02960052D00667336 /* AppDelegate.swift */; };
 		DB5AFDE32960052D00667336 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFDE22960052D00667336 /* SceneDelegate.swift */; };
 		DB5AFDE52960052D00667336 /* CustomActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFDE42960052D00667336 /* CustomActionSheet.swift */; };
@@ -57,9 +58,10 @@
 		5D2612072988A559005ED78B /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		5D2612092988A585005ED78B /* AuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
 		5D26120B29896977005ED78B /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
-		5D26120D29896C6F005ED78B /* TokenService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenService.swift; sourceTree = "<group>"; };
-		5DD2C37C296BAA6D00ACDFF3 /* MyPageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPageCell.swift; sourceTree = "<group>"; };
-		5DD2C37E296BAAB600ACDFF3 /* PersonaCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonaCollectionViewCell.swift; sourceTree = "<group>"; };
+		5D26120D29896C6F005ED78B /* TokenService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenService.swift; sourceTree = "<group>"; };ft; sourceTree = "<group>"; };
+		DB000EFF297011A50097D6C8 /* MyPageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPageCell.swift; sourceTree = "<group>"; };
+		DB000F05297012010097D6C8 /* ProfileMakeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileMakeViewController.swift; sourceTree = "<group>"; };
+		DB000F072970120A0097D6C8 /* PersonaCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonaCollectionViewCell.swift; sourceTree = "<group>"; };
 		DB5AFDDD2960052D00667336 /* OnandOff.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnandOff.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB5AFDE02960052D00667336 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DB5AFDE22960052D00667336 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -146,7 +148,6 @@
 		DB5AFDDF2960052D00667336 /* OnandOff */ = {
 			isa = PBXGroup;
 			children = (
-				5D23033E296BCF9900D62899 /* OnandOff.entitlements */,
 				DB5AFDFF296008DC00667336 /* Resource */,
 				DB5AFDFE296008CF00667336 /* Services */,
 				DB5AFDF72960067300667336 /* Utils */,
@@ -253,9 +254,10 @@
 			isa = PBXGroup;
 			children = (
 				DB5AFE0D2960171100667336 /* HomeViewController.swift */,
+				DB000F072970120A0097D6C8 /* PersonaCollectionViewCell.swift */,
 				E5E05EB02967C2F5004C3891 /* PostViewController.swift */,
+				DB000F05297012010097D6C8 /* ProfileMakeViewController.swift */,
 				E5E05EB22967CAC7004C3891 /* EditPostViewController.swift */,
-				5DD2C37E296BAAB600ACDFF3 /* PersonaCollectionViewCell.swift */,
 				E5E05EB42967CD2F004C3891 /* EditOrDeleteViewController.swift */,
 				E5E05EB62967D025004C3891 /* CategorySelectionViewController.swift */,
 				E5E05EB829697B87004C3891 /* ImageUploadViewController.swift */,
@@ -276,6 +278,7 @@
 		DB7BDC8829615EDA00AA304B /* LookAround */ = {
 			isa = PBXGroup;
 			children = (
+				DB5AFDE42960052D00667336 /* CustomActionSheet.swift */,
 				DB7BDC892961601200AA304B /* CustomTopTabbar.swift */,
 				DB7BDC8B2961BCF400AA304B /* FeedCell.swift */,
 			);
@@ -285,8 +288,8 @@
 		DBD8DD5D296315020081CD21 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				DB000EFF297011A50097D6C8 /* MyPageCell.swift */,
 				DBD8DD5E296315150081CD21 /* ProfileView.swift */,
-				5DD2C37C296BAA6D00ACDFF3 /* MyPageCell.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -407,11 +410,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB000F06297012010097D6C8 /* ProfileMakeViewController.swift in Sources */,
 				DB5AFE082960134400667336 /* UIFont+.swift in Sources */,
 				5D2612002987D6F4005ED78B /* EmailLoginViewController.swift in Sources */,
 				E5E05EB52967CD2F004C3891 /* EditOrDeleteViewController.swift in Sources */,
 				DB5AFDFD296006B200667336 /* TempView.swift in Sources */,
-				5D23033D296BC30D00D62899 /* LoginViewController.swift in Sources */,
 				E5E05EB72967D025004C3891 /* CategorySelectionViewController.swift in Sources */,
 				DB7BDC8C2961BCF400AA304B /* FeedCell.swift in Sources */,
 				5DD2C37F296BAAB600ACDFF3 /* PersonaCollectionViewCell.swift in Sources */,
@@ -423,11 +426,13 @@
 				DB5AFDE52960052D00667336 /* CustomActionSheet.swift in Sources */,
 				E5E05EC329699795004C3891 /* SpecificPostViewController.swift in Sources */,
 				DB5AFDF92960068F00667336 /* UIColor+.swift in Sources */,
+				DB000F02297011D70097D6C8 /* LoginViewController.swift in Sources */,
+				DB000F082970120A0097D6C8 /* PersonaCollectionViewCell.swift in Sources */,
 				E5E05EB929697B87004C3891 /* ImageUploadViewController.swift in Sources */,
 				DB5AFE0E2960171100667336 /* HomeViewController.swift in Sources */,
 				DB7BDC8A2961601200AA304B /* CustomTopTabbar.swift in Sources */,
 				DB5AFE122960173900667336 /* MyPageViewController.swift in Sources */,
-				5DD2C37D296BAA6D00ACDFF3 /* MyPageCell.swift in Sources */,
+				DB000F00297011A50097D6C8 /* MyPageCell.swift in Sources */,
 				DB5AFE102960171E00667336 /* LookAroundViewController.swift in Sources */,
 				DB5AFE0129600B6F00667336 /* TempService.swift in Sources */,
 				5D2612082988A559005ED78B /* AuthService.swift in Sources */,
@@ -580,6 +585,7 @@
 				DEVELOPMENT_TEAM = A6UJ99J8Q8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OnandOff/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "프로필 사진 업로드를 위해 앨범에 접근합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -613,6 +619,7 @@
 				DEVELOPMENT_TEAM = A6UJ99J8Q8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OnandOff/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "프로필 사진 업로드를 위해 앨범에 접근합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

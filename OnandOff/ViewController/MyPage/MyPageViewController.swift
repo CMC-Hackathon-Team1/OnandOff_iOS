@@ -70,7 +70,7 @@ final class MyPageViewController: UIViewController {
             make.top.equalTo(profileView.snp.bottom).offset(12)
             make.bottom.equalToSuperview()
         }
-    }  
+    }
 }
 
 
