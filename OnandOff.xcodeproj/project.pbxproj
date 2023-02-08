@@ -313,8 +313,7 @@
 				E56E0E9229934661009FD906 /* PrivacyViewController.swift */,
 				E56E0E9329934661009FD906 /* ServiceAlertViewController.swift */,
 			);
-			name = HomeSettings;
-			path = "../../../OnandOff_iOSrevert1 2/OnandOff/ViewController/HomeSettings";
+			path = HomeSettings;
 			sourceTree = "<group>";
 		};
 		E56E0EA129934672009FD906 /* HomeSetting */ = {
@@ -323,8 +322,7 @@
 				E56E0EC12993499D009FD906 /* AlertCell.swift */,
 				E56E0EA329934672009FD906 /* SettingCell.swift */,
 			);
-			name = HomeSetting;
-			path = "../../../OnandOff_iOSrevert1 2/OnandOff/View/HomeSetting";
+			path = HomeSetting;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
