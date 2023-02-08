@@ -220,12 +220,19 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         $0.axis = .horizontal
         $0.spacing = 80
     }
+    let alarmButton = UIImageView().then{
+        $0.image = UIImage(named: "alarmButton")?.withRenderingMode(.alwaysOriginal)
+    }
+    let settingButton = UIImageView().then{
+        $0.image = UIImage(named: "settingButton")?.withRenderingMode(.alwaysOriginal)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUpView()
         layout()
+        addTarget()
         
         calendar.appearance.headerDateFormat = "YYYY년 M월"
         calendar.appearance.headerMinimumDissolvedAlpha = 0.0
@@ -248,6 +255,10 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         contentView.addSubview(view1)
         contentView.addSubview(view2)
         view1.addSubview(profileMakeBtn)
+        
+        contentView.addSubview(alarmButton)
+        contentView.addSubview(settingButton)
+        
         view2.addSubview(personaLbl)
         view2.addSubview(nickNameLbl)
         view2.addSubview(introduceLbl)
@@ -297,6 +308,17 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             $0.height.equalTo(130)
             $0.top.leading.trailing.equalToSuperview()
         }
+        settingButton.snp.makeConstraints{
+            $0.top.equalToSuperview().offset(35)
+            $0.trailing.equalToSuperview().offset(-27)
+            $0.width.height.equalTo(22)
+        }
+        alarmButton.snp.makeConstraints{
+            $0.top.equalToSuperview().offset(35)
+            $0.trailing.equalTo(settingButton.snp.leading).offset(-17.35)
+            $0.width.height.equalTo(20)
+        }
+        
         
         view2.snp.makeConstraints {
             $0.height.equalTo(317)
@@ -445,13 +467,39 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             $0.leading.equalTo(monthlyReceiveFollowLbl1.snp.leading)
         }
     }
-    
+//MARK: Selector
     @objc func enterProfileMake(sender: UIButton!) {
         let vc = ProfileMakeViewController()
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
     }
+    @objc private func didClickWrite(_ button: UIButton) {
+        let vc = PostViewController()
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
+    }
+    @objc func didClickSetting(sender: UITapGestureRecognizer) {
+        let vc = SettingViewController()
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
+        }
     
+    
+    
+//MARK: AddTarget
+    func addTarget(){
+        self.writeBtn.addTarget(self, action: #selector(self.didClickWrite(_:)), for: .touchUpInside)
+        
+        let settingBtn = UITapGestureRecognizer(target: self, action: #selector(didClickSetting))
+        settingButton.isUserInteractionEnabled = true
+        settingButton.addGestureRecognizer(settingBtn)
+        
+        
+    }
+ 
+    
+    
+//MARK: Extensions
     func createLayout() -> UICollectionViewCompositionalLayout {
         
         // item
