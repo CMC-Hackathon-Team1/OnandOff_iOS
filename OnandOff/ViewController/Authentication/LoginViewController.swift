@@ -45,54 +45,44 @@ class LoginViewController: UIViewController {
         button.setTitleColor(#colorLiteral(red: 0.3450980392, green: 0.7215686275, blue: 0.631372549, alpha: 1), for: .normal)
         button.backgroundColor = .white
         button.clipsToBounds = true
-        button.layer.cornerRadius = 12
-        button.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        button.addTarget(self, action: #selector(handleShowLogin), for: .touchUpInside)
         return button
     }()
     
     private lazy var kakaoLoginButton: UIButton = {
         let button = UIButton()
         button.setTitle("카카오 로그인", for: .normal)
-        button.setImage(#imageLiteral(resourceName: "Kakao"), for: .normal)
-        button.contentHorizontalAlignment = .center
-        button.semanticContentAttribute = .forceLeftToRight
-        button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 150)
         button.titleLabel?.font = .notoSans(size: 18, family: .Bold)
         button.tintColor = .black
         button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = #colorLiteral(red: 0.9983025193, green: 0.9065476656, blue: 0, alpha: 1)
+        button.backgroundColor = .white
         button.clipsToBounds = true
-        button.layer.cornerRadius = 12
-        button.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(didTapKakaoLoginButton), for: .touchUpInside)
         return button
     }()
     
     private lazy var appleLoginButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Apple 로그인", for: .normal)
+        button.setTitle("애플 로그인", for: .normal)
         button.titleLabel?.font = .notoSans(size: 18, family: .Bold)
         button.tintColor = .black
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .white
         button.clipsToBounds = true
-        button.layer.cornerRadius = 12
-        button.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(didTapAppleLoginButton), for: .touchUpInside)
         return button
     }()
     
     private lazy var googleLoginButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Google 계정으로 로그인", for: .normal)
+        button.setTitle("구글 로그인", for: .normal)
         button.titleLabel?.font = .notoSans(size: 18, family: .Bold)
         button.tintColor = .black
         button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        button.backgroundColor = .white
         button.clipsToBounds = true
-        button.layer.cornerRadius = 12
-        button.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(didTapGoogleLoginButton), for: .touchUpInside)
         return button
     }()
@@ -132,11 +122,8 @@ class LoginViewController: UIViewController {
     }
     
     // MARK: - Actions
-    @objc func handleShowLogin() {
+    @objc func handleLogin() {
         print(#function)
-        let controller = EmailLoginViewController()
-        print(controller)
-        self.navigationController?.pushViewController(controller, animated: true)
     }
     
     @objc func didTapKakaoLoginButton() {
@@ -223,30 +210,40 @@ class LoginViewController: UIViewController {
         
         view.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.snp.top).offset(90)
-            $0.left.equalTo(view.snp.left).offset(40)
+            $0.top.equalTo(view.snp.top).offset(174)
+            $0.left.equalTo(view.snp.left).offset(42)
             $0.width.equalTo(192)
             $0.height.equalTo(180)
         }
         
         view.addSubview(logoImageView)
         logoImageView.snp.makeConstraints {
-            $0.top.equalTo(view.snp.top).offset(313)
-            $0.left.equalTo(view.snp.left).offset(40)
+            $0.top.equalTo(view.snp.top).offset(459)
+            $0.left.equalTo(view.snp.left).offset(42)
             $0.width.equalTo(189)
             $0.height.equalTo(49)
         }
         
-        let stackView = UIStackView(arrangedSubviews: [loginButton, kakaoLoginButton, appleLoginButton, googleLoginButton])
+        view.addSubview(loginButton)
+        // CornerRadius 확인 후 수정 예정
+        loginButton.layer.cornerRadius = 20
+        loginButton.snp.makeConstraints {
+            $0.centerX.equalTo(view.snp.centerX)
+            $0.top.equalTo(view.snp.top).offset(555)
+            $0.width.equalTo(335)
+            $0.height.equalTo(54)
+        }
+        
+        let stackView = UIStackView(arrangedSubviews: [kakaoLoginButton, appleLoginButton, googleLoginButton])
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.spacing = 15
         view.addSubview(stackView)
         
         stackView.snp.makeConstraints {
-            $0.top.equalTo(view.snp.top).offset(582)
-            $0.left.equalTo(view.snp.left).offset(20)
-            $0.right.equalTo(view.snp.right).offset(-20)
+            $0.top.equalTo(loginButton.snp.bottom).offset(31)
+            $0.left.equalTo(view.snp.left).offset(18)
+            $0.right.equalTo(view.snp.right).offset(-18)
         }
     }
 }

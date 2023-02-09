@@ -9,11 +9,8 @@ import UIKit
 import SnapKit
 import Then
 import FSCalendar
-import Alamofire
 
 class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
-    
-    let jwtToken = TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken")
     
     var persona = ""
     var nickName = ""
@@ -223,14 +220,19 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         $0.axis = .horizontal
         $0.spacing = 80
     }
+    let alarmButton = UIImageView().then{
+        $0.image = UIImage(named: "alarmButton")?.withRenderingMode(.alwaysOriginal)
+    }
+    let settingButton = UIImageView().then{
+        $0.image = UIImage(named: "settingButton")?.withRenderingMode(.alwaysOriginal)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        CheckUserLogin()
-        // LogOut()
         
         setUpView()
         layout()
+        addTarget()
         
         calendar.appearance.headerDateFormat = "YYYY년 M월"
         calendar.appearance.headerMinimumDissolvedAlpha = 0.0
@@ -253,6 +255,10 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         contentView.addSubview(view1)
         contentView.addSubview(view2)
         view1.addSubview(profileMakeBtn)
+        
+        contentView.addSubview(alarmButton)
+        contentView.addSubview(settingButton)
+        
         view2.addSubview(personaLbl)
         view2.addSubview(nickNameLbl)
         view2.addSubview(introduceLbl)
@@ -302,6 +308,17 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             $0.height.equalTo(130)
             $0.top.leading.trailing.equalToSuperview()
         }
+        settingButton.snp.makeConstraints{
+            $0.top.equalToSuperview().offset(35)
+            $0.trailing.equalToSuperview().offset(-27)
+            $0.width.height.equalTo(22)
+        }
+        alarmButton.snp.makeConstraints{
+            $0.top.equalToSuperview().offset(35)
+            $0.trailing.equalTo(settingButton.snp.leading).offset(-17.35)
+            $0.width.height.equalTo(20)
+        }
+        
         
         view2.snp.makeConstraints {
             $0.height.equalTo(317)
@@ -450,13 +467,39 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             $0.leading.equalTo(monthlyReceiveFollowLbl1.snp.leading)
         }
     }
-    
+//MARK: Selector
     @objc func enterProfileMake(sender: UIButton!) {
         let vc = ProfileMakeViewController()
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
     }
+    @objc private func didClickWrite(_ button: UIButton) {
+        let vc = PostViewController()
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
+    }
+    @objc func didClickSetting(sender: UITapGestureRecognizer) {
+        let vc = SettingViewController()
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
+        }
     
+    
+    
+//MARK: AddTarget
+    func addTarget(){
+        self.writeBtn.addTarget(self, action: #selector(self.didClickWrite(_:)), for: .touchUpInside)
+        
+        let settingBtn = UITapGestureRecognizer(target: self, action: #selector(didClickSetting))
+        settingButton.isUserInteractionEnabled = true
+        settingButton.addGestureRecognizer(settingBtn)
+        
+        
+    }
+ 
+    
+    
+//MARK: Extensions
     func createLayout() -> UICollectionViewCompositionalLayout {
         
         // item
@@ -489,47 +532,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         return cell
     }
     
-    // MARK: - Helpers
-    func CheckUserLogin() {
-        print("AccessToken in HomeVC is \(jwtToken ?? "UserIsNotLogIn")")
-        if jwtToken == nil {
-            DispatchQueue.main.async {
-                let controller = LoginViewController()
-                let navigation = UINavigationController(rootViewController: controller)
-                navigation.modalPresentationStyle = .fullScreen
-                self.present(navigation, animated: true, completion: nil)
-            }
-        }
-    }
-    
-    func LogOut() {
-        let headers: HTTPHeaders = ["Authorization": "Bearer " + (jwtToken ?? "UserIsNotLogIn")]
-        print(headers)
-        
-        AuthService.userLogOut(nil, headers: headers) { response in
-            if let response = response {
-                switch response.statusCode {
-                case 100:
-                    let tokenService = TokenService()
-                    tokenService.delete("https://dev.onnoff.shop/auth/login", account: "accessToken")
-                    print("LogOut Complete, AccessToken is \(TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken") ?? "Delete Token")")
-                    let controller = LoginViewController()
-                    let navigation = UINavigationController(rootViewController: controller)
-                    navigation.modalPresentationStyle = .fullScreen
-                    self.present(navigation, animated: true, completion: nil)
-                case 400:
-                    print(response.message)
-                case 401:
-                    print(response.message)
-                case 500:
-                    print(response.message)
-                default:
-                    break
-                }
-            }
-            return
-        }
-
     // 특정 날짜에 이미지 세팅
     func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
         let imageDateFormatter = DateFormatter()
