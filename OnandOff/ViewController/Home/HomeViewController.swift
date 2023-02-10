@@ -7,10 +7,13 @@
 //
 import UIKit
 import SnapKit
+import Alamofire
 import Then
 import FSCalendar
 
 class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
+    
+    let jwtToken = TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken")
     
     var persona = ""
     var nickName = ""
@@ -229,6 +232,11 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Authentication
+        CheckUserLogIn()
+        LogOut()
+        // print("JwtToekn is : \(jwtToken)")
         
         setUpView()
         layout()
@@ -497,7 +505,47 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
     }
  
-    
+    // MARK: - Helpers
+    func CheckUserLogIn() {
+        print("AccessToken in HomeVC is \(jwtToken ?? "UserIsNotLogIn")")
+        if jwtToken == nil {
+            DispatchQueue.main.async {
+                let controller = LoginViewController()
+                let navigation = UINavigationController(rootViewController: controller)
+                navigation.modalPresentationStyle = .fullScreen
+                self.present(navigation, animated: true, completion: nil)
+            }
+        }
+    }
+
+    func LogOut() {
+        let headers: HTTPHeaders = ["Authorization": "Bearer " + (jwtToken ?? "UserIsNotLogIn")]
+        print(headers)
+        
+        AuthService.userLogOut(nil, headers: headers) { response in
+            if let response = response {
+                switch response.statusCode {
+                case 100:
+                    let tokenService = TokenService()
+                    tokenService.delete("https://dev.onnoff.shop/auth/login", account: "accessToken")
+                    print("LogOut Complete, AccessToken is \(TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken") ?? "Delete Token")")
+                    let controller = LoginViewController()
+                    let navigation = UINavigationController(rootViewController: controller)
+                    navigation.modalPresentationStyle = .fullScreen
+                    self.present(navigation, animated: true, completion: nil)
+                case 400:
+                    print(response.message)
+                case 401:
+                    print(response.message)
+                case 500:
+                    print(response.message)
+                default:
+                    break
+                }
+            }
+            return
+        }
+    }
     
 //MARK: Extensions
     func createLayout() -> UICollectionViewCompositionalLayout {
