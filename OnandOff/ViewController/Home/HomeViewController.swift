@@ -21,6 +21,15 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     let calendar = FSCalendar(frame: CGRect(x: 0, y: 0, width: 380, height: 300))
     fileprivate let datesWithCat = ["20230105","20230115"]
     
+    let calendarRight = UIButton().then{
+        $0.setImage(UIImage(named: "calendarright")?.withRenderingMode(.alwaysOriginal), for: .normal)
+//        $0.alpha = 0
+    }
+    let calendarLeft = UIButton().then{
+        $0.setImage(UIImage(named: "calendarleft")?.withRenderingMode(.alwaysOriginal), for: .normal)
+//        $0.alpha = 0
+    }
+    
     var monthlyReceiveHeartCount = "0"
     var monthlyWriteCount = "0"
     var monthlyFollowCount = "0"
@@ -32,12 +41,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     let contentView = UIView()
-    
-//    let collectionView: UICollectionView = {
-//        let layout = UICollectionViewLayout()
-//        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-//        return cv
-//    }()
+
     let profileCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
         $0.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)
         $0.backgroundColor = .white
@@ -47,28 +51,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
         $0.showsHorizontalScrollIndicator = false
     }
-    
-//    let firstPersona = UIImageView().then {
-//        $0.frame.size.width = 53
-//        $0.frame.size.height = 53
-//    }
-//
-//    let profileMakeBtn = UIButton().then {
-//        $0.frame.size.width = 53
-//        $0.frame.size.height = 53
-//
-//        let circle = UIImage(named: "ProfileMakeCircle")
-//        $0.setBackgroundImage(circle, for: .normal)
-//        $0.setImage(UIImage(named: "ProfileMakePlus"), for: .normal)
-//        $0.addTarget(self, action: #selector(enterProfileMake), for: .touchUpInside)
-////        $0.layer.borderWidth = 2
-////        $0.layer.borderColor = UIColor.mainColor.cgColor
-////        $0.layer.cornerRadius = 26.5
-//    }
-//
-//    let view1 = UIView().then {_ in
-//    }
-    
     let view2 = UIView().then {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 20
@@ -250,10 +232,19 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         setUpView()
         layout()
         addTarget()
+        canlendarSetUp()
         
         self.profileCollectionView.delegate = self
         self.profileCollectionView.dataSource = self
         
+        
+        persona.append(contentsOf: ["작가"])
+        
+    }
+    
+    //MARK: CalendarUI
+    func canlendarSetUp(){
+        calendar.placeholderType = .none
         calendar.appearance.headerDateFormat = "YYYY년 M월"
         calendar.appearance.headerMinimumDissolvedAlpha = 0.0
         calendar.appearance.headerTitleFont = UIFont.notoSans(size: 16, family: .Bold)
@@ -265,8 +256,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         calendar.appearance.selectionColor = .white
         calendar.appearance.titleSelectionColor = .black
         
-        persona.append(contentsOf: ["작가"])
-        
+        //이벤트 동그라미
+        calendar.appearance.eventDefaultColor = UIColor.mainColor
+        calendar.appearance.eventSelectionColor = UIColor.mainColor
     }
     
     func setUpView() {
@@ -290,6 +282,8 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         contentView.addSubview(view3)
         view3.backgroundColor = .clear
         view3.addSubview(calendar)
+        calendar.addSubview(self.calendarRight)
+        calendar.addSubview(self.calendarLeft)
         contentView.addSubview(view4)
         contentView.addSubview(view5)
         view5.addSubview(personaBottomLbl)
@@ -326,10 +320,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             $0.centerX.top.bottom.equalToSuperview()
         }
         
-//        view1.snp.makeConstraints {
-//            $0.height.equalTo(130)
-//            $0.top.leading.trailing.equalToSuperview()
-//        }
         settingButton.snp.makeConstraints{
             $0.top.equalToSuperview().offset(35)
             $0.trailing.equalToSuperview().offset(-27)
@@ -354,11 +344,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             $0.top.equalTo(profileCollectionView.snp.bottom).offset(30)
             $0.leading.trailing.equalToSuperview()
         }
-        
-//        profileMakeBtn.snp.makeConstraints {
-//            $0.top.equalToSuperview().inset(20)
-//            $0.leading.equalToSuperview().inset(90)
-//        }
         
         personaLbl.snp.makeConstraints {
             $0.top.equalToSuperview()
@@ -401,7 +386,14 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             $0.top.bottom.equalToSuperview().inset(15)
             $0.leading.trailing.equalToSuperview().inset(15)
         }
-        
+        calendarRight.snp.makeConstraints{
+            $0.top.equalToSuperview().offset(12)
+            $0.trailing.equalToSuperview().offset(-129)
+        }
+        calendarLeft.snp.makeConstraints{
+            $0.top.equalToSuperview().offset(12)
+            $0.leading.equalToSuperview().offset(127)
+        }
         view4.snp.makeConstraints {
             $0.height.equalTo(4)
             $0.top.equalTo(view3.snp.bottom)
@@ -512,7 +504,23 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
         }
-    
+    private var currentPage: Date?
+    private lazy var today: Date = {
+        return Date()
+    }()
+    @objc func monthForthButtonPressed(_ sender: Any) {
+        self.moveCurrentPage(moveUp: true)
+    }
+    @objc func monthBackButtonPressed(_ sender: Any) {
+        self.moveCurrentPage(moveUp: false)
+    }
+    private func moveCurrentPage(moveUp: Bool) {
+        let calendar = Calendar.current
+        var dateComponents = DateComponents()
+        dateComponents.month = moveUp ? 1 : -1
+        self.currentPage = calendar.date(byAdding: dateComponents, to: self.currentPage ?? self.today)
+        self.calendar.setCurrentPage(self.currentPage!, animated: true)
+    }
     
     
 //MARK: AddTarget
@@ -523,7 +531,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         settingButton.isUserInteractionEnabled = true
         settingButton.addGestureRecognizer(settingBtn)
         
+        self.calendarRight.addTarget(self, action: #selector(self.monthForthButtonPressed), for: .touchUpInside)
         
+        self.calendarLeft.addTarget(self, action: #selector(self.monthBackButtonPressed), for: .touchUpInside)
     }
  
     // MARK: - Helpers
