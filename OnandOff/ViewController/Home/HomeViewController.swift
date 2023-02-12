@@ -13,13 +13,28 @@ import FSCalendar
 
 class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     
+    let formatter = DateFormatter()
+    var persona = [String]()
+    //녹음 있는 날짜 Array
     let jwtToken = TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken")
     
     var persona = ""
     var nickName = ""
     
     let calendar = FSCalendar(frame: CGRect(x: 0, y: 0, width: 380, height: 300))
-    fileprivate let datesWithCat = ["20230105","20230115"]
+    //이미지있는 날짜
+    fileprivate let datesWithCat = ["20230205","20230215"]
+    // 동그라미 있는 날짜
+    var haveDataCircle = [String]()
+    
+    let calendarRight = UIButton().then{
+        $0.setImage(UIImage(named: "calendarright")?.withRenderingMode(.alwaysOriginal), for: .normal)
+//        $0.alpha = 0
+    }
+    let calendarLeft = UIButton().then{
+        $0.setImage(UIImage(named: "calendarleft")?.withRenderingMode(.alwaysOriginal), for: .normal)
+//        $0.alpha = 0
+    }
     
     let calendarRight = UIButton().then{
         $0.setImage(UIImage(named: "calendarright")?.withRenderingMode(.alwaysOriginal), for: .normal)
@@ -234,12 +249,14 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         addTarget()
         canlendarSetUp()
         
+        self.calendar.delegate = self
+        self.calendar.dataSource = self
         self.profileCollectionView.delegate = self
         self.profileCollectionView.dataSource = self
         
         
         persona.append(contentsOf: ["작가"])
-        
+        haveDataCircle.append(contentsOf: ["2023-02-23", "2023-02-17", "2023-02-11", "2023-02-13"])
     }
     
     //MARK: CalendarUI
@@ -340,7 +357,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         view2.snp.makeConstraints {
             $0.height.equalTo(317)
-//            $0.top.equalTo(view1.snp.bottom)
             $0.top.equalTo(profileCollectionView.snp.bottom).offset(30)
             $0.leading.trailing.equalToSuperview()
         }
@@ -488,6 +504,48 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             $0.leading.equalTo(monthlyReceiveFollowLbl1.snp.leading)
         }
     }
+    
+//MARK: Calendar
+    // 날짜 선택 시 콜백 메소드 (백엔드 들어오면 해당 날짜 데이터 가져오기, mylog, mymate 구분도 해야됨)
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        print(dateFormatter.string(from: date) + " 선택됨")
+    }
+
+    // 특정 날짜에 이미지 세팅
+    func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
+        let imageDateFormatter = DateFormatter()
+        imageDateFormatter.dateFormat = "yyyyMMdd"
+        var dateStr = imageDateFormatter.string(from: date)
+        print("date : \(dateStr)")
+        return datesWithCat.contains(dateStr) ? UIImage(named: "calendarexamplepic") : nil
+    }
+    
+    // 날짜 선택 해제 시 콜백 메소드
+    func calendar(_ calendar: FSCalendar, didDeselect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        print(dateFormatter.string(from: date) + " 해제됨")
+    }
+    
+    //녹음 있는 날짜 출력(작은 동그라미)
+    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.dateFormat = "yyyy-MM-dd"
+        var dates = [Date]()
+        if haveDataCircle.count > 0{
+            for i in 0...haveDataCircle.count-1{
+                let a = formatter.date(from: haveDataCircle[i])
+                dates.append(a!)
+            }
+        }
+        if dates.contains(date){
+            return 1
+        }
+        return 0
+    }
+    
 //MARK: Selector
     @objc func enterProfileMake(sender: UIButton!) {
         let vc = ProfileMakeViewController()
@@ -634,14 +692,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     
-    // 특정 날짜에 이미지 세팅
-    func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
-        let imageDateFormatter = DateFormatter()
-        imageDateFormatter.dateFormat = "yyyyMMdd"
-        var dateStr = imageDateFormatter.string(from: date)
-        print("date : \(dateStr)")
-        return datesWithCat.contains(dateStr) ? UIImage(named: "culture") : nil
-    }
+
 }
 
 extension UIColor {
