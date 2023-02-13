@@ -33,32 +33,41 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     let contentView = UIView()
     
-    let collectionView: UICollectionView = {
-        let layout = UICollectionViewLayout()
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        return cv
-    }()
-    
-    let firstPersona = UIImageView().then {
-        $0.frame.size.width = 53
-        $0.frame.size.height = 53
+//    let collectionView: UICollectionView = {
+//        let layout = UICollectionViewLayout()
+//        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+//        return cv
+//    }()
+    let profileCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
+        $0.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)
+        $0.backgroundColor = .white
+
+        if let layout = $0.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.scrollDirection = .horizontal
+        }
+        $0.showsHorizontalScrollIndicator = false
     }
     
-    let profileMakeBtn = UIButton().then {
-        $0.frame.size.width = 53
-        $0.frame.size.height = 53
-        
-        let circle = UIImage(named: "ProfileMakeCircle")
-        $0.setBackgroundImage(circle, for: .normal)
-        $0.setImage(UIImage(named: "ProfileMakePlus"), for: .normal)
-        $0.addTarget(self, action: #selector(enterProfileMake), for: .touchUpInside)
-//        $0.layer.borderWidth = 2
-//        $0.layer.borderColor = UIColor.mainColor.cgColor
-//        $0.layer.cornerRadius = 26.5
-    }
-    
-    let view1 = UIView().then {_ in
-    }
+//    let firstPersona = UIImageView().then {
+//        $0.frame.size.width = 53
+//        $0.frame.size.height = 53
+//    }
+//
+//    let profileMakeBtn = UIButton().then {
+//        $0.frame.size.width = 53
+//        $0.frame.size.height = 53
+//
+//        let circle = UIImage(named: "ProfileMakeCircle")
+//        $0.setBackgroundImage(circle, for: .normal)
+//        $0.setImage(UIImage(named: "ProfileMakePlus"), for: .normal)
+//        $0.addTarget(self, action: #selector(enterProfileMake), for: .touchUpInside)
+////        $0.layer.borderWidth = 2
+////        $0.layer.borderColor = UIColor.mainColor.cgColor
+////        $0.layer.cornerRadius = 26.5
+//    }
+//
+//    let view1 = UIView().then {_ in
+//    }
     
     let view2 = UIView().then {
         $0.backgroundColor = .white
@@ -229,7 +238,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     let settingButton = UIImageView().then{
         $0.image = UIImage(named: "settingButton")?.withRenderingMode(.alwaysOriginal)
     }
-    
+//MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -242,6 +251,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         layout()
         addTarget()
         
+        self.profileCollectionView.delegate = self
+        self.profileCollectionView.dataSource = self
+        
         calendar.appearance.headerDateFormat = "YYYY년 M월"
         calendar.appearance.headerMinimumDissolvedAlpha = 0.0
         calendar.appearance.headerTitleFont = UIFont.notoSans(size: 16, family: .Bold)
@@ -253,17 +265,19 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         calendar.appearance.selectionColor = .white
         calendar.appearance.titleSelectionColor = .black
         
-      
+        persona.append(contentsOf: ["작가"])
+        
     }
     
     func setUpView() {
         view.backgroundColor = .white
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        contentView.addSubview(view1)
+//        contentView.addSubview(view1)
         contentView.addSubview(view2)
-        view1.addSubview(profileMakeBtn)
+//        view1.addSubview(profileMakeBtn)
         
+        contentView.addSubview(profileCollectionView)
         contentView.addSubview(alarmButton)
         contentView.addSubview(settingButton)
         
@@ -312,10 +326,10 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             $0.centerX.top.bottom.equalToSuperview()
         }
         
-        view1.snp.makeConstraints {
-            $0.height.equalTo(130)
-            $0.top.leading.trailing.equalToSuperview()
-        }
+//        view1.snp.makeConstraints {
+//            $0.height.equalTo(130)
+//            $0.top.leading.trailing.equalToSuperview()
+//        }
         settingButton.snp.makeConstraints{
             $0.top.equalToSuperview().offset(35)
             $0.trailing.equalToSuperview().offset(-27)
@@ -326,18 +340,25 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             $0.trailing.equalTo(settingButton.snp.leading).offset(-17.35)
             $0.width.height.equalTo(20)
         }
+        profileCollectionView.snp.makeConstraints{
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview().offset(20)
+            $0.trailing.equalTo(alarmButton.snp.leading).offset(-10)
+            $0.height.equalTo(90)
+        }
         
         
         view2.snp.makeConstraints {
             $0.height.equalTo(317)
-            $0.top.equalTo(view1.snp.bottom)
+//            $0.top.equalTo(view1.snp.bottom)
+            $0.top.equalTo(profileCollectionView.snp.bottom).offset(30)
             $0.leading.trailing.equalToSuperview()
         }
         
-        profileMakeBtn.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(20)
-            $0.leading.equalToSuperview().inset(90)
-        }
+//        profileMakeBtn.snp.makeConstraints {
+//            $0.top.equalToSuperview().inset(20)
+//            $0.leading.equalToSuperview().inset(90)
+//        }
         
         personaLbl.snp.makeConstraints {
             $0.top.equalToSuperview()
@@ -567,18 +588,41 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         // return
         return UICollectionViewCompositionalLayout(section: section)
     }
-    
+
+//MARK: COLLECTIONVIEW
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 0
+        return persona.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PersonaCollectionViewCell.identifier, for: indexPath) as! PersonaCollectionViewCell
-//        cell.setup(with: collections[indexPath.row])
-//        print(collections[indexPath.row])
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCell.identifier, for: indexPath) as! ProfileCell
+
+        if indexPath.row == persona.count{
+            cell.profileName.text = ""
+            cell.plusButton.isHidden = false
+            cell.borderView.backgroundColor = .systemGray3
+        }else{
+            cell.profileName.text = persona[indexPath.row]
+        }
+        
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+            return CGSize(width: self.view.frame.width , height: 90)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if indexPath.row == persona.count{
+            let VC = ProfileMakeViewController()
+            VC.modalPresentationStyle = .fullScreen
+            present(VC, animated: true)
+        }
+        
+    }
+    
     
     // 특정 날짜에 이미지 세팅
     func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
