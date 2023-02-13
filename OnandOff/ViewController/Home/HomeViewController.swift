@@ -13,13 +13,25 @@ import FSCalendar
 
 class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     
+    let formatter = DateFormatter()
+    var persona = [String]()
+    //녹음 있는 날짜 Array
     let jwtToken = TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken")
-    
-    var persona = ""
-    var nickName = ""
-    
+
     let calendar = FSCalendar(frame: CGRect(x: 0, y: 0, width: 380, height: 300))
-    fileprivate let datesWithCat = ["20230105","20230115"]
+    //이미지있는 날짜
+    fileprivate let datesWithCat = ["20230205","20230215"]
+    // 동그라미 있는 날짜
+    var haveDataCircle = [String]()
+    
+    let calendarRight = UIButton().then{
+        $0.setImage(UIImage(named: "calendarright")?.withRenderingMode(.alwaysOriginal), for: .normal)
+//        $0.alpha = 0
+    }
+    let calendarLeft = UIButton().then{
+        $0.setImage(UIImage(named: "calendarleft")?.withRenderingMode(.alwaysOriginal), for: .normal)
+//        $0.alpha = 0
+    }
     
     var monthlyReceiveHeartCount = "0"
     var monthlyWriteCount = "0"
@@ -32,12 +44,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     let contentView = UIView()
-    
-//    let collectionView: UICollectionView = {
-//        let layout = UICollectionViewLayout()
-//        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-//        return cv
-//    }()
+
     let profileCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
         $0.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)
         $0.backgroundColor = .white
@@ -47,28 +54,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
         $0.showsHorizontalScrollIndicator = false
     }
-    
-//    let firstPersona = UIImageView().then {
-//        $0.frame.size.width = 53
-//        $0.frame.size.height = 53
-//    }
-//
-//    let profileMakeBtn = UIButton().then {
-//        $0.frame.size.width = 53
-//        $0.frame.size.height = 53
-//
-//        let circle = UIImage(named: "ProfileMakeCircle")
-//        $0.setBackgroundImage(circle, for: .normal)
-//        $0.setImage(UIImage(named: "ProfileMakePlus"), for: .normal)
-//        $0.addTarget(self, action: #selector(enterProfileMake), for: .touchUpInside)
-////        $0.layer.borderWidth = 2
-////        $0.layer.borderColor = UIColor.mainColor.cgColor
-////        $0.layer.cornerRadius = 26.5
-//    }
-//
-//    let view1 = UIView().then {_ in
-//    }
-    
     let view2 = UIView().then {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 20
@@ -250,10 +235,21 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         setUpView()
         layout()
         addTarget()
+        canlendarSetUp()
         
+        self.calendar.delegate = self
+        self.calendar.dataSource = self
         self.profileCollectionView.delegate = self
         self.profileCollectionView.dataSource = self
         
+        
+        persona.append(contentsOf: ["작가"])
+        haveDataCircle.append(contentsOf: ["2023-02-23", "2023-02-17", "2023-02-11", "2023-02-13"])
+    }
+    
+    //MARK: CalendarUI
+    func canlendarSetUp(){
+        calendar.placeholderType = .none
         calendar.appearance.headerDateFormat = "YYYY년 M월"
         calendar.appearance.headerMinimumDissolvedAlpha = 0.0
         calendar.appearance.headerTitleFont = UIFont.notoSans(size: 16, family: .Bold)
@@ -265,8 +261,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         calendar.appearance.selectionColor = .white
         calendar.appearance.titleSelectionColor = .black
         
-        persona.append(contentsOf: ["작가"])
-        
+        //이벤트 동그라미
+        calendar.appearance.eventDefaultColor = UIColor.mainColor
+        calendar.appearance.eventSelectionColor = UIColor.mainColor
     }
     
     func setUpView() {
@@ -290,6 +287,8 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         contentView.addSubview(view3)
         view3.backgroundColor = .clear
         view3.addSubview(calendar)
+        calendar.addSubview(self.calendarRight)
+        calendar.addSubview(self.calendarLeft)
         contentView.addSubview(view4)
         contentView.addSubview(view5)
         view5.addSubview(personaBottomLbl)
@@ -326,10 +325,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             $0.centerX.top.bottom.equalToSuperview()
         }
         
-//        view1.snp.makeConstraints {
-//            $0.height.equalTo(130)
-//            $0.top.leading.trailing.equalToSuperview()
-//        }
         settingButton.snp.makeConstraints{
             $0.top.equalToSuperview().offset(35)
             $0.trailing.equalToSuperview().offset(-27)
@@ -350,15 +345,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         view2.snp.makeConstraints {
             $0.height.equalTo(317)
-//            $0.top.equalTo(view1.snp.bottom)
             $0.top.equalTo(profileCollectionView.snp.bottom).offset(30)
             $0.leading.trailing.equalToSuperview()
         }
-        
-//        profileMakeBtn.snp.makeConstraints {
-//            $0.top.equalToSuperview().inset(20)
-//            $0.leading.equalToSuperview().inset(90)
-//        }
         
         personaLbl.snp.makeConstraints {
             $0.top.equalToSuperview()
@@ -401,7 +390,14 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             $0.top.bottom.equalToSuperview().inset(15)
             $0.leading.trailing.equalToSuperview().inset(15)
         }
-        
+        calendarRight.snp.makeConstraints{
+            $0.top.equalToSuperview().offset(12)
+            $0.trailing.equalToSuperview().offset(-129)
+        }
+        calendarLeft.snp.makeConstraints{
+            $0.top.equalToSuperview().offset(12)
+            $0.leading.equalToSuperview().offset(127)
+        }
         view4.snp.makeConstraints {
             $0.height.equalTo(4)
             $0.top.equalTo(view3.snp.bottom)
@@ -496,6 +492,48 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             $0.leading.equalTo(monthlyReceiveFollowLbl1.snp.leading)
         }
     }
+    
+//MARK: Calendar
+    // 날짜 선택 시 콜백 메소드 (백엔드 들어오면 해당 날짜 데이터 가져오기, mylog, mymate 구분도 해야됨)
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        print(dateFormatter.string(from: date) + " 선택됨")
+    }
+
+    // 특정 날짜에 이미지 세팅
+    func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
+        let imageDateFormatter = DateFormatter()
+        imageDateFormatter.dateFormat = "yyyyMMdd"
+        var dateStr = imageDateFormatter.string(from: date)
+        print("date : \(dateStr)")
+        return datesWithCat.contains(dateStr) ? UIImage(named: "calendarexamplepic") : nil
+    }
+    
+    // 날짜 선택 해제 시 콜백 메소드
+    func calendar(_ calendar: FSCalendar, didDeselect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        print(dateFormatter.string(from: date) + " 해제됨")
+    }
+    
+    //녹음 있는 날짜 출력(작은 동그라미)
+    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.dateFormat = "yyyy-MM-dd"
+        var dates = [Date]()
+        if haveDataCircle.count > 0{
+            for i in 0...haveDataCircle.count-1{
+                let a = formatter.date(from: haveDataCircle[i])
+                dates.append(a!)
+            }
+        }
+        if dates.contains(date){
+            return 1
+        }
+        return 0
+    }
+    
 //MARK: Selector
     @objc func enterProfileMake(sender: UIButton!) {
         let vc = ProfileMakeViewController()
@@ -512,7 +550,23 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
         }
-    
+    private var currentPage: Date?
+    private lazy var today: Date = {
+        return Date()
+    }()
+    @objc func monthForthButtonPressed(_ sender: Any) {
+        self.moveCurrentPage(moveUp: true)
+    }
+    @objc func monthBackButtonPressed(_ sender: Any) {
+        self.moveCurrentPage(moveUp: false)
+    }
+    private func moveCurrentPage(moveUp: Bool) {
+        let calendar = Calendar.current
+        var dateComponents = DateComponents()
+        dateComponents.month = moveUp ? 1 : -1
+        self.currentPage = calendar.date(byAdding: dateComponents, to: self.currentPage ?? self.today)
+        self.calendar.setCurrentPage(self.currentPage!, animated: true)
+    }
     
     
 //MARK: AddTarget
@@ -523,7 +577,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         settingButton.isUserInteractionEnabled = true
         settingButton.addGestureRecognizer(settingBtn)
         
+        self.calendarRight.addTarget(self, action: #selector(self.monthForthButtonPressed), for: .touchUpInside)
         
+        self.calendarLeft.addTarget(self, action: #selector(self.monthBackButtonPressed), for: .touchUpInside)
     }
  
     // MARK: - Helpers
@@ -624,14 +680,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     
-    // 특정 날짜에 이미지 세팅
-    func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
-        let imageDateFormatter = DateFormatter()
-        imageDateFormatter.dateFormat = "yyyyMMdd"
-        var dateStr = imageDateFormatter.string(from: date)
-        print("date : \(dateStr)")
-        return datesWithCat.contains(dateStr) ? UIImage(named: "culture") : nil
-    }
+
 }
 
 extension UIColor {
