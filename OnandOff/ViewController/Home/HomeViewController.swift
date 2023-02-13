@@ -17,24 +17,12 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     var persona = [String]()
     //녹음 있는 날짜 Array
     let jwtToken = TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken")
-    
-    var persona = ""
-    var nickName = ""
-    
+
     let calendar = FSCalendar(frame: CGRect(x: 0, y: 0, width: 380, height: 300))
     //이미지있는 날짜
     fileprivate let datesWithCat = ["20230205","20230215"]
     // 동그라미 있는 날짜
     var haveDataCircle = [String]()
-    
-    let calendarRight = UIButton().then{
-        $0.setImage(UIImage(named: "calendarright")?.withRenderingMode(.alwaysOriginal), for: .normal)
-//        $0.alpha = 0
-    }
-    let calendarLeft = UIButton().then{
-        $0.setImage(UIImage(named: "calendarleft")?.withRenderingMode(.alwaysOriginal), for: .normal)
-//        $0.alpha = 0
-    }
     
     let calendarRight = UIButton().then{
         $0.setImage(UIImage(named: "calendarright")?.withRenderingMode(.alwaysOriginal), for: .normal)
