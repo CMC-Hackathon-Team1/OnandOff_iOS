@@ -53,6 +53,8 @@
 		E56E0EC22993499D009FD906 /* AlertCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0EC12993499D009FD906 /* AlertCell.swift */; };
 		E56E0EC4299349CE009FD906 /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0EC3299349CE009FD906 /* PrivacyPolicyViewController.swift */; };
 		E56E0ECA29976763009FD906 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0EC929976763009FD906 /* ProfileCell.swift */; };
+		E56E0ECD299B1DCD009FD906 /* PersonaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0ECC299B1DCD009FD906 /* PersonaModel.swift */; };
+		E56E0ECF299B1F73009FD906 /* PersonaDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0ECE299B1F73009FD906 /* PersonaDataRequest.swift */; };
 		E5E05EB12967C2F5004C3891 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E05EB02967C2F5004C3891 /* PostViewController.swift */; };
 		E5E05EB32967CAC7004C3891 /* EditPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E05EB22967CAC7004C3891 /* EditPostViewController.swift */; };
 		E5E05EB52967CD2F004C3891 /* EditOrDeleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E05EB42967CD2F004C3891 /* EditOrDeleteViewController.swift */; };
@@ -112,6 +114,8 @@
 		E56E0EC12993499D009FD906 /* AlertCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertCell.swift; path = OnandOff/View/HomeSetting/AlertCell.swift; sourceTree = SOURCE_ROOT; };
 		E56E0EC3299349CE009FD906 /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PrivacyPolicyViewController.swift; path = OnandOff/ViewController/HomeSettings/PrivacyPolicyViewController.swift; sourceTree = SOURCE_ROOT; };
 		E56E0EC929976763009FD906 /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
+		E56E0ECC299B1DCD009FD906 /* PersonaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaModel.swift; sourceTree = "<group>"; };
+		E56E0ECE299B1F73009FD906 /* PersonaDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaDataRequest.swift; sourceTree = "<group>"; };
 		E5E05EB02967C2F5004C3891 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		E5E05EB22967CAC7004C3891 /* EditPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostViewController.swift; sourceTree = "<group>"; };
 		E5E05EB42967CD2F004C3891 /* EditOrDeleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditOrDeleteViewController.swift; sourceTree = "<group>"; };
@@ -220,6 +224,7 @@
 		DB5AFDF62960066D00667336 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E56E0ECB299B1DB2009FD906 /* Home */,
 				DB5AFDFA2960069B00667336 /* TempModel.swift */,
 				5DB24CAD2995CC4B00654978 /* AuthModel.swift */,
 			);
@@ -360,6 +365,15 @@
 				E56E0EC929976763009FD906 /* ProfileCell.swift */,
 			);
 			path = HomeView;
+			sourceTree = "<group>";
+		};
+		E56E0ECB299B1DB2009FD906 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				E56E0ECC299B1DCD009FD906 /* PersonaModel.swift */,
+				E56E0ECE299B1F73009FD906 /* PersonaDataRequest.swift */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -516,6 +530,7 @@
 				5DB24CAE2995CC4B00654978 /* AuthModel.swift in Sources */,
 				DB5AFE102960171E00667336 /* LookAroundViewController.swift in Sources */,
 				DB5AFE0129600B6F00667336 /* TempService.swift in Sources */,
+				E56E0ECD299B1DCD009FD906 /* PersonaModel.swift in Sources */,
 				DB5AFDE12960052D00667336 /* AppDelegate.swift in Sources */,
 				E56E0E9729934661009FD906 /* FeedbackConfirmViewController.swift in Sources */,
 				E56E0EA029934661009FD906 /* ServiceAlertViewController.swift in Sources */,
@@ -525,6 +540,7 @@
 				5DB24CA82995B76600654978 /* SettingCell.swift in Sources */,
 				E56E0E9C29934661009FD906 /* PasswordResetViewController.swift in Sources */,
 				DB5AFDE32960052D00667336 /* SceneDelegate.swift in Sources */,
+				E56E0ECF299B1F73009FD906 /* PersonaDataRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
