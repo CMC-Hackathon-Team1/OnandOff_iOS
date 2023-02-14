@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 import UIKit
 
-class PersonaDataRequest{
+class MakePersonaDataRequest{
     func getRequestData(_ viewController: ProfileMakeViewController,
                         profileName: String,
                         personaName: String,

@@ -227,7 +227,7 @@ class ProfileMakeViewController: UIViewController {
         print("aaaaaa")
         
         //이미지 파일이 안들어가서 일단 고정된 이미지 값을 넣음
-        PersonaDataRequest().getRequestData(self, profileName: "\(nickNameTxField.text!)", personaName: "\(personaTxField.text!)", statusMessage: "\(introduceTxField.text!)", image: UIImage(named: "ProfileInsertPhoto")!)
+        MakePersonaDataRequest().getRequestData(self, profileName: "\(nickNameTxField.text!)", personaName: "\(personaTxField.text!)", statusMessage: "\(introduceTxField.text!)", image: UIImage(named: "ProfileInsertPhoto")!)
     }
 
     

@@ -54,7 +54,7 @@
 		E56E0EC4299349CE009FD906 /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0EC3299349CE009FD906 /* PrivacyPolicyViewController.swift */; };
 		E56E0ECA29976763009FD906 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0EC929976763009FD906 /* ProfileCell.swift */; };
 		E56E0ECD299B1DCD009FD906 /* PersonaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0ECC299B1DCD009FD906 /* PersonaModel.swift */; };
-		E56E0ECF299B1F73009FD906 /* PersonaDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0ECE299B1F73009FD906 /* PersonaDataRequest.swift */; };
+		E56E0ECF299B1F73009FD906 /* MakePersonaDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0ECE299B1F73009FD906 /* MakePersonaDataRequest.swift */; };
 		E5E05EB12967C2F5004C3891 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E05EB02967C2F5004C3891 /* PostViewController.swift */; };
 		E5E05EB32967CAC7004C3891 /* EditPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E05EB22967CAC7004C3891 /* EditPostViewController.swift */; };
 		E5E05EB52967CD2F004C3891 /* EditOrDeleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E05EB42967CD2F004C3891 /* EditOrDeleteViewController.swift */; };
@@ -115,7 +115,7 @@
 		E56E0EC3299349CE009FD906 /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PrivacyPolicyViewController.swift; path = OnandOff/ViewController/HomeSettings/PrivacyPolicyViewController.swift; sourceTree = SOURCE_ROOT; };
 		E56E0EC929976763009FD906 /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		E56E0ECC299B1DCD009FD906 /* PersonaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaModel.swift; sourceTree = "<group>"; };
-		E56E0ECE299B1F73009FD906 /* PersonaDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaDataRequest.swift; sourceTree = "<group>"; };
+		E56E0ECE299B1F73009FD906 /* MakePersonaDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakePersonaDataRequest.swift; sourceTree = "<group>"; };
 		E5E05EB02967C2F5004C3891 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		E5E05EB22967CAC7004C3891 /* EditPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostViewController.swift; sourceTree = "<group>"; };
 		E5E05EB42967CD2F004C3891 /* EditOrDeleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditOrDeleteViewController.swift; sourceTree = "<group>"; };
@@ -371,7 +371,7 @@
 			isa = PBXGroup;
 			children = (
 				E56E0ECC299B1DCD009FD906 /* PersonaModel.swift */,
-				E56E0ECE299B1F73009FD906 /* PersonaDataRequest.swift */,
+				E56E0ECE299B1F73009FD906 /* MakePersonaDataRequest.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -540,7 +540,7 @@
 				5DB24CA82995B76600654978 /* SettingCell.swift in Sources */,
 				E56E0E9C29934661009FD906 /* PasswordResetViewController.swift in Sources */,
 				DB5AFDE32960052D00667336 /* SceneDelegate.swift in Sources */,
-				E56E0ECF299B1F73009FD906 /* PersonaDataRequest.swift in Sources */,
+				E56E0ECF299B1F73009FD906 /* MakePersonaDataRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
