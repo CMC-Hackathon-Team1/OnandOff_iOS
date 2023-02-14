@@ -8,6 +8,9 @@
 import UIKit
 import SnapKit
 import Then
+import MobileCoreServices
+import Alamofire
+
 
 class ProfileMakeViewController: UIViewController {
     
@@ -90,7 +93,8 @@ class ProfileMakeViewController: UIViewController {
         layout()
         addTarget()
         
-
+        print(profileInsertPhotoImgView.image!)
+        print(UIImage(named: "ProfileInsertPhoto"))
         
         picker.delegate = self
     }
@@ -215,13 +219,17 @@ class ProfileMakeViewController: UIViewController {
     }
     @objc func didClickSubmit(_ sender: Any) {
         print("didClickSubmit")
-        PersonaDataRequest().getRequestData(self, profileName: "테스트", personaName: "개발자", statusMessage: "hello", image: UIImage(named: "ShortLine"))
+        
+        let changeImage = profileInsertPhotoImgView.image!
+        print("aaaaaa")
+        print(changeImage)
+        print(UIImage(named: "ProfileInsertPhoto")!)
+        print("aaaaaa")
+        
+        //이미지 파일이 안들어가서 일단 고정된 이미지 값을 넣음
+        PersonaDataRequest().getRequestData(self, profileName: "\(nickNameTxField.text!)", personaName: "\(personaTxField.text!)", statusMessage: "\(introduceTxField.text!)", image: UIImage(named: "ProfileInsertPhoto")!)
     }
-    
-    func didSuccess(_ response: PersonaModel){
-        print(response.result?.profileId)
-        print(response.message)
-    }
+
     
     func openLibrary() {
 
@@ -246,6 +254,7 @@ extension ProfileMakeViewController : UIImagePickerControllerDelegate, UINavigat
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let img = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
        
+            print(img)
             profileInsertPhotoImgView.image = img
             profileInsertPhotoImgView.layer.cornerRadius = profileInsertPhotoImgView.frame.height/2
             profileInsertPhotoImgView.clipsToBounds = true
