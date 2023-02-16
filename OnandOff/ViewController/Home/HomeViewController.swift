@@ -255,8 +255,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         haveDataCircle.append(contentsOf: ["2023-02-23", "2023-02-17", "2023-02-11", "2023-02-13"])
     }
-
-    
     
     //MARK: CalendarUI
     func canlendarSetUp(){

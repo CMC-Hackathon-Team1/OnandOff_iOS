@@ -17,7 +17,7 @@ class MakePersonaDataRequest{
                         image: UIImage
     ){
         var accessToken = TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken")
-        let url = "https://dev.onnoff.shop/profiles/create"
+        let url = "https://dev.onnoff.shop/profiles"
         let header : HTTPHeaders = [.authorization(bearerToken: accessToken!)]
         let parameters: [String : Any] = [
             "profileName": profileName,
