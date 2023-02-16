@@ -57,6 +57,7 @@
 		E56E0ECF299B1F73009FD906 /* MakePersonaDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0ECE299B1F73009FD906 /* MakePersonaDataRequest.swift */; };
 		E56E0ED1299C0928009FD906 /* GetPersonaDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0ED0299C0928009FD906 /* GetPersonaDataRequest.swift */; };
 		E56E0ED3299C0933009FD906 /* GetPersonaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0ED2299C0933009FD906 /* GetPersonaModel.swift */; };
+		E56E0ED5299EE3F9009FD906 /* ProfileCreatePopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0ED4299EE3F9009FD906 /* ProfileCreatePopupViewController.swift */; };
 		E5E05EB12967C2F5004C3891 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E05EB02967C2F5004C3891 /* PostViewController.swift */; };
 		E5E05EB32967CAC7004C3891 /* EditPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E05EB22967CAC7004C3891 /* EditPostViewController.swift */; };
 		E5E05EB52967CD2F004C3891 /* EditOrDeleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E05EB42967CD2F004C3891 /* EditOrDeleteViewController.swift */; };
@@ -120,6 +121,7 @@
 		E56E0ECE299B1F73009FD906 /* MakePersonaDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakePersonaDataRequest.swift; sourceTree = "<group>"; };
 		E56E0ED0299C0928009FD906 /* GetPersonaDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPersonaDataRequest.swift; sourceTree = "<group>"; };
 		E56E0ED2299C0933009FD906 /* GetPersonaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPersonaModel.swift; sourceTree = "<group>"; };
+		E56E0ED4299EE3F9009FD906 /* ProfileCreatePopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCreatePopupViewController.swift; sourceTree = "<group>"; };
 		E5E05EB02967C2F5004C3891 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		E5E05EB22967CAC7004C3891 /* EditPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostViewController.swift; sourceTree = "<group>"; };
 		E5E05EB42967CD2F004C3891 /* EditOrDeleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditOrDeleteViewController.swift; sourceTree = "<group>"; };
@@ -297,6 +299,7 @@
 				DB000F072970120A0097D6C8 /* PersonaCollectionViewCell.swift */,
 				E5E05EB02967C2F5004C3891 /* PostViewController.swift */,
 				DB000F05297012010097D6C8 /* ProfileMakeViewController.swift */,
+				E56E0ED4299EE3F9009FD906 /* ProfileCreatePopupViewController.swift */,
 				E5E05EB22967CAC7004C3891 /* EditPostViewController.swift */,
 				E5E05EB42967CD2F004C3891 /* EditOrDeleteViewController.swift */,
 				E5E05EB62967D025004C3891 /* CategorySelectionViewController.swift */,
@@ -503,6 +506,7 @@
 				DB000F06297012010097D6C8 /* ProfileMakeViewController.swift in Sources */,
 				DB5AFE082960134400667336 /* UIFont+.swift in Sources */,
 				5DB24CAA2995BB5900654978 /* RegisterationController.swift in Sources */,
+				E56E0ED5299EE3F9009FD906 /* ProfileCreatePopupViewController.swift in Sources */,
 				E56E0ECA29976763009FD906 /* ProfileCell.swift in Sources */,
 				E5E05EB52967CD2F004C3891 /* EditOrDeleteViewController.swift in Sources */,
 				E56E0E9B29934661009FD906 /* AccountSettingViewController.swift in Sources */,
