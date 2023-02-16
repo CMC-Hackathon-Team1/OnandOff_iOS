@@ -38,14 +38,15 @@ final class LookAroundViewController: UIViewController {
     //MARK: - Method
     private func configureNavigation() {
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor : UIColor.black]
+        self.navigationItem.backBarButtonItem?.tintColor = .black
         self.navigationItem.title = "둘러보기"
     }
     
     //MARK: - Selector
     @objc private func didClickCategory(_ button: UIButton) {
         let ASFrame = CGRect(x: button.frame.origin.x, y: button.frame.origin.y + button.frame.height + 12, width: 165, height: 160)
-//        let categoryActionSheet = CustomActionSheet(frame: self.view.frame, ASFrame: ASFrame)
-//        self.view.addSubview(categoryActionSheet)
+        let categoryActionSheet = CustomActionSheet(frame: self.view.frame, ASFrame: ASFrame)
+        self.view.addSubview(categoryActionSheet)
     }
     
     //MARK: - addSubView
@@ -72,7 +73,6 @@ final class LookAroundViewController: UIViewController {
         self.feedCollectionView.snp.makeConstraints {
             $0.top.equalTo(self.categoryButton.snp.bottom).offset(12)
             $0.bottom.trailing.leading.equalToSuperview()
-            
         }
     }
     
@@ -93,6 +93,7 @@ extension LookAroundViewController: UICollectionViewDelegate, UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedCell.identifier, for: indexPath) as! FeedCell
+        cell.delegate = self
         
         return cell
     }
@@ -120,5 +121,34 @@ extension LookAroundViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: 1, height: 2)
+    }
+}
+
+extension LookAroundViewController: LookAroundDelegate {
+    func didClickEllipsis() {
+        let reportActionSheet = ReportActionSheet().then {
+            $0.delegate = self
+            self.view.addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.top.leading.trailing.equalToSuperview()
+                make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
+            }
+        }
+        print("didClickEllipsisButton")
+
+    }
+    
+    func didClickHeart() {
+        print("didClickHeartButton")
+    }
+    
+    func didClickFollow() {
+        print("didClickFollowButton")
+    }
+    
+    func didClickReportButton() {
+        print("didClickReportButton")
+        let reportVC = ReportViewController()
+        self.navigationController?.pushViewController(reportVC, animated: true)
     }
 }
