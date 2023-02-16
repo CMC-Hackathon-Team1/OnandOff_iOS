@@ -70,14 +70,14 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         $0.layer.shadowColor = UIColor.gray.cgColor
     }
     
-    let personaLbl = UILabel().then {
-        $0.font = .notoSans(size: 20, family: .Bold)
-        $0.text = "작가"
-    }
+//    let personaLbl = UILabel().then {
+//        $0.font = .notoSans(size: 20, family: .Bold)
+//        $0.text = "작가"
+//    }
     
     let nickNameLbl = UILabel().then {
         $0.font = .notoSans(size: 20, family: .Bold)
-        $0.text = "키키님,"
+        $0.text = "직업 + 닉네임"
     }
     
     let introduceLbl = UILabel().then {
@@ -251,11 +251,13 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         if jwtToken != nil{
             GetPersonaDataRequest().getRequestData(self)
         }
-
+        
         
         haveDataCircle.append(contentsOf: ["2023-02-23", "2023-02-17", "2023-02-11", "2023-02-13"])
     }
 
+    
+    
     //MARK: CalendarUI
     func canlendarSetUp(){
         calendar.placeholderType = .none
@@ -287,7 +289,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         contentView.addSubview(alarmButton)
         contentView.addSubview(settingButton)
         
-        view2.addSubview(personaLbl)
+//        view2.addSubview(personaLbl)
         view2.addSubview(nickNameLbl)
         view2.addSubview(introduceLbl)
         view2.addSubview(pencilLbl)
@@ -358,23 +360,23 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             $0.leading.trailing.equalToSuperview()
         }
         
-        personaLbl.snp.makeConstraints {
+//        personaLbl.snp.makeConstraints {
+//            $0.top.equalToSuperview()
+//            $0.leading.equalToSuperview().inset(24)
+//        }
+        
+        nickNameLbl.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview().inset(24)
         }
         
-        nickNameLbl.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.equalTo(personaLbl.snp.trailing).offset(4)
-        }
-        
         introduceLbl.snp.makeConstraints {
-            $0.top.equalTo(personaLbl.snp.bottom).offset(2)
+            $0.top.equalTo(nickNameLbl.snp.bottom).offset(2)
             $0.leading.equalToSuperview().inset(24)
         }
         
         pencilLbl.snp.makeConstraints {
-            $0.top.equalTo(personaLbl.snp.bottom).offset(1)
+            $0.top.equalTo(nickNameLbl.snp.bottom).offset(1)
             $0.leading.equalTo(introduceLbl.snp.trailing).offset(2.3)
         }
         
@@ -672,7 +674,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             cell.borderView.backgroundColor = .systemGray3
         }else{
             cell.plusButton.isHidden = true
-            cell.borderView.backgroundColor = .gray
+            cell.borderView.backgroundColor = .mainColor
             //이미지
             if let imageURL = URL(string: profileImageArray[indexPath.row]) {
                 let task = URLSession.shared.dataTask(with: imageURL, completionHandler: { data, response, error in
@@ -696,13 +698,17 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCell.identifier, for: indexPath) as! ProfileCell
         
         if indexPath.row == personaArray.count{
             let VC = ProfileMakeViewController()
             VC.modalPresentationStyle = .fullScreen
             present(VC, animated: true)
+        }else{
+            DispatchQueue.main.async {
+                self.nickNameLbl.text = self.profileNameArray[indexPath.row]
+            }
         }
-        
     }
     
     func didSuccess(_ response: GetPersonaModel){
@@ -723,6 +729,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         print(statusMesageArray)
         print(profileImageArray)
         
+        self.nickNameLbl.text = self.profileNameArray[0]
         
         print("didSuccess hello")
     }
