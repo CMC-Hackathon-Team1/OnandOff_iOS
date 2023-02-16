@@ -12,9 +12,15 @@ import Then
 import FSCalendar
 
 class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
-    
+ 
     let formatter = DateFormatter()
-    var persona = [String]()
+    
+    var profileIdArray = [Int]()
+    var personaArray = [String]()
+    var profileNameArray = [String]()
+    var statusMesageArray = [String]()
+    var profileImageArray = [String]()
+    
     //녹음 있는 날짜 Array
     let jwtToken = TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken")
 
@@ -242,11 +248,14 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         self.profileCollectionView.delegate = self
         self.profileCollectionView.dataSource = self
         
+        if jwtToken != nil{
+            GetPersonaDataRequest().getRequestData(self)
+        }
+
         
-        persona.append(contentsOf: ["작가"])
         haveDataCircle.append(contentsOf: ["2023-02-23", "2023-02-17", "2023-02-11", "2023-02-13"])
     }
-    
+
     //MARK: CalendarUI
     func canlendarSetUp(){
         calendar.placeholderType = .none
@@ -546,6 +555,8 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         self.present(vc, animated: true)
     }
     @objc func didClickSetting(sender: UITapGestureRecognizer) {
+//        GetPersonaDataRequest().getRequestData(self)
+        
         let vc = SettingViewController()
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
@@ -593,6 +604,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 self.present(navigation, animated: true, completion: nil)
             }
         }
+
     }
 
     func LogOut() {
@@ -647,19 +659,33 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
 
 //MARK: COLLECTIONVIEW
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return persona.count + 1
+        return personaArray.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCell.identifier, for: indexPath) as! ProfileCell
 
-        if indexPath.row == persona.count{
+        if indexPath.row == personaArray.count{
             cell.profileName.text = ""
             cell.plusButton.isHidden = false
             cell.borderView.backgroundColor = .systemGray3
         }else{
-            cell.profileName.text = persona[indexPath.row]
+            cell.plusButton.isHidden = true
+            cell.borderView.backgroundColor = .gray
+            //이미지
+            if let imageURL = URL(string: profileImageArray[indexPath.row]) {
+                let task = URLSession.shared.dataTask(with: imageURL, completionHandler: { data, response, error in
+                    if let data = data, let image = UIImage(data: data) {
+                        DispatchQueue.main.async {
+                            cell.profileImage.image = image
+                        }
+                    }
+                })
+                task.resume()
+            }
+            
+            cell.profileName.text = personaArray[indexPath.row]
         }
         
         return cell
@@ -671,13 +697,36 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if indexPath.row == persona.count{
+        if indexPath.row == personaArray.count{
             let VC = ProfileMakeViewController()
             VC.modalPresentationStyle = .fullScreen
             present(VC, animated: true)
         }
         
     }
+    
+    func didSuccess(_ response: GetPersonaModel){
+        print("didSuccess hello")
+        
+        for i in 0...(response.result?.count)!-1{
+            profileIdArray.append(contentsOf: [(response.result?[i].profileId)!])
+            personaArray.append(contentsOf: ["\((response.result?[i].personaName)!)"])
+            profileNameArray.append(contentsOf: ["\((response.result?[i].profileName)!)"])
+            statusMesageArray.append(contentsOf: ["\((response.result?[i].statusMessage)!)"])
+            profileImageArray.append(contentsOf: ["\((response.result?[i].profileImgUrl)!)"])
+        }
+        profileCollectionView.reloadData()
+        
+        print(profileIdArray)
+        print(personaArray)
+        print(profileNameArray)
+        print(statusMesageArray)
+        print(profileImageArray)
+        
+        
+        print("didSuccess hello")
+    }
+    
     
     
 

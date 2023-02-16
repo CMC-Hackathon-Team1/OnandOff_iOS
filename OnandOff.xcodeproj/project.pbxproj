@@ -55,6 +55,8 @@
 		E56E0ECA29976763009FD906 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0EC929976763009FD906 /* ProfileCell.swift */; };
 		E56E0ECD299B1DCD009FD906 /* PersonaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0ECC299B1DCD009FD906 /* PersonaModel.swift */; };
 		E56E0ECF299B1F73009FD906 /* MakePersonaDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0ECE299B1F73009FD906 /* MakePersonaDataRequest.swift */; };
+		E56E0ED1299C0928009FD906 /* GetPersonaDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0ED0299C0928009FD906 /* GetPersonaDataRequest.swift */; };
+		E56E0ED3299C0933009FD906 /* GetPersonaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0ED2299C0933009FD906 /* GetPersonaModel.swift */; };
 		E5E05EB12967C2F5004C3891 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E05EB02967C2F5004C3891 /* PostViewController.swift */; };
 		E5E05EB32967CAC7004C3891 /* EditPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E05EB22967CAC7004C3891 /* EditPostViewController.swift */; };
 		E5E05EB52967CD2F004C3891 /* EditOrDeleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E05EB42967CD2F004C3891 /* EditOrDeleteViewController.swift */; };
@@ -116,6 +118,8 @@
 		E56E0EC929976763009FD906 /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		E56E0ECC299B1DCD009FD906 /* PersonaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaModel.swift; sourceTree = "<group>"; };
 		E56E0ECE299B1F73009FD906 /* MakePersonaDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakePersonaDataRequest.swift; sourceTree = "<group>"; };
+		E56E0ED0299C0928009FD906 /* GetPersonaDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPersonaDataRequest.swift; sourceTree = "<group>"; };
+		E56E0ED2299C0933009FD906 /* GetPersonaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPersonaModel.swift; sourceTree = "<group>"; };
 		E5E05EB02967C2F5004C3891 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		E5E05EB22967CAC7004C3891 /* EditPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostViewController.swift; sourceTree = "<group>"; };
 		E5E05EB42967CD2F004C3891 /* EditOrDeleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditOrDeleteViewController.swift; sourceTree = "<group>"; };
@@ -372,6 +376,8 @@
 			children = (
 				E56E0ECC299B1DCD009FD906 /* PersonaModel.swift */,
 				E56E0ECE299B1F73009FD906 /* MakePersonaDataRequest.swift */,
+				E56E0ED2299C0933009FD906 /* GetPersonaModel.swift */,
+				E56E0ED0299C0928009FD906 /* GetPersonaDataRequest.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -502,6 +508,7 @@
 				E56E0E9B29934661009FD906 /* AccountSettingViewController.swift in Sources */,
 				E56E0E9A29934661009FD906 /* ServicePolicyViewController.swift in Sources */,
 				DB5AFDFD296006B200667336 /* TempView.swift in Sources */,
+				E56E0ED3299C0933009FD906 /* GetPersonaModel.swift in Sources */,
 				5DB24CB22995CC7D00654978 /* TokenService.swift in Sources */,
 				E5E05EB72967D025004C3891 /* CategorySelectionViewController.swift in Sources */,
 				DB7BDC8C2961BCF400AA304B /* FeedCell.swift in Sources */,
@@ -519,6 +526,7 @@
 				E56E0E9E29934661009FD906 /* LogoutViewController.swift in Sources */,
 				DB000F082970120A0097D6C8 /* PersonaCollectionViewCell.swift in Sources */,
 				E5E05EB929697B87004C3891 /* ImageUploadViewController.swift in Sources */,
+				E56E0ED1299C0928009FD906 /* GetPersonaDataRequest.swift in Sources */,
 				5DB24CB52995CCDE00654978 /* ContainerView.swift in Sources */,
 				DB5AFE0E2960171100667336 /* HomeViewController.swift in Sources */,
 				E56E0E9829934661009FD906 /* AccountDeleteViewController.swift in Sources */,

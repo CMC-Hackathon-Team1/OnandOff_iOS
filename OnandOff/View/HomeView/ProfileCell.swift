@@ -12,7 +12,7 @@ final class ProfileCell: UICollectionViewCell {
 //MARK: - Properties
     static let identifier = "ProfileCell"
     let borderView = UIView().then{
-        $0.backgroundColor = .mainColor
+        $0.backgroundColor = .gray
         $0.roundCorners(cornerRadius: 25, maskedCorners: [.layerMaxXMaxYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner])
     }
     let profileImage = UIImageView().then{
