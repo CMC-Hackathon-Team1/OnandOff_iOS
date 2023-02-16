@@ -7,6 +7,7 @@
 
 import SnapKit
 import UIKit
+import Alamofire
 import KakaoSDKUser
 import KakaoSDKAuth
 import KakaoSDKCommon
@@ -16,6 +17,8 @@ import GoogleSignIn
 class LoginViewController: UIViewController {
 
     // MARK: - Properties
+    // let accessToken: String? = nil
+    
     private let backgroundImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = #imageLiteral(resourceName: "Login")
@@ -101,13 +104,12 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        // 유효한 토큰 검사
+        // 카카오 로그인 유효 토큰 검사
         if (AuthApi.hasToken()) {
             UserApi.shared.accessTokenInfo { (_, error) in
                 if let error = error {
@@ -149,10 +151,40 @@ class LoginViewController: UIViewController {
                 }
                 else {
                     print("loginWithKakaoTalk() success.")
-
-                    // 회원가입 성공 시 oauthToken 저장가능하다
-                    // _ = oauthToken
-
+                    
+                    if let accessToken = oauthToken?.accessToken {
+                        print(accessToken)
+                        AuthService.kakaoLogin(KakaoDataModel(access_token: accessToken)) { response in
+                            if let response = response {
+                                switch response.statusCode {
+                                case 100:
+                                    guard let accessToken = response.result?.jwt else { return }
+                                    let tokenService = TokenService()
+                                    tokenService.create("https://dev.onnoff.shop/auth/login", account: "accessToken", value: accessToken)
+                                    print("KakaoLogin Complete, AccessToken is \(TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken") ?? "")")
+                                    self.dismiss(animated: true)
+                                    
+                                case 400:
+                                    print(response.message)
+                                case 500:
+                                    print(response.message)
+                                case 1012:
+                                    print(response.message)
+                                case 1013:
+                                    print(response.message)
+                                case 1014:
+                                    print(response.message)
+                                case 1102:
+                                    print(response.message)
+                                default:
+                                    break
+                                }
+                            }
+                            return
+                        }
+                    }
+                  
+                    
                     // 사용자정보를 성공적으로 가져오면 화면전환 한다.
                     self.moveToHomeVC()
                 }
@@ -167,10 +199,37 @@ class LoginViewController: UIViewController {
                 }
                 else {
                     print("loginWithKakaoAccount() success.")
-
-                    // 회원가입 성공 시 oauthToken 저장
-                    // _ = oauthToken
-
+                    if let accessToken = oauthToken?.accessToken {
+                        print("AccessToken: \(accessToken)")
+                        AuthService.kakaoLogin(KakaoDataModel(access_token: accessToken)) { response in
+                            if let response = response {
+                                switch response.statusCode {
+                                case 100:
+                                    guard let accessToken = response.result?.jwt else { return }
+                                    let tokenService = TokenService()
+                                    tokenService.create("https://dev.onnoff.shop/auth/login", account: "accessToken", value: accessToken)
+                                    print("KakaoLogin Complete, AccessToken is \(TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken") ?? "")")
+                                    self.dismiss(animated: true)
+                                    
+                                case 400:
+                                    print(response.message)
+                                case 500:
+                                    print(response.message)
+                                case 1012:
+                                    print(response.message)
+                                case 1013:
+                                    print(response.message)
+                                case 1014:
+                                    print(response.message)
+                                case 1102:
+                                    print(response.message)
+                                default:
+                                    break
+                                }
+                            }
+                            return
+                        }
+                    }
                     // 사용자정보를 성공적으로 가져오면 화면전환 한다.
                     self.moveToHomeVC()
                 }
@@ -269,7 +328,7 @@ extension LoginViewController {
                 // let email = user?.kakaoAccount?.email
 
                 // 화면전환
-                // self.dismiss(animated: true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
             }
         }
     }
