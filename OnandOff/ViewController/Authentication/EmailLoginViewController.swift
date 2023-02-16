@@ -11,6 +11,10 @@ import Alamofire
 class EmailLoginViewController: UIViewController {
     
     // MARK: - Properties
+    var isValid: Bool {
+        return emailTextField.text?.isEmpty == false && passwordTextField.text?.isEmpty == false
+    }
+    
     private lazy var emailContainerView: ContainerView = {
         return ContainerView(title: "이메일", textField: emailTextField, leftOffset: 62)
     }()
@@ -22,28 +26,42 @@ class EmailLoginViewController: UIViewController {
     private let emailTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .none
-        textField.placeholder = "이메일"
         textField.textColor = .black
         textField.textAlignment = .left
+        textField.widthAnchor.constraint(equalToConstant: 240).isActive = true
         return textField
+    }()
+    
+    private lazy var emailDividerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = #colorLiteral(red: 0.5215686275, green: 0.5215686275, blue: 0.5215686275, alpha: 1)
+        return view
     }()
     
     private let passwordTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .none
-        textField.placeholder = "비밀번호"
         textField.textColor = .black
+        textField.textAlignment = .left
         textField.isSecureTextEntry = true
+        textField.widthAnchor.constraint(equalToConstant: 240).isActive = true
         return textField
+    }()
+    
+    private lazy var passwordDividerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = #colorLiteral(red: 0.5215686275, green: 0.5215686275, blue: 0.5215686275, alpha: 1)
+        return view
     }()
     
     private lazy var loginButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("로그인", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor(red: 0.345, green: 0.721, blue: 0.631, alpha: 1)
+        button.backgroundColor = UIColor(red: 0.868, green: 0.868, blue: 0.868, alpha: 1)
         button.layer.cornerRadius = 5
         button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
+        button.isEnabled = false
         return button
     }()
     
@@ -88,6 +106,7 @@ class EmailLoginViewController: UIViewController {
         self.title = "로그인 하기"
         self.navigationController?.navigationBar.topItem?.title = ""
         configureLayout()
+        textFieldObservers()
     }
     
     // MARK: - Actions
@@ -129,6 +148,18 @@ class EmailLoginViewController: UIViewController {
     
     @objc func handleFindPassword() {
         print(#function)
+        let controller = FindPasswordViewController()
+        navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    @objc func textDidChange(sender: UITextField) {
+        if isValid {
+            loginButton.isEnabled = true
+            loginButton.backgroundColor = #colorLiteral(red: 0.4056565464, green: 0.7636143565, blue: 0.6924937367, alpha: 1)
+        } else {
+            loginButton.isEnabled = false
+            loginButton.backgroundColor = UIColor(red: 0.868, green: 0.868, blue: 0.868, alpha: 1)
+        }
     }
     
     // MARK: - Helpers
@@ -138,18 +169,35 @@ class EmailLoginViewController: UIViewController {
         view.addSubview(emailContainerView)
         emailContainerView.delegate = self
         emailContainerView.snp.makeConstraints {
-            $0.bottom.equalTo(view.snp.top).offset(142)
+            $0.bottom.equalTo(view.snp.top).offset(145)
             $0.left.equalTo(view.snp.left).offset(31)
             $0.right.equalTo(view.snp.right).offset(-31)
             $0.height.equalTo(40)
         }
         
+        view.addSubview(emailDividerView)
+        emailDividerView.snp.makeConstraints {
+            $0.height.equalTo(1)
+            $0.top.equalTo(view.snp.top).offset(145)
+            $0.left.equalTo(view.snp.left).offset(31)
+            $0.right.equalTo(view.snp.right).offset(-31)
+        }
+        
         view.addSubview(passwordContainerView)
+        passwordContainerView.delegate = self
         passwordContainerView.snp.makeConstraints {
-            $0.bottom.equalTo(view.snp.top).offset(198)
+            $0.bottom.equalTo(view.snp.top).offset(201)
             $0.left.equalTo(view.snp.left).offset(31)
             $0.right.equalTo(view.snp.right).offset(-31)
             $0.height.equalTo(40)
+        }
+        
+        view.addSubview(passwordDividerView)
+        passwordDividerView.snp.makeConstraints {
+            $0.height.equalTo(1)
+            $0.top.equalTo(view.snp.top).offset(201)
+            $0.left.equalTo(view.snp.left).offset(31)
+            $0.right.equalTo(view.snp.right).offset(-31)
         }
         
         view.addSubview(loginButton)
@@ -177,10 +225,19 @@ class EmailLoginViewController: UIViewController {
             $0.height.equalTo(18)
         }
     }
+    
+    func textFieldObservers() {
+        emailTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        passwordTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+    }
 }
 
 extension EmailLoginViewController: ContainerViewDelegate {
-    func resetTextField() {
-        emailTextField.text = nil
+    func resetTextField(_ view: UIView) {
+        if view == emailContainerView {
+            emailTextField.text = nil
+        } else if view == passwordContainerView {
+            passwordTextField.text = nil
+        }
     }
 }

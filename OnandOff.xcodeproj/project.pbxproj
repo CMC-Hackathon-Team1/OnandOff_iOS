@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		09DC8FD3F8AB39CCB7FE1B62 /* Pods_OnandOff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36AE5F0746509503177A09B9 /* Pods_OnandOff.framework */; };
+		25432FDB299E378900CC2FBC /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25432FDA299E378900CC2FBC /* String+.swift */; };
+		25E32F52299B61E5003FF02B /* FindPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E32F51299B61E5003FF02B /* FindPasswordViewController.swift */; };
 		5DB24CA82995B76600654978 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB24CA72995B76600654978 /* SettingCell.swift */; };
 		5DB24CAA2995BB5900654978 /* RegisterationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB24CA92995BB5900654978 /* RegisterationController.swift */; };
 		5DB24CAC2995BB8A00654978 /* EmailLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB24CAB2995BB8A00654978 /* EmailLoginViewController.swift */; };
@@ -63,6 +65,8 @@
 
 /* Begin PBXFileReference section */
 		14B10D6834B0D34676CE9E9A /* Pods-OnandOff.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnandOff.release.xcconfig"; path = "Target Support Files/Pods-OnandOff/Pods-OnandOff.release.xcconfig"; sourceTree = "<group>"; };
+		25432FDA299E378900CC2FBC /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		25E32F51299B61E5003FF02B /* FindPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordViewController.swift; sourceTree = "<group>"; };
 		36AE5F0746509503177A09B9 /* Pods_OnandOff.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OnandOff.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		444E19A11B52940DAC691D1D /* Pods-OnandOff.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnandOff.debug.xcconfig"; path = "Target Support Files/Pods-OnandOff/Pods-OnandOff.debug.xcconfig"; sourceTree = "<group>"; };
 		5DB24CA72995B76600654978 /* SettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
@@ -259,6 +263,7 @@
 			children = (
 				DB5AFDF82960068F00667336 /* UIColor+.swift */,
 				DB5AFE072960134400667336 /* UIFont+.swift */,
+				25432FDA299E378900CC2FBC /* String+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -267,8 +272,9 @@
 			isa = PBXGroup;
 			children = (
 				DB000F01297011D70097D6C8 /* LoginViewController.swift */,
-				5DB24CA92995BB5900654978 /* RegisterationController.swift */,
 				5DB24CAB2995BB8A00654978 /* EmailLoginViewController.swift */,
+				5DB24CA92995BB5900654978 /* RegisterationController.swift */,
+				25E32F51299B61E5003FF02B /* FindPasswordViewController.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -483,6 +489,7 @@
 				DB000F06297012010097D6C8 /* ProfileMakeViewController.swift in Sources */,
 				DB5AFE082960134400667336 /* UIFont+.swift in Sources */,
 				5DB24CAA2995BB5900654978 /* RegisterationController.swift in Sources */,
+				25432FDB299E378900CC2FBC /* String+.swift in Sources */,
 				E56E0ECA29976763009FD906 /* ProfileCell.swift in Sources */,
 				E5E05EB52967CD2F004C3891 /* EditOrDeleteViewController.swift in Sources */,
 				E56E0E9B29934661009FD906 /* AccountSettingViewController.swift in Sources */,
@@ -506,6 +513,7 @@
 				DB000F082970120A0097D6C8 /* PersonaCollectionViewCell.swift in Sources */,
 				E5E05EB929697B87004C3891 /* ImageUploadViewController.swift in Sources */,
 				5DB24CB52995CCDE00654978 /* ContainerView.swift in Sources */,
+				25E32F52299B61E5003FF02B /* FindPasswordViewController.swift in Sources */,
 				DB5AFE0E2960171100667336 /* HomeViewController.swift in Sources */,
 				E56E0E9829934661009FD906 /* AccountDeleteViewController.swift in Sources */,
 				5DB24CB02995CC6E00654978 /* AuthService.swift in Sources */,
