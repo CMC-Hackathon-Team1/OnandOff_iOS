@@ -252,8 +252,17 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             GetPersonaDataRequest().getRequestData(self)
         }
         
-        
         haveDataCircle.append(contentsOf: ["2023-02-23", "2023-02-17", "2023-02-11", "2023-02-13"])
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        if jwtToken != nil{
+            self.profileIdArray = [Int]()
+            self.personaArray = [String]()
+            self.profileNameArray = [String]()
+            self.statusMesageArray = [String]()
+            self.profileImageArray = [String]()
+            GetPersonaDataRequest().getRequestData(self)
+        }
     }
     
     //MARK: CalendarUI
@@ -508,6 +517,10 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         print(dateFormatter.string(from: date) + " 선택됨")
+        
+        let vc = SpecificPostViewController()
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
     }
 
     // 특정 날짜에 이미지 세팅
@@ -670,6 +683,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             cell.profileName.text = ""
             cell.plusButton.isHidden = false
             cell.borderView.backgroundColor = .systemGray3
+            cell.profileImage.image = UIImage(named: "")?.withRenderingMode(.alwaysOriginal)
         }else{
             cell.plusButton.isHidden = true
             cell.borderView.backgroundColor = .mainColor

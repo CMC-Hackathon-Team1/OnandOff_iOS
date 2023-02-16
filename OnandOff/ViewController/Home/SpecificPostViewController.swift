@@ -25,7 +25,7 @@ class SpecificPostViewController: UIViewController {
         $0.image = UIImage(named: "ellipsis")?.withRenderingMode(.alwaysOriginal)
     }
     private let profileImageView = UIImageView().then {
-        $0.layer.cornerRadius = 26.5
+        $0.layer.cornerRadius = 20
         $0.backgroundColor = .lightGray
     }
     private let nameLabel = UILabel().then {
