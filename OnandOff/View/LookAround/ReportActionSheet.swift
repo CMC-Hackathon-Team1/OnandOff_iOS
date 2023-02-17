@@ -41,6 +41,7 @@ final class ReportActionSheet: UIView {
             var configure = UIButton.Configuration.plain()
             configure.image = image
             configure.title = "게시글 신고하기"
+            configure.baseForegroundColor = .black
             configure.imagePadding = 20
             configure.imagePlacement = .leading
             $0.configuration = configure
@@ -59,6 +60,7 @@ final class ReportActionSheet: UIView {
         self.addSubView()
         self.layout()
         self.addTarget()
+        
     }
     
     required init?(coder: NSCoder) {
@@ -80,6 +82,7 @@ final class ReportActionSheet: UIView {
     }
     
     @objc private func didClickReportButton() {
+        self.removeFromSuperview()
         delegate?.didClickReportButton()
     }
     

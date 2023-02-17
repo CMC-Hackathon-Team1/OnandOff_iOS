@@ -40,6 +40,8 @@ final class LookAroundViewController: UIViewController {
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor : UIColor.black]
         self.navigationItem.backBarButtonItem?.tintColor = .black
         self.navigationItem.title = "둘러보기"
+        self.navigationItem.backButtonTitle = ""
+        self.navigationItem.backBarButtonItem?.tintColor = . black
     }
     
     //MARK: - Selector
@@ -126,7 +128,7 @@ extension LookAroundViewController: UICollectionViewDelegateFlowLayout {
 
 extension LookAroundViewController: LookAroundDelegate {
     func didClickEllipsis() {
-        let reportActionSheet = ReportActionSheet().then {
+        _ = ReportActionSheet().then {
             $0.delegate = self
             self.view.addSubview($0)
             $0.snp.makeConstraints { make in
