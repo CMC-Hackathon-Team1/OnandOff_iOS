@@ -15,7 +15,7 @@ final class CustomActionSheet: UIView {
     private let categoryTableView: UITableView!
     
     private let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular)).then {
-        $0.alpha = 0.3
+        $0.alpha = 0.5
     }
 
     //MARK: - Init

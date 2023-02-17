@@ -10,6 +10,7 @@ import UIKit
 final class FeedCell: UICollectionViewCell {
     //MARK: - Properties
     static let identifier = "FeedCell"
+    weak var delegate: LookAroundDelegate?
     
     let profileImageView = UIImageView().then {
         $0.layer.cornerRadius = 21
@@ -44,6 +45,10 @@ final class FeedCell: UICollectionViewCell {
         $0.setImage(UIImage(named: "heart")?.withRenderingMode(.alwaysOriginal), for: .normal)
     }
     
+    let ellipsisButton = UIButton(type: .system).then {
+        $0.setImage(UIImage(named: "ellipsis")?.withRenderingMode(.alwaysOriginal), for: .normal)
+    }
+    
     //MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -59,11 +64,15 @@ final class FeedCell: UICollectionViewCell {
     
     //MARK: - Selector
     @objc private func didClickFollowButton(_ button: UIButton) {
-        print("didClickFllowButton")
+        delegate?.didClickFollow()
     }
     
     @objc private func didClickHeartButton(_ button: UIButton) {
-        print("didClickHeartButton")
+        delegate?.didClickHeart()
+    }
+    
+    @objc private func didClickEllipsisButton(_ button: UIButton) {
+        delegate?.didClickEllipsis()
     }
     
     //MARK: - Configure
@@ -84,6 +93,7 @@ final class FeedCell: UICollectionViewCell {
         self.addSubview(self.dateLabel)
         self.addSubview(self.heartButton)
         self.addSubview(self.followButton)
+        self.addSubview(self.ellipsisButton)
     }
     
     //MARK: - layout
@@ -111,7 +121,7 @@ final class FeedCell: UICollectionViewCell {
         }
         
         self.heartButton.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-15)
+            $0.trailing.equalTo(self.ellipsisButton.snp.leading).offset(-13)
             $0.width.height.equalTo(22)
             $0.centerY.equalTo(self.profileImageView.snp.centerY)
         }
@@ -121,11 +131,18 @@ final class FeedCell: UICollectionViewCell {
             $0.width.height.equalTo(22)
             $0.centerY.equalTo(self.profileImageView.snp.centerY)
         }
+        
+        self.ellipsisButton.snp.makeConstraints {
+            $0.trailing.equalToSuperview().offset(-15)
+            $0.width.height.equalTo(22)
+            $0.centerY.equalTo(self.profileImageView.snp.centerY)
+        }
     }
     
     //MARK: - AddTarget
     private func addTarget() {
         self.heartButton.addTarget(self, action: #selector(self.didClickHeartButton), for: .touchUpInside)
         self.followButton.addTarget(self, action: #selector(self.didClickFollowButton), for: .touchUpInside)
+        self.ellipsisButton.addTarget(self, action: #selector(self.didClickEllipsisButton(_:)), for: .touchUpInside)
     }
 }

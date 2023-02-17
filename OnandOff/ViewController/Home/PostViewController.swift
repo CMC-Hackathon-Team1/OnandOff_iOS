@@ -86,6 +86,7 @@ class PostViewController: UIViewController {
         layout()
         addTarget()
     }
+    
 //MARK: - Selector
     @objc private func didClickBack(_ button: UIButton) {
         dismiss(animated: true)
