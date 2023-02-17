@@ -169,6 +169,10 @@ class RegisterationController: UIViewController {
                 emailDividerView.backgroundColor = #colorLiteral(red: 0.5215686275, green: 0.5215686275, blue: 0.5215686275, alpha: 1)
                 emailDescriptionLabel.textColor = #colorLiteral(red: 0.8926360011, green: 0.8926360011, blue: 0.8926360011, alpha: 1)
                 emailDescriptionLabel.text = "인증번호를 받기 위해 정확한 이메일 주소를 입력해주세요."
+            } else if email.isEmpty {
+                emailDividerView.backgroundColor = #colorLiteral(red: 0.5215686275, green: 0.5215686275, blue: 0.5215686275, alpha: 1)
+                emailDescriptionLabel.textColor = #colorLiteral(red: 0.8926360011, green: 0.8926360011, blue: 0.8926360011, alpha: 1)
+                emailDescriptionLabel.text = "인증번호를 받기 위해 정확한 이메일 주소를 입력해주세요."
             } else {
                 emailDividerView.backgroundColor = #colorLiteral(red: 1, green: 0.4039215686, blue: 0.4039215686, alpha: 1)
                 emailDescriptionLabel.text = "잘못된 이메일 입니다."
@@ -176,6 +180,10 @@ class RegisterationController: UIViewController {
             }
         case passwordTextField:
             if password.checkPasswordForm() {
+                passwordDividerView.backgroundColor = #colorLiteral(red: 0.5215686275, green: 0.5215686275, blue: 0.5215686275, alpha: 1)
+                passwordDescriptionLabel.textColor = #colorLiteral(red: 0.8926360011, green: 0.8926360011, blue: 0.8926360011, alpha: 1)
+                passwordDescriptionLabel.text = "영문, 숫자, 특수문자 포함 8글자 이상"
+            } else if password.isEmpty {
                 passwordDividerView.backgroundColor = #colorLiteral(red: 0.5215686275, green: 0.5215686275, blue: 0.5215686275, alpha: 1)
                 passwordDescriptionLabel.textColor = #colorLiteral(red: 0.8926360011, green: 0.8926360011, blue: 0.8926360011, alpha: 1)
                 passwordDescriptionLabel.text = "영문, 숫자, 특수문자 포함 8글자 이상"
@@ -294,10 +302,19 @@ extension RegisterationController: ContainerViewDelegate {
     func resetTextField(_ view: UIView) {
         if view == emailContainerView {
             emailTextField.text = nil
+            emailDividerView.backgroundColor = #colorLiteral(red: 0.5215686275, green: 0.5215686275, blue: 0.5215686275, alpha: 1)
+            emailDescriptionLabel.textColor = #colorLiteral(red: 0.8926360011, green: 0.8926360011, blue: 0.8926360011, alpha: 1)
+            emailDescriptionLabel.text = "인증번호를 받기 위해 정확한 이메일 주소를 입력해주세요."
         } else if view == passwordContainerView {
             passwordTextField.text = nil
+            passwordDividerView.backgroundColor = #colorLiteral(red: 0.5215686275, green: 0.5215686275, blue: 0.5215686275, alpha: 1)
+            passwordDescriptionLabel.textColor = #colorLiteral(red: 0.8926360011, green: 0.8926360011, blue: 0.8926360011, alpha: 1)
+            passwordDescriptionLabel.text = "영문, 숫자, 특수문자 포함 8글자 이상"
         } else {
             passwordCheckTextField.text = nil
+            passwordCheckDividerView.backgroundColor = #colorLiteral(red: 0.5215686275, green: 0.5215686275, blue: 0.5215686275, alpha: 1)
+            passwordCheckDescriptionLabel.textColor = #colorLiteral(red: 0.8926360011, green: 0.8926360011, blue: 0.8926360011, alpha: 1)
+            passwordCheckDescriptionLabel.text = "영문, 숫자, 특수문자 포함 8글자 이상"
         }
     }
 }
