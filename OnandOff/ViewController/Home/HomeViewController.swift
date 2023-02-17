@@ -15,6 +15,8 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
  
     let formatter = DateFormatter()
     
+    var profileIdNow = 0
+    
     var profileIdArray = [Int]()
     var personaArray = [String]()
     var profileNameArray = [String]()
@@ -567,6 +569,13 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
     }
+    
+    @objc func didClickAlarm(sender: UITapGestureRecognizer) {
+        let vc = AlarmViewController()
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
+        }
+    
     @objc func didClickSetting(sender: UITapGestureRecognizer) {
 //        GetPersonaDataRequest().getRequestData(self)
         
@@ -600,6 +609,10 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let settingBtn = UITapGestureRecognizer(target: self, action: #selector(didClickSetting))
         settingButton.isUserInteractionEnabled = true
         settingButton.addGestureRecognizer(settingBtn)
+        
+        let alarmgBtn = UITapGestureRecognizer(target: self, action: #selector(didClickAlarm))
+        alarmButton.isUserInteractionEnabled = true
+        alarmButton.addGestureRecognizer(alarmgBtn)
         
         self.calendarRight.addTarget(self, action: #selector(self.monthForthButtonPressed), for: .touchUpInside)
         
@@ -701,7 +714,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             
             cell.profileName.text = personaArray[indexPath.row]
         }
-        
         return cell
     }
     
@@ -720,6 +732,8 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             DispatchQueue.main.async {
                 self.nickNameLbl.text = self.profileNameArray[indexPath.row]
             }
+            self.profileIdNow = self.profileIdArray[indexPath.row]
+            print(self.profileIdNow)
         }
     }
     
