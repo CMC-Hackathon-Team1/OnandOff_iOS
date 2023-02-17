@@ -96,7 +96,7 @@ class LoginViewController: UIViewController {
         button.clipsToBounds = true
         button.layer.cornerRadius = 12
         button.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        button.addTarget(self, action: #selector(didTapGoogleLoginButton), for: .touchUpInside)
+        // button.addTarget(self, action: #selector(didTapGoogleLoginButton), for: .touchUpInside)
         return button
     }()
     
@@ -249,28 +249,28 @@ class LoginViewController: UIViewController {
     }
 
     
-    @objc func didTapGoogleLoginButton() {
-        print(#function)
-
-        let googleClientId = "237346784269-d5qkltgq5i6ccfn9fia49d52slp63180.apps.googleusercontent.com"
-        let signInConfig = GIDConfiguration.init(clientID: googleClientId)
-        
-        let accessToken = GIDSignIn.sharedInstance.currentUser?.accessToken
-        let userId = GIDSignIn.sharedInstance.currentUser?.userID
-        if accessToken == nil {
-            
-            GIDSignIn.sharedInstance.signIn(withPresenting: self) { signInResult, error in
-                if let error = error {
-                    print(error.localizedDescription)
-                } else {
-                    let userId = signInResult?.user.userID
-                    let accessToken = signInResult?.user.accessToken
-                    print("userID: ", userId)
-                    print("accessToken: ", accessToken)
-                }
-            }
-        }
-    }
+//    @objc func didTapGoogleLoginButton() {
+//        print(#function)
+//
+//        let googleClientId = "237346784269-d5qkltgq5i6ccfn9fia49d52slp63180.apps.googleusercontent.com"
+//        let signInConfig = GIDConfiguration.init(clientID: googleClientId)
+//
+//        let accessToken = GIDSignIn.sharedInstance.currentUser?.accessToken
+//        let userId = GIDSignIn.sharedInstance.currentUser?.userID
+//        if accessToken == nil {
+//
+//            GIDSignIn.sharedInstance.signIn(withPresenting: self) { signInResult, error in
+//                if let error = error {
+//                    print(error.localizedDescription)
+//                } else {
+//                    let userId = signInResult?.user.userID
+//                    let accessToken = signInResult?.user.accessToken
+//                    print("userID: ", userId)
+//                    print("accessToken: ", accessToken)
+//                }
+//            }
+//        }
+//    }
 
     
     // MARK: - Helpers
