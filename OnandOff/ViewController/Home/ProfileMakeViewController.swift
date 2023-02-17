@@ -8,6 +8,9 @@
 import UIKit
 import SnapKit
 import Then
+import MobileCoreServices
+import Alamofire
+
 
 class ProfileMakeViewController: UIViewController {
     
@@ -88,10 +91,10 @@ class ProfileMakeViewController: UIViewController {
         
         setUpView()
         layout()
+        addTarget()
         
-        let tapGestureRecognizer = UITapGestureRecognizer(target:self, action: #selector(insertPhoto))
-        profileInsertPhotoImgView.isUserInteractionEnabled = true
-        profileInsertPhotoImgView.addGestureRecognizer(tapGestureRecognizer)
+        print(profileInsertPhotoImgView.image!)
+        print(UIImage(named: "ProfileInsertPhoto"))
         
         picker.delegate = self
     }
@@ -189,7 +192,7 @@ class ProfileMakeViewController: UIViewController {
             $0.trailing.equalTo(shortLine2.snp.trailing)
         }
     }
-
+//MARK: - Selector
     @objc func backToHome(sender: UIButton!) {
         self.dismiss(animated: true, completion: nil)
     }
@@ -204,13 +207,6 @@ class ProfileMakeViewController: UIViewController {
         alert.addAction(cancel)
         present(alert, animated: true, completion: nil)
     }
-    
-    func openLibrary() {
-
-      picker.sourceType = .photoLibrary
-      present(picker, animated: false, completion: nil)
-    }
-    
     @objc func textFieldEditingChanged(_ textField: UITextField) {
         
         if personaTxField.text!.count > 4 {
@@ -221,6 +217,36 @@ class ProfileMakeViewController: UIViewController {
             introduceTxField.deleteBackward()
         }
     }
+    @objc func didClickSubmit(_ sender: Any) {
+        print("didClickSubmit")
+        
+        let changeImage = profileInsertPhotoImgView.image!
+        print("aaaaaa")
+        print(changeImage)
+        print(UIImage(named: "ProfileInsertPhoto")!)
+        print("aaaaaa")
+        
+        //이미지 파일이 안들어가서 일단 고정된 이미지 값을 넣음
+        MakePersonaDataRequest().getRequestData(self, profileName: "\(nickNameTxField.text!)", personaName: "\(personaTxField.text!)", statusMessage: "\(introduceTxField.text!)", image: UIImage(named: "ProfileInsertPhoto")!)
+    }
+
+    
+    func openLibrary() {
+
+      picker.sourceType = .photoLibrary
+      present(picker, animated: false, completion: nil)
+    }
+    
+//MARK: - AddTarget
+    func addTarget(){
+        
+        self.makeBtn.addTarget(self, action: #selector(self.didClickSubmit), for: .touchUpInside)
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target:self, action: #selector(insertPhoto))
+        profileInsertPhotoImgView.isUserInteractionEnabled = true
+        profileInsertPhotoImgView.addGestureRecognizer(tapGestureRecognizer)
+    }
+
 }
 
 extension ProfileMakeViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -228,6 +254,7 @@ extension ProfileMakeViewController : UIImagePickerControllerDelegate, UINavigat
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let img = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
        
+            print(img)
             profileInsertPhotoImgView.image = img
             profileInsertPhotoImgView.layer.cornerRadius = profileInsertPhotoImgView.frame.height/2
             profileInsertPhotoImgView.clipsToBounds = true
