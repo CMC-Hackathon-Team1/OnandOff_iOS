@@ -43,6 +43,11 @@
 		DB5AFE122960173900667336 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFE112960173800667336 /* MyPageViewController.swift */; };
 		DB7BDC8A2961601200AA304B /* CustomTopTabbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7BDC892961601200AA304B /* CustomTopTabbar.swift */; };
 		DB7BDC8C2961BCF400AA304B /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7BDC8B2961BCF400AA304B /* FeedCell.swift */; };
+		DBC3618B29A097490011C319 /* StandardAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC3618A29A097490011C319 /* StandardAlertController.swift */; };
+		DBC3618D29A0A5340011C319 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC3618C29A0A5340011C319 /* PaddingLabel.swift */; };
+		DBC3618F29A0A8550011C319 /* StandardAlertAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC3618E29A0A8550011C319 /* StandardAlertAction.swift */; };
+		DBC3619129A0B05C0011C319 /* NotificationName+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC3619029A0B05C0011C319 /* NotificationName+.swift */; };
+		DBC3619629A0C3000011C319 /* mainButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC3619529A0C3000011C319 /* mainButton.swift */; };
 		DBD8DD5F296315150081CD21 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD8DD5E296315150081CD21 /* ProfileView.swift */; };
 		E56E0E9429934661009FD906 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0E8729934661009FD906 /* SettingViewController.swift */; };
 		E56E0E9529934661009FD906 /* PolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0E8829934661009FD906 /* PolicyViewController.swift */; };
@@ -111,6 +116,11 @@
 		DB5AFE112960173800667336 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		DB7BDC892961601200AA304B /* CustomTopTabbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTopTabbar.swift; sourceTree = "<group>"; };
 		DB7BDC8B2961BCF400AA304B /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
+		DBC3618A29A097490011C319 /* StandardAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardAlertController.swift; sourceTree = "<group>"; };
+		DBC3618C29A0A5340011C319 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
+		DBC3618E29A0A8550011C319 /* StandardAlertAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardAlertAction.swift; sourceTree = "<group>"; };
+		DBC3619029A0B05C0011C319 /* NotificationName+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+.swift"; sourceTree = "<group>"; };
+		DBC3619529A0C3000011C319 /* mainButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainButton.swift; sourceTree = "<group>"; };
 		DBD8DD5E296315150081CD21 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		E56E0E8729934661009FD906 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		E56E0E8829934661009FD906 /* PolicyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolicyViewController.swift; sourceTree = "<group>"; };
@@ -221,6 +231,7 @@
 		DB5AFDF42960065200667336 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				DBC3618929A096DA0011C319 /* Common */,
 				5DB24CB32995CCA800654978 /* Authentication */,
 				E56E0EC629976713009FD906 /* HomeView */,
 				E56E0EA129934672009FD906 /* HomeSetting */,
@@ -289,6 +300,7 @@
 				DB5AFDF82960068F00667336 /* UIColor+.swift */,
 				DB5AFE072960134400667336 /* UIFont+.swift */,
 				25432FDA299E378900CC2FBC /* String+.swift */,
+				DBC3619029A0B05C0011C319 /* NotificationName+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -347,6 +359,25 @@
 				DB3EB8C1299E414200434666 /* ReportCell.swift */,
 			);
 			path = LookAround;
+			sourceTree = "<group>";
+		};
+		DBC3618929A096DA0011C319 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				DBC3619429A0BE590011C319 /* StandarAlert */,
+				DBC3618C29A0A5340011C319 /* PaddingLabel.swift */,
+				DBC3619529A0C3000011C319 /* mainButton.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		DBC3619429A0BE590011C319 /* StandarAlert */ = {
+			isa = PBXGroup;
+			children = (
+				DBC3618A29A097490011C319 /* StandardAlertController.swift */,
+				DBC3618E29A0A8550011C319 /* StandardAlertAction.swift */,
+			);
+			path = StandarAlert;
 			sourceTree = "<group>";
 		};
 		DBD8DD5D296315020081CD21 /* MyPage */ = {
@@ -530,8 +561,10 @@
 				E56E0ECA29976763009FD906 /* ProfileCell.swift in Sources */,
 				E5E05EB52967CD2F004C3891 /* EditOrDeleteViewController.swift in Sources */,
 				E56E0E9B29934661009FD906 /* AccountSettingViewController.swift in Sources */,
+				DBC3619129A0B05C0011C319 /* NotificationName+.swift in Sources */,
 				E56E0E9A29934661009FD906 /* ServicePolicyViewController.swift in Sources */,
 				DB5AFDFD296006B200667336 /* TempView.swift in Sources */,
+				DBC3618B29A097490011C319 /* StandardAlertController.swift in Sources */,
 				5DB24CB22995CC7D00654978 /* TokenService.swift in Sources */,
 				E5E05EB72967D025004C3891 /* CategorySelectionViewController.swift in Sources */,
 				DB7BDC8C2961BCF400AA304B /* FeedCell.swift in Sources */,
@@ -539,7 +572,9 @@
 				E56E0E9629934661009FD906 /* FeedbackViewController.swift in Sources */,
 				DB5AFDFB2960069B00667336 /* TempModel.swift in Sources */,
 				DB3EB8C0299E3B1600434666 /* ReportType.swift in Sources */,
+				DBC3619629A0C3000011C319 /* mainButton.swift in Sources */,
 				DB5AFDE52960052D00667336 /* CustomActionSheet.swift in Sources */,
+				DBC3618D29A0A5340011C319 /* PaddingLabel.swift in Sources */,
 				E5E05EC329699795004C3891 /* SpecificPostViewController.swift in Sources */,
 				E56E0E9429934661009FD906 /* SettingViewController.swift in Sources */,
 				DB5AFDF92960068F00667336 /* UIColor+.swift in Sources */,
@@ -557,6 +592,7 @@
 				DB5AFE0E2960171100667336 /* HomeViewController.swift in Sources */,
 				E56E0E9829934661009FD906 /* AccountDeleteViewController.swift in Sources */,
 				5DB24CB02995CC6E00654978 /* AuthService.swift in Sources */,
+				DBC3618F29A0A8550011C319 /* StandardAlertAction.swift in Sources */,
 				DB7BDC8A2961601200AA304B /* CustomTopTabbar.swift in Sources */,
 				E56E0EC4299349CE009FD906 /* PrivacyPolicyViewController.swift in Sources */,
 				DB5AFE122960173900667336 /* MyPageViewController.swift in Sources */,

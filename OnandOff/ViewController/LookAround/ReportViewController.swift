@@ -8,7 +8,13 @@
 import UIKit
 
 final class ReportViewController: UIViewController {
-    private var selectedType: ReportType?
+    private var selectedType: ReportType? {
+        didSet {
+            if selectedType != nil {
+                self.agreeButton.isEnabled = true
+            }
+        }
+    }
     
     private let reportTableView = UITableView().then {
         $0.rowHeight = UITableView.automaticDimension
@@ -17,24 +23,34 @@ final class ReportViewController: UIViewController {
         $0.register(ReportCell.self, forCellReuseIdentifier: ReportCell.identifier)
     }
     
-    private let agreeButton = UIButton(type: .system).then {
-        $0.layer.cornerRadius = 5
-        $0.titleLabel?.font = .notoSans(size: 16)
-        $0.setTitleColor(.white, for: .normal)
+    private let agreeButton = mainButton(type: .system).then {
+        $0.isEnabled = false
         $0.setTitle("동의", for: .normal)
-        $0.backgroundColor = .mainColor
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.addSubView()
         self.layout()
+        self.addTarget()
 
         self.view.backgroundColor = .white
         self.navigationItem.title = "신고하기"
         
         self.reportTableView.delegate = self
         self.reportTableView.dataSource = self
+    }
+    
+    //MARK: - Selector
+    @objc private func didClickAgreeButton() {
+        if self.selectedType != nil {
+            let alert = StandardAlertController(title: nil, message: "해당 게시글을 신고하시겠습니까?")
+            let cancel = StandardAlertAction(title: "취소", style: .cancel)
+            let report = StandardAlertAction(title: "신고", style: .basic)
+            alert.addAction([cancel, report])
+            
+            self.present(alert, animated: false)
+        }
     }
     
     //MARK: - AddSubView
@@ -57,6 +73,11 @@ final class ReportViewController: UIViewController {
             $0.height.equalTo(49)
             $0.centerY.equalToSuperview().offset(40)
         }
+    }
+    
+    //MARK: - AddTarget
+    private func addTarget() {
+        self.agreeButton.addTarget(self, action: #selector(didClickAgreeButton), for: .touchUpInside)
     }
 }
 
