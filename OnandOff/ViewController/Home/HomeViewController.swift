@@ -117,11 +117,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         $0.text = "작가"
     }
     
-    let nickNameBottomLbl = UILabel().then {
-        $0.font = .notoSans(size: 18, family: .Bold)
-        $0.text = "키키님,"
-    }
-    
     let heartLbl = UILabel().then {
         $0.font = .systemFont(ofSize: 40)
         $0.text = "💞"
@@ -316,7 +311,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         contentView.addSubview(view4)
         contentView.addSubview(view5)
         view5.addSubview(personaBottomLbl)
-        view5.addSubview(nickNameBottomLbl)
         view5.addSubview(writeLbl)
         view5.addSubview(heartLbl)
         view5.addSubview(peopleLbl)
@@ -438,12 +432,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             $0.top.equalToSuperview().inset(35)
             $0.leading.equalToSuperview().inset(24)
         }
-        
-        nickNameBottomLbl.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(35)
-            $0.leading.equalTo(personaBottomLbl.snp.trailing).offset(4)
-        }
-        
         heartLbl.snp.makeConstraints {
             $0.top.equalToSuperview().inset(86)
             $0.leading.equalToSuperview().inset(45)
@@ -753,12 +741,15 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }else{
             DispatchQueue.main.async {
                 self.nickNameLbl.text = self.profileNameArray[indexPath.row]
+                self.personaBottomLbl.text = self.profileNameArray[indexPath.row]
             }
             self.profileIdNow = self.profileIdArray[indexPath.row]
+            HomeStatisticsDataRequest().getStatisticsRequestData(self, profileId: profileIdNow)
+            
             print(self.profileIdNow)
         }
     }
-    
+//MARK: Alamofire
     func didSuccess(_ response: GetPersonaModel){
         print("didSuccess hello")
         
@@ -778,6 +769,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         print(profileImageArray)
         
         self.nickNameLbl.text = self.profileNameArray[0]
+        self.personaBottomLbl.text = self.profileNameArray[0]
         self.profileIdNow = self.profileIdArray[0]
         
         print("didSuccess hello")
@@ -789,7 +781,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 DispatchQueue.main.async {
                     self.monthlyReceiveHeartCountLbl.text = "\((response.result?.monthly_likes_count)!) 개"
                     self.monthlyWriteCountLbl.text = "\((response.result?.monthly_myFeeds_count)!) 개"
-                    self.monthlyReceiveFollowCountLbl.text = "\((response.result?.monthly_myFollowers_count)!) 개"
+                    self.monthlyReceiveFollowCountLbl.text = "\((response.result?.monthly_myFollowers_count)!) 명"
             }
         }
     }
