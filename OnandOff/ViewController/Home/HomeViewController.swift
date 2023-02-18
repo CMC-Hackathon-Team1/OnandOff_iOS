@@ -31,7 +31,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
 
     let calendar = FSCalendar(frame: CGRect(x: 0, y: 0, width: 380, height: 300))
     //이미지있는 날짜
-    fileprivate let datesWithCat = ["20230205","20230215"]
+    fileprivate let datesWithCat = [""]
     // 동그라미 있는 날짜
     var haveDataCircle = [String]()
     
@@ -43,11 +43,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         $0.setImage(UIImage(named: "calendarleft")?.withRenderingMode(.alwaysOriginal), for: .normal)
 //        $0.alpha = 0
     }
-    
-    var monthlyReceiveHeartCount = "0"
-    var monthlyWriteCount = "0"
-    var monthlyFollowCount = "0"
-    
+
     let dateFormatter = DateFormatter()
     
     let scrollView = UIScrollView().then {
@@ -151,9 +147,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         $0.text = "이번달에"
     }
     
-    lazy var monthlyReceiveHeartCountLbl = UILabel().then {
+    var monthlyReceiveHeartCountLbl = UILabel().then {
         $0.font = .notoSans(size: 12, family: .Bold)
-        $0.text = "\(monthlyReceiveHeartCount)개"
+        $0.text = "0 개"
         $0.textColor = UIColor.mainColor
     }
     
@@ -172,9 +168,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         $0.text = "이번달에"
     }
     
-    lazy var monthlyWriteCountLbl = UILabel().then {
+    var monthlyWriteCountLbl = UILabel().then {
         $0.font = .notoSans(size: 12, family: .Bold)
-        $0.text = "\(monthlyWriteCount)개"
+        $0.text = "0 개"
         $0.textColor = UIColor.mainColor
     }
     
@@ -193,9 +189,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         $0.text = "이번달에"
     }
     
-    lazy var monthlyReceiveFollowCountLbl = UILabel().then {
+    var monthlyReceiveFollowCountLbl = UILabel().then {
         $0.font = .notoSans(size: 12, family: .Bold)
-        $0.text = "\(monthlyFollowCount)개"
+        $0.text = "0 개"
         $0.textColor = UIColor.mainColor
     }
     
@@ -255,6 +251,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         if jwtToken != nil{
             GetPersonaDataRequest().getRequestData(self)
+            
         }
         
         haveDataCircle.append(contentsOf: ["2023-02-23", "2023-02-17", "2023-02-11", "2023-02-13"])
@@ -267,6 +264,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             self.statusMesageArray = [String]()
             self.profileImageArray = [String]()
             GetPersonaDataRequest().getRequestData(self)
+            HomeStatisticsDataRequest().getStatisticsRequestData(self, profileId: profileIdNow)
+            
+            
             
         }
     }
@@ -783,6 +783,16 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         print("didSuccess hello")
     }
     
+    func didSuccessStatistics(_ response: HomeStatisticsModel){
+        print("didSuccessStatistics")
+        if response.result?.monthly_likes_count != nil && response.result?.monthly_myFeeds_count != nil && response.result?.monthly_myFollowers_count != nil{
+                DispatchQueue.main.async {
+                    self.monthlyReceiveHeartCountLbl.text = "\((response.result?.monthly_likes_count)!) 개"
+                    self.monthlyWriteCountLbl.text = "\((response.result?.monthly_myFeeds_count)!) 개"
+                    self.monthlyReceiveFollowCountLbl.text = "\((response.result?.monthly_myFollowers_count)!) 개"
+            }
+        }
+    }
     
     
 
