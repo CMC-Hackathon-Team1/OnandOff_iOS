@@ -114,7 +114,6 @@ class PostViewController: UIViewController, CategorySelectProtocol {
         }
         sendCategoryID = data
     }
-
 //MARK: - Selector
     @objc private func didClickBack(_ button: UIButton) {
         dismiss(animated: true)

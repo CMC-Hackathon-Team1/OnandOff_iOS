@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 protocol ContainerViewDelegate: AnyObject {
-    func resetTextField()
+    func resetTextField(_ view: UIView)
 }
 
 class ContainerView: UIView {
@@ -18,7 +18,6 @@ class ContainerView: UIView {
     
     init(title: String, textField: UITextField, leftOffset: UInt) {
         super.init(frame: .zero)
-        
         let label = UILabel()
         label.text = title
         label.textColor = .black
@@ -26,7 +25,7 @@ class ContainerView: UIView {
         
         lazy var cancelButton: UIButton = {
             let button = UIButton(type: .system)
-            // button.setImage(#imageLiteral(resourceName: "Icon"), for: .normal)
+            button.setImage(#imageLiteral(resourceName: "Icon"), for: .normal)
             button.tintColor = #colorLiteral(red: 0.7810429931, green: 0.7810428739, blue: 0.7810428739, alpha: 1)
             button.snp.makeConstraints {
                 $0.height.width.equalTo(16)
@@ -58,15 +57,7 @@ class ContainerView: UIView {
             $0.right.equalTo(snp.right)
         }
         
-        let dividerView = UIView()
-        dividerView.backgroundColor = #colorLiteral(red: 0.5215686275, green: 0.5215686275, blue: 0.5215686275, alpha: 1)
-        addSubview(dividerView)
-        dividerView.snp.makeConstraints {
-            $0.left.equalTo(snp.left)
-            $0.right.equalTo(snp.right)
-            $0.bottom.equalTo(snp.bottom)
-            $0.height.equalTo(1)
-        }
+
     }
     
     required init?(coder: NSCoder) {
@@ -74,6 +65,6 @@ class ContainerView: UIView {
     }
     
     @objc func cancelButtonTapped() {
-        delegate?.resetTextField()
+        delegate?.resetTextField(self)
     }
 }

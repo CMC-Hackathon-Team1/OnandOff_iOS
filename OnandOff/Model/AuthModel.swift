@@ -28,3 +28,11 @@ struct UserData: Codable {
     let userId: Int?
     let TODO: String?
 }
+
+// MARK: - KakaoModel
+struct KakaoDataModel: Codable {
+    let access_token: String?
+}
+
+
+

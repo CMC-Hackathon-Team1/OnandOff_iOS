@@ -7,6 +7,7 @@
 //
 import UIKit
 import SnapKit
+import KakaoSDKUser
 import Alamofire
 import Then
 import FSCalendar
@@ -240,7 +241,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         // Authentication
         CheckUserLogIn()
         LogOut()
-        // print("JwtToekn is : \(jwtToken)")
+        kakaoLogOut()
         
         setUpView()
         layout()
@@ -666,6 +667,20 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 }
             }
             return
+        }
+    }
+    
+    func kakaoLogOut() {
+        UserApi.shared.logout { error in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                print("logout() success..")
+                let controller = LoginViewController()
+                let navigation = UINavigationController(rootViewController: controller)
+                navigation.modalPresentationStyle = .fullScreen
+                self.present(navigation, animated: true, completion: nil)
+            }
         }
     }
     

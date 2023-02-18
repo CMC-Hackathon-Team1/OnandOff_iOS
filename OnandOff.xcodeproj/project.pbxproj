@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		09DC8FD3F8AB39CCB7FE1B62 /* Pods_OnandOff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36AE5F0746509503177A09B9 /* Pods_OnandOff.framework */; };
+		25432FDB299E378900CC2FBC /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25432FDA299E378900CC2FBC /* String+.swift */; };
+		25E32F52299B61E5003FF02B /* FindPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E32F51299B61E5003FF02B /* FindPasswordViewController.swift */; };
 		5DB24CA82995B76600654978 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB24CA72995B76600654978 /* SettingCell.swift */; };
 		5DB24CAA2995BB5900654978 /* RegisterationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB24CA92995BB5900654978 /* RegisterationController.swift */; };
 		5DB24CAC2995BB8A00654978 /* EmailLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB24CAB2995BB8A00654978 /* EmailLoginViewController.swift */; };
@@ -19,6 +21,11 @@
 		DB000F02297011D70097D6C8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB000F01297011D70097D6C8 /* LoginViewController.swift */; };
 		DB000F06297012010097D6C8 /* ProfileMakeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB000F05297012010097D6C8 /* ProfileMakeViewController.swift */; };
 		DB000F082970120A0097D6C8 /* PersonaCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB000F072970120A0097D6C8 /* PersonaCollectionViewCell.swift */; };
+		DB3EB8B9299E054800434666 /* ReportActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3EB8B8299E054800434666 /* ReportActionSheet.swift */; };
+		DB3EB8BC299E086D00434666 /* LookAroundDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3EB8BB299E086D00434666 /* LookAroundDelegate.swift */; };
+		DB3EB8BE299E384400434666 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3EB8BD299E384400434666 /* ReportViewController.swift */; };
+		DB3EB8C0299E3B1600434666 /* ReportType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3EB8BF299E3B1600434666 /* ReportType.swift */; };
+		DB3EB8C2299E414200434666 /* ReportCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3EB8C1299E414200434666 /* ReportCell.swift */; };
 		DB5AFDE12960052D00667336 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFDE02960052D00667336 /* AppDelegate.swift */; };
 		DB5AFDE32960052D00667336 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFDE22960052D00667336 /* SceneDelegate.swift */; };
 		DB5AFDE52960052D00667336 /* CustomActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFDE42960052D00667336 /* CustomActionSheet.swift */; };
@@ -72,6 +79,8 @@
 
 /* Begin PBXFileReference section */
 		14B10D6834B0D34676CE9E9A /* Pods-OnandOff.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnandOff.release.xcconfig"; path = "Target Support Files/Pods-OnandOff/Pods-OnandOff.release.xcconfig"; sourceTree = "<group>"; };
+		25432FDA299E378900CC2FBC /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
+		25E32F51299B61E5003FF02B /* FindPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordViewController.swift; sourceTree = "<group>"; };
 		36AE5F0746509503177A09B9 /* Pods_OnandOff.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OnandOff.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		444E19A11B52940DAC691D1D /* Pods-OnandOff.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnandOff.debug.xcconfig"; path = "Target Support Files/Pods-OnandOff/Pods-OnandOff.debug.xcconfig"; sourceTree = "<group>"; };
 		5DB24CA72995B76600654978 /* SettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
@@ -85,6 +94,11 @@
 		DB000F01297011D70097D6C8 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DB000F05297012010097D6C8 /* ProfileMakeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileMakeViewController.swift; sourceTree = "<group>"; };
 		DB000F072970120A0097D6C8 /* PersonaCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonaCollectionViewCell.swift; sourceTree = "<group>"; };
+		DB3EB8B8299E054800434666 /* ReportActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportActionSheet.swift; sourceTree = "<group>"; };
+		DB3EB8BB299E086D00434666 /* LookAroundDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookAroundDelegate.swift; sourceTree = "<group>"; };
+		DB3EB8BD299E384400434666 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
+		DB3EB8BF299E3B1600434666 /* ReportType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportType.swift; sourceTree = "<group>"; };
+		DB3EB8C1299E414200434666 /* ReportCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCell.swift; sourceTree = "<group>"; };
 		DB5AFDDD2960052D00667336 /* OnandOff.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnandOff.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB5AFDE02960052D00667336 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DB5AFDE22960052D00667336 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -175,6 +189,14 @@
 			path = Authentication;
 			sourceTree = "<group>";
 		};
+		DB3EB8BA299E085000434666 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				DB3EB8BB299E086D00434666 /* LookAroundDelegate.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		DB5AFDD42960052D00667336 = {
 			isa = PBXGroup;
 			children = (
@@ -241,6 +263,7 @@
 				E56E0ECB299B1DB2009FD906 /* Home */,
 				DB5AFDFA2960069B00667336 /* TempModel.swift */,
 				5DB24CAD2995CC4B00654978 /* AuthModel.swift */,
+				DB3EB8BF299E3B1600434666 /* ReportType.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -248,6 +271,7 @@
 		DB5AFDF72960067300667336 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				DB3EB8BA299E085000434666 /* Protocols */,
 				DB5AFE0229600E3600667336 /* Extensions */,
 			);
 			path = Utils;
@@ -278,6 +302,7 @@
 			children = (
 				DB5AFDF82960068F00667336 /* UIColor+.swift */,
 				DB5AFE072960134400667336 /* UIFont+.swift */,
+				25432FDA299E378900CC2FBC /* String+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -286,8 +311,9 @@
 			isa = PBXGroup;
 			children = (
 				DB000F01297011D70097D6C8 /* LoginViewController.swift */,
-				5DB24CA92995BB5900654978 /* RegisterationController.swift */,
 				5DB24CAB2995BB8A00654978 /* EmailLoginViewController.swift */,
+				5DB24CA92995BB5900654978 /* RegisterationController.swift */,
+				25E32F51299B61E5003FF02B /* FindPasswordViewController.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -322,6 +348,7 @@
 			isa = PBXGroup;
 			children = (
 				DB5AFE0F2960171E00667336 /* LookAroundViewController.swift */,
+				DB3EB8BD299E384400434666 /* ReportViewController.swift */,
 			);
 			path = LookAround;
 			sourceTree = "<group>";
@@ -331,7 +358,9 @@
 			children = (
 				DB5AFDE42960052D00667336 /* CustomActionSheet.swift */,
 				DB7BDC892961601200AA304B /* CustomTopTabbar.swift */,
+				DB3EB8B8299E054800434666 /* ReportActionSheet.swift */,
 				DB7BDC8B2961BCF400AA304B /* FeedCell.swift */,
+				DB3EB8C1299E414200434666 /* ReportCell.swift */,
 			);
 			path = LookAround;
 			sourceTree = "<group>";
@@ -518,7 +547,11 @@
 				DB000F06297012010097D6C8 /* ProfileMakeViewController.swift in Sources */,
 				DB5AFE082960134400667336 /* UIFont+.swift in Sources */,
 				5DB24CAA2995BB5900654978 /* RegisterationController.swift in Sources */,
+
 				E56E0ED5299EE3F9009FD906 /* ProfileCreatePopupViewController.swift in Sources */,
+
+				25432FDB299E378900CC2FBC /* String+.swift in Sources */,
+
 				E56E0ECA29976763009FD906 /* ProfileCell.swift in Sources */,
 				E5E05EB52967CD2F004C3891 /* EditOrDeleteViewController.swift in Sources */,
 				E56E0E9B29934661009FD906 /* AccountSettingViewController.swift in Sources */,
@@ -532,6 +565,7 @@
 				E5E05EB12967C2F5004C3891 /* PostViewController.swift in Sources */,
 				E56E0E9629934661009FD906 /* FeedbackViewController.swift in Sources */,
 				DB5AFDFB2960069B00667336 /* TempModel.swift in Sources */,
+				DB3EB8C0299E3B1600434666 /* ReportType.swift in Sources */,
 				DB5AFDE52960052D00667336 /* CustomActionSheet.swift in Sources */,
 				E5E05EC329699795004C3891 /* SpecificPostViewController.swift in Sources */,
 				E56E0E9429934661009FD906 /* SettingViewController.swift in Sources */,
@@ -539,13 +573,19 @@
 				DB5AFDF92960068F00667336 /* UIColor+.swift in Sources */,
 				E56E0E9F29934661009FD906 /* PrivacyViewController.swift in Sources */,
 				E56E0E9929934661009FD906 /* AlertViewController.swift in Sources */,
+				DB3EB8BC299E086D00434666 /* LookAroundDelegate.swift in Sources */,
 				E56E0E9529934661009FD906 /* PolicyViewController.swift in Sources */,
 				DB000F02297011D70097D6C8 /* LoginViewController.swift in Sources */,
 				E56E0E9E29934661009FD906 /* LogoutViewController.swift in Sources */,
 				DB000F082970120A0097D6C8 /* PersonaCollectionViewCell.swift in Sources */,
 				E5E05EB929697B87004C3891 /* ImageUploadViewController.swift in Sources */,
+
 				E56E0ED1299C0928009FD906 /* GetPersonaDataRequest.swift in Sources */,
+
+				DB3EB8BE299E384400434666 /* ReportViewController.swift in Sources */,
+
 				5DB24CB52995CCDE00654978 /* ContainerView.swift in Sources */,
+				25E32F52299B61E5003FF02B /* FindPasswordViewController.swift in Sources */,
 				DB5AFE0E2960171100667336 /* HomeViewController.swift in Sources */,
 				E56E0ED9299F0228009FD906 /* AlarmViewCell.swift in Sources */,
 				E56E0E9829934661009FD906 /* AccountDeleteViewController.swift in Sources */,
@@ -556,6 +596,7 @@
 				E56E0ED7299F0152009FD906 /* AlarmViewController.swift in Sources */,
 				DB000F00297011A50097D6C8 /* MyPageCell.swift in Sources */,
 				5DB24CAE2995CC4B00654978 /* AuthModel.swift in Sources */,
+				DB3EB8B9299E054800434666 /* ReportActionSheet.swift in Sources */,
 				DB5AFE102960171E00667336 /* LookAroundViewController.swift in Sources */,
 				DB5AFE0129600B6F00667336 /* TempService.swift in Sources */,
 				E56E0ECD299B1DCD009FD906 /* PersonaModel.swift in Sources */,
@@ -568,6 +609,7 @@
 				5DB24CA82995B76600654978 /* SettingCell.swift in Sources */,
 				E56E0E9C29934661009FD906 /* PasswordResetViewController.swift in Sources */,
 				DB5AFDE32960052D00667336 /* SceneDelegate.swift in Sources */,
+				DB3EB8C2299E414200434666 /* ReportCell.swift in Sources */,
 				E56E0ECF299B1F73009FD906 /* MakePersonaDataRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
