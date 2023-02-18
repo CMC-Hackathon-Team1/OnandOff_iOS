@@ -9,7 +9,13 @@ import UIKit
 import SnapKit
 import Foundation
 
+protocol CategorySelectProtocol: AnyObject{
+  func sendCategoryNumber(data: Int)
+}
+
 class CategorySelectonViewController: UIViewController {
+
+    weak var categoryNumber : CategorySelectProtocol?
     
 //MARK: - Properties
     let mainView = UIView().then{
@@ -78,15 +84,23 @@ class CategorySelectonViewController: UIViewController {
     
 //MARK: - Selector
     @objc private func didClickArt(_ button: UIButton) {
+        categoryNumber?.sendCategoryNumber(data: 1)
+        dismiss(animated: true)
         print("didClickArt")
     }
     @objc private func didClickSport(_ button: UIButton) {
+        categoryNumber?.sendCategoryNumber(data: 2)
+        dismiss(animated: true)
         print("didClickSport")
     }
     @objc private func didClickSelfdev(_ button: UIButton) {
+        categoryNumber?.sendCategoryNumber(data: 3)
+        dismiss(animated: true)
         print("didClickSelfdev")
     }
     @objc private func didClickEtc(_ button: UIButton) {
+        categoryNumber?.sendCategoryNumber(data: 4)
+        dismiss(animated: true)
         print("didClickEtc")
     }
     @objc func didClickClose(sender: UITapGestureRecognizer) {

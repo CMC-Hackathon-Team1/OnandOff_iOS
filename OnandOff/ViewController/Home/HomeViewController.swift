@@ -13,6 +13,8 @@ import FSCalendar
 
 class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
  
+    
+ //MARK: Properties
     let formatter = DateFormatter()
     
     var profileIdNow = 0
@@ -264,6 +266,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             self.statusMesageArray = [String]()
             self.profileImageArray = [String]()
             GetPersonaDataRequest().getRequestData(self)
+            
         }
     }
     
@@ -565,7 +568,11 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         self.present(vc, animated: true)
     }
     @objc private func didClickWrite(_ button: UIButton) {
+        
+        
         let vc = PostViewController()
+        vc.sendProfileID = profileIdNow
+        print("현재 profileID는 : \(profileIdNow)")
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
     }
@@ -756,6 +763,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         print(profileImageArray)
         
         self.nickNameLbl.text = self.profileNameArray[0]
+        self.profileIdNow = self.profileIdArray[0]
         
         print("didSuccess hello")
     }

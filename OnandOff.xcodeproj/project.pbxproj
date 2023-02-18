@@ -60,6 +60,8 @@
 		E56E0ED5299EE3F9009FD906 /* ProfileCreatePopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0ED4299EE3F9009FD906 /* ProfileCreatePopupViewController.swift */; };
 		E56E0ED7299F0152009FD906 /* AlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0ED6299F0152009FD906 /* AlarmViewController.swift */; };
 		E56E0ED9299F0228009FD906 /* AlarmViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0ED8299F0228009FD906 /* AlarmViewCell.swift */; };
+		E56E0EDB299F0D9F009FD906 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0EDA299F0D9F009FD906 /* PostModel.swift */; };
+		E56E0EDD299F0DC7009FD906 /* PostModelDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0EDC299F0DC7009FD906 /* PostModelDataRequest.swift */; };
 		E5E05EB12967C2F5004C3891 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E05EB02967C2F5004C3891 /* PostViewController.swift */; };
 		E5E05EB32967CAC7004C3891 /* EditPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E05EB22967CAC7004C3891 /* EditPostViewController.swift */; };
 		E5E05EB52967CD2F004C3891 /* EditOrDeleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E05EB42967CD2F004C3891 /* EditOrDeleteViewController.swift */; };
@@ -126,6 +128,8 @@
 		E56E0ED4299EE3F9009FD906 /* ProfileCreatePopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCreatePopupViewController.swift; sourceTree = "<group>"; };
 		E56E0ED6299F0152009FD906 /* AlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewController.swift; sourceTree = "<group>"; };
 		E56E0ED8299F0228009FD906 /* AlarmViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewCell.swift; sourceTree = "<group>"; };
+		E56E0EDA299F0D9F009FD906 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
+		E56E0EDC299F0DC7009FD906 /* PostModelDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModelDataRequest.swift; sourceTree = "<group>"; };
 		E5E05EB02967C2F5004C3891 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		E5E05EB22967CAC7004C3891 /* EditPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostViewController.swift; sourceTree = "<group>"; };
 		E5E05EB42967CD2F004C3891 /* EditOrDeleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditOrDeleteViewController.swift; sourceTree = "<group>"; };
@@ -387,6 +391,8 @@
 				E56E0ECE299B1F73009FD906 /* MakePersonaDataRequest.swift */,
 				E56E0ED2299C0933009FD906 /* GetPersonaModel.swift */,
 				E56E0ED0299C0928009FD906 /* GetPersonaDataRequest.swift */,
+				E56E0EDA299F0D9F009FD906 /* PostModel.swift */,
+				E56E0EDC299F0DC7009FD906 /* PostModelDataRequest.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -522,12 +528,14 @@
 				5DB24CB22995CC7D00654978 /* TokenService.swift in Sources */,
 				E5E05EB72967D025004C3891 /* CategorySelectionViewController.swift in Sources */,
 				DB7BDC8C2961BCF400AA304B /* FeedCell.swift in Sources */,
+				E56E0EDD299F0DC7009FD906 /* PostModelDataRequest.swift in Sources */,
 				E5E05EB12967C2F5004C3891 /* PostViewController.swift in Sources */,
 				E56E0E9629934661009FD906 /* FeedbackViewController.swift in Sources */,
 				DB5AFDFB2960069B00667336 /* TempModel.swift in Sources */,
 				DB5AFDE52960052D00667336 /* CustomActionSheet.swift in Sources */,
 				E5E05EC329699795004C3891 /* SpecificPostViewController.swift in Sources */,
 				E56E0E9429934661009FD906 /* SettingViewController.swift in Sources */,
+				E56E0EDB299F0D9F009FD906 /* PostModel.swift in Sources */,
 				DB5AFDF92960068F00667336 /* UIColor+.swift in Sources */,
 				E56E0E9F29934661009FD906 /* PrivacyViewController.swift in Sources */,
 				E56E0E9929934661009FD906 /* AlertViewController.swift in Sources */,
