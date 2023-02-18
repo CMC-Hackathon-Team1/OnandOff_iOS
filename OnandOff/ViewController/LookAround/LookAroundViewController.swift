@@ -144,8 +144,19 @@ extension LookAroundViewController: LookAroundDelegate {
         print("didClickHeartButton")
     }
     
+    //iosdev.sw@gmail.com
     func didClickFollow() {
         print("didClickFollowButton")
+        let alert = StandardAlertController(title: nil, message: "페르소나는 한 번 생성되면 더이상 수정할 수 없습니다.\n이대로 생성하시겠습니까?\n (페르소나 변경을 원할 시, 프로필을 다시 만들어야합니다. )")
+        alert.messageHighlight(highlightString: "페르소나", color: .mainColor)
+        alert.messageHighlight(highlightString: "한 번 생성되면 더이상 수정할 수 없습니다.", color: .red)
+        let action = StandardAlertAction(title: "생성",style: .basic)
+        
+        let cancel = StandardAlertAction(title: "취소", style: .cancel)
+
+        alert.addAction(action)
+        alert.addAction(cancel)
+        self.present(alert, animated: false)
     }
     
     func didClickReportButton() {
