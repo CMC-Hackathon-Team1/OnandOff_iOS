@@ -13,15 +13,25 @@ import Then
 import FSCalendar
 
 class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
+ 
     
+ //MARK: Properties
     let formatter = DateFormatter()
-    var persona = [String]()
+    
+    var profileIdNow = 0
+    
+    var profileIdArray = [Int]()
+    var personaArray = [String]()
+    var profileNameArray = [String]()
+    var statusMesageArray = [String]()
+    var profileImageArray = [String]()
+    
     //녹음 있는 날짜 Array
     let jwtToken = TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken")
 
     let calendar = FSCalendar(frame: CGRect(x: 0, y: 0, width: 380, height: 300))
     //이미지있는 날짜
-    fileprivate let datesWithCat = ["20230205","20230215"]
+    fileprivate let datesWithCat = [""]
     // 동그라미 있는 날짜
     var haveDataCircle = [String]()
     
@@ -33,11 +43,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         $0.setImage(UIImage(named: "calendarleft")?.withRenderingMode(.alwaysOriginal), for: .normal)
 //        $0.alpha = 0
     }
-    
-    var monthlyReceiveHeartCount = "0"
-    var monthlyWriteCount = "0"
-    var monthlyFollowCount = "0"
-    
+
     let dateFormatter = DateFormatter()
     
     let scrollView = UIScrollView().then {
@@ -65,14 +71,14 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         $0.layer.shadowColor = UIColor.gray.cgColor
     }
     
-    let personaLbl = UILabel().then {
-        $0.font = .notoSans(size: 20, family: .Bold)
-        $0.text = "작가"
-    }
+//    let personaLbl = UILabel().then {
+//        $0.font = .notoSans(size: 20, family: .Bold)
+//        $0.text = "작가"
+//    }
     
     let nickNameLbl = UILabel().then {
         $0.font = .notoSans(size: 20, family: .Bold)
-        $0.text = "키키님,"
+        $0.text = "직업 + 닉네임"
     }
     
     let introduceLbl = UILabel().then {
@@ -111,11 +117,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         $0.text = "작가"
     }
     
-    let nickNameBottomLbl = UILabel().then {
-        $0.font = .notoSans(size: 18, family: .Bold)
-        $0.text = "키키님,"
-    }
-    
     let heartLbl = UILabel().then {
         $0.font = .systemFont(ofSize: 40)
         $0.text = "💞"
@@ -141,9 +142,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         $0.text = "이번달에"
     }
     
-    lazy var monthlyReceiveHeartCountLbl = UILabel().then {
+    var monthlyReceiveHeartCountLbl = UILabel().then {
         $0.font = .notoSans(size: 12, family: .Bold)
-        $0.text = "\(monthlyReceiveHeartCount)개"
+        $0.text = "0 개"
         $0.textColor = UIColor.mainColor
     }
     
@@ -162,9 +163,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         $0.text = "이번달에"
     }
     
-    lazy var monthlyWriteCountLbl = UILabel().then {
+    var monthlyWriteCountLbl = UILabel().then {
         $0.font = .notoSans(size: 12, family: .Bold)
-        $0.text = "\(monthlyWriteCount)개"
+        $0.text = "0 개"
         $0.textColor = UIColor.mainColor
     }
     
@@ -183,9 +184,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         $0.text = "이번달에"
     }
     
-    lazy var monthlyReceiveFollowCountLbl = UILabel().then {
+    var monthlyReceiveFollowCountLbl = UILabel().then {
         $0.font = .notoSans(size: 12, family: .Bold)
-        $0.text = "\(monthlyFollowCount)개"
+        $0.text = "0 개"
         $0.textColor = UIColor.mainColor
     }
     
@@ -243,9 +244,26 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         self.profileCollectionView.delegate = self
         self.profileCollectionView.dataSource = self
         
+        if jwtToken != nil{
+            GetPersonaDataRequest().getRequestData(self)
+            
+        }
         
-        persona.append(contentsOf: ["작가"])
         haveDataCircle.append(contentsOf: ["2023-02-23", "2023-02-17", "2023-02-11", "2023-02-13"])
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        if jwtToken != nil{
+            self.profileIdArray = [Int]()
+            self.personaArray = [String]()
+            self.profileNameArray = [String]()
+            self.statusMesageArray = [String]()
+            self.profileImageArray = [String]()
+            GetPersonaDataRequest().getRequestData(self)
+            HomeStatisticsDataRequest().getStatisticsRequestData(self, profileId: profileIdNow)
+            
+            
+            
+        }
     }
     
     //MARK: CalendarUI
@@ -279,7 +297,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         contentView.addSubview(alarmButton)
         contentView.addSubview(settingButton)
         
-        view2.addSubview(personaLbl)
+//        view2.addSubview(personaLbl)
         view2.addSubview(nickNameLbl)
         view2.addSubview(introduceLbl)
         view2.addSubview(pencilLbl)
@@ -293,7 +311,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         contentView.addSubview(view4)
         contentView.addSubview(view5)
         view5.addSubview(personaBottomLbl)
-        view5.addSubview(nickNameBottomLbl)
         view5.addSubview(writeLbl)
         view5.addSubview(heartLbl)
         view5.addSubview(peopleLbl)
@@ -350,23 +367,23 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             $0.leading.trailing.equalToSuperview()
         }
         
-        personaLbl.snp.makeConstraints {
+//        personaLbl.snp.makeConstraints {
+//            $0.top.equalToSuperview()
+//            $0.leading.equalToSuperview().inset(24)
+//        }
+        
+        nickNameLbl.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview().inset(24)
         }
         
-        nickNameLbl.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.equalTo(personaLbl.snp.trailing).offset(4)
-        }
-        
         introduceLbl.snp.makeConstraints {
-            $0.top.equalTo(personaLbl.snp.bottom).offset(2)
+            $0.top.equalTo(nickNameLbl.snp.bottom).offset(2)
             $0.leading.equalToSuperview().inset(24)
         }
         
         pencilLbl.snp.makeConstraints {
-            $0.top.equalTo(personaLbl.snp.bottom).offset(1)
+            $0.top.equalTo(nickNameLbl.snp.bottom).offset(1)
             $0.leading.equalTo(introduceLbl.snp.trailing).offset(2.3)
         }
         
@@ -415,12 +432,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             $0.top.equalToSuperview().inset(35)
             $0.leading.equalToSuperview().inset(24)
         }
-        
-        nickNameBottomLbl.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(35)
-            $0.leading.equalTo(personaBottomLbl.snp.trailing).offset(4)
-        }
-        
         heartLbl.snp.makeConstraints {
             $0.top.equalToSuperview().inset(86)
             $0.leading.equalToSuperview().inset(45)
@@ -500,6 +511,10 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         print(dateFormatter.string(from: date) + " 선택됨")
+        
+        let vc = SpecificPostViewController()
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
     }
 
     // 특정 날짜에 이미지 세팅
@@ -542,11 +557,24 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         self.present(vc, animated: true)
     }
     @objc private func didClickWrite(_ button: UIButton) {
+        
+        
         let vc = PostViewController()
+        vc.sendProfileID = profileIdNow
+        print("현재 profileID는 : \(profileIdNow)")
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
     }
+    
+    @objc func didClickAlarm(sender: UITapGestureRecognizer) {
+        let vc = AlarmViewController()
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
+        }
+    
     @objc func didClickSetting(sender: UITapGestureRecognizer) {
+//        GetPersonaDataRequest().getRequestData(self)
+        
         let vc = SettingViewController()
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
@@ -578,6 +606,10 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         settingButton.isUserInteractionEnabled = true
         settingButton.addGestureRecognizer(settingBtn)
         
+        let alarmgBtn = UITapGestureRecognizer(target: self, action: #selector(didClickAlarm))
+        alarmButton.isUserInteractionEnabled = true
+        alarmButton.addGestureRecognizer(alarmgBtn)
+        
         self.calendarRight.addTarget(self, action: #selector(self.monthForthButtonPressed), for: .touchUpInside)
         
         self.calendarLeft.addTarget(self, action: #selector(self.monthBackButtonPressed), for: .touchUpInside)
@@ -594,6 +626,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 self.present(navigation, animated: true, completion: nil)
             }
         }
+
     }
 
     func LogOut() {
@@ -662,21 +695,35 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
 
 //MARK: COLLECTIONVIEW
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return persona.count + 1
+        return personaArray.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCell.identifier, for: indexPath) as! ProfileCell
 
-        if indexPath.row == persona.count{
+        if indexPath.row == personaArray.count{
             cell.profileName.text = ""
             cell.plusButton.isHidden = false
             cell.borderView.backgroundColor = .systemGray3
+            cell.profileImage.image = UIImage(named: "")?.withRenderingMode(.alwaysOriginal)
         }else{
-            cell.profileName.text = persona[indexPath.row]
+            cell.plusButton.isHidden = true
+            cell.borderView.backgroundColor = .mainColor
+            //이미지
+            if let imageURL = URL(string: profileImageArray[indexPath.row]) {
+                let task = URLSession.shared.dataTask(with: imageURL, completionHandler: { data, response, error in
+                    if let data = data, let image = UIImage(data: data) {
+                        DispatchQueue.main.async {
+                            cell.profileImage.image = image
+                        }
+                    }
+                })
+                task.resume()
+            }
+            
+            cell.profileName.text = personaArray[indexPath.row]
         }
-        
         return cell
     }
     
@@ -685,13 +732,58 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCell.identifier, for: indexPath) as! ProfileCell
         
-        if indexPath.row == persona.count{
+        if indexPath.row == personaArray.count{
             let VC = ProfileMakeViewController()
             VC.modalPresentationStyle = .fullScreen
             present(VC, animated: true)
+        }else{
+            DispatchQueue.main.async {
+                self.nickNameLbl.text = self.profileNameArray[indexPath.row]
+                self.personaBottomLbl.text = self.profileNameArray[indexPath.row]
+            }
+            self.profileIdNow = self.profileIdArray[indexPath.row]
+            HomeStatisticsDataRequest().getStatisticsRequestData(self, profileId: profileIdNow)
+            
+            print(self.profileIdNow)
         }
+    }
+//MARK: Alamofire
+    func didSuccess(_ response: GetPersonaModel){
+        print("didSuccess hello")
         
+        for i in 0...(response.result?.count)!-1{
+            profileIdArray.append(contentsOf: [(response.result?[i].profileId)!])
+            personaArray.append(contentsOf: ["\((response.result?[i].personaName)!)"])
+            profileNameArray.append(contentsOf: ["\((response.result?[i].profileName)!)"])
+            statusMesageArray.append(contentsOf: ["\((response.result?[i].statusMessage)!)"])
+            profileImageArray.append(contentsOf: ["\((response.result?[i].profileImgUrl)!)"])
+        }
+        profileCollectionView.reloadData()
+        
+        print(profileIdArray)
+        print(personaArray)
+        print(profileNameArray)
+        print(statusMesageArray)
+        print(profileImageArray)
+        
+        self.nickNameLbl.text = self.profileNameArray[0]
+        self.personaBottomLbl.text = self.profileNameArray[0]
+        self.profileIdNow = self.profileIdArray[0]
+        
+        print("didSuccess hello")
+    }
+    
+    func didSuccessStatistics(_ response: HomeStatisticsModel){
+        print("didSuccessStatistics")
+        if response.result?.monthly_likes_count != nil && response.result?.monthly_myFeeds_count != nil && response.result?.monthly_myFollowers_count != nil{
+                DispatchQueue.main.async {
+                    self.monthlyReceiveHeartCountLbl.text = "\((response.result?.monthly_likes_count)!) 개"
+                    self.monthlyWriteCountLbl.text = "\((response.result?.monthly_myFeeds_count)!) 개"
+                    self.monthlyReceiveFollowCountLbl.text = "\((response.result?.monthly_myFollowers_count)!) 명"
+            }
+        }
     }
     
     

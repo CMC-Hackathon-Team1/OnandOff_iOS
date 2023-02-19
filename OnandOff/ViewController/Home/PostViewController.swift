@@ -8,7 +8,16 @@
 import UIKit
 import SnapKit
 
-class PostViewController: UIViewController {
+class PostViewController: UIViewController, CategorySelectProtocol {
+
+    
+
+    var sendProfileID = Int()
+    var sendCategoryID = Int()
+    var sendHashTagList = [String]()
+    var sendContent = String()
+    var sendIsSecret = String()
+    
     
 //MARK: - Properties
     let heading = UILabel().then {
@@ -76,7 +85,8 @@ class PostViewController: UIViewController {
 
     let checkArray = ["anonymousCheck","anonymousCheckOff"]
     var index = 0
-    
+
+    let vcHome = HomeViewController()
 //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,8 +95,25 @@ class PostViewController: UIViewController {
         setUpView()
         layout()
         addTarget()
+
+        print("testtest")
+        print(sendProfileID)
     }
-    
+//MARK: - Delegate
+    func sendCategoryNumber(data: Int) {
+        DispatchQueue.main.async {
+            if data == 1{
+                self.category.text = "문화/예술"
+            }else if data == 2{
+                self.category.text = "스포츠"
+            }else if data == 3{
+                self.category.text = "자기계발"
+            }else{
+                self.category.text = "기타"
+            }
+        }
+        sendCategoryID = data
+    }
 //MARK: - Selector
     @objc private func didClickBack(_ button: UIButton) {
         dismiss(animated: true)
@@ -94,6 +121,27 @@ class PostViewController: UIViewController {
     }
     @objc private func didClickSubmit(_ button: UIButton) {
         print("didClickSubmit")
+        
+        sendHashTagList.append(hashtag.text!)
+        sendContent = textView.text
+        
+        if index == 0{
+            sendIsSecret = "PRIVATE"
+        }else{
+            sendIsSecret = "PUBLIC"
+        }
+        
+        PostModelDataRequest().getRequestData(self, profileId: sendProfileID, categoryId: sendCategoryID, hashTagList: sendHashTagList, content: sendContent, isSecret: sendIsSecret)
+        
+        print("무슨 내용이 보내졌는지")
+        print(sendProfileID)
+        print(sendCategoryID)
+        print(sendHashTagList)
+        print(sendContent)
+        print(sendIsSecret)
+        print("무슨 내용이 보내졌는지")
+        
+        dismiss(animated: true)
     }
     @objc func didClickPhoto(sender: UITapGestureRecognizer) {
         let VC = ImageUploadViewController()
@@ -103,6 +151,7 @@ class PostViewController: UIViewController {
     }
     @objc func didClickCategory(sender: UITapGestureRecognizer) {
         let VC = CategorySelectonViewController()
+        VC.categoryNumber = self
         VC.modalPresentationStyle = .fullScreen
         present(VC, animated: true)
         print("didClickCategory")
