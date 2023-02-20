@@ -17,6 +17,9 @@
 		5DB24CB02995CC6E00654978 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB24CAF2995CC6E00654978 /* AuthService.swift */; };
 		5DB24CB22995CC7D00654978 /* TokenService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB24CB12995CC7D00654978 /* TokenService.swift */; };
 		5DB24CB52995CCDE00654978 /* ContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB24CB42995CCDE00654978 /* ContainerView.swift */; };
+		5DCAA34F299F9A63005090E5 /* EmailAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCAA34E299F9A63005090E5 /* EmailAuthViewController.swift */; };
+		5DCAA351299FBB7F005090E5 /* CheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCAA350299FBB7F005090E5 /* CheckView.swift */; };
+		5DCAA353299FC619005090E5 /* AgreeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCAA352299FC619005090E5 /* AgreeViewController.swift */; };
 		DB000F00297011A50097D6C8 /* MyPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB000EFF297011A50097D6C8 /* MyPageCell.swift */; };
 		DB000F02297011D70097D6C8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB000F01297011D70097D6C8 /* LoginViewController.swift */; };
 		DB000F06297012010097D6C8 /* ProfileMakeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB000F05297012010097D6C8 /* ProfileMakeViewController.swift */; };
@@ -83,6 +86,9 @@
 		5DB24CAF2995CC6E00654978 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		5DB24CB12995CC7D00654978 /* TokenService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenService.swift; sourceTree = "<group>"; };
 		5DB24CB42995CCDE00654978 /* ContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerView.swift; sourceTree = "<group>"; };
+		5DCAA34E299F9A63005090E5 /* EmailAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAuthViewController.swift; sourceTree = "<group>"; };
+		5DCAA350299FBB7F005090E5 /* CheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckView.swift; sourceTree = "<group>"; };
+		5DCAA352299FC619005090E5 /* AgreeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreeViewController.swift; sourceTree = "<group>"; };
 		DB000EFF297011A50097D6C8 /* MyPageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPageCell.swift; sourceTree = "<group>"; };
 		DB000F01297011D70097D6C8 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DB000F05297012010097D6C8 /* ProfileMakeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileMakeViewController.swift; sourceTree = "<group>"; };
@@ -171,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				5DB24CB42995CCDE00654978 /* ContainerView.swift */,
+				5DCAA350299FBB7F005090E5 /* CheckView.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -224,8 +231,8 @@
 				5DB24CB32995CCA800654978 /* Authentication */,
 				E56E0EC629976713009FD906 /* HomeView */,
 				E56E0EA129934672009FD906 /* HomeSetting */,
-				DBD8DD5D296315020081CD21 /* MyPage */,
 				DB7BDC8829615EDA00AA304B /* LookAround */,
+				DBD8DD5D296315020081CD21 /* MyPage */,
 				DB5AFDFC296006B200667336 /* TempView.swift */,
 			);
 			path = View;
@@ -300,6 +307,8 @@
 				5DB24CAB2995BB8A00654978 /* EmailLoginViewController.swift */,
 				5DB24CA92995BB5900654978 /* RegisterationController.swift */,
 				25E32F51299B61E5003FF02B /* FindPasswordViewController.swift */,
+				5DCAA34E299F9A63005090E5 /* EmailAuthViewController.swift */,
+				5DCAA352299FC619005090E5 /* AgreeViewController.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -548,6 +557,7 @@
 				DB3EB8BC299E086D00434666 /* LookAroundDelegate.swift in Sources */,
 				E56E0E9529934661009FD906 /* PolicyViewController.swift in Sources */,
 				DB000F02297011D70097D6C8 /* LoginViewController.swift in Sources */,
+				5DCAA351299FBB7F005090E5 /* CheckView.swift in Sources */,
 				E56E0E9E29934661009FD906 /* LogoutViewController.swift in Sources */,
 				DB000F082970120A0097D6C8 /* PersonaCollectionViewCell.swift in Sources */,
 				E5E05EB929697B87004C3891 /* ImageUploadViewController.swift in Sources */,
@@ -561,6 +571,7 @@
 				E56E0EC4299349CE009FD906 /* PrivacyPolicyViewController.swift in Sources */,
 				DB5AFE122960173900667336 /* MyPageViewController.swift in Sources */,
 				DB000F00297011A50097D6C8 /* MyPageCell.swift in Sources */,
+				5DCAA34F299F9A63005090E5 /* EmailAuthViewController.swift in Sources */,
 				5DB24CAE2995CC4B00654978 /* AuthModel.swift in Sources */,
 				DB3EB8B9299E054800434666 /* ReportActionSheet.swift in Sources */,
 				DB5AFE102960171E00667336 /* LookAroundViewController.swift in Sources */,
@@ -573,6 +584,7 @@
 				E5E05EB32967CAC7004C3891 /* EditPostViewController.swift in Sources */,
 				E56E0E9D29934661009FD906 /* PrivacyViewController.swift in Sources */,
 				5DB24CA82995B76600654978 /* SettingCell.swift in Sources */,
+				5DCAA353299FC619005090E5 /* AgreeViewController.swift in Sources */,
 				E56E0E9C29934661009FD906 /* PasswordResetViewController.swift in Sources */,
 				DB5AFDE32960052D00667336 /* SceneDelegate.swift in Sources */,
 				DB3EB8C2299E414200434666 /* ReportCell.swift in Sources */,
