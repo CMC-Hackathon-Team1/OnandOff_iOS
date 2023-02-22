@@ -63,6 +63,9 @@ class EditOrDeleteViewController: UIViewController {
         print("didClickEdit")
     }
     @objc private func didClickDelete(_ button: UIButton) {
+        let deleteVC = PostDeletePopupViewController()
+        deleteVC.modalPresentationStyle = .fullScreen
+        present(deleteVC, animated: true)
         print("didClickDelete")
     }
     @objc func didClickClose(sender: UITapGestureRecognizer) {
