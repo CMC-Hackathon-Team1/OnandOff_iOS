@@ -513,7 +513,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         print(dateFormatter.string(from: date) + " 선택됨")
         
         let vc = SpecificPostViewController()
-        vc.modalPresentationStyle = .fullScreen
+        vc.modalPresentationStyle = .automatic
         self.present(vc, animated: true)
     }
 
