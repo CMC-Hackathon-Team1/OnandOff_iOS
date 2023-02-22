@@ -260,7 +260,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             self.profileImageArray = [String]()
             GetPersonaDataRequest().getRequestData(self)
             HomeStatisticsDataRequest().getStatisticsRequestData(self, profileId: profileIdNow)
-            
+            HomeCalendarDataRequest().getHomeCalendarRequestData(self, profileId: profileIdNow, year: 2023, month: 02)
             
             
         }
@@ -740,12 +740,12 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             present(VC, animated: true)
         }else{
             DispatchQueue.main.async {
-                self.nickNameLbl.text = self.profileNameArray[indexPath.row]
-                self.personaBottomLbl.text = self.profileNameArray[indexPath.row]
+                self.nickNameLbl.text = "\(self.profileNameArray[indexPath.row])님,"
+                self.personaBottomLbl.text = "\(self.profileNameArray[indexPath.row])님,"
             }
             self.profileIdNow = self.profileIdArray[indexPath.row]
             HomeStatisticsDataRequest().getStatisticsRequestData(self, profileId: profileIdNow)
-            
+            HomeCalendarDataRequest().getHomeCalendarRequestData(self, profileId: profileIdNow, year: 2023, month: 02)
             print(self.profileIdNow)
         }
     }
@@ -768,8 +768,8 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         print(statusMesageArray)
         print(profileImageArray)
         
-        self.nickNameLbl.text = self.profileNameArray[0]
-        self.personaBottomLbl.text = self.profileNameArray[0]
+        self.nickNameLbl.text = "\(self.profileNameArray[0])님,"
+        self.personaBottomLbl.text = "\(self.profileNameArray[0])님,"
         self.profileIdNow = self.profileIdArray[0]
         
         print("didSuccess hello")
@@ -786,7 +786,10 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
     }
     
-    
+    func didSuccessCalendar(_ response: [HomeCalendarModel]){
+        print("didSuccessCalendar")
+       
+    }
 
 }
 
