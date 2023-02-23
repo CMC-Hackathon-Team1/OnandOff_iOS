@@ -53,6 +53,8 @@
 		E5357A1329A5DF6300716CDF /* HomeCalendarDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5357A1229A5DF6300716CDF /* HomeCalendarDataRequest.swift */; };
 		E5357A1529A5F35D00716CDF /* SpecificPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5357A1429A5F35D00716CDF /* SpecificPostCell.swift */; };
 		E5357A1729A617F700716CDF /* PostDeletePopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5357A1629A617F700716CDF /* PostDeletePopupViewController.swift */; };
+		E5357A1929A631AF00716CDF /* GetFeedIdModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5357A1829A631AF00716CDF /* GetFeedIdModel.swift */; };
+		E5357A1B29A631D700716CDF /* GetFeedIdDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5357A1A29A631D700716CDF /* GetFeedIdDataRequest.swift */; };
 		E56E0E9429934661009FD906 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0E8729934661009FD906 /* SettingViewController.swift */; };
 		E56E0E9529934661009FD906 /* PolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0E8829934661009FD906 /* PolicyViewController.swift */; };
 		E56E0E9629934661009FD906 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0E8929934661009FD906 /* FeedbackViewController.swift */; };
@@ -139,6 +141,8 @@
 		E5357A1229A5DF6300716CDF /* HomeCalendarDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCalendarDataRequest.swift; sourceTree = "<group>"; };
 		E5357A1429A5F35D00716CDF /* SpecificPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificPostCell.swift; sourceTree = "<group>"; };
 		E5357A1629A617F700716CDF /* PostDeletePopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDeletePopupViewController.swift; sourceTree = "<group>"; };
+		E5357A1829A631AF00716CDF /* GetFeedIdModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFeedIdModel.swift; sourceTree = "<group>"; };
+		E5357A1A29A631D700716CDF /* GetFeedIdDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFeedIdDataRequest.swift; sourceTree = "<group>"; };
 		E56E0E8729934661009FD906 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		E56E0E8829934661009FD906 /* PolicyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolicyViewController.swift; sourceTree = "<group>"; };
 		E56E0E8929934661009FD906 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
@@ -471,6 +475,8 @@
 				E5CE69BF29A060E50096E558 /* HomeStatisticsDataRequest.swift */,
 				E5357A1029A5DF2900716CDF /* HomeCalendarModel.swift */,
 				E5357A1229A5DF6300716CDF /* HomeCalendarDataRequest.swift */,
+				E5357A1829A631AF00716CDF /* GetFeedIdModel.swift */,
+				E5357A1A29A631D700716CDF /* GetFeedIdDataRequest.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -622,6 +628,7 @@
 				DB5AFDE52960052D00667336 /* CustomActionSheet.swift in Sources */,
 				DBC3618D29A0A5340011C319 /* PaddingLabel.swift in Sources */,
 				E5E05EC329699795004C3891 /* SpecificPostViewController.swift in Sources */,
+				E5357A1B29A631D700716CDF /* GetFeedIdDataRequest.swift in Sources */,
 				E56E0E9429934661009FD906 /* SettingViewController.swift in Sources */,
 				E56E0EDB299F0D9F009FD906 /* PostModel.swift in Sources */,
 				E5CE69BE29A060C50096E558 /* HomeStatisticsModel.swift in Sources */,
@@ -656,6 +663,7 @@
 				DB5AFE102960171E00667336 /* LookAroundViewController.swift in Sources */,
 				DB5AFE0129600B6F00667336 /* TempService.swift in Sources */,
 				E56E0ECD299B1DCD009FD906 /* PersonaModel.swift in Sources */,
+				E5357A1929A631AF00716CDF /* GetFeedIdModel.swift in Sources */,
 				DB5AFDE12960052D00667336 /* AppDelegate.swift in Sources */,
 				E56E0E9729934661009FD906 /* FeedbackConfirmViewController.swift in Sources */,
 				E56E0EA029934661009FD906 /* ServiceAlertViewController.swift in Sources */,

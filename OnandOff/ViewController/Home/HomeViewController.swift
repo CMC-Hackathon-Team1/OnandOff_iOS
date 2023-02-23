@@ -18,8 +18,12 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
  //MARK: Properties
     let formatter = DateFormatter()
     
-    var profileIdNow = 0
+    var showingYear = 9999
+    var showingMonth = "00"
+    var clickedDay = 1
+    var daysForDotsArray = [String]()
     
+    var profileIdNow = 0
     var profileIdArray = [Int]()
     var personaArray = [String]()
     var profileNameArray = [String]()
@@ -248,8 +252,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             GetPersonaDataRequest().getRequestData(self)
             
         }
-        
-        haveDataCircle.append(contentsOf: ["2023-02-23", "2023-02-17", "2023-02-11", "2023-02-13"])
     }
     override func viewWillAppear(_ animated: Bool) {
         if jwtToken != nil{
@@ -260,8 +262,9 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             self.profileImageArray = [String]()
             GetPersonaDataRequest().getRequestData(self)
             HomeStatisticsDataRequest().getStatisticsRequestData(self, profileId: profileIdNow)
-            HomeCalendarDataRequest().getHomeCalendarRequestData(self, profileId: profileIdNow, year: 2023, month: 02)
             
+            HomeCalendarDataRequest().getHomeCalendarRequestData(self, profileId: profileIdNow, year: showingYear, month: showingMonth)
+            GetFeedIdDataRequest().getHomeCalendarRequestData(self, profileId: profileIdNow, year: showingYear, month: showingMonth, day: 18, page: 1)
             
         }
     }
@@ -506,7 +509,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
 //MARK: Calendar
-    // 날짜 선택 시 콜백 메소드 (백엔드 들어오면 해당 날짜 데이터 가져오기, mylog, mymate 구분도 해야됨)
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -517,8 +519,19 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         self.present(vc, animated: true)
     }
 
+    
     // 특정 날짜에 이미지 세팅
     func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
+        let monthToday = DateFormatter()
+        monthToday.dateFormat = "MM"
+        var monthStr = monthToday.string(from: date)
+        showingMonth = monthStr
+        
+        let yearToday = DateFormatter()
+        yearToday.dateFormat = "YYYY"
+        var yearStr = yearToday.string(from: date)
+        showingYear = Int(yearStr)!
+        
         let imageDateFormatter = DateFormatter()
         imageDateFormatter.dateFormat = "yyyyMMdd"
         var dateStr = imageDateFormatter.string(from: date)
@@ -533,7 +546,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         print(dateFormatter.string(from: date) + " 해제됨")
     }
     
-    //녹음 있는 날짜 출력(작은 동그라미)
+    // 글 있는 날짜
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
         formatter.locale = Locale(identifier: "ko_KR")
         formatter.dateFormat = "yyyy-MM-dd"
@@ -745,7 +758,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             }
             self.profileIdNow = self.profileIdArray[indexPath.row]
             HomeStatisticsDataRequest().getStatisticsRequestData(self, profileId: profileIdNow)
-            HomeCalendarDataRequest().getHomeCalendarRequestData(self, profileId: profileIdNow, year: 2023, month: 02)
+            HomeCalendarDataRequest().getHomeCalendarRequestData(self, profileId: profileIdNow, year: 2023, month: "02")
             print(self.profileIdNow)
         }
     }
@@ -788,6 +801,23 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     func didSuccessCalendar(_ response: [HomeCalendarModel]){
         print("didSuccessCalendar")
+        if response.isEmpty == false{
+            for i in 0...response.count-1{
+                var a = response[i].day
+                daysForDotsArray.append(a!)
+            }
+            for i in 0...daysForDotsArray.count-1{
+                haveDataCircle.append(contentsOf: ["\(showingYear)-\(showingMonth)-\(daysForDotsArray[i])"])
+            }
+        }
+        print("asdasd")
+        print(daysForDotsArray)
+        print(haveDataCircle)
+        calendar.reloadData()
+    }
+    
+    func didSuccessGetFeedId(_ response: GetFeedIdModel){
+        print("didSuccessGetFeedId")
        
     }
 
