@@ -33,6 +33,3 @@ struct UserData: Codable {
 struct KakaoDataModel: Codable {
     let access_token: String?
 }
-
-
-
