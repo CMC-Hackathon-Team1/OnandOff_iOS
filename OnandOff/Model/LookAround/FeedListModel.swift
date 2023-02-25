@@ -17,10 +17,12 @@ class FeedItem: Decodable {
     let feedImgList: [String]
     var isLike: Bool
     var isFollowing: Bool
+    let hashTagList: [String]
     let feedId: Int
     let personaId: Int
     let personaName: String
     let profileId: Int
+    let profileImg: String
     let profileName: String
     let feedContent: String
     let createdAt: String

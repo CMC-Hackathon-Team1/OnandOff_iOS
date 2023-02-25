@@ -10,6 +10,7 @@ import UIKit
 final class LookAroundViewController: UIViewController {
     //MARK: - Properties
     private let topTabbar = CustomTopTabbar()
+    private var isFollowType = false
     private var feedDatas: [FeedItem] = []
     
     private let categoryButton = UIButton().then {

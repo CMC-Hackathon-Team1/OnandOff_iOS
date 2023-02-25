@@ -90,14 +90,12 @@ final class FeedCell: UICollectionViewCell {
     }
     
     func configureCell(_ item: FeedItem) {
-//        DispatchQueue.global().async {
-//
-//        }
         let heartImageName = item.isLike ? "heart.fill" : "heart"
         let followImageName = item.isFollowing ? "following" :"follow"
         
         self.followButton.setImage(UIImage(named: followImageName)?.withRenderingMode(.alwaysOriginal), for: .normal)
         self.heartButton.setImage(UIImage(named: heartImageName)?.withRenderingMode(.alwaysOriginal), for: .normal)
+        self.profileImageView.loadImage(item.profileImg)
         self.contentLabel.text = item.feedContent
         self.nameLabel.text = item.personaName
         self.dateLabel.text = item.createdAt
