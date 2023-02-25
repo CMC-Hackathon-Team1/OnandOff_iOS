@@ -17,6 +17,7 @@ enum topTabBarItem {
 final class CustomTopTabbar: UIView {
     //MARK: - Properties
     private var selectedItem: topTabBarItem = .exploration
+    weak var delegate: TopTapBarDelegate?
     
     private let explorationButton = UIButton(type: .system).then {
         $0.setTitle("탐색", for: .normal)
@@ -89,6 +90,7 @@ final class CustomTopTabbar: UIView {
         self.explorationButton.titleLabel?.font = .notoSans(size: 14)
         
         self.selectedItem = .following
+        self.delegate?.didClickFollwingItem()
     }
     
     private func highlightExploration() {
@@ -106,6 +108,7 @@ final class CustomTopTabbar: UIView {
         self.explorationButton.titleLabel?.font = .notoSans(size: 14, family: .Bold)
         
         self.selectedItem = .exploration
+        self.delegate?.didClickExplorationItem()
     }
     
     //MARK: - Selector

@@ -10,8 +10,9 @@ import UIKit
 final class LookAroundViewController: UIViewController {
     //MARK: - Properties
     private let topTabbar = CustomTopTabbar()
-    private var isFollowType = false
+    private var currentCategory = 0
     private var feedDatas: [FeedItem] = []
+    
     
     private let categoryButton = UIButton().then {
         $0.setTitle("카테고리 전체 ▾", for: .normal)
@@ -35,6 +36,8 @@ final class LookAroundViewController: UIViewController {
         
         self.feedCollectionView.delegate = self
         self.feedCollectionView.dataSource = self
+        self.topTabbar.delegate = self
+        
         self.fetchFeed()
     }
     
@@ -170,7 +173,6 @@ extension LookAroundViewController: LookAroundDelegate {
         }
     }
     
-    //iosdev.sw@gmail.com
     func didClickFollow(_ toProfileId: Int) {
         FeedService.togglefollow(fromProfileId: 1610, toProfileId: toProfileId) { [weak self] in
             self?.feedDatas.enumerated().forEach { (i,v) in
@@ -196,5 +198,15 @@ extension LookAroundViewController: UISearchBarDelegate {
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         print("end Editing call API")
+    }
+}
+
+extension LookAroundViewController: TopTapBarDelegate {
+    func didClickFollwingItem() {
+        print("didClickFollwingItem")
+    }
+    
+    func didClickExplorationItem() {
+        print("didClickexplorationItem")
     }
 }

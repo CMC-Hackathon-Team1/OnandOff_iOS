@@ -102,7 +102,7 @@ final class FeedCell: UICollectionViewCell {
         self.heartButton.setImage(UIImage(named: heartImageName)?.withRenderingMode(.alwaysOriginal), for: .normal)
         self.profileImageView.loadImage(item.profileImg)
         self.contentLabel.text = item.feedContent
-        self.nameLabel.text = item.personaName
+        self.nameLabel.text = "\(item.profileName) \(item.personaName)"
         self.dateLabel.text = item.createdAt
         self.followButton.tag = item.profileId
         self.heartButton.tag = item.feedId
