@@ -108,6 +108,7 @@ extension LookAroundViewController: UICollectionViewDelegate, UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedCell.identifier, for: indexPath) as! FeedCell
+        cell.prepareForReuse()
         cell.configureCell(self.feedDatas[indexPath.row])
         cell.delegate = self
         
@@ -126,13 +127,18 @@ extension LookAroundViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let text: NSString = "예전의 어린 나는 가슴 속에 나침반이 하나 있었다. 그래서 어디로 가야 할지 모를 때 가슴 속의 나침반이 나의 길로 나를 이끌었다. 언제부터인가 나는 돈에 집착하기 시작했고 가슴 속의 나침반은 더이상 작동하지 않았다. "
+        let text: NSString = self.feedDatas[indexPath.row].feedContent as NSString
+        var imgViewHeight: CGFloat = 0
         let size = text.boundingRect(with: CGSize(width: self.view.frame.width - 88, height: CGFloat.greatestFiniteMagnitude),
                                      options: .usesLineFragmentOrigin,
                                      attributes: [.font : UIFont.notoSans(size: 14)],
                                      context: nil)
         
-        return CGSize(width: size.width+40 , height: size.height + 108)
+        if self.feedDatas[indexPath.row].feedImgList != [] {
+            imgViewHeight = (303 + 10 + 20) // 이미지뷰 크기 303 위 아래 여백 10 + 20
+        }
+        
+        return CGSize(width: UIScreen.main.bounds.width - 48 , height: size.height + imgViewHeight + 110) //아래 여백 20 + 위 여백 90
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
