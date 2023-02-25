@@ -64,11 +64,11 @@ final class FeedCell: UICollectionViewCell {
     
     //MARK: - Selector
     @objc private func didClickFollowButton(_ button: UIButton) {
-        delegate?.didClickFollow()
+        delegate?.didClickFollow(button.tag)
     }
     
     @objc private func didClickHeartButton(_ button: UIButton) {
-        delegate?.didClickHeart()
+        delegate?.didClickHeart(button.tag)
     }
     
     @objc private func didClickEllipsisButton(_ button: UIButton) {
@@ -83,6 +83,22 @@ final class FeedCell: UICollectionViewCell {
         self.layer.shadowOffset = .init(width: 1, height: 1)
         self.layer.shadowOpacity = 0.7
         self.layer.position = self.center
+    }
+    
+    func configureCell(_ item: FeedItem) {
+//        DispatchQueue.global().async {
+//
+//        }
+        let heartImageName = item.isLike ? "heart.fill" : "heart"
+        let followImageName = item.isFollowing ? "following" :"follow"
+        
+        self.followButton.setImage(UIImage(named: followImageName)?.withRenderingMode(.alwaysOriginal), for: .normal)
+        self.heartButton.setImage(UIImage(named: heartImageName)?.withRenderingMode(.alwaysOriginal), for: .normal)
+        self.contentLabel.text = item.feedContent
+        self.nameLabel.text = item.personaName
+        self.dateLabel.text = item.createdAt
+        self.followButton.tag = item.profileId
+        self.heartButton.tag = item.feedId
     }
     
     //MARK: - addSubView

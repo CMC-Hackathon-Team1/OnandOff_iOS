@@ -10,6 +10,7 @@ import UIKit
 final class LookAroundViewController: UIViewController {
     //MARK: - Properties
     private let topTabbar = CustomTopTabbar()
+    private var feedDatas: [FeedItem] = []
     
     private let categoryButton = UIButton().then {
         $0.setTitle("카테고리 전체 ▾", for: .normal)
@@ -33,6 +34,7 @@ final class LookAroundViewController: UIViewController {
         
         self.feedCollectionView.delegate = self
         self.feedCollectionView.dataSource = self
+        self.fetchFeed()
     }
     
     //MARK: - Method
@@ -45,6 +47,13 @@ final class LookAroundViewController: UIViewController {
             $0.setImage(UIImage(named: "magnifyingglass"), for: .search, state: .normal)
             $0.setImage(UIImage(named: "Icon"), for: .clear, state: .normal)
             self.navigationItem.titleView = $0
+        }
+    }
+    
+    private func fetchFeed() {
+        FeedService.fetchFeed(1610, categoryId: 0) { list in
+            self.feedDatas = list
+            self.feedCollectionView.reloadData()
         }
     }
     
@@ -94,11 +103,12 @@ extension LookAroundViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 9
+        return self.feedDatas.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedCell.identifier, for: indexPath) as! FeedCell
+        cell.configureCell(self.feedDatas[indexPath.row])
         cell.delegate = self
         
         return cell
@@ -141,26 +151,28 @@ extension LookAroundViewController: LookAroundDelegate {
             }
         }
         print("didClickEllipsisButton")
-
     }
     
-    func didClickHeart() {
-        print("didClickHeartButton")
+    func didClickHeart(_ feedId: Int) {
+        FeedService.toggleLike(profileId: 1610, feedId: feedId) { [weak self] in
+            if let idx = self?.feedDatas.firstIndex(where: {$0.feedId == feedId }) {
+                guard let isLike = self?.feedDatas[idx].isLike else { return }
+                self?.feedDatas[idx].isLike = !isLike
+                self?.feedCollectionView.reloadItems(at: [IndexPath(row: idx, section: 0)])
+            }
+        }
     }
     
     //iosdev.sw@gmail.com
-    func didClickFollow() {
-        print("didClickFollowButton")
-        let alert = StandardAlertController(title: nil, message: "페르소나는 한 번 생성되면 더이상 수정할 수 없습니다.\n이대로 생성하시겠습니까?\n (페르소나 변경을 원할 시, 프로필을 다시 만들어야합니다. )")
-        alert.messageHighlight(highlightString: "페르소나", color: .mainColor)
-        alert.messageHighlight(highlightString: "한 번 생성되면 더이상 수정할 수 없습니다.", color: .red)
-        let action = StandardAlertAction(title: "생성",style: .basic)
-        
-        let cancel = StandardAlertAction(title: "취소", style: .cancel)
-
-        alert.addAction(action)
-        alert.addAction(cancel)
-        self.present(alert, animated: false)
+    func didClickFollow(_ toProfileId: Int) {
+        FeedService.togglefollow(fromProfileId: 1610, toProfileId: toProfileId) { [weak self] in
+            self?.feedDatas.enumerated().forEach { (i,v) in
+                if v.profileId == toProfileId {
+                    v.isFollowing = !v.isFollowing
+                    self?.feedCollectionView.reloadItems(at: [IndexPath(item: i, section: 0)])
+                }
+            }
+        }
     }
     
     func didClickReportButton() {
