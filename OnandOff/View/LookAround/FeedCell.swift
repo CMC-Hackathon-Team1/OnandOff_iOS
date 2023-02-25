@@ -37,6 +37,11 @@ final class FeedCell: UICollectionViewCell {
         $0.text = "예전의 어린 나는 가슴 속에 나침반이 하나 있었다. 그래서 어디로 가야 할지 모를 때 가슴 속의 나침반이 나의 길로 나를 이끌었다. 언제부터인가 나는 돈에 집착하기 시작했고 가슴 속의 나침반은 더이상 작동하지 않았다. "
     }
     
+    let hastagLabel = UILabel().then {
+        $0.font = .notoSans(size: 14, family: .Bold)
+        $0.textColor = .black
+    }
+    
     let imgPageView = ImgPageControlView().then {
         $0.isHidden = true
     }
@@ -101,6 +106,7 @@ final class FeedCell: UICollectionViewCell {
         self.dateLabel.text = item.createdAt
         self.followButton.tag = item.profileId
         self.heartButton.tag = item.feedId
+        self.hastagLabel.text = item.hashTagList.map { "#" + $0 }.joined(separator: " ")
         self.subLayout(item: item)
         self.imgPageView.setImageSlider(images: item.feedImgList)
     }
@@ -109,6 +115,7 @@ final class FeedCell: UICollectionViewCell {
         self.imgPageView.isHidden = true
         self.profileImageView.image = nil
         self.imgPageView.resetImageView()
+        self.hastagLabel.text = nil
         self.imgPageView.snp.updateConstraints {
             $0.height.equalTo(0)
         }
@@ -122,6 +129,7 @@ final class FeedCell: UICollectionViewCell {
             }
         }
     }
+    
     //MARK: - addSubView
     private func addSubView() {
         self.addSubview(self.profileImageView)
@@ -132,6 +140,7 @@ final class FeedCell: UICollectionViewCell {
         self.addSubview(self.followButton)
         self.addSubview(self.ellipsisButton)
         self.addSubview(self.imgPageView)
+        self.addSubview(self.hastagLabel)
     }
     
     //MARK: - layout
@@ -151,12 +160,7 @@ final class FeedCell: UICollectionViewCell {
             $0.leading.equalTo(self.nameLabel.snp.leading)
             $0.top.equalTo(self.nameLabel.snp.bottom).offset(2)
         }
-        
-//        self.contentLabel.snp.makeConstraints {
-//            $0.top.equalTo(self.profileImageView.snp.bottom).offset(25)
-//            $0.bottom.trailing.equalToSuperview().offset(-20)
-//            $0.leading.equalToSuperview().offset(20)
-//        }
+    
         self.contentLabel.snp.remakeConstraints {
             $0.top.equalTo(self.imgPageView.snp.bottom).offset(0)
             $0.bottom.trailing.equalToSuperview().offset(-20)
@@ -182,10 +186,15 @@ final class FeedCell: UICollectionViewCell {
         }
         
         self.imgPageView.snp.remakeConstraints {
-            $0.top.equalTo(self.profileImageView.snp.bottom).offset(25)
+            $0.top.equalTo(self.hastagLabel.snp.bottom).offset(10)
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview().offset(-20)
             $0.height.equalTo(0)
+        }
+        
+        self.hastagLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(20)
+            $0.top.equalTo(self.profileImageView.snp.bottom).offset(20)
         }
     }
     
