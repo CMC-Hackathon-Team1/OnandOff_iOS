@@ -28,6 +28,7 @@ class EmailLoginViewController: UIViewController {
         textField.borderStyle = .none
         textField.textColor = .black
         textField.textAlignment = .left
+        textField.autocapitalizationType = .none
         textField.widthAnchor.constraint(equalToConstant: 240).isActive = true
         return textField
     }()
@@ -43,6 +44,7 @@ class EmailLoginViewController: UIViewController {
         textField.borderStyle = .none
         textField.textColor = .black
         textField.textAlignment = .left
+        textField.autocapitalizationType = .none
         textField.isSecureTextEntry = true
         textField.widthAnchor.constraint(equalToConstant: 240).isActive = true
         return textField
@@ -104,6 +106,7 @@ class EmailLoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "로그인 하기"
+        self.navigationController?.navigationBar.tintColor = .black
         self.navigationController?.navigationBar.topItem?.title = ""
         configureLayout()
         textFieldObservers()
@@ -148,8 +151,18 @@ class EmailLoginViewController: UIViewController {
     
     @objc func handleFindPassword() {
         print(#function)
-        let controller = FindPasswordViewController()
-        navigationController?.pushViewController(controller, animated: true)
+        guard let email = emailTextField.text else { return }
+        if email.isEmpty {
+            let alert = StandardAlertController(title: nil, message: "이메일을 입력한 뒤 다시 버튼을 눌려주세요")
+            let report = StandardAlertAction(title: "확인", style: .basic)
+            alert.addAction(report)
+            self.present(alert, animated: false)
+        } else {
+            let alert = StandardAlertController(title: nil, message: "비밀번호 재설정 이메일이 \n \(email)으로 전송되었습니다")
+            let report = StandardAlertAction(title: "확인", style: .basic)
+            alert.addAction(report)
+            self.present(alert, animated: false)
+        }
     }
     
     @objc func textDidChange(sender: UITextField) {

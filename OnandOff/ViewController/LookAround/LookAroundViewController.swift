@@ -10,6 +10,9 @@ import UIKit
 final class LookAroundViewController: UIViewController {
     //MARK: - Properties
     private let topTabbar = CustomTopTabbar()
+    private var currentCategory = 0
+    private var feedDatas: [FeedItem] = []
+    
     
     private let categoryButton = UIButton().then {
         $0.setTitle("카테고리 전체 ▾", for: .normal)
@@ -33,15 +36,29 @@ final class LookAroundViewController: UIViewController {
         
         self.feedCollectionView.delegate = self
         self.feedCollectionView.dataSource = self
+        self.topTabbar.delegate = self
+        
+        self.fetchFeed()
     }
     
     //MARK: - Method
     private func configureNavigation() {
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor : UIColor.black]
-        self.navigationItem.backBarButtonItem?.tintColor = .black
-        self.navigationItem.title = "둘러보기"
         self.navigationItem.backButtonTitle = ""
         self.navigationItem.backBarButtonItem?.tintColor = . black
+        _ = UISearchBar().then {
+            $0.placeholder = "해시태그 검색"
+            $0.setImage(UIImage(named: "magnifyingglass"), for: .search, state: .normal)
+            $0.setImage(UIImage(named: "Icon"), for: .clear, state: .normal)
+            self.navigationItem.titleView = $0
+        }
+    }
+    
+    private func fetchFeed() {
+        FeedService.fetchFeed(1610, categoryId: 0) { list in
+            self.feedDatas = list
+            self.feedCollectionView.reloadData()
+        }
     }
     
     //MARK: - Selector
@@ -90,11 +107,13 @@ extension LookAroundViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 9
+        return self.feedDatas.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedCell.identifier, for: indexPath) as! FeedCell
+        cell.prepareForReuse()
+        cell.configureCell(self.feedDatas[indexPath.row])
         cell.delegate = self
         
         return cell
@@ -112,13 +131,18 @@ extension LookAroundViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let text: NSString = "예전의 어린 나는 가슴 속에 나침반이 하나 있었다. 그래서 어디로 가야 할지 모를 때 가슴 속의 나침반이 나의 길로 나를 이끌었다. 언제부터인가 나는 돈에 집착하기 시작했고 가슴 속의 나침반은 더이상 작동하지 않았다. "
+        let text: NSString = self.feedDatas[indexPath.row].feedContent as NSString
+        var imgViewHeight: CGFloat = 0
         let size = text.boundingRect(with: CGSize(width: self.view.frame.width - 88, height: CGFloat.greatestFiniteMagnitude),
                                      options: .usesLineFragmentOrigin,
                                      attributes: [.font : UIFont.notoSans(size: 14)],
                                      context: nil)
         
-        return CGSize(width: size.width+40 , height: size.height + 108)
+        if self.feedDatas[indexPath.row].feedImgList != [] {
+            imgViewHeight = (303 + 10 + 20) // 이미지뷰 크기 303 위 아래 여백 10 + 20
+        }
+        
+        return CGSize(width: UIScreen.main.bounds.width - 48 , height: size.height + imgViewHeight + 110) //아래 여백 20 + 위 여백 90
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -137,31 +161,52 @@ extension LookAroundViewController: LookAroundDelegate {
             }
         }
         print("didClickEllipsisButton")
-
     }
     
-    func didClickHeart() {
-        print("didClickHeartButton")
+    func didClickHeart(_ feedId: Int) {
+        FeedService.toggleLike(profileId: 1610, feedId: feedId) { [weak self] in
+            if let idx = self?.feedDatas.firstIndex(where: {$0.feedId == feedId }) {
+                guard let isLike = self?.feedDatas[idx].isLike else { return }
+                self?.feedDatas[idx].isLike = !isLike
+                self?.feedCollectionView.reloadItems(at: [IndexPath(row: idx, section: 0)])
+            }
+        }
     }
     
-    //iosdev.sw@gmail.com
-    func didClickFollow() {
-        print("didClickFollowButton")
-        let alert = StandardAlertController(title: nil, message: "페르소나는 한 번 생성되면 더이상 수정할 수 없습니다.\n이대로 생성하시겠습니까?\n (페르소나 변경을 원할 시, 프로필을 다시 만들어야합니다. )")
-        alert.messageHighlight(highlightString: "페르소나", color: .mainColor)
-        alert.messageHighlight(highlightString: "한 번 생성되면 더이상 수정할 수 없습니다.", color: .red)
-        let action = StandardAlertAction(title: "생성",style: .basic)
-        
-        let cancel = StandardAlertAction(title: "취소", style: .cancel)
-
-        alert.addAction(action)
-        alert.addAction(cancel)
-        self.present(alert, animated: false)
+    func didClickFollow(_ toProfileId: Int) {
+        FeedService.togglefollow(fromProfileId: 1610, toProfileId: toProfileId) { [weak self] in
+            self?.feedDatas.enumerated().forEach { (i,v) in
+                if v.profileId == toProfileId {
+                    v.isFollowing = !v.isFollowing
+                    self?.feedCollectionView.reloadItems(at: [IndexPath(item: i, section: 0)])
+                }
+            }
+        }
     }
     
     func didClickReportButton() {
         print("didClickReportButton")
         let reportVC = ReportViewController()
         self.navigationController?.pushViewController(reportVC, animated: true)
+    }
+}
+
+extension LookAroundViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print(searchText)
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        print("end Editing call API")
+    }
+}
+
+extension LookAroundViewController: TopTapBarDelegate {
+    func didClickFollwingItem() {
+        print("didClickFollwingItem")
+    }
+    
+    func didClickExplorationItem() {
+        print("didClickexplorationItem")
     }
 }

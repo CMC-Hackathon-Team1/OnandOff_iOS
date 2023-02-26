@@ -9,7 +9,7 @@ import Foundation
 
 protocol LookAroundDelegate: AnyObject {
     func didClickEllipsis()
-    func didClickHeart()
-    func didClickFollow()
+    func didClickHeart(_ feedId: Int)
+    func didClickFollow(_ toProfileId: Int)
     func didClickReportButton()
 }

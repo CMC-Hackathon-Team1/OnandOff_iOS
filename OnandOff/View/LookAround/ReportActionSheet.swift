@@ -51,7 +51,6 @@ final class ReportActionSheet: UIView {
             $0.setTitle(title, for: .normal)
             $0.setTitleColor(.black, for: .normal)
         }
-        
     }
     
     //MARK: - Init
@@ -60,7 +59,6 @@ final class ReportActionSheet: UIView {
         self.addSubView()
         self.layout()
         self.addTarget()
-        
     }
     
     required init?(coder: NSCoder) {
