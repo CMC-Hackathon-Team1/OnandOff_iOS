@@ -9,7 +9,7 @@ import Alamofire
 import UIKit
 
 class GetFeedIdDataRequest{
-    func getHomeCalendarRequestData(_ viewController: HomeViewController, profileId : Int, year : Int, month : String, day : Int, page : Int){
+    func getHomeCalendarRequestData(_ viewController: HomeViewController, profileId : Int, year : Int, month : String, day : String, page : Int){
         
         let accessToken = TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken")
         let url = "https://dev.onnoff.shop/feeds/my-feeds/by-month?profileId=\(profileId)&year=\(year)&month=\(month)&day=\(day)&page=\(page)"

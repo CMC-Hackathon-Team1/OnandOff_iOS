@@ -22,7 +22,7 @@ class HomeCalendarDataRequest{
                    encoding: JSONEncoding.default,
                    headers: header
                    )
-        .responseDecodable(of: [HomeCalendarModel].self) {response in
+        .responseDecodable(of: HomeCalendarModel.self) {response in
 
             switch response.result{
             case .success(let response):

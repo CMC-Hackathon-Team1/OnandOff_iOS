@@ -12,6 +12,10 @@ import Alamofire
 import Then
 import FSCalendar
 
+protocol SendFeedIdProtocol: AnyObject{
+    func sendFeedId(data: Array<Int>)
+}
+
 class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
  
     
@@ -20,7 +24,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     var showingYear = 9999
     var showingMonth = "00"
-    var clickedDay = 1
+    var clickedDay = "00"
     var daysForDotsArray = [String]()
     
     var profileIdNow = 0
@@ -30,6 +34,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     var statusMesageArray = [String]()
     var profileImageArray = [String]()
     
+    var getFeedIdArray = [Int]()
     //녹음 있는 날짜 Array
     let jwtToken = TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken")
 
@@ -264,7 +269,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             HomeStatisticsDataRequest().getStatisticsRequestData(self, profileId: profileIdNow)
             
             HomeCalendarDataRequest().getHomeCalendarRequestData(self, profileId: profileIdNow, year: showingYear, month: showingMonth)
-            GetFeedIdDataRequest().getHomeCalendarRequestData(self, profileId: profileIdNow, year: showingYear, month: showingMonth, day: 18, page: 1)
+
             
         }
     }
@@ -514,9 +519,29 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         dateFormatter.dateFormat = "yyyy-MM-dd"
         print(dateFormatter.string(from: date) + " 선택됨")
         
+        let dateFormatterForDay = DateFormatter()
+        dateFormatterForDay.dateFormat = "d"
+        clickedDay = dateFormatterForDay.string(from: date)
+        print(clickedDay)
+        
+        GetFeedIdDataRequest().getHomeCalendarRequestData(self, profileId: profileIdNow, year: showingYear, month: showingMonth, day: clickedDay, page: 1)
+        
         let vc = SpecificPostViewController()
         vc.modalPresentationStyle = .automatic
         self.present(vc, animated: true)
+        
+        //escaping completion 사용해야됨.
+//            if self.getFeedIdArray.isEmpty{
+//                print("empty. will not show viewController")
+//            }else{
+//                self.getFeedIdArray = []
+//                let vc = SpecificPostViewController()
+//                vc.modalPresentationStyle = .automatic
+//                self.present(vc, animated: true)
+//            }
+        
+        
+
     }
 
     
@@ -760,6 +785,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             HomeStatisticsDataRequest().getStatisticsRequestData(self, profileId: profileIdNow)
             HomeCalendarDataRequest().getHomeCalendarRequestData(self, profileId: profileIdNow, year: 2023, month: "02")
             print(self.profileIdNow)
+            calendar.reloadData()
         }
     }
 //MARK: Alamofire
@@ -799,24 +825,33 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
     }
     
-    func didSuccessCalendar(_ response: [HomeCalendarModel]){
+    func didSuccessCalendar(_ response: HomeCalendarModel){
         print("didSuccessCalendar")
-        if response.isEmpty == false{
-            for i in 0...response.count-1{
-                var a = response[i].day
+        haveDataCircle = []
+        if response.result!.isEmpty == false{
+            for i in 0...response.result!.count-1{
+                var a = response.result![i].day
                 daysForDotsArray.append(a!)
             }
             for i in 0...daysForDotsArray.count-1{
                 haveDataCircle.append(contentsOf: ["\(showingYear)-\(showingMonth)-\(daysForDotsArray[i])"])
             }
         }
-        print("asdasd")
-        print(daysForDotsArray)
-        print(haveDataCircle)
         calendar.reloadData()
     }
     
     func didSuccessGetFeedId(_ response: GetFeedIdModel){
+        
+        getFeedIdArray = []
+        print("didSuccessGetFeedId")
+//        if response.feedArray!.isEmpty{
+//
+//        }else{
+//            for i in 0...response.feedArray!.count-1{
+//                getFeedIdArray.append(response.feedArray![i].feedId!)
+//            }
+//        }
+//        print(getFeedIdArray)
         print("didSuccessGetFeedId")
        
     }
