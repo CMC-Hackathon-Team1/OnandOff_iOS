@@ -9,4 +9,5 @@ import UIKit
 
 extension Notification.Name {
     static let dismissStandardAlert = Notification.Name("dismissStandardAlert")
+    static let selectCategory = Notification.Name("selectCategory")
 }

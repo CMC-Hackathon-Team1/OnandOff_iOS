@@ -10,8 +10,8 @@ import UIKit
 final class CustomActionSheet: UIView {
     //MARK: - Properties
     private let ASFrame: CGRect
-    private let categories = ["문화/예술","스포츠","자기개발","기타"]
-    
+    private var categories: [CategoryItem] = []
+    private var currentCategoryId = 0
     private let categoryTableView: UITableView!
     
     private let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular)).then {
@@ -19,15 +19,20 @@ final class CustomActionSheet: UIView {
     }
 
     //MARK: - Init
-    init(frame: CGRect, ASFrame: CGRect) {
+    init(frame: CGRect, ASFrame: CGRect, currentCategoryId: Int) {
         self.ASFrame = ASFrame
         self.categoryTableView = UITableView(frame: ASFrame)
+        self.currentCategoryId = currentCategoryId
         super.init(frame: frame)
         
         self.configureTableView()
         self.addSubView()
         self.layout()
         self.setTapGesture()
+        FeedService.getCategoryAPI { [weak self] items in
+            self?.categories = items
+            self?.categoryTableView.reloadData()
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -92,12 +97,15 @@ extension CustomActionSheet: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        
-        cell.textLabel?.text = categories[indexPath.row]
+        cell.textLabel?.text = categories[indexPath.row].categoryName
         cell.textLabel?.textColor = .black
         cell.textLabel?.font = .notoSans(size: 12)
         cell.backgroundColor = .white
         cell.selectionStyle = .none
+        
+        if categories[indexPath.row].categoryId == self.currentCategoryId {
+            cell.textLabel?.text = "카테고리 전체"
+        }
         
         return cell
     }
@@ -107,7 +115,11 @@ extension CustomActionSheet: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("\(categories[indexPath.row]) Click")
+        if categories[indexPath.row].categoryId == self.currentCategoryId {
+            NotificationCenter.default.post(name: .selectCategory, object: nil)
+        } else {
+            NotificationCenter.default.post(name: .selectCategory, object: categories[indexPath.row])
+        }
         
         self.removeFromSuperview()
     }

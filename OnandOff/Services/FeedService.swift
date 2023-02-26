@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 
 class FeedService {
-    static let baseURL = "https://dev.onnoff.shop/"
+    private static let baseURL = "https://dev.onnoff.shop/"
     
     static func fetchFeed(_ profileId: Int, categoryId: Int, page: Int = 1, fResult: Bool = false, completion: @escaping ([FeedItem])->()) {
         let url = baseURL + "feeds/feedlist/\(profileId)?page=\(page)&categoryId=\(categoryId)&fResult=\(fResult)"
@@ -66,5 +66,20 @@ class FeedService {
                 print(error)
             }
         }
+    }
+    
+    static func getCategoryAPI(completion: @escaping ([CategoryItem])->()) {
+        let url = baseURL + "categories/categories"
+      
+        let request = AF.request(url)
+        request.responseDecodable(of: CategoryModel.self) { res in
+            switch res.result {
+            case .success(let model):
+                completion(model.result)
+            case .failure(let error):
+                print(error)
+            }
+        }
+        
     }
 }

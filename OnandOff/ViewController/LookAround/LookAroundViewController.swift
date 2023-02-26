@@ -10,8 +10,9 @@ import UIKit
 final class LookAroundViewController: UIViewController {
     //MARK: - Properties
     private let topTabbar = CustomTopTabbar()
-    private var currentCategory = 0
-    private var feedDatas: [FeedItem] = []
+    private var currentCategoryId = 0
+    private var explorationDatas: [FeedItem] = []
+    private var followingDatas: [FeedItem] = []
     
     
     private let categoryButton = UIButton().then {
@@ -20,9 +21,15 @@ final class LookAroundViewController: UIViewController {
         $0.titleLabel?.font = .notoSans(size: 14)
     }
     
-    private let feedCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
+    private let explorationCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
         $0.register(FeedCell.self, forCellWithReuseIdentifier: FeedCell.identifier)
         $0.backgroundColor = .white
+    }
+    
+    private let followingCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
+        $0.register(FeedCell.self, forCellWithReuseIdentifier: FeedCell.identifier)
+        $0.backgroundColor = .white
+        $0.isHidden = true
     }
     
     //MARK: - LifeCycle
@@ -34,10 +41,15 @@ final class LookAroundViewController: UIViewController {
         self.addTarget()
         self.configureNavigation()
         
-        self.feedCollectionView.delegate = self
-        self.feedCollectionView.dataSource = self
+        self.explorationCollectionView.delegate = self
+        self.explorationCollectionView.dataSource = self
+        
+        self.followingCollectionView.delegate = self
+        self.followingCollectionView.dataSource = self
         self.topTabbar.delegate = self
         
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(didSelectCategory), name: .selectCategory, object: nil)
         self.fetchFeed()
     }
     
@@ -55,24 +67,52 @@ final class LookAroundViewController: UIViewController {
     }
     
     private func fetchFeed() {
-        FeedService.fetchFeed(1610, categoryId: 0) { list in
-            self.feedDatas = list
-            self.feedCollectionView.reloadData()
+        FeedService.fetchFeed(1610, categoryId: self.currentCategoryId) { list in
+            self.explorationDatas = list
+            self.explorationCollectionView.reloadData()
         }
     }
     
     //MARK: - Selector
     @objc private func didClickCategory(_ button: UIButton) {
         let ASFrame = CGRect(x: button.frame.origin.x, y: button.frame.origin.y + button.frame.height + 12, width: 165, height: 160)
-        let categoryActionSheet = CustomActionSheet(frame: self.view.frame, ASFrame: ASFrame)
+        let categoryActionSheet = CustomActionSheet(frame: self.view.frame, ASFrame: ASFrame, currentCategoryId: self.currentCategoryId)
         self.view.addSubview(categoryActionSheet)
+    }
+    
+    @objc private func didSelectCategory(_ notification: Notification) {
+        if let item = notification.object as? CategoryItem {
+            self.categoryButton.setTitle(item.categoryName + " ▾", for: .normal)
+            self.currentCategoryId = item.categoryId
+        } else { // 전체 카테고리 선택시
+            self.categoryButton.setTitle("카테고리 전체 ▾", for: .normal)
+            self.currentCategoryId = 0
+        }
+        
+        self.followingDatas = []
+        self.explorationDatas = []
+        
+        let isExploration = self.topTabbar.selectedItem == .exploration
+
+        if isExploration {
+            FeedService.fetchFeed(1610, categoryId: self.currentCategoryId, fResult: isExploration) { list in
+                self.explorationDatas = list
+                self.explorationCollectionView.reloadData()
+            }
+        } else {
+            FeedService.fetchFeed(1610, categoryId: self.currentCategoryId, fResult: isExploration) { list in
+                self.followingDatas = list
+                self.followingCollectionView.reloadData()
+            }
+        }
     }
     
     //MARK: - addSubView
     private func addSubView() {
         self.view.addSubview(self.topTabbar)
         self.view.addSubview(self.categoryButton)
-        self.view.addSubview(self.feedCollectionView)
+        self.view.addSubview(self.explorationCollectionView)
+        self.view.addSubview(self.followingCollectionView)
     }
     
     //MARK: - Layout
@@ -89,7 +129,12 @@ final class LookAroundViewController: UIViewController {
             $0.top.equalTo(self.topTabbar.snp.bottom).offset(15)
         }
         
-        self.feedCollectionView.snp.makeConstraints {
+        self.explorationCollectionView.snp.makeConstraints {
+            $0.top.equalTo(self.categoryButton.snp.bottom).offset(12)
+            $0.bottom.trailing.leading.equalToSuperview()
+        }
+        
+        self.followingCollectionView.snp.makeConstraints {
             $0.top.equalTo(self.categoryButton.snp.bottom).offset(12)
             $0.bottom.trailing.leading.equalToSuperview()
         }
@@ -107,13 +152,14 @@ extension LookAroundViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.feedDatas.count
+        return collectionView == explorationCollectionView ? explorationDatas.count : followingDatas.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedCell.identifier, for: indexPath) as! FeedCell
+        let data = collectionView == explorationCollectionView ? self.explorationDatas[indexPath.row] : self.followingDatas[indexPath.row]
         cell.prepareForReuse()
-        cell.configureCell(self.feedDatas[indexPath.row])
+        cell.configureCell(data)
         cell.delegate = self
         
         return cell
@@ -131,14 +177,15 @@ extension LookAroundViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let text: NSString = self.feedDatas[indexPath.row].feedContent as NSString
+        let data = collectionView == explorationCollectionView ? self.explorationDatas[indexPath.row] : followingDatas[indexPath.row]
+        let text: NSString = data.feedContent as NSString
         var imgViewHeight: CGFloat = 0
         let size = text.boundingRect(with: CGSize(width: self.view.frame.width - 88, height: CGFloat.greatestFiniteMagnitude),
                                      options: .usesLineFragmentOrigin,
                                      attributes: [.font : UIFont.notoSans(size: 14)],
                                      context: nil)
         
-        if self.feedDatas[indexPath.row].feedImgList != [] {
+        if data.feedImgList != [] {
             imgViewHeight = (303 + 10 + 20) // 이미지뷰 크기 303 위 아래 여백 10 + 20
         }
         
@@ -165,20 +212,33 @@ extension LookAroundViewController: LookAroundDelegate {
     
     func didClickHeart(_ feedId: Int) {
         FeedService.toggleLike(profileId: 1610, feedId: feedId) { [weak self] in
-            if let idx = self?.feedDatas.firstIndex(where: {$0.feedId == feedId }) {
-                guard let isLike = self?.feedDatas[idx].isLike else { return }
-                self?.feedDatas[idx].isLike = !isLike
-                self?.feedCollectionView.reloadItems(at: [IndexPath(row: idx, section: 0)])
+            if let idx = self?.followingDatas.firstIndex(where: {$0.feedId == feedId }) {
+                guard let isLike = self?.followingDatas[idx].isLike else { return }
+                self?.followingDatas[idx].isLike = !isLike
+                self?.followingCollectionView.reloadItems(at: [IndexPath(row: idx, section: 0)])
+            }
+            
+            if let idx = self?.explorationDatas.firstIndex(where: {$0.feedId == feedId }) {
+                guard let isLike = self?.explorationDatas[idx].isLike else { return }
+                self?.explorationDatas[idx].isLike = !isLike
+                self?.explorationCollectionView.reloadItems(at: [IndexPath(row: idx, section: 0)])
             }
         }
     }
     
     func didClickFollow(_ toProfileId: Int) {
         FeedService.togglefollow(fromProfileId: 1610, toProfileId: toProfileId) { [weak self] in
-            self?.feedDatas.enumerated().forEach { (i,v) in
+            self?.explorationDatas.enumerated().forEach { (i,v) in
                 if v.profileId == toProfileId {
                     v.isFollowing = !v.isFollowing
-                    self?.feedCollectionView.reloadItems(at: [IndexPath(item: i, section: 0)])
+                    self?.explorationCollectionView.reloadItems(at: [IndexPath(item: i, section: 0)])
+                }
+            }
+            
+            self?.followingDatas.enumerated().forEach { (i,v) in
+                if v.profileId == toProfileId {
+                    v.isFollowing = !v.isFollowing
+                    self?.followingCollectionView.reloadItems(at: [IndexPath(item: i, section: 0)])
                 }
             }
         }
@@ -203,10 +263,27 @@ extension LookAroundViewController: UISearchBarDelegate {
 
 extension LookAroundViewController: TopTapBarDelegate {
     func didClickFollwingItem() {
-        print("didClickFollwingItem")
+        self.followingCollectionView.isHidden = false
+        self.explorationCollectionView.isHidden = true
+        
+        if followingDatas.isEmpty {
+            FeedService.fetchFeed(1610, categoryId: currentCategoryId, fResult: true) { list in
+                self.followingDatas = list
+                self.followingCollectionView.reloadData()
+            }
+        }
     }
     
     func didClickExplorationItem() {
-        print("didClickexplorationItem")
+        self.followingCollectionView.isHidden = true
+        self.explorationCollectionView.isHidden = false
+        
+        if explorationDatas.isEmpty {
+            FeedService.fetchFeed(1610, categoryId: currentCategoryId) { list in
+                self.explorationDatas = list
+                self.explorationCollectionView.reloadData()
+            }
+        }
+        
     }
 }
