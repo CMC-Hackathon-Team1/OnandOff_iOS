@@ -13,6 +13,8 @@ import SnapKit
 
 
 class SpecificPostViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+
+    
     //MARK: - Properties
     let mainCollectionView =  UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
         $0.register(SpecificPostCell.self, forCellWithReuseIdentifier: SpecificPostCell.identifier)
@@ -24,6 +26,9 @@ class SpecificPostViewController: UIViewController, UICollectionViewDelegate, UI
         $0.showsHorizontalScrollIndicator = false
     }
     
+    var feedIdArray = [Int]()
+//    let homeViewControllerTest = HomeViewController()
+    
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,10 +38,23 @@ class SpecificPostViewController: UIViewController, UICollectionViewDelegate, UI
         layout()
         addTarget()
         
+//        homeViewControllerTest.FeedIdArray = self
+        print("adssadas")
+        print(feedIdArray)
+        print("adssadas")
         self.mainCollectionView.delegate = self
         self.mainCollectionView.dataSource = self
     }
     //MARK: - Selector
+    
+    //MARK: - Delegate
+    func sendFeedId(data: Array<Int>) {
+        feedIdArray = []
+        for i in 0...data.count-1{
+            feedIdArray.append(data[i])
+        }
+        print(feedIdArray)
+    }
     
     //MARK: - addSubView
     func setUpView(){

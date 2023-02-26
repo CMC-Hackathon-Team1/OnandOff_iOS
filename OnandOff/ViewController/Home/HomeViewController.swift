@@ -11,13 +11,14 @@ import KakaoSDKUser
 import Alamofire
 import Then
 import FSCalendar
-
-protocol SendFeedIdProtocol: AnyObject{
-    func sendFeedId(data: Array<Int>)
-}
+//
+//protocol SendFeedIdProtocol: AnyObject{
+//    func sendFeedId(data: Array<Int>)
+//}
 
 class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
  
+//    weak var FeedIdArray : SendFeedIdProtocol?
     
  //MARK: Properties
     let formatter = DateFormatter()
@@ -527,6 +528,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         GetFeedIdDataRequest().getHomeCalendarRequestData(self, profileId: profileIdNow, year: showingYear, month: showingMonth, day: clickedDay, page: 1)
         
         let vc = SpecificPostViewController()
+        vc.feedIdArray = getFeedIdArray
         vc.modalPresentationStyle = .automatic
         self.present(vc, animated: true)
         
@@ -852,6 +854,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             }
         }
         print(getFeedIdArray)
+//        FeedIdArray?.sendFeedId(data: getFeedIdArray)
         print("didSuccessGetFeedId")
        
     }
