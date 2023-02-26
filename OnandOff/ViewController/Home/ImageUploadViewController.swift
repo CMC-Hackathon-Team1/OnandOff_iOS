@@ -59,9 +59,11 @@ class ImageUploadViewController: UIViewController {
     @objc private func didClickseachFromAlbum(_ button: UIButton) {
         print("didClickseachFromAlbum")
     }
+    
     @objc private func didClickCamera(_ button: UIButton) {
         print("didClickCamera")
     }
+    
     @objc func didClickClose(sender: UITapGestureRecognizer) {
         dismiss(animated: true)
         print("didClickClose")

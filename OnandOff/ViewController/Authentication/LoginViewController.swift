@@ -6,6 +6,7 @@
 //
 
 import SnapKit
+import SwiftUI
 import UIKit
 import Alamofire
 import KakaoSDKUser
@@ -17,11 +18,10 @@ import GoogleSignIn
 class LoginViewController: UIViewController {
 
     // MARK: - Properties
-    // let accessToken: String? = nil
-    
     private let backgroundImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = #imageLiteral(resourceName: "Login")
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
@@ -61,7 +61,7 @@ class LoginViewController: UIViewController {
         button.contentHorizontalAlignment = .center
         button.semanticContentAttribute = .forceLeftToRight
         button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 150)
-        button.titleLabel?.font = .notoSans(size: 18, family: .Bold)
+        button.titleLabel?.font = .notoSans(size: 16, family: .Regular)
         button.tintColor = .black
         button.setTitleColor(.black, for: .normal)
         button.backgroundColor = #colorLiteral(red: 0.9983025193, green: 0.9065476656, blue: 0, alpha: 1)
@@ -75,7 +75,7 @@ class LoginViewController: UIViewController {
     private lazy var appleLoginButton: UIButton = {
         let button = UIButton()
         button.setTitle("Apple 로그인", for: .normal)
-        button.titleLabel?.font = .notoSans(size: 18, family: .Bold)
+        button.titleLabel?.font = .notoSans(size: 16, family: .Bold)
         button.tintColor = .black
         button.setTitleColor(.white, for: .normal)
         button.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
@@ -89,14 +89,14 @@ class LoginViewController: UIViewController {
     private lazy var googleLoginButton: UIButton = {
         let button = UIButton()
         button.setTitle("Google 계정으로 로그인", for: .normal)
-        button.titleLabel?.font = .notoSans(size: 18, family: .Bold)
+        button.titleLabel?.font = .notoSans(size: 16, family: .Bold)
         button.tintColor = .black
         button.setTitleColor(.black, for: .normal)
         button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         button.clipsToBounds = true
         button.layer.cornerRadius = 12
         button.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        // button.addTarget(self, action: #selector(didTapGoogleLoginButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didTapGoogleLoginButton), for: .touchUpInside)
         return button
     }()
     
@@ -120,6 +120,7 @@ class LoginViewController: UIViewController {
                         // 기타 에러
                     }
                 }
+                
                 else {
                     // 토큰 유효성 체크 성공(필요 시 토큰 갱신됨)
                     
@@ -184,7 +185,6 @@ class LoginViewController: UIViewController {
                         }
                     }
                   
-                    
                     // 사용자정보를 성공적으로 가져오면 화면전환 한다.
                     self.moveToHomeVC()
                 }
@@ -210,7 +210,6 @@ class LoginViewController: UIViewController {
                                     tokenService.create("https://dev.onnoff.shop/auth/login", account: "accessToken", value: accessToken)
                                     print("KakaoLogin Complete, AccessToken is \(TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken") ?? "")")
                                     self.dismiss(animated: true)
-                                    
                                 case 400:
                                     print(response.message)
                                 case 500:
@@ -220,6 +219,8 @@ class LoginViewController: UIViewController {
                                 case 1013:
                                     print(response.message)
                                 case 1014:
+                                    print(response.message)
+                                case 1022:
                                     print(response.message)
                                 case 1102:
                                     print(response.message)
@@ -249,28 +250,48 @@ class LoginViewController: UIViewController {
     }
 
     
-//    @objc func didTapGoogleLoginButton() {
-//        print(#function)
-//
-//        let googleClientId = "237346784269-d5qkltgq5i6ccfn9fia49d52slp63180.apps.googleusercontent.com"
-//        let signInConfig = GIDConfiguration.init(clientID: googleClientId)
-//
-//        let accessToken = GIDSignIn.sharedInstance.currentUser?.accessToken
-//        let userId = GIDSignIn.sharedInstance.currentUser?.userID
-//        if accessToken == nil {
-//
-//            GIDSignIn.sharedInstance.signIn(withPresenting: self) { signInResult, error in
-//                if let error = error {
-//                    print(error.localizedDescription)
-//                } else {
-//                    let userId = signInResult?.user.userID
-//                    let accessToken = signInResult?.user.accessToken
-//                    print("userID: ", userId)
-//                    print("accessToken: ", accessToken)
-//                }
-//            }
-//        }
-//    }
+    @objc func didTapGoogleLoginButton() {
+        print(#function)
+        // let googleClientId = "237346784269-d5qkltgq5i6ccfn9fia49d52slp63180.apps.googleusercontent.com"
+        // let signInConfig = GIDConfiguration.init(clientID: googleClientId)
+ 
+        GIDSignIn.sharedInstance.signIn(withPresenting: self) { signInResult, error in
+            guard error == nil else { return }
+            guard let signInResult = signInResult else { return }
+                
+            if let idToken = signInResult.user.idToken?.tokenString {
+                AuthService.googleLogin(GoogleDataModel(id_token: idToken)) { response in
+                    if let response = response {
+                        switch response.statusCode {
+                        case 100:
+                            guard let accessToken = response.result?.jwt else { return }
+                            let tokenService = TokenService()
+                            tokenService.create("https://dev.onnoff.shop/auth/login", account: "accessToken", value: accessToken)
+                            print("GoogleLogin Complete, AccessToken is \(TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken") ?? "")")
+                            self.dismiss(animated: true)
+                            
+                        case 400:
+                            print(response.message)
+                        case 500:
+                            print(response.message)
+                        case 1020:
+                            print(response.message)
+                        case 1021:
+                            print(response.message)
+                        case 1022:
+                            print(response.message)
+                        case 1102:
+                            print(response.message)
+                        default:
+                            break
+                        }
+                    }
+                    return
+                }
+            }
+        }
+        self.moveToHomeVC()
+    }
 
     
     // MARK: - Helpers
@@ -306,6 +327,7 @@ class LoginViewController: UIViewController {
             $0.top.equalTo(view.snp.top).offset(582)
             $0.left.equalTo(view.snp.left).offset(20)
             $0.right.equalTo(view.snp.right).offset(-20)
+            $0.bottom.equalTo(view.snp.top).offset(800)
         }
     }
 }
@@ -357,5 +379,21 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
     // 실패 후 동작
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         print("error")
+    }
+}
+
+struct LoginViewControllerRepresentable: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> some UIViewController {
+        UINavigationController(rootViewController: LoginViewController())
+    }
+    
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
+        
+    }
+}
+
+struct LoginViewController_Previews: PreviewProvider {
+    static var previews: some View {
+        LoginViewControllerRepresentable()
     }
 }

@@ -24,6 +24,7 @@ struct AuthResultModel: Codable {
 
 // MARK: - UserData
 struct UserData: Codable {
+    let state: String?
     let jwt: String?
     let userId: Int?
     let TODO: String?
@@ -34,5 +35,9 @@ struct KakaoDataModel: Codable {
     let access_token: String?
 }
 
+// MARK: - GoogleModel
+struct GoogleDataModel: Codable {
+    let id_token: String?
+}
 
 
