@@ -38,10 +38,14 @@ final class LookAroundViewController: UIViewController {
     //MARK: - Method
     private func configureNavigation() {
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor : UIColor.black]
-        self.navigationItem.backBarButtonItem?.tintColor = .black
-        self.navigationItem.title = "둘러보기"
         self.navigationItem.backButtonTitle = ""
         self.navigationItem.backBarButtonItem?.tintColor = . black
+        _ = UISearchBar().then {
+            $0.placeholder = "해시태그 검색"
+            $0.setImage(UIImage(named: "magnifyingglass"), for: .search, state: .normal)
+            $0.setImage(UIImage(named: "Icon"), for: .clear, state: .normal)
+            self.navigationItem.titleView = $0
+        }
     }
     
     //MARK: - Selector
@@ -163,5 +167,15 @@ extension LookAroundViewController: LookAroundDelegate {
         print("didClickReportButton")
         let reportVC = ReportViewController()
         self.navigationController?.pushViewController(reportVC, animated: true)
+    }
+}
+
+extension LookAroundViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print(searchText)
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        print("end Editing call API")
     }
 }

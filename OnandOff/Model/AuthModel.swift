@@ -39,5 +39,3 @@ struct KakaoDataModel: Codable {
 struct GoogleDataModel: Codable {
     let id_token: String?
 }
-
-
