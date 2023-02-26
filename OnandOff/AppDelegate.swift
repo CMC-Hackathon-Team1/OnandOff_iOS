@@ -10,14 +10,13 @@ import KakaoSDKCommon
 import AuthenticationServices
 import GoogleSignIn
 
-
-
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         KakaoSDK.initSDK(appKey: "ae1a0ec9bf2a22467f3c77957ae9fffb")
+        
         GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
             if error != nil || user == nil {
                 // Show the app's signed-out state.

@@ -11,8 +11,28 @@ import SwiftUI
 class AgreeViewController: UIViewController {
     
     // MARK: - Properties
+    var allFlag: Bool = false
+    var ageFlag: Bool = false
+    var serviceFlag: Bool = false
+    var infoFlag: Bool = false
+    
+    var isValid: Bool {
+        return (ageFlag == true && serviceFlag == true && infoFlag == true)
+    }
+    
     private lazy var allAgreeView: CheckView = {
-        return CheckView(firstSentence: "", secondSentence: "약관 전체동의", imageName: "")
+        return CheckView(firstSentence: "", secondSentence: "약관 전체동의", checkButton: allAgreeButton, imageName: "")
+    }()
+    
+    private lazy var allAgreeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "anonymousCheckOff"), for: .normal)
+        button.tintColor = #colorLiteral(red: 0.1529411765, green: 0.1450980392, blue: 0.1215686275, alpha: 1)
+        button.snp.makeConstraints { $0.height.width.equalTo(16) }
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 16 / 2
+        button.addTarget(self, action: #selector(didTapAllAgreeButton), for: .touchUpInside)
+        return button
     }()
     
     private lazy var dividerView: UIView = {
@@ -22,22 +42,56 @@ class AgreeViewController: UIViewController {
     }()
     
     private lazy var ageAgreeView: CheckView = {
-        return CheckView(firstSentence: "(필수) ", secondSentence: "만 14세 이상입니다", imageName: "")
+        return CheckView(firstSentence: "(필수) ", secondSentence: "만 14세 이상입니다", checkButton: ageAgreeButton, imageName: "")
+    }()
+    
+    private lazy var ageAgreeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "anonymousCheckOff"), for: .normal)
+        button.tintColor = #colorLiteral(red: 0.1529411765, green: 0.1450980392, blue: 0.1215686275, alpha: 1)
+        button.snp.makeConstraints { $0.height.width.equalTo(16) }
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 16 / 2
+        button.addTarget(self, action: #selector(didTapAgeAgreeButton), for: .touchUpInside)
+        return button
     }()
     
     private lazy var serviceAgreeView: CheckView = {
-        return CheckView(firstSentence: "(필수) ", secondSentence: "서비스 이용 약관", imageName: "rightArrow")
+        return CheckView(firstSentence: "(필수) ", secondSentence: "서비스 이용 약관", checkButton: serviceAgreeButton, imageName: "rightArrow")
+    }()
+    
+    private lazy var serviceAgreeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "anonymousCheckOff"), for: .normal)
+        button.tintColor = #colorLiteral(red: 0.1529411765, green: 0.1450980392, blue: 0.1215686275, alpha: 1)
+        button.snp.makeConstraints { $0.height.width.equalTo(16) }
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 16 / 2
+        button.addTarget(self, action: #selector(didTapServiceAgreeButton), for: .touchUpInside)
+        return button
     }()
     
     private lazy var infoAgreeView: CheckView = {
-        return CheckView(firstSentence: "(필수) ", secondSentence: "개인정보 처리방침", imageName: "rightArrow")
+        return CheckView(firstSentence: "(필수) ", secondSentence: "개인정보 처리방침", checkButton: infoAgreeButton, imageName: "rightArrow")
+    }()
+    
+    private lazy var infoAgreeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "anonymousCheckOff"), for: .normal)
+        button.tintColor = #colorLiteral(red: 0.1529411765, green: 0.1450980392, blue: 0.1215686275, alpha: 1)
+        button.snp.makeConstraints { $0.height.width.equalTo(16) }
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 16 / 2
+        button.addTarget(self, action: #selector(didTapInfoAgreeButton), for: .touchUpInside)
+        return button
     }()
     
     private lazy var agreeButton: UIButton = {
         let button = UIButton()
         button.setTitle("동의", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .mainColor
+        button.backgroundColor = #colorLiteral(red: 0.8926360011, green: 0.8926360011, blue: 0.8926360011, alpha: 1)
+        button.isEnabled = false
         button.addTarget(self, action: #selector(didTapAgreeButton), for: .touchUpInside)
         return button
     }()
@@ -51,6 +105,85 @@ class AgreeViewController: UIViewController {
     }
     
     // MARK: - Actions
+    @objc func didTapAllAgreeButton() {
+        print(#function)
+        if allFlag {
+            allAgreeButton.setImage(#imageLiteral(resourceName: "anonymousCheckOff"), for: .normal)
+            ageAgreeButton.setImage(#imageLiteral(resourceName: "anonymousCheckOff"), for: .normal)
+            serviceAgreeButton.setImage(#imageLiteral(resourceName: "anonymousCheckOff"), for: .normal)
+            infoAgreeButton.setImage(#imageLiteral(resourceName: "anonymousCheckOff"), for: .normal)
+            agreeButton.isEnabled = false
+            agreeButton.backgroundColor = #colorLiteral(red: 0.8926360011, green: 0.8926360011, blue: 0.8926360011, alpha: 1)
+        } else {
+            allAgreeButton.setImage(#imageLiteral(resourceName: "anonymousCheck"), for: .normal)
+            ageAgreeButton.setImage(#imageLiteral(resourceName: "anonymousCheck"), for: .normal)
+            serviceAgreeButton.setImage(#imageLiteral(resourceName: "anonymousCheck"), for: .normal)
+            infoAgreeButton.setImage(#imageLiteral(resourceName: "anonymousCheck"), for: .normal)
+            agreeButton.isEnabled = true
+            agreeButton.backgroundColor = .mainColor
+        }
+        allFlag.toggle()
+        ageFlag.toggle()
+        serviceFlag.toggle()
+        infoFlag.toggle()
+    }
+    
+    @objc func didTapAgeAgreeButton() {
+        print(isValid)
+        if ageFlag {
+            ageAgreeButton.setImage(#imageLiteral(resourceName: "anonymousCheckOff"), for: .normal)
+
+        } else {
+            ageAgreeButton.setImage(#imageLiteral(resourceName: "anonymousCheck"), for: .normal)
+        }
+        ageFlag.toggle()
+        
+        print(isValid)
+        if isValid {
+            agreeButton.isEnabled = true
+            agreeButton.backgroundColor = .mainColor
+        } else {
+            agreeButton.isEnabled = false
+            agreeButton.backgroundColor = #colorLiteral(red: 0.8926360011, green: 0.8926360011, blue: 0.8926360011, alpha: 1)
+        }
+    }
+    
+    @objc func didTapServiceAgreeButton() {
+        if serviceFlag {
+            serviceAgreeButton.setImage(#imageLiteral(resourceName: "anonymousCheckOff"), for: .normal)
+        } else {
+            serviceAgreeButton.setImage(#imageLiteral(resourceName: "anonymousCheck"), for: .normal)
+        }
+        serviceFlag.toggle()
+        
+        print(isValid)
+        if isValid {
+            agreeButton.isEnabled = true
+            agreeButton.backgroundColor = .mainColor
+        } else {
+            agreeButton.isEnabled = false
+            agreeButton.backgroundColor = #colorLiteral(red: 0.8926360011, green: 0.8926360011, blue: 0.8926360011, alpha: 1)
+        }
+    }
+    
+    @objc func didTapInfoAgreeButton() {
+        if infoFlag {
+            infoAgreeButton.setImage(#imageLiteral(resourceName: "anonymousCheckOff"), for: .normal)
+        } else {
+            infoAgreeButton.setImage(#imageLiteral(resourceName: "anonymousCheck"), for: .normal)
+        }
+        infoFlag.toggle()
+        
+        print(isValid)
+        if isValid {
+            agreeButton.isEnabled = true
+            agreeButton.backgroundColor = .mainColor
+        } else {
+            agreeButton.isEnabled = false
+            agreeButton.backgroundColor = #colorLiteral(red: 0.8926360011, green: 0.8926360011, blue: 0.8926360011, alpha: 1)
+        }
+    }
+    
     @objc func didTapAgreeButton() {
         print(#function)
     }
@@ -97,19 +230,4 @@ class AgreeViewController: UIViewController {
     }
 }
 
-struct AgreeViewControllerRepresentable: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> some UIViewController {
-        UINavigationController(rootViewController: AgreeViewController())
-    }
-    
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-        
-    }
-}
-
-struct AgreeViewController_Previews: PreviewProvider {
-    static var previews: some View {
-        AgreeViewControllerRepresentable()
-    }
-}
 

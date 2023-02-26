@@ -10,6 +10,7 @@
 		09DC8FD3F8AB39CCB7FE1B62 /* Pods_OnandOff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36AE5F0746509503177A09B9 /* Pods_OnandOff.framework */; };
 		25432FDB299E378900CC2FBC /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25432FDA299E378900CC2FBC /* String+.swift */; };
 		25E32F52299B61E5003FF02B /* FindPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E32F51299B61E5003FF02B /* FindPasswordViewController.swift */; };
+		5DA014FF29A69DEA005F25AE /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA014FE29A69DEA005F25AE /* EditProfileViewController.swift */; };
 		5DB24CA82995B76600654978 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB24CA72995B76600654978 /* SettingCell.swift */; };
 		5DB24CAA2995BB5900654978 /* RegisterationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB24CA92995BB5900654978 /* RegisterationController.swift */; };
 		5DB24CAC2995BB8A00654978 /* EmailLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB24CAB2995BB8A00654978 /* EmailLoginViewController.swift */; };
@@ -20,6 +21,7 @@
 		5DCAA34F299F9A63005090E5 /* EmailAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCAA34E299F9A63005090E5 /* EmailAuthViewController.swift */; };
 		5DCAA351299FBB7F005090E5 /* CheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCAA350299FBB7F005090E5 /* CheckView.swift */; };
 		5DCAA353299FC619005090E5 /* AgreeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCAA352299FC619005090E5 /* AgreeViewController.swift */; };
+		5DCB6BDD29A9A32100EE5580 /* UIButton+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCB6BDC29A9A32100EE5580 /* UIButton+.swift */; };
 		DB000F00297011A50097D6C8 /* MyPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB000EFF297011A50097D6C8 /* MyPageCell.swift */; };
 		DB000F02297011D70097D6C8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB000F01297011D70097D6C8 /* LoginViewController.swift */; };
 		DB000F06297012010097D6C8 /* ProfileMakeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB000F05297012010097D6C8 /* ProfileMakeViewController.swift */; };
@@ -98,6 +100,7 @@
 		25E32F51299B61E5003FF02B /* FindPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordViewController.swift; sourceTree = "<group>"; };
 		36AE5F0746509503177A09B9 /* Pods_OnandOff.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OnandOff.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		444E19A11B52940DAC691D1D /* Pods-OnandOff.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OnandOff.debug.xcconfig"; path = "Target Support Files/Pods-OnandOff/Pods-OnandOff.debug.xcconfig"; sourceTree = "<group>"; };
+		5DA014FE29A69DEA005F25AE /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		5DB24CA72995B76600654978 /* SettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
 		5DB24CA92995BB5900654978 /* RegisterationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterationController.swift; sourceTree = "<group>"; };
 		5DB24CAB2995BB8A00654978 /* EmailLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailLoginViewController.swift; sourceTree = "<group>"; };
@@ -108,6 +111,7 @@
 		5DCAA34E299F9A63005090E5 /* EmailAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAuthViewController.swift; sourceTree = "<group>"; };
 		5DCAA350299FBB7F005090E5 /* CheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckView.swift; sourceTree = "<group>"; };
 		5DCAA352299FC619005090E5 /* AgreeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreeViewController.swift; sourceTree = "<group>"; };
+		5DCB6BDC29A9A32100EE5580 /* UIButton+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+.swift"; sourceTree = "<group>"; };
 		DB000EFF297011A50097D6C8 /* MyPageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPageCell.swift; sourceTree = "<group>"; };
 		DB000F01297011D70097D6C8 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DB000F05297012010097D6C8 /* ProfileMakeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileMakeViewController.swift; sourceTree = "<group>"; };
@@ -345,6 +349,7 @@
 			children = (
 				DB5AFDF82960068F00667336 /* UIColor+.swift */,
 				DB5AFE072960134400667336 /* UIFont+.swift */,
+				5DCB6BDC29A9A32100EE5580 /* UIButton+.swift */,
 				25432FDA299E378900CC2FBC /* String+.swift */,
 				DBC3619029A0B05C0011C319 /* NotificationName+.swift */,
 				DB2503ED29AA619F00B0AE39 /* UIImage+.swift */,
@@ -369,6 +374,7 @@
 			isa = PBXGroup;
 			children = (
 				DB5AFE112960173800667336 /* MyPageViewController.swift */,
+				5DA014FE29A69DEA005F25AE /* EditProfileViewController.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -634,6 +640,7 @@
 				DB7BDC8C2961BCF400AA304B /* FeedCell.swift in Sources */,
 				E56E0EDD299F0DC7009FD906 /* PostModelDataRequest.swift in Sources */,
 				E5E05EB12967C2F5004C3891 /* PostViewController.swift in Sources */,
+				5DA014FF29A69DEA005F25AE /* EditProfileViewController.swift in Sources */,
 				E56E0E9629934661009FD906 /* FeedbackViewController.swift in Sources */,
 				DB5AFDFB2960069B00667336 /* TempModel.swift in Sources */,
 				DB3EB8C0299E3B1600434666 /* ReportType.swift in Sources */,
@@ -647,6 +654,7 @@
 				DB5AFDF92960068F00667336 /* UIColor+.swift in Sources */,
 				E56E0E9F29934661009FD906 /* PrivacyViewController.swift in Sources */,
 				E56E0E9929934661009FD906 /* AlertViewController.swift in Sources */,
+				5DCB6BDD29A9A32100EE5580 /* UIButton+.swift in Sources */,
 				DB3EB8BC299E086D00434666 /* LookAroundDelegate.swift in Sources */,
 				E5CE69C029A060E50096E558 /* HomeStatisticsDataRequest.swift in Sources */,
 				E56E0E9529934661009FD906 /* PolicyViewController.swift in Sources */,

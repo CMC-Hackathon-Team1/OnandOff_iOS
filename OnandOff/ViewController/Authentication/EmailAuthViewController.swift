@@ -68,18 +68,4 @@ class EmailAuthViewController: UIViewController {
     }
 }
 
-struct EmailAuthViewControllerRepresentable: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> some UIViewController {
-        UINavigationController(rootViewController: EmailAuthViewController())
-    }
-    
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-        
-    }
-}
 
-struct EmailAuthViewController_Previews: PreviewProvider {
-    static var previews: some View {
-        EmailAuthViewControllerRepresentable()
-    }
-}

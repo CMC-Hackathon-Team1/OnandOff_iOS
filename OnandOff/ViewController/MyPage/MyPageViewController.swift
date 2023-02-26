@@ -27,6 +27,10 @@ final class MyPageViewController: UIViewController {
     // MARK: - Selector
     @objc private func didClickEditButton(_ button: UIButton) {
         print("didClickEditButton")
+        let controller = EditProfileViewController()
+        print(controller)
+        self.navigationController?.pushViewController(controller, animated: true)
+        
     }
     
     // MARK: - configureNavigation

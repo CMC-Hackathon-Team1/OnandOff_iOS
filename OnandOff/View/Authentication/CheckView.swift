@@ -9,15 +9,15 @@
 import UIKit
 import SnapKit
 
-// protocol ContainerViewDelegate: AnyObject {
-//     func resetTextField(_ view: UIView)
-// }
+protocol CheckViewDelegate: AnyObject {
+    func tapAgreeButton(_ view: UIView)
+}
 
 class CheckView: UIView {
     
-    // weak var delegate: ContainerViewDelegate?
+    weak var delegate: CheckViewDelegate?
     
-    init(firstSentence: String, secondSentence: String, imageName: String?) {
+    init(firstSentence: String, secondSentence: String, checkButton: UIButton, imageName: String?) {
         super.init(frame: .zero)
         
         let label = UILabel()
@@ -29,19 +29,6 @@ class CheckView: UIView {
                                                                .foregroundColor: #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)]))
         label.attributedText = attributedTitle
 
-        lazy var checkButton: UIButton = {
-            let button = UIButton(type: .system)
-            button.setImage(#imageLiteral(resourceName: "anonymousCheckOff"), for: .normal)
-            button.tintColor = #colorLiteral(red: 0.1529411765, green: 0.1450980392, blue: 0.1215686275, alpha: 1)
-            button.snp.makeConstraints {
-                $0.height.width.equalTo(16)
-            }
-            button.clipsToBounds = true
-            button.layer.cornerRadius = 16 / 2
-            button.addTarget(self, action: #selector(didTapcheckButton), for: .touchUpInside)
-            return button
-        }()
-        
         lazy var nextImage: UIImageView = {
             let imageView = UIImageView()
             imageView.image = UIImage(named: imageName ?? "")
@@ -73,8 +60,8 @@ class CheckView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc func didTapcheckButton() {
+    @objc func didTapCheckButton() {
         print(#function)
-        // delegate?.resetTextField(self)
+        delegate?.tapAgreeButton(self)
     }
 }
