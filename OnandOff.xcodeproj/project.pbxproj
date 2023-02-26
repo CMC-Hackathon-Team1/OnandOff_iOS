@@ -24,6 +24,10 @@
 		DB000F02297011D70097D6C8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB000F01297011D70097D6C8 /* LoginViewController.swift */; };
 		DB000F06297012010097D6C8 /* ProfileMakeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB000F05297012010097D6C8 /* ProfileMakeViewController.swift */; };
 		DB000F082970120A0097D6C8 /* PersonaCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB000F072970120A0097D6C8 /* PersonaCollectionViewCell.swift */; };
+		DB2503EA29A9EDFE00B0AE39 /* FeedListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2503E929A9EDFE00B0AE39 /* FeedListModel.swift */; };
+		DB2503EC29AA21F300B0AE39 /* ImgPageControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2503EB29AA21F300B0AE39 /* ImgPageControlView.swift */; };
+		DB2503EE29AA619F00B0AE39 /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2503ED29AA619F00B0AE39 /* UIImage+.swift */; };
+		DB2503F029AA6BF600B0AE39 /* TopTapBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2503EF29AA6BF600B0AE39 /* TopTapBarDelegate.swift */; };
 		DB3EB8B9299E054800434666 /* ReportActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3EB8B8299E054800434666 /* ReportActionSheet.swift */; };
 		DB3EB8BC299E086D00434666 /* LookAroundDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3EB8BB299E086D00434666 /* LookAroundDelegate.swift */; };
 		DB3EB8BE299E384400434666 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3EB8BD299E384400434666 /* ReportViewController.swift */; };
@@ -108,6 +112,10 @@
 		DB000F01297011D70097D6C8 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DB000F05297012010097D6C8 /* ProfileMakeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileMakeViewController.swift; sourceTree = "<group>"; };
 		DB000F072970120A0097D6C8 /* PersonaCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersonaCollectionViewCell.swift; sourceTree = "<group>"; };
+		DB2503E929A9EDFE00B0AE39 /* FeedListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedListModel.swift; sourceTree = "<group>"; };
+		DB2503EB29AA21F300B0AE39 /* ImgPageControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImgPageControlView.swift; sourceTree = "<group>"; };
+		DB2503ED29AA619F00B0AE39 /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
+		DB2503EF29AA6BF600B0AE39 /* TopTapBarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopTapBarDelegate.swift; sourceTree = "<group>"; };
 		DB3EB8B8299E054800434666 /* ReportActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportActionSheet.swift; sourceTree = "<group>"; };
 		DB3EB8BB299E086D00434666 /* LookAroundDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookAroundDelegate.swift; sourceTree = "<group>"; };
 		DB3EB8BD299E384400434666 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
@@ -212,10 +220,19 @@
 			path = Authentication;
 			sourceTree = "<group>";
 		};
+		DB2503E829A9EDD200B0AE39 /* LookAround */ = {
+			isa = PBXGroup;
+			children = (
+				DB2503E929A9EDFE00B0AE39 /* FeedListModel.swift */,
+			);
+			path = LookAround;
+			sourceTree = "<group>";
+		};
 		DB3EB8BA299E085000434666 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
 				DB3EB8BB299E086D00434666 /* LookAroundDelegate.swift */,
+				DB2503EF29AA6BF600B0AE39 /* TopTapBarDelegate.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -284,6 +301,7 @@
 		DB5AFDF62960066D00667336 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DB2503E829A9EDD200B0AE39 /* LookAround */,
 				E56E0ECB299B1DB2009FD906 /* Home */,
 				DB5AFDFA2960069B00667336 /* TempModel.swift */,
 				5DB24CAD2995CC4B00654978 /* AuthModel.swift */,
@@ -329,6 +347,7 @@
 				DB5AFE072960134400667336 /* UIFont+.swift */,
 				25432FDA299E378900CC2FBC /* String+.swift */,
 				DBC3619029A0B05C0011C319 /* NotificationName+.swift */,
+				DB2503ED29AA619F00B0AE39 /* UIImage+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -399,6 +418,7 @@
 				DBC3619429A0BE590011C319 /* StandarAlert */,
 				DBC3618C29A0A5340011C319 /* PaddingLabel.swift */,
 				DBC3619529A0C3000011C319 /* mainButton.swift */,
+				DB2503EB29AA21F300B0AE39 /* ImgPageControlView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -595,21 +615,20 @@
 				5DB24CAC2995BB8A00654978 /* EmailLoginViewController.swift in Sources */,
 				DB000F06297012010097D6C8 /* ProfileMakeViewController.swift in Sources */,
 				DB5AFE082960134400667336 /* UIFont+.swift in Sources */,
+				DB2503F029AA6BF600B0AE39 /* TopTapBarDelegate.swift in Sources */,
 				5DB24CAA2995BB5900654978 /* RegisterationController.swift in Sources */,
 				E56E0ED5299EE3F9009FD906 /* ProfileCreatePopupViewController.swift in Sources */,
 				25432FDB299E378900CC2FBC /* String+.swift in Sources */,
 				E56E0ECA29976763009FD906 /* ProfileCell.swift in Sources */,
+				DB2503EE29AA619F00B0AE39 /* UIImage+.swift in Sources */,
 				E5E05EB52967CD2F004C3891 /* EditOrDeleteViewController.swift in Sources */,
 				E56E0E9B29934661009FD906 /* AccountSettingViewController.swift in Sources */,
 				DBC3619829A0F8CD0011C319 /* FeedService.swift in Sources */,
 				DBC3619129A0B05C0011C319 /* NotificationName+.swift in Sources */,
 				E56E0E9A29934661009FD906 /* ServicePolicyViewController.swift in Sources */,
 				DB5AFDFD296006B200667336 /* TempView.swift in Sources */,
-
 				E56E0ED3299C0933009FD906 /* GetPersonaModel.swift in Sources */,
-
 				DBC3618B29A097490011C319 /* StandardAlertController.swift in Sources */,
-
 				5DB24CB22995CC7D00654978 /* TokenService.swift in Sources */,
 				E5E05EB72967D025004C3891 /* CategorySelectionViewController.swift in Sources */,
 				DB7BDC8C2961BCF400AA304B /* FeedCell.swift in Sources */,
@@ -639,6 +658,7 @@
 				E56E0ED1299C0928009FD906 /* GetPersonaDataRequest.swift in Sources */,
 				DB3EB8BE299E384400434666 /* ReportViewController.swift in Sources */,
 				5DB24CB52995CCDE00654978 /* ContainerView.swift in Sources */,
+				DB2503EC29AA21F300B0AE39 /* ImgPageControlView.swift in Sources */,
 				25E32F52299B61E5003FF02B /* FindPasswordViewController.swift in Sources */,
 				DB5AFE0E2960171100667336 /* HomeViewController.swift in Sources */,
 				E56E0ED9299F0228009FD906 /* AlarmViewCell.swift in Sources */,
@@ -662,6 +682,7 @@
 				DBD8DD5F296315150081CD21 /* ProfileView.swift in Sources */,
 				E5E05EB32967CAC7004C3891 /* EditPostViewController.swift in Sources */,
 				E56E0E9D29934661009FD906 /* PrivacyViewController.swift in Sources */,
+				DB2503EA29A9EDFE00B0AE39 /* FeedListModel.swift in Sources */,
 				5DB24CA82995B76600654978 /* SettingCell.swift in Sources */,
 				5DCAA353299FC619005090E5 /* AgreeViewController.swift in Sources */,
 				E56E0E9C29934661009FD906 /* PasswordResetViewController.swift in Sources */,
