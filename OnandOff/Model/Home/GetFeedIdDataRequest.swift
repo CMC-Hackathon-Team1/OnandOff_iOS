@@ -28,6 +28,10 @@ class GetFeedIdDataRequest{
                 
                 print("DEBUG>> GetFeedIdModel Success:  \(response)")
                 print(profileId)
+                print(year)
+                print(month)
+                print(day)
+                print(page)
                 viewController.didSuccessGetFeedId(response)
                 
             case .failure(let error):

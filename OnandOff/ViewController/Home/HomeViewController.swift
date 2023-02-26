@@ -844,14 +844,14 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         getFeedIdArray = []
         print("didSuccessGetFeedId")
-//        if response.feedArray!.isEmpty{
-//
-//        }else{
-//            for i in 0...response.feedArray!.count-1{
-//                getFeedIdArray.append(response.feedArray![i].feedId!)
-//            }
-//        }
-//        print(getFeedIdArray)
+        if response.result!.feedArray!.isEmpty{
+            print("empty")
+        }else{
+            for i in 0...response.result!.feedArray!.count-1{
+                getFeedIdArray.append(response.result!.feedArray![i].feedId!)
+            }
+        }
+        print(getFeedIdArray)
         print("didSuccessGetFeedId")
        
     }
