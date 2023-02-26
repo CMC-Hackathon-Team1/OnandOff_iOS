@@ -15,15 +15,7 @@ class FeedService {
         let url = baseURL + "feeds/feedlist/\(profileId)?page=\(page)&categoryId=\(categoryId)&fResult=\(fResult)"
         let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
         let request = AF.request(url, headers: header)
-        
-        request.responseString() { res in
-            switch res.result {
-            case .success(let str):
-                print(str)
-            case .failure(let error):
-                print(error)
-            }
-        }
+    
         request.responseDecodable(of: FeedListModel.self) { res in
             switch res.result {
             case .success(let model):
@@ -64,6 +56,25 @@ class FeedService {
                 completion()
             case .failure(let error):
                 print(error)
+            }
+        }
+    }
+    
+    static func searchFeed(_ profileId: Int, text: String, categoryId: Int, page: Int = 1, fResult: Bool = false, completion: @escaping ([FeedItem])->()) {
+        let url = baseURL + "feeds/feedlist/\(profileId)/search"
+        let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
+        let parameter: Parameters = ["page" : page,
+                                     "categoryId" : categoryId,
+                                     "fResult" : fResult,
+                                     "query" : text]
+        let request = AF.request(url, parameters: parameter, encoding: URLEncoding.queryString, headers: header)
+        
+        request.responseDecodable(of: FeedListModel.self) { res in
+            switch res.result {
+            case .success(let model):
+                completion(model.result)
+            case .failure(let error):
+                print(error.localizedDescription)
             }
         }
     }
