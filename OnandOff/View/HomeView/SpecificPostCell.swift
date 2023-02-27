@@ -22,21 +22,21 @@ class SpecificPostCell: UICollectionViewCell {
     let ellipsisButton = UIImageView().then{
         $0.image = UIImage(named: "ellipsis")?.withRenderingMode(.alwaysOriginal)
     }
-    private let profileImageView = UIImageView().then {
+    let profileImageView = UIImageView().then {
         $0.layer.cornerRadius = 20
         $0.backgroundColor = .lightGray
     }
-    private let nameLabel = UILabel().then {
+    let nameLabel = UILabel().then {
         $0.text = "작가 키키"
         $0.textColor = .text1
         $0.font = .notoSans(size: 12, family: .Bold)
     }
-    private let dateLabel = UILabel().then {
+    let dateLabel = UILabel().then {
         $0.text = "2022/09/24"
         $0.textColor = .text4
         $0.font = .notoSans(size: 11)
     }
-    private let tagLabel = UILabel().then {
+    let tagLabel = UILabel().then {
         $0.text = "#시#소설#에세이 좋아해요"
         $0.textColor = .text4
         $0.font = .notoSans(size: 14, family: .Bold)
@@ -44,7 +44,7 @@ class SpecificPostCell: UICollectionViewCell {
     let heartButton = UIImageView().then{
         $0.image = UIImage(named: "heart")?.withRenderingMode(.alwaysOriginal)
     }
-    private let likeCountLabel: UILabel = {
+    let likeCountLabel: UILabel = {
         let label = UILabel()
         label.font = .notoSans(size: 11, family: .Regular)
         label.textColor = #colorLiteral(red: 0.5924945474, green: 0.5924944878, blue: 0.5924944282, alpha: 1)
@@ -52,10 +52,10 @@ class SpecificPostCell: UICollectionViewCell {
         label.sizeToFit()
         return label
     }()
-    private let postImageView = UIImageView().then {
+    let postImageView = UIImageView().then {
         $0.image = UIImage(named: "photoButton")?.withRenderingMode(.alwaysOriginal)
     }
-    private let contentLabel: UILabel = {
+    let contentLabel: UILabel = {
         let label = UILabel()
         label.text = "예전의 어린 나는 가슴 속에 나침반이 하나 있었다. 그래서 어디로 가야 할지 모를 때 가슴 속의 나침반이 나의 길로 나를 이끌었다. 언제부터인가 나는 돈에 집착하기 시작했고 가슴 속의 나침반은 어이상 작동하지 않았다. 몸에 쇳가루가 많이 묻으면 나침반은 돌지 않는법. 나의 순결한 나침반이 우울증을 앓던 날 나는 그렇게 나의 길을 잃었다. 박광수, <참 서툰 사람들>"
         label.font = .notoSans(size: 14)

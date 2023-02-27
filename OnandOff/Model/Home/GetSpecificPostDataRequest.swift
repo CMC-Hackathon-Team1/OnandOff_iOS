@@ -1,18 +1,19 @@
 //
-//  GetFeedIdDataRequest.swift
+//  GetSpecificPostDataRequest.swift
 //  OnandOff
 //
-//  Created by 077tech on 2023/02/22.
+//  Created by 077tech on 2023/02/27.
 //
+
 import Foundation
 import Alamofire
 import UIKit
 
-class GetFeedIdDataRequest{
-    func getHomeCalendarRequestData(_ viewController: HomeViewController, profileId : Int, year : Int, month : String, day : String, page : Int){
+class GetSpecificPostDataRequest{
+    func getSpecificPostRequestData(_ viewController: SpecificPostViewController, feedId : Int, profileId : Int){
         
         let accessToken = TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken")
-        let url = "https://dev.onnoff.shop/feeds/my-feeds/by-month?profileId=\(profileId)&year=\(year)&month=\(month)&day=\(day)&page=\(page)"
+        let url = "https://dev.onnoff.shop/feeds/\(feedId)/profiles/\(profileId)"
         let header : HTTPHeaders = [.authorization(bearerToken: accessToken!)]
         //        HTTP Method GET
         AF.request(url,
@@ -21,13 +22,13 @@ class GetFeedIdDataRequest{
                    encoding: JSONEncoding.default,
                    headers: header
         )
-        .responseDecodable(of: GetFeedIdModel.self) {response in
+        .responseDecodable(of: GetSpecificPostModel.self) {response in
             
             switch response.result{
             case .success(let response):
                 
                 print("DEBUG>> GetFeedIdModel Success:  \(response)")
-                viewController.didSuccessGetFeedId(response)
+                viewController.didSuccessGetSpecificPost(response)
                 
             case .failure(let error):
                 print("DEBUG>> GetFeedIdModel Error : \(error.localizedDescription)")

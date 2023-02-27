@@ -14,6 +14,17 @@ import SnapKit
 
 class SpecificPostViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
 
+    //MARK: - Datasource
+    var feedImgListArray = [String]()
+    var hashTagListArray = [String]()
+    var feedIndivIdArray = [Int]()
+    var personaNameArray = [String]()
+    var profileNameArray = [String]()
+    var feedContentArray = [String]()
+    var profileImgArray = [String]()
+    var createdAtArray = [String]()
+    var isLikeArray = [Bool]()
+    var isFollowingArray = [Bool]()
     
     //MARK: - Properties
     let mainCollectionView =  UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
@@ -26,9 +37,8 @@ class SpecificPostViewController: UIViewController, UICollectionViewDelegate, UI
         $0.showsHorizontalScrollIndicator = false
     }
     
-    var feedIdArray = [Int]()
-//    let homeViewControllerTest = HomeViewController()
     
+    var feedIdArray = [Int]()
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,23 +48,62 @@ class SpecificPostViewController: UIViewController, UICollectionViewDelegate, UI
         layout()
         addTarget()
         
-//        homeViewControllerTest.FeedIdArray = self
         print("adssadas")
         print(feedIdArray)
         print("adssadas")
         self.mainCollectionView.delegate = self
         self.mainCollectionView.dataSource = self
+        
+        feedImgListArray = []
+        hashTagListArray = []
+        feedIndivIdArray = []
+        personaNameArray = []
+        profileNameArray = []
+        feedContentArray = []
+        profileImgArray = []
+        createdAtArray = []
+        isLikeArray = []
+        isFollowingArray = []
+        
+        if feedIdArray.count != 0{
+            for i in 0...feedIdArray.count-1{
+    //            GetSpecificPostDataRequest().getSpecificPostRequestData(self, feedId: feedIdArray[i], profileId: 3114)
+                GetSpecificPostDataRequest().getSpecificPostRequestData(self, feedId: 1, profileId: 1610)
+                mainCollectionView.reloadData()
+            }
+        }
+
+    }
+    
+    //MARK: - Alamofire
+    func didSuccessGetSpecificPost(_ response: GetSpecificPostModel){
+        print("didSuccessGetSpecificPost")
+        
+        feedImgListArray.append(response.feedImgList![0]!)
+        hashTagListArray.append(response.hashTagList![0]!)
+        feedIndivIdArray.append(response.feedId!)
+        personaNameArray.append(response.personaName!)
+        profileNameArray.append(response.profileName!)
+        feedContentArray.append(response.feedContent!)
+        profileImgArray.append(response.profileImg!)
+        createdAtArray.append(response.createdAt!)
+        isLikeArray.append(response.isLike!)
+        isFollowingArray.append(response.isFollowing!)
+        
+        print(feedImgListArray)
+        print(hashTagListArray)
+        print(feedIndivIdArray)
+        print(personaNameArray)
+        print(profileNameArray)
+        print(feedContentArray)
+        print(profileImgArray)
+        print(createdAtArray)
+        print(isLikeArray)
+        print(isFollowingArray)
+        
+        print("didSuccessGetSpecificPost")
     }
     //MARK: - Selector
-    
-    //MARK: - Delegate
-    func sendFeedId(data: Array<Int>) {
-        feedIdArray = []
-        for i in 0...data.count-1{
-            feedIdArray.append(data[i])
-        }
-        print(feedIdArray)
-    }
     
     //MARK: - addSubView
     func setUpView(){
@@ -79,7 +128,7 @@ class SpecificPostViewController: UIViewController, UICollectionViewDelegate, UI
     
     //MARK: COLLECTIONVIEW
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return feedIdArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -88,6 +137,15 @@ class SpecificPostViewController: UIViewController, UICollectionViewDelegate, UI
         if indexPath.row == 0{
             cell.closeButton.isHidden = false
         }
+        
+        if personaNameArray.count != 0{
+            cell.nameLabel.text = "\(personaNameArray[indexPath.row]) \(profileNameArray[indexPath.row])"
+            cell.dateLabel.text = "\(createdAtArray[indexPath.row])"
+            cell.tagLabel.text = "\(hashTagListArray[indexPath.row])"
+            cell.contentLabel.text = "\(feedContentArray[indexPath.row])"
+        }
+        
+
         
         return cell
     }

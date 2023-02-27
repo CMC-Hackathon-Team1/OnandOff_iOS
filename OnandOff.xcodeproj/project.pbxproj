@@ -65,6 +65,8 @@
 		E5357A1729A617F700716CDF /* PostDeletePopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5357A1629A617F700716CDF /* PostDeletePopupViewController.swift */; };
 		E5357A1929A631AF00716CDF /* GetFeedIdModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5357A1829A631AF00716CDF /* GetFeedIdModel.swift */; };
 		E5357A1B29A631D700716CDF /* GetFeedIdDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5357A1A29A631D700716CDF /* GetFeedIdDataRequest.swift */; };
+		E5357A1D29ACF6A900716CDF /* GetSpecificPostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5357A1C29ACF6A900716CDF /* GetSpecificPostModel.swift */; };
+		E5357A1F29ACF71C00716CDF /* GetSpecificPostDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5357A1E29ACF71C00716CDF /* GetSpecificPostDataRequest.swift */; };
 		E56E0E9429934661009FD906 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0E8729934661009FD906 /* SettingViewController.swift */; };
 		E56E0E9529934661009FD906 /* PolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0E8829934661009FD906 /* PolicyViewController.swift */; };
 		E56E0E9629934661009FD906 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0E8929934661009FD906 /* FeedbackViewController.swift */; };
@@ -163,6 +165,8 @@
 		E5357A1629A617F700716CDF /* PostDeletePopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDeletePopupViewController.swift; sourceTree = "<group>"; };
 		E5357A1829A631AF00716CDF /* GetFeedIdModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFeedIdModel.swift; sourceTree = "<group>"; };
 		E5357A1A29A631D700716CDF /* GetFeedIdDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetFeedIdDataRequest.swift; sourceTree = "<group>"; };
+		E5357A1C29ACF6A900716CDF /* GetSpecificPostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetSpecificPostModel.swift; sourceTree = "<group>"; };
+		E5357A1E29ACF71C00716CDF /* GetSpecificPostDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetSpecificPostDataRequest.swift; sourceTree = "<group>"; };
 		E56E0E8729934661009FD906 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		E56E0E8829934661009FD906 /* PolicyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolicyViewController.swift; sourceTree = "<group>"; };
 		E56E0E8929934661009FD906 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
@@ -515,6 +519,8 @@
 				E5357A1229A5DF6300716CDF /* HomeCalendarDataRequest.swift */,
 				E5357A1829A631AF00716CDF /* GetFeedIdModel.swift */,
 				E5357A1A29A631D700716CDF /* GetFeedIdDataRequest.swift */,
+				E5357A1C29ACF6A900716CDF /* GetSpecificPostModel.swift */,
+				E5357A1E29ACF71C00716CDF /* GetSpecificPostDataRequest.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -655,6 +661,7 @@
 				E56E0ED3299C0933009FD906 /* GetPersonaModel.swift in Sources */,
 				DBC3618B29A097490011C319 /* StandardAlertController.swift in Sources */,
 				5DB24CB22995CC7D00654978 /* TokenService.swift in Sources */,
+				E5357A1D29ACF6A900716CDF /* GetSpecificPostModel.swift in Sources */,
 				E5E05EB72967D025004C3891 /* CategorySelectionViewController.swift in Sources */,
 				DB7BDC8C2961BCF400AA304B /* FeedCell.swift in Sources */,
 				E56E0EDD299F0DC7009FD906 /* PostModelDataRequest.swift in Sources */,
@@ -689,6 +696,7 @@
 				5DB24CB52995CCDE00654978 /* ContainerView.swift in Sources */,
 				DB2503EC29AA21F300B0AE39 /* ImgPageControlView.swift in Sources */,
 				25E32F52299B61E5003FF02B /* FindPasswordViewController.swift in Sources */,
+				E5357A1F29ACF71C00716CDF /* GetSpecificPostDataRequest.swift in Sources */,
 				DB5AFE0E2960171100667336 /* HomeViewController.swift in Sources */,
 				E56E0ED9299F0228009FD906 /* AlarmViewCell.swift in Sources */,
 				E56E0E9829934661009FD906 /* AccountDeleteViewController.swift in Sources */,
