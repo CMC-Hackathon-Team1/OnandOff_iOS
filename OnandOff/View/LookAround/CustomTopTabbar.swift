@@ -16,7 +16,7 @@ enum topTabBarItem {
 
 final class CustomTopTabbar: UIView {
     //MARK: - Properties
-    private var selectedItem: topTabBarItem = .exploration
+    var selectedItem: topTabBarItem = .exploration
     weak var delegate: TopTapBarDelegate?
     
     private let explorationButton = UIButton(type: .system).then {

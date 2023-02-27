@@ -30,6 +30,7 @@
 		DB2503EC29AA21F300B0AE39 /* ImgPageControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2503EB29AA21F300B0AE39 /* ImgPageControlView.swift */; };
 		DB2503EE29AA619F00B0AE39 /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2503ED29AA619F00B0AE39 /* UIImage+.swift */; };
 		DB2503F029AA6BF600B0AE39 /* TopTapBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2503EF29AA6BF600B0AE39 /* TopTapBarDelegate.swift */; };
+		DB3B464729AB3CF8005F90C3 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B464629AB3CF8005F90C3 /* CategoryModel.swift */; };
 		DB3EB8B9299E054800434666 /* ReportActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3EB8B8299E054800434666 /* ReportActionSheet.swift */; };
 		DB3EB8BC299E086D00434666 /* LookAroundDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3EB8BB299E086D00434666 /* LookAroundDelegate.swift */; };
 		DB3EB8BE299E384400434666 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3EB8BD299E384400434666 /* ReportViewController.swift */; };
@@ -120,6 +121,7 @@
 		DB2503EB29AA21F300B0AE39 /* ImgPageControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImgPageControlView.swift; sourceTree = "<group>"; };
 		DB2503ED29AA619F00B0AE39 /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
 		DB2503EF29AA6BF600B0AE39 /* TopTapBarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopTapBarDelegate.swift; sourceTree = "<group>"; };
+		DB3B464629AB3CF8005F90C3 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		DB3EB8B8299E054800434666 /* ReportActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportActionSheet.swift; sourceTree = "<group>"; };
 		DB3EB8BB299E086D00434666 /* LookAroundDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookAroundDelegate.swift; sourceTree = "<group>"; };
 		DB3EB8BD299E384400434666 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 			isa = PBXGroup;
 			children = (
 				DB2503E929A9EDFE00B0AE39 /* FeedListModel.swift */,
+				DB3B464629AB3CF8005F90C3 /* CategoryModel.swift */,
 			);
 			path = LookAround;
 			sourceTree = "<group>";
@@ -663,6 +666,7 @@
 				E56E0E9E29934661009FD906 /* LogoutViewController.swift in Sources */,
 				DB000F082970120A0097D6C8 /* PersonaCollectionViewCell.swift in Sources */,
 				E5E05EB929697B87004C3891 /* ImageUploadViewController.swift in Sources */,
+				DB3B464729AB3CF8005F90C3 /* CategoryModel.swift in Sources */,
 				E56E0ED1299C0928009FD906 /* GetPersonaDataRequest.swift in Sources */,
 				DB3EB8BE299E384400434666 /* ReportViewController.swift in Sources */,
 				5DB24CB52995CCDE00654978 /* ContainerView.swift in Sources */,
