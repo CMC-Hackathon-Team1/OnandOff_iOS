@@ -19,7 +19,6 @@ class FeedItem: Decodable {
     var isFollowing: Bool
     let hashTagList: [String]
     let feedId: Int
-    let personaId: Int
     let personaName: String
     let profileId: Int
     let profileImg: String

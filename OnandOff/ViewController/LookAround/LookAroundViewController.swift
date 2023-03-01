@@ -9,10 +9,15 @@ import UIKit
 
 final class LookAroundViewController: UIViewController {
     //MARK: - Properties
-    private let topTabbar = CustomTopTabbar()
     private var currentCategoryId = 0
+    
     private var explorationDatas: [FeedItem] = []
     private var followingDatas: [FeedItem] = []
+    
+    private var isPaging: Bool = false
+    private var hasNextPage: Bool = false
+    
+    private let topTabbar = CustomTopTabbar()
     
     private var searchBar = UISearchBar().then {
         $0.placeholder = "해시태그 검색"
@@ -45,6 +50,7 @@ final class LookAroundViewController: UIViewController {
         self.layout()
         self.addTarget()
         self.configureNavigation()
+        self.setRefreshControl()
         
         self.explorationCollectionView.delegate = self
         self.explorationCollectionView.dataSource = self
@@ -67,35 +73,48 @@ final class LookAroundViewController: UIViewController {
         self.navigationItem.titleView = self.searchBar
     }
     
-    private func fetchFeed(profileId: Int, text: String?, isReset: Bool = false) {
+    private func setRefreshControl() {
+        self.explorationCollectionView.refreshControl = UIRefreshControl().then {
+            $0.addTarget(self, action: #selector(self.pullToRefresh(_:)), for: .valueChanged)
+        }
+        self.followingCollectionView.refreshControl = UIRefreshControl().then {
+            $0.addTarget(self, action: #selector(self.pullToRefresh(_:)), for: .valueChanged)
+        }
+    }
+    
+    private func fetchFeed(profileId: Int, page: Int = 1, text: String?, isReset: Bool = false, completion: (() -> ())? = nil) {
         let isFollowing = self.topTabbar.selectedItem == .following
         let text = text ?? ""
         if !text.isEmpty {
             if isFollowing {
-                FeedService.searchFeed(1610, text: text, categoryId: self.currentCategoryId, fResult: true) { list in
+                FeedService.searchFeed(1610, text: text, categoryId: self.currentCategoryId, page: page, fResult: true) { list in
                     if isReset { self.resetData() }
                     self.followingDatas = list
                     self.followingCollectionView.reloadData()
+                    completion?()
                 }
             } else {
-                FeedService.searchFeed(1610, text: text, categoryId: self.currentCategoryId, fResult: false) { list in
+                FeedService.searchFeed(1610, text: text, categoryId: self.currentCategoryId, page: page, fResult: false) { list in
                     if isReset { self.resetData() }
                     self.explorationDatas = list
                     self.explorationCollectionView.reloadData()
+                    completion?()
                 }
             }
         } else {
             if isFollowing {
-                FeedService.fetchFeed(1610, categoryId: self.currentCategoryId, fResult: true) { list in
+                FeedService.fetchFeed(1610, categoryId: self.currentCategoryId, page: page, fResult: true) { list in
                     if isReset { self.resetData() }
                     self.followingDatas = list
                     self.followingCollectionView.reloadData()
+                    completion?()
                 }
             } else {
-                FeedService.fetchFeed(1610, categoryId: self.currentCategoryId) { list in
+                FeedService.fetchFeed(1610, categoryId: self.currentCategoryId, page: page) { list in
                     if isReset { self.resetData() }
                     self.explorationDatas = list
                     self.explorationCollectionView.reloadData()
+                    completion?()
                 }
             }
         }
@@ -104,6 +123,10 @@ final class LookAroundViewController: UIViewController {
     private func resetData() {
         self.followingDatas = []
         self.explorationDatas = []
+    }
+    
+    private func paging() {
+        self.isPaging = true
     }
     
     //MARK: - Selector
@@ -125,6 +148,11 @@ final class LookAroundViewController: UIViewController {
         self.fetchFeed(profileId: 1610, text: self.searchBar.text, isReset: true)
     }
     
+    @objc private func pullToRefresh(_ refresh: UIRefreshControl) {
+        self.fetchFeed(profileId: 1610, text: self.searchBar.text) {
+            refresh.endRefreshing()
+        }
+    }
     //MARK: - addSubView
     private func addSubView() {
         self.view.addSubview(self.topTabbar)
