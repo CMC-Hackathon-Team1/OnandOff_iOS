@@ -11,21 +11,31 @@ import KakaoSDKUser
 import Alamofire
 import Then
 import FSCalendar
+//
+//protocol SendFeedIdProtocol: AnyObject{
+//    func sendFeedId(data: Array<Int>)
+//}
 
 class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
  
+//    weak var FeedIdArray : SendFeedIdProtocol?
     
  //MARK: Properties
     let formatter = DateFormatter()
     
-    var profileIdNow = 0
+    var showingYear = 9999
+    var showingMonth = "00"
+    var clickedDay = "00"
+    var daysForDotsArray = [String]()
     
+    var profileIdNow = 0
     var profileIdArray = [Int]()
     var personaArray = [String]()
     var profileNameArray = [String]()
     var statusMesageArray = [String]()
     var profileImageArray = [String]()
     
+    var getFeedIdArray = [Int]()
     //녹음 있는 날짜 Array
     let jwtToken = TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken")
 
@@ -248,8 +258,6 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             GetPersonaDataRequest().getRequestData(self)
             
         }
-        
-        haveDataCircle.append(contentsOf: ["2023-02-23", "2023-02-17", "2023-02-11", "2023-02-13"])
     }
     override func viewWillAppear(_ animated: Bool) {
         if jwtToken != nil{
@@ -261,7 +269,8 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             GetPersonaDataRequest().getRequestData(self)
             HomeStatisticsDataRequest().getStatisticsRequestData(self, profileId: profileIdNow)
             
-            
+            HomeCalendarDataRequest().getHomeCalendarRequestData(self, profileId: profileIdNow, year: showingYear, month: showingMonth)
+
             
         }
     }
@@ -506,19 +515,50 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
 //MARK: Calendar
-    // 날짜 선택 시 콜백 메소드 (백엔드 들어오면 해당 날짜 데이터 가져오기, mylog, mymate 구분도 해야됨)
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         print(dateFormatter.string(from: date) + " 선택됨")
         
+        let dateFormatterForDay = DateFormatter()
+        dateFormatterForDay.dateFormat = "d"
+        clickedDay = dateFormatterForDay.string(from: date)
+        print(clickedDay)
+        
+        GetFeedIdDataRequest().getHomeCalendarRequestData(self, profileId: profileIdNow, year: showingYear, month: showingMonth, day: clickedDay, page: 1)
+        
         let vc = SpecificPostViewController()
-        vc.modalPresentationStyle = .fullScreen
+        vc.feedIdArray = getFeedIdArray
+        vc.modalPresentationStyle = .automatic
         self.present(vc, animated: true)
+        
+        //escaping completion 사용해야됨.
+//            if self.getFeedIdArray.isEmpty{
+//                print("empty. will not show viewController")
+//            }else{
+//                self.getFeedIdArray = []
+//                let vc = SpecificPostViewController()
+//                vc.modalPresentationStyle = .automatic
+//                self.present(vc, animated: true)
+//            }
+        
+        
+
     }
 
+    
     // 특정 날짜에 이미지 세팅
     func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
+        let monthToday = DateFormatter()
+        monthToday.dateFormat = "MM"
+        var monthStr = monthToday.string(from: date)
+        showingMonth = monthStr
+        
+        let yearToday = DateFormatter()
+        yearToday.dateFormat = "YYYY"
+        var yearStr = yearToday.string(from: date)
+        showingYear = Int(yearStr)!
+        
         let imageDateFormatter = DateFormatter()
         imageDateFormatter.dateFormat = "yyyyMMdd"
         var dateStr = imageDateFormatter.string(from: date)
@@ -533,7 +573,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         print(dateFormatter.string(from: date) + " 해제됨")
     }
     
-    //녹음 있는 날짜 출력(작은 동그라미)
+    // 글 있는 날짜
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
         formatter.locale = Locale(identifier: "ko_KR")
         formatter.dateFormat = "yyyy-MM-dd"
@@ -740,13 +780,14 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
             present(VC, animated: true)
         }else{
             DispatchQueue.main.async {
-                self.nickNameLbl.text = self.profileNameArray[indexPath.row]
-                self.personaBottomLbl.text = self.profileNameArray[indexPath.row]
+                self.nickNameLbl.text = "\(self.profileNameArray[indexPath.row])님,"
+                self.personaBottomLbl.text = "\(self.profileNameArray[indexPath.row])님,"
             }
             self.profileIdNow = self.profileIdArray[indexPath.row]
             HomeStatisticsDataRequest().getStatisticsRequestData(self, profileId: profileIdNow)
-            
+            HomeCalendarDataRequest().getHomeCalendarRequestData(self, profileId: profileIdNow, year: 2023, month: "02")
             print(self.profileIdNow)
+            calendar.reloadData()
         }
     }
 //MARK: Alamofire
@@ -768,8 +809,8 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         print(statusMesageArray)
         print(profileImageArray)
         
-        self.nickNameLbl.text = self.profileNameArray[0]
-        self.personaBottomLbl.text = self.profileNameArray[0]
+        self.nickNameLbl.text = "\(self.profileNameArray[0])님,"
+        self.personaBottomLbl.text = "\(self.profileNameArray[0])님,"
         self.profileIdNow = self.profileIdArray[0]
         
         print("didSuccess hello")
@@ -786,7 +827,37 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
     }
     
+    func didSuccessCalendar(_ response: HomeCalendarModel){
+        print("didSuccessCalendar")
+        haveDataCircle = []
+        if response.result!.isEmpty == false{
+            for i in 0...response.result!.count-1{
+                var a = response.result![i].day
+                daysForDotsArray.append(a!)
+            }
+            for i in 0...daysForDotsArray.count-1{
+                haveDataCircle.append(contentsOf: ["\(showingYear)-\(showingMonth)-\(daysForDotsArray[i])"])
+            }
+        }
+        calendar.reloadData()
+    }
     
+    func didSuccessGetFeedId(_ response: GetFeedIdModel){
+        
+        getFeedIdArray = []
+        print("didSuccessGetFeedId")
+        if response.result!.feedArray!.isEmpty{
+            print("empty")
+        }else{
+            for i in 0...response.result!.feedArray!.count-1{
+                getFeedIdArray.append(response.result!.feedArray![i].feedId!)
+            }
+        }
+        print(getFeedIdArray)
+//        FeedIdArray?.sendFeedId(data: getFeedIdArray)
+        print("didSuccessGetFeedId")
+       
+    }
 
 }
 
