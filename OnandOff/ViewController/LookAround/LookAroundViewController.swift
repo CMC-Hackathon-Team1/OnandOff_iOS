@@ -9,10 +9,18 @@ import UIKit
 
 final class LookAroundViewController: UIViewController {
     //MARK: - Properties
-    private let topTabbar = CustomTopTabbar()
     private var currentCategoryId = 0
+    
     private var explorationDatas: [FeedItem] = []
     private var followingDatas: [FeedItem] = []
+    
+    private var explorationPage: Int = 1
+    private var followingPage: Int = 1
+    private var isPaging: Bool = false
+    private var explorationHasNextPage: Bool = true
+    private var followingHasNextPage: Bool = true
+    
+    private let topTabbar = CustomTopTabbar()
     
     private var searchBar = UISearchBar().then {
         $0.placeholder = "해시태그 검색"
@@ -45,6 +53,7 @@ final class LookAroundViewController: UIViewController {
         self.layout()
         self.addTarget()
         self.configureNavigation()
+        self.setRefreshControl()
         
         self.explorationCollectionView.delegate = self
         self.explorationCollectionView.dataSource = self
@@ -63,40 +72,50 @@ final class LookAroundViewController: UIViewController {
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor : UIColor.black]
         self.navigationItem.backButtonTitle = ""
         self.navigationItem.backBarButtonItem?.tintColor = . black
-
+        
         self.navigationItem.titleView = self.searchBar
     }
     
-    private func fetchFeed(profileId: Int, text: String?, isReset: Bool = false) {
+    private func setRefreshControl() {
+        self.explorationCollectionView.refreshControl = UIRefreshControl().then {
+            $0.addTarget(self, action: #selector(self.pullToRefresh(_:)), for: .valueChanged)
+        }
+        self.followingCollectionView.refreshControl = UIRefreshControl().then {
+            $0.addTarget(self, action: #selector(self.pullToRefresh(_:)), for: .valueChanged)
+        }
+    }
+    
+    private func fetchFeed(profileId: Int, text: String?, isReset: Bool = false, completion: (() -> ())? = nil) {
         let isFollowing = self.topTabbar.selectedItem == .following
         let text = text ?? ""
+        if isReset { self.resetData() }
         if !text.isEmpty {
-            if isFollowing {
-                FeedService.searchFeed(1610, text: text, categoryId: self.currentCategoryId, fResult: true) { list in
-                    if isReset { self.resetData() }
-                    self.followingDatas = list
+            FeedService.searchFeed(1610, text: text, categoryId: self.currentCategoryId, page: self.followingPage, fResult: isFollowing) { list in
+                if isFollowing {
+                    if list.isEmpty { self.followingHasNextPage = false }
+                    self.followingDatas.append(contentsOf: list)
                     self.followingCollectionView.reloadData()
-                }
-            } else {
-                FeedService.searchFeed(1610, text: text, categoryId: self.currentCategoryId, fResult: false) { list in
-                    if isReset { self.resetData() }
-                    self.explorationDatas = list
+                } else {
+                    if list.isEmpty { self.explorationHasNextPage = false }
+                    self.explorationDatas.append(contentsOf: list)
                     self.explorationCollectionView.reloadData()
                 }
+                
+                completion?()
             }
         } else {
-            if isFollowing {
-                FeedService.fetchFeed(1610, categoryId: self.currentCategoryId, fResult: true) { list in
-                    if isReset { self.resetData() }
-                    self.followingDatas = list
+            FeedService.fetchFeed(1610, categoryId: self.currentCategoryId, page: self.explorationPage, fResult: isFollowing) { list in
+                if isFollowing {
+                    if list.isEmpty { self.followingHasNextPage = false }
+                    self.followingDatas.append(contentsOf: list)
                     self.followingCollectionView.reloadData()
-                }
-            } else {
-                FeedService.fetchFeed(1610, categoryId: self.currentCategoryId) { list in
-                    if isReset { self.resetData() }
-                    self.explorationDatas = list
+                } else {
+                    if list.isEmpty { self.explorationHasNextPage = false }
+                    self.explorationDatas.append(contentsOf: list)
                     self.explorationCollectionView.reloadData()
                 }
+    
+                completion?()
             }
         }
     }
@@ -104,6 +123,22 @@ final class LookAroundViewController: UIViewController {
     private func resetData() {
         self.followingDatas = []
         self.explorationDatas = []
+        self.explorationPage = 1
+        self.followingPage = 1
+        self.explorationHasNextPage = true
+        self.followingHasNextPage = true
+    }
+    
+    private func paging() {
+        self.isPaging = true
+        if self.topTabbar.selectedItem == .following {
+            self.followingPage += 1
+        } else {
+            self.explorationPage += 1
+        }
+        self.fetchFeed(profileId: 1610, text: self.searchBar.text) {
+            self.isPaging = false
+        }
     }
     
     //MARK: - Selector
@@ -121,10 +156,22 @@ final class LookAroundViewController: UIViewController {
             self.categoryButton.setTitle("카테고리 전체 ▾", for: .normal)
             self.currentCategoryId = 0
         }
-    
+        
         self.fetchFeed(profileId: 1610, text: self.searchBar.text, isReset: true)
     }
     
+    @objc private func pullToRefresh(_ refresh: UIRefreshControl) {
+        if self.topTabbar.selectedItem == .following {
+            self.followingPage = 1
+            self.followingHasNextPage = true
+        } else {
+            self.explorationPage = 1
+            self.explorationHasNextPage = true
+        }
+        self.fetchFeed(profileId: 1610, text: self.searchBar.text) {
+            refresh.endRefreshing()
+        }
+    }
     //MARK: - addSubView
     private func addSubView() {
         self.view.addSubview(self.topTabbar)
@@ -204,9 +251,9 @@ extension LookAroundViewController: UICollectionViewDelegateFlowLayout {
         let contentText: NSString = data.feedContent as NSString
         var imgViewHeight: CGFloat = 0
         let contentSize = contentText.boundingRect(with: CGSize(width: self.view.frame.width - 88, height: CGFloat.greatestFiniteMagnitude),
-                                     options: .usesLineFragmentOrigin,
-                                     attributes: [.font : UIFont.notoSans(size: 14)],
-                                     context: nil)
+                                                   options: .usesLineFragmentOrigin,
+                                                   attributes: [.font : UIFont.notoSans(size: 14)],
+                                                   context: nil)
         let hastagText: NSString = "#" + data.hashTagList.joined(separator: " #") as NSString
         let hastagSize = hastagText.boundingRect(with: CGSize(width: self.view.frame.width - 88, height: CGFloat.greatestFiniteMagnitude),
                                                  options: .usesLineFragmentOrigin,
@@ -305,6 +352,25 @@ extension LookAroundViewController: TopTapBarDelegate {
         
         if explorationDatas.isEmpty {
             self.fetchFeed(profileId: 1610, text: self.searchBar.text)
+        }
+    }
+}
+
+//MARK: - ScrollViewDelegate
+extension LookAroundViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let height = scrollView.frame.height
+        
+        if scrollView == explorationCollectionView {
+            if offsetY > (contentHeight - height) {
+                if isPaging == false && explorationHasNextPage { self.paging() }
+            }
+        } else {
+            if offsetY > (contentHeight - height) {
+                if isPaging == false && followingHasNextPage { self.paging() }
+            }
         }
     }
 }

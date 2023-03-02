@@ -90,7 +90,6 @@ class FeedService {
             case .failure(let error):
                 print(error)
             }
-        }
-        
+        }  
     }
 }
