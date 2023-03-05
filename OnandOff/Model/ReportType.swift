@@ -7,13 +7,13 @@
 
 import Foundation
 
-enum ReportType: CaseIterable {
-    case spam
-    case obscene
-    case curse
-    case repeating
-    case privacy
-    case other
+enum ReportType: Int, CaseIterable {
+    case spam = 1
+    case obscene = 2
+    case curse = 3
+    case repeating = 4
+    case privacy = 5
+    case other = 6
     
     var description: String {
         switch self {

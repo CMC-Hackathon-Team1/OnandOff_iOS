@@ -41,7 +41,7 @@ class StandardAlertAction: UIButton {
     
     //MARK: - Selector
     @objc private func didClickAction() {
-        defer { NotificationCenter.default.post(name: .dismissStandardAlert, object: nil) }
+        NotificationCenter.default.post(name: .dismissStandardAlert, object: nil)
         guard let handler = handler else { return }
         handler(self)
     }
