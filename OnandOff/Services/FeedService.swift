@@ -92,4 +92,22 @@ class FeedService {
             }
         }  
     }
+    
+    static func reportFeed(feedId: Int, categoryId: Int, content: String?, completion: @escaping (ReportModel)->()) {
+        let url = baseURL + "reports"
+        let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
+        let parameter: Parameters = [ "feedId" : feedId,
+                                      "reportedCategoryId" : categoryId,
+                                      "content" : content ?? ""
+        ]
+        let request = AF.request(url, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header)
+        request.responseDecodable(of: ReportModel.self) { res in
+            switch res.result {
+            case .success(let model):
+                completion(model)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
 }

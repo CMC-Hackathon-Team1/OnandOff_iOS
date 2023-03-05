@@ -60,6 +60,7 @@
 		DBC3619629A0C3000011C319 /* mainButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC3619529A0C3000011C319 /* mainButton.swift */; };
 		DBC3619829A0F8CD0011C319 /* FeedService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC3619729A0F8CD0011C319 /* FeedService.swift */; };
 		DBD8DD5F296315150081CD21 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD8DD5E296315150081CD21 /* ProfileView.swift */; };
+		DBED0ED929B4C71900415219 /* ReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBED0ED829B4C71900415219 /* ReportModel.swift */; };
 		E5357A1129A5DF2900716CDF /* HomeCalendarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5357A1029A5DF2900716CDF /* HomeCalendarModel.swift */; };
 		E5357A1329A5DF6300716CDF /* HomeCalendarDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5357A1229A5DF6300716CDF /* HomeCalendarDataRequest.swift */; };
 		E5357A1529A5F35D00716CDF /* SpecificPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5357A1429A5F35D00716CDF /* SpecificPostCell.swift */; };
@@ -161,6 +162,7 @@
 		DBC3619529A0C3000011C319 /* mainButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainButton.swift; sourceTree = "<group>"; };
 		DBC3619729A0F8CD0011C319 /* FeedService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedService.swift; sourceTree = "<group>"; };
 		DBD8DD5E296315150081CD21 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		DBED0ED829B4C71900415219 /* ReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportModel.swift; sourceTree = "<group>"; };
 		E5357A1029A5DF2900716CDF /* HomeCalendarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCalendarModel.swift; sourceTree = "<group>"; };
 		E5357A1229A5DF6300716CDF /* HomeCalendarDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCalendarDataRequest.swift; sourceTree = "<group>"; };
 		E5357A1429A5F35D00716CDF /* SpecificPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificPostCell.swift; sourceTree = "<group>"; };
@@ -247,6 +249,7 @@
 			children = (
 				DB2503E929A9EDFE00B0AE39 /* FeedListModel.swift */,
 				DB3B464629AB3CF8005F90C3 /* CategoryModel.swift */,
+				DBED0ED829B4C71900415219 /* ReportModel.swift */,
 			);
 			path = LookAround;
 			sourceTree = "<group>";
@@ -731,6 +734,7 @@
 				5DCAA353299FC619005090E5 /* AgreeViewController.swift in Sources */,
 				E56E0E9C29934661009FD906 /* PasswordResetViewController.swift in Sources */,
 				DB5AFDE32960052D00667336 /* SceneDelegate.swift in Sources */,
+				DBED0ED929B4C71900415219 /* ReportModel.swift in Sources */,
 				DB3EB8C2299E414200434666 /* ReportCell.swift in Sources */,
 				E56E0ECF299B1F73009FD906 /* MakePersonaDataRequest.swift in Sources */,
 			);

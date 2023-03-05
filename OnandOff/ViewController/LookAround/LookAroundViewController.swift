@@ -64,6 +64,7 @@ final class LookAroundViewController: UIViewController {
         self.searchBar.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(didSelectCategory), name: .selectCategory, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didClickReportButton), name: .presentReportVC, object: nil)
         self.fetchFeed(profileId: 1610, text: nil)
     }
     
@@ -172,6 +173,13 @@ final class LookAroundViewController: UIViewController {
             refresh.endRefreshing()
         }
     }
+    
+    @objc private func didClickReportButton(_ notification: Notification) {
+        guard let feedId = notification.object as? Int else { return }
+        let reportVC = ReportViewController(feedId)
+        self.navigationController?.pushViewController(reportVC, animated: false)
+    }
+    
     //MARK: - addSubView
     private func addSubView() {
         self.view.addSubview(self.topTabbar)
@@ -273,8 +281,8 @@ extension LookAroundViewController: UICollectionViewDelegateFlowLayout {
 
 //MARK: - LookAround Delegate
 extension LookAroundViewController: LookAroundDelegate {
-    func didClickEllipsis() {
-        _ = ReportActionSheet().then {
+    func didClickEllipsis(_ feedId: Int) {
+        _ = ReportActionSheet(feedId).then {
             $0.delegate = self
             self.view.addSubview($0)
             $0.snp.makeConstraints { make in
@@ -317,12 +325,6 @@ extension LookAroundViewController: LookAroundDelegate {
                 }
             }
         }
-    }
-    
-    func didClickReportButton() {
-        print("didClickReportButton")
-        let reportVC = ReportViewController()
-        self.navigationController?.pushViewController(reportVC, animated: true)
     }
 }
 

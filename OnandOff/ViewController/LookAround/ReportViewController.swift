@@ -8,6 +8,8 @@
 import UIKit
 
 final class ReportViewController: UIViewController {
+    private let feedId: Int
+    
     private var selectedType: ReportType? {
         didSet {
             if selectedType != nil {
@@ -28,6 +30,16 @@ final class ReportViewController: UIViewController {
         $0.setTitle("동의", for: .normal)
     }
     
+    //MARK: - Init
+    init(_ feedId: Int) {
+        self.feedId = feedId
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.addSubView()
@@ -43,14 +55,36 @@ final class ReportViewController: UIViewController {
     
     //MARK: - Selector
     @objc private func didClickAgreeButton() {
+        guard let selectedType else { return }
+        
         if self.selectedType != nil {
             let alert = StandardAlertController(title: nil, message: "해당 게시글을 신고하시겠습니까?")
             let cancel = StandardAlertAction(title: "취소", style: .cancel)
-            let report = StandardAlertAction(title: "신고", style: .basic)
+            let report = StandardAlertAction(title: "신고", style: .basic) { _ in
+                FeedService.reportFeed(feedId: self.feedId, categoryId: selectedType.rawValue, content: nil) { response in
+                    self.respondToStatusCode(response)
+                }
+            }
             alert.addAction([cancel, report])
             
             self.present(alert, animated: false)
         }
+    }
+    
+    private func respondToStatusCode(_ res: ReportModel) {
+        var message = "다시 시도해주세요."
+        switch res.statusCode {
+        case 100: message = "신고가 완료되었습니다."
+        case 400: print(" 올바르지 않은 paramerter")
+        case 401: print("인증 에러")
+        case 501: print("DB 에러")
+        default: message = res.message
+        }
+        let alert = StandardAlertController(title: nil, message: message)
+        let ok = StandardAlertAction(title: "확인", style: .basic)
+        alert.addAction(ok)
+        
+        self.present(alert, animated: true)
     }
     
     //MARK: - AddSubView

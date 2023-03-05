@@ -81,7 +81,7 @@ final class FeedCell: UICollectionViewCell {
     }
     
     @objc private func didClickEllipsisButton(_ button: UIButton) {
-        delegate?.didClickEllipsis()
+        delegate?.didClickEllipsis(button.tag)
     }
     
     //MARK: - Configure
@@ -106,6 +106,7 @@ final class FeedCell: UICollectionViewCell {
         self.dateLabel.text = item.createdAt
         self.followButton.tag = item.profileId
         self.heartButton.tag = item.feedId
+        self.ellipsisButton.tag = item.feedId
         self.hastagLabel.text = item.hashTagList.map { "#" + $0 }.joined(separator: " ")
         self.subLayout(item: item)
         self.imgPageView.setImageSlider(images: item.feedImgList)
@@ -202,6 +203,6 @@ final class FeedCell: UICollectionViewCell {
     private func addTarget() {
         self.heartButton.addTarget(self, action: #selector(self.didClickHeartButton), for: .touchUpInside)
         self.followButton.addTarget(self, action: #selector(self.didClickFollowButton), for: .touchUpInside)
-        self.ellipsisButton.addTarget(self, action: #selector(self.didClickEllipsisButton(_:)), for: .touchUpInside)
+        self.ellipsisButton.addTarget(self, action: #selector(self.didClickEllipsisButton), for: .touchUpInside)
     }
 }

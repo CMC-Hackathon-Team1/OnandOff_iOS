@@ -9,6 +9,7 @@ import UIKit
 
 final class ReportActionSheet: UIView {
     weak var delegate: LookAroundDelegate?
+    private let feedId: Int
     
     private let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular)).then {
         $0.alpha = 0.5
@@ -54,11 +55,14 @@ final class ReportActionSheet: UIView {
     }
     
     //MARK: - Init
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(_ feedId: Int) {
+        self.feedId = feedId
+        super.init(frame: .zero)
         self.addSubView()
         self.layout()
         self.addTarget()
+        
+        
     }
     
     required init?(coder: NSCoder) {
@@ -81,7 +85,7 @@ final class ReportActionSheet: UIView {
     
     @objc private func didClickReportButton() {
         self.removeFromSuperview()
-        delegate?.didClickReportButton()
+        NotificationCenter.default.post(name: .presentReportVC, object: self.feedId)
     }
     
     //MARK: - AddSubView
