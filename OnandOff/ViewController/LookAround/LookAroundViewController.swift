@@ -90,6 +90,7 @@ final class LookAroundViewController: UIViewController {
         let isFollowing = self.topTabbar.selectedItem == .following
         let text = text ?? ""
         if isReset { self.resetData() }
+        
         if !text.isEmpty {
             FeedService.searchFeed(1610, text: text, categoryId: self.currentCategoryId, page: self.followingPage, fResult: isFollowing) { list in
                 if isFollowing {
@@ -163,9 +164,11 @@ final class LookAroundViewController: UIViewController {
     
     @objc private func pullToRefresh(_ refresh: UIRefreshControl) {
         if self.topTabbar.selectedItem == .following {
+            self.followingDatas = []
             self.followingPage = 1
             self.followingHasNextPage = true
         } else {
+            self.explorationDatas = []
             self.explorationPage = 1
             self.explorationHasNextPage = true
         }
@@ -258,20 +261,21 @@ extension LookAroundViewController: UICollectionViewDelegateFlowLayout {
         let data = collectionView == explorationCollectionView ? self.explorationDatas[indexPath.row] : followingDatas[indexPath.row]
         let contentText: NSString = data.feedContent as NSString
         var imgViewHeight: CGFloat = 0
+        var hashTagLabelHeight: CGFloat = 0
         let contentSize = contentText.boundingRect(with: CGSize(width: self.view.frame.width - 88, height: CGFloat.greatestFiniteMagnitude),
                                                    options: .usesLineFragmentOrigin,
                                                    attributes: [.font : UIFont.notoSans(size: 14)],
                                                    context: nil)
-        let hastagText: NSString = "#" + data.hashTagList.joined(separator: " #") as NSString
-        let hastagSize = hastagText.boundingRect(with: CGSize(width: self.view.frame.width - 88, height: CGFloat.greatestFiniteMagnitude),
+        let hashtagText: NSString = "#" + data.hashTagList.joined(separator: " #") as NSString
+        let hashtagSize = hashtagText.boundingRect(with: CGSize(width: self.view.frame.width - 88, height: CGFloat.greatestFiniteMagnitude),
                                                  options: .usesLineFragmentOrigin,
                                                  attributes: [.font : UIFont.notoSans(size: 14, family: .Bold)],
                                                  context: nil)
-        if data.feedImgList != [] {
-            imgViewHeight = (303 + 10 + 20) // 이미지뷰 크기 303 위 아래 여백 10 + 20
-        }
+        // 이미지뷰 크기 303 위 아래 여백 10 + 20
+        if data.feedImgList != [] { imgViewHeight = (303 + 10 + 20) }
+        if data.hashTagList != [] { hashTagLabelHeight = hashtagSize.height}
         
-        return CGSize(width: UIScreen.main.bounds.width - 48 , height: contentSize.height + imgViewHeight + 110 + hastagSize.height) //아래 여백 20 + 위 여백 90
+        return CGSize(width: UIScreen.main.bounds.width - 48 , height: contentSize.height + imgViewHeight + 110 + hashTagLabelHeight) //아래 여백 20 + 위 여백 90
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
