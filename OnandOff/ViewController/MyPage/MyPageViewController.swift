@@ -8,11 +8,14 @@
 import UIKit
 
 final class MyPageViewController: UIViewController {
-    
     // MARK: - Properties
-    private let reuseIdentifier = "MyPageCell"
+    private var MyPageFeedData: [MyPageItem] = []
     private let profileView = ProfileView()
-    private let myPageCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    
+    private let myPageCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
+        $0.register(MyPageCell.self, forCellWithReuseIdentifier: MyPageCell.identifier)
+        $0.backgroundColor = .white
+    }
     
     // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -21,14 +24,27 @@ final class MyPageViewController: UIViewController {
         self.addSubView()
         self.layout()
         self.configureNavigation()
-        self.configureCollectionView()
+        
+        self.myPageCollectionView.dataSource = self
+        self.myPageCollectionView.delegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        MyPageService.fetchFeedWithDate(27, targetId: 27, year: 2023, month: "02", day: nil) { [weak self] items in
+            self?.MyPageFeedData = items
+            self?.myPageCollectionView.reloadData()
+        }
+        
+        MyPageService.fetchProfile(1610) { [weak self] item in
+            self?.profileView.configureProfile(item)
+        }
     }
     
     // MARK: - Selector
     @objc private func didClickEditButton(_ button: UIButton) {
         print("didClickEditButton")
         let controller = EditProfileViewController()
-        print(controller)
         self.navigationController?.pushViewController(controller, animated: true)
         
     }
@@ -46,14 +62,6 @@ final class MyPageViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = editBarButtonItem
     }
     
-    // MARK: - ConfigureCollectionView
-    private func configureCollectionView() {
-        myPageCollectionView.register(MyPageCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        myPageCollectionView.backgroundColor = .white
-        myPageCollectionView.dataSource = self
-        myPageCollectionView.delegate = self
-    }
-    
     // MARK: - AddsubView
     private func addSubView() {
         self.view.addSubview(self.profileView)
@@ -68,31 +76,27 @@ final class MyPageViewController: UIViewController {
             $0.height.equalTo(66)
         }
         
-        self.myPageCollectionView.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(21)
-            make.trailing.equalToSuperview().offset(-21)
-            make.top.equalTo(profileView.snp.bottom).offset(12)
-            make.bottom.equalToSuperview()
+        self.myPageCollectionView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(profileView.snp.bottom).offset(12)
+            $0.bottom.equalToSuperview()
         }
     }
 }
 
-
 extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return self.MyPageFeedData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MyPageCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyPageCell.identifier, for: indexPath) as! MyPageCell
+        cell.prepareForReuse()
+        cell.configureCell(self.MyPageFeedData[indexPath.row])
+        
         return cell
     }
 }
-
 
 extension MyPageViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -103,9 +107,20 @@ extension MyPageViewController: UICollectionViewDelegateFlowLayout {
         return 0
     }
     
+    
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
+        let data = self.MyPageFeedData[indexPath.row]
+        let contentText: NSString = data.feedContent as NSString
+        var imgViewHeight: CGFloat = 0
+        let contentSize = contentText.boundingRect(with: CGSize(width: self.view.frame.width - 88, height: CGFloat.greatestFiniteMagnitude),
+                                                   options: .usesLineFragmentOrigin,
+                                                   attributes: [.font : UIFont.notoSans(size: 14)],
+                                                   context: nil)
+        if data.feedImgList != [] {
+            imgViewHeight = (303 + 20) // 이미지뷰 크기 303 위 아래 여백 10 + 20
+        }
         let width = collectionView.bounds.width
-        return CGSize(width: width, height: 405)
+        return CGSize(width: width-48, height: contentSize.height + imgViewHeight + 12+16+16+20)
     }
 }

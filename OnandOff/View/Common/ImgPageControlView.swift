@@ -62,7 +62,6 @@ final class ImgPageControlView: UIView {
                             self.scrollView.contentSize.width = width * CGFloat(index+1)
                             self.scrollView.addSubview($0)
                         }
-                        
                     }
                 } catch(let error) {
                     print(error)

@@ -34,7 +34,6 @@ final class FeedCell: UICollectionViewCell {
         $0.numberOfLines = 0
         $0.font = .notoSans(size: 14)
         $0.textColor = .text1
-        $0.text = "예전의 어린 나는 가슴 속에 나침반이 하나 있었다. 그래서 어디로 가야 할지 모를 때 가슴 속의 나침반이 나의 길로 나를 이끌었다. 언제부터인가 나는 돈에 집착하기 시작했고 가슴 속의 나침반은 더이상 작동하지 않았다. "
     }
     
     let hastagLabel = UILabel().then {
@@ -162,9 +161,9 @@ final class FeedCell: UICollectionViewCell {
             $0.top.equalTo(self.nameLabel.snp.bottom).offset(2)
         }
     
-        self.contentLabel.snp.remakeConstraints {
-            $0.top.equalTo(self.imgPageView.snp.bottom).offset(0)
-            $0.bottom.trailing.equalToSuperview().offset(-20)
+        self.contentLabel.snp.makeConstraints {
+            $0.top.equalTo(self.imgPageView.snp.bottom)
+            $0.trailing.equalToSuperview().offset(-20)
             $0.leading.equalToSuperview().offset(20)
         }
         
