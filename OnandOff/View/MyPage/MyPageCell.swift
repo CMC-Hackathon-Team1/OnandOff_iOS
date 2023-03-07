@@ -74,6 +74,9 @@ final class MyPageCell: UICollectionViewCell {
         self.postImageView.snp.updateConstraints {
             $0.height.equalTo(0)
         }
+        self.contentLabel.snp.updateConstraints {
+            $0.top.equalTo(self.postImageView.snp.bottom)
+        }
     }
     
     private func subLayout(item: MyPageItem) {
@@ -81,6 +84,9 @@ final class MyPageCell: UICollectionViewCell {
             self.postImageView.isHidden = false
             self.postImageView.snp.updateConstraints {
                 $0.height.equalTo(303)
+            }
+            self.contentLabel.snp.updateConstraints {
+                $0.top.equalTo(self.postImageView.snp.bottom).offset(16)
             }
         }
     }

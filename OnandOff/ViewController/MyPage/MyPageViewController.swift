@@ -10,7 +10,13 @@ import UIKit
 final class MyPageViewController: UIViewController {
     // MARK: - Properties
     private var MyPageFeedData: [MyPageItem] = []
+    private var hasNextPage: Bool = true
+    private var isPaging: Bool = false
+    private var currentPage: Int = 1
+    
     private let profileView = ProfileView()
+    
+    private let calendarHeaderView = CalendarHeader()
     
     private let myPageCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
         $0.register(MyPageCell.self, forCellWithReuseIdentifier: MyPageCell.identifier)
@@ -24,20 +30,46 @@ final class MyPageViewController: UIViewController {
         self.addSubView()
         self.layout()
         self.configureNavigation()
+        self.setRefreshControl()
         
         self.myPageCollectionView.dataSource = self
         self.myPageCollectionView.delegate = self
+        self.calendarHeaderView.delegate = self
+        
+        // 선택된 ProfileId 변경 옵저버 추가 -> 변경시 nextpage = true feeddata 빈배열 currentPage = 1로 바꿔주기.
+        // NotificationCenter.default.addObserver(self, selector: #selector(<#T##@objc method#>), name: <#T##NSNotification.Name?#>, object: <#T##Any?#>)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        MyPageService.fetchFeedWithDate(27, targetId: 27, year: 2023, month: "02", day: nil) { [weak self] items in
-            self?.MyPageFeedData = items
-            self?.myPageCollectionView.reloadData()
+        if MyPageFeedData.isEmpty {
+            MyPageService.fetchFeedWithDate(27, targetId: 27, year: self.calendarHeaderView.getYear,
+                                            month: self.calendarHeaderView.getMonth, day: nil, page: self.currentPage) { [weak self] items in
+                self?.MyPageFeedData = items
+                self?.myPageCollectionView.reloadData()
+            }
         }
         
         MyPageService.fetchProfile(1610) { [weak self] item in
             self?.profileView.configureProfile(item)
+        }
+    }
+    
+    private func setRefreshControl() {
+        self.myPageCollectionView.refreshControl = UIRefreshControl().then {
+            $0.addTarget(self, action: #selector(self.pullToRefresh(_:)), for: .valueChanged)
+        }
+    }
+    
+    // MARK: - Method
+    private func paging() {
+        self.isPaging = true
+        self.currentPage += 1
+        MyPageService.fetchFeedWithDate(27, targetId: 27, year: self.calendarHeaderView.getYear, month: self.calendarHeaderView.getMonth, day: nil, page: self.currentPage) { [weak self] items in
+            if items.isEmpty { self?.hasNextPage = false }
+            self?.MyPageFeedData.append(contentsOf: items)
+            self?.isPaging = false
+            self?.myPageCollectionView.reloadData()
         }
     }
     
@@ -46,7 +78,19 @@ final class MyPageViewController: UIViewController {
         print("didClickEditButton")
         let controller = EditProfileViewController()
         self.navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    @objc private func pullToRefresh(_ refresh: UIRefreshControl) {
+        self.MyPageFeedData = []
+        self.currentPage = 1
+        self.hasNextPage = true
         
+        MyPageService.fetchFeedWithDate(27, targetId: 27, year: self.calendarHeaderView.getYear, month: self.calendarHeaderView.getMonth, day: nil, page: self.currentPage) { [weak self] items in
+            if items.isEmpty { self?.hasNextPage = false }
+            self?.MyPageFeedData.append(contentsOf: items)
+            self?.myPageCollectionView.reloadData()
+            refresh.endRefreshing()
+        }
     }
     
     // MARK: - configureNavigation
@@ -65,6 +109,7 @@ final class MyPageViewController: UIViewController {
     // MARK: - AddsubView
     private func addSubView() {
         self.view.addSubview(self.profileView)
+        self.view.addSubview(self.calendarHeaderView)
         self.view.addSubview(self.myPageCollectionView)
     }
     
@@ -76,9 +121,15 @@ final class MyPageViewController: UIViewController {
             $0.height.equalTo(66)
         }
         
+        self.calendarHeaderView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(self.profileView.snp.bottom).offset(17)
+            $0.height.equalTo(24)
+        }
+        
         self.myPageCollectionView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(profileView.snp.bottom).offset(12)
+            $0.top.equalTo(self.calendarHeaderView.snp.bottom).offset(17)
             $0.bottom.equalToSuperview()
         }
     }
@@ -96,8 +147,14 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
         
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: self.view.frame.width, height: 2)
+    }
+    
 }
 
+//MARK: - CollectionViewDelegate
 extension MyPageViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 12
@@ -122,5 +179,33 @@ extension MyPageViewController: UICollectionViewDelegateFlowLayout {
         }
         let width = collectionView.bounds.width
         return CGSize(width: width-48, height: contentSize.height + imgViewHeight + 12+16+16+20)
+    }
+}
+
+//MARK: - ScrollViewDelegate
+extension MyPageViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let height = scrollView.frame.height
+        
+        if offsetY > (contentHeight - height) {
+            if isPaging == false && hasNextPage { self.paging() }
+        }
+    }
+}
+
+//MARK: - CalendarHeaderDelegate
+extension MyPageViewController: CalendarHeaderDelegate {
+    func changeMonth() {
+        self.MyPageFeedData = []
+        self.currentPage = 1
+        self.hasNextPage = true
+        
+        MyPageService.fetchFeedWithDate(27, targetId: 27, year: self.calendarHeaderView.getYear,
+                                        month: self.calendarHeaderView.getMonth, day: nil) { [weak self] items in
+            self?.MyPageFeedData = items
+            self?.myPageCollectionView.reloadData()
+        }
     }
 }

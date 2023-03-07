@@ -40,6 +40,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
     let jwtToken = TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken")
 
     let calendar = FSCalendar(frame: CGRect(x: 0, y: 0, width: 380, height: 300))
+    
     //이미지있는 날짜
     fileprivate let datesWithCat = [""]
     // 동그라미 있는 날짜

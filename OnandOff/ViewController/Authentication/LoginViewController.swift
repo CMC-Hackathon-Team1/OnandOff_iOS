@@ -336,7 +336,6 @@ class LoginViewController: UIViewController {
 extension LoginViewController {
     // 로그인 성공 -> 화면 전환
     private func moveToHomeVC() {
-
         // 사용자 정보 가져오기
         UserApi.shared.me() {(user, error) in
             if let error = error {
