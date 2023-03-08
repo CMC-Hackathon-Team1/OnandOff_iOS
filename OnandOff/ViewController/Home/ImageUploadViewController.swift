@@ -9,39 +9,55 @@ import UIKit
 import SnapKit
 import Foundation
 
-class ImageUploadViewController: UIViewController {
-    
+final class ImageUploadViewController: UIViewController {
 //MARK: - Properties
+    let imagePicker = UIImagePickerController()
+    
     let mainView = UIView().then{
         $0.backgroundColor = .white
         $0.roundCorners(cornerRadius: 20, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
     }
-    let closeButton = UIImageView().then{
+    
+    private let closeButton = UIImageView().then{
         $0.image = UIImage(named: "close")?.withRenderingMode(.alwaysOriginal)
     }
+    
     let mainLabel = UILabel().then{
         $0.text = "이미지 업로드"
         $0.font = UIFont(name: "notoSans", size : 16)
     }
-    let searchFromAlbumPic = UIImageView().then{
-        $0.image = UIImage(named: "searchfromalbum")?.withRenderingMode(.alwaysOriginal)
-    }
+    
     let seachFromAlbumButton = UIButton().then{
-        $0.setTitle("엘범에서 찾기", for: .normal)
-        $0.setTitleColor(UIColor.black, for: .normal)
-        $0.titleLabel?.font = .notoSans(size: 14, family: .Regular)
-        
+        if #available(iOS 15.0, *) {
+            var configure = UIButton.Configuration.plain()
+            var attributedTitle = AttributedString.init("앨범에서 찾기")
+            attributedTitle.font = .notoSans(size: 14, family: .Regular)
+            configure.attributedTitle = attributedTitle
+            configure.imagePlacement = .leading
+            configure.image = UIImage(named: "searchfromalbum")?.withRenderingMode(.alwaysOriginal)
+            configure.baseForegroundColor = .black
+            configure.imagePadding = 20
+            $0.configuration = configure
+        }
     }
+    
     let line = UIView().then{
         $0.backgroundColor = UIColor.gray
     }
-    let cameraPic = UIImageView().then{
-        $0.image = UIImage(named: "camera")?.withRenderingMode(.alwaysOriginal)
-    }
+    
     let cameraButton = UIButton().then{
-        $0.setTitle("촬영", for: .normal)
-        $0.setTitleColor(UIColor.black, for: .normal)
-        $0.titleLabel?.font = .notoSans(size: 14, family: .Regular)
+        if #available(iOS 15.0, *) {
+            var configure = UIButton.Configuration.plain()
+            var attributedTitle = AttributedString.init("촬영")
+            attributedTitle.font = .notoSans(size: 14, family: .Regular)
+            configure.attributedTitle = attributedTitle
+            configure.imagePlacement = .leading
+            configure.image = UIImage(named: "camera")?.withRenderingMode(.alwaysOriginal)
+            configure.baseForegroundColor = .black
+            configure.imagePadding = 20
+            
+            $0.configuration = configure
+        }
     }
     
 //MARK: - LifeCycle
@@ -52,12 +68,12 @@ class ImageUploadViewController: UIViewController {
         setUpView()
         layout()
         addTarget()
-        
     }
+    
     
 //MARK: - Selector
     @objc private func didClickseachFromAlbum(_ button: UIButton) {
-        print("didClickseachFromAlbum")
+        self.present(imagePicker, animated: true)
     }
     
     @objc private func didClickCamera(_ button: UIButton) {
@@ -74,9 +90,7 @@ class ImageUploadViewController: UIViewController {
         self.view.addSubview(self.mainView)
         mainView.addSubview(self.closeButton)
         mainView.addSubview(self.mainLabel)
-        mainView.addSubview(self.searchFromAlbumPic)
         mainView.addSubview(self.seachFromAlbumButton)
-        mainView.addSubview(self.cameraPic)
         mainView.addSubview(self.cameraButton)
         mainView.addSubview(self.line)
     }
@@ -97,30 +111,23 @@ class ImageUploadViewController: UIViewController {
             $0.top.equalTo(self.mainView.snp.top).offset(19.5)
             $0.centerX.equalTo(self.mainView)
         }
-        self.searchFromAlbumPic.snp.makeConstraints{
-            $0.top.equalTo(self.closeButton.snp.bottom).offset(19.58)
-            $0.leading.equalTo(self.mainView.snp.leading).offset(24.5)
-        }
+
         self.seachFromAlbumButton.snp.makeConstraints{
             $0.top.equalTo(self.mainView.snp.top).offset(53.5)
-            $0.leading.equalTo(self.searchFromAlbumPic.snp.trailing).offset(21)
+            $0.leading.equalTo(self.mainView.snp.leading).offset(24.5)
         }
         self.line.snp.makeConstraints{
-            $0.top.equalTo(self.searchFromAlbumPic.snp.bottom).offset(14)
+            $0.top.equalTo(self.seachFromAlbumButton.snp.bottom).offset(14)
             $0.leading.equalTo(self.mainView.snp.leading).offset(12.5)
             $0.trailing.equalTo(self.mainView.snp.trailing).offset(12.5)
             $0.size.height.equalTo(1)
         }
-        self.cameraPic.snp.makeConstraints{
-            $0.top.equalTo(self.line.snp.bottom).offset(11.5)
-            $0.leading.equalTo(self.mainView.snp.leading).offset(24.5)
-        }
+
         self.cameraButton.snp.makeConstraints{
             $0.top.equalTo(self.line.snp.bottom).offset(9)
-            $0.leading.equalTo(self.cameraPic.snp.trailing).offset(21)
+            $0.leading.equalTo(self.mainView.snp.leading).offset(24.5)
         }
     }
-    
     
 //MARK: - AddTarget
     private func addTarget() {

@@ -30,6 +30,8 @@
 		DB2503EC29AA21F300B0AE39 /* ImgPageControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2503EB29AA21F300B0AE39 /* ImgPageControlView.swift */; };
 		DB2503EE29AA619F00B0AE39 /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2503ED29AA619F00B0AE39 /* UIImage+.swift */; };
 		DB2503F029AA6BF600B0AE39 /* TopTapBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2503EF29AA6BF600B0AE39 /* TopTapBarDelegate.swift */; };
+		DB284A7A29B8D9C800630FCE /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB284A7929B8D9C800630FCE /* ProfileService.swift */; };
+		DB284A7C29B8E70C00630FCE /* ImageUploadDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB284A7B29B8E70C00630FCE /* ImageUploadDelegate.swift */; };
 		DB3B464729AB3CF8005F90C3 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B464629AB3CF8005F90C3 /* CategoryModel.swift */; };
 		DB3DE7C629B60BC000A95218 /* MyPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3DE7C529B60BC000A95218 /* MyPageModel.swift */; };
 		DB3DE7C829B60C8700A95218 /* MyPageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3DE7C729B60C8700A95218 /* MyPageService.swift */; };
@@ -136,6 +138,8 @@
 		DB2503EB29AA21F300B0AE39 /* ImgPageControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImgPageControlView.swift; sourceTree = "<group>"; };
 		DB2503ED29AA619F00B0AE39 /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
 		DB2503EF29AA6BF600B0AE39 /* TopTapBarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopTapBarDelegate.swift; sourceTree = "<group>"; };
+		DB284A7929B8D9C800630FCE /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
+		DB284A7B29B8E70C00630FCE /* ImageUploadDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploadDelegate.swift; sourceTree = "<group>"; };
 		DB3B464629AB3CF8005F90C3 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		DB3DE7C529B60BC000A95218 /* MyPageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageModel.swift; sourceTree = "<group>"; };
 		DB3DE7C729B60C8700A95218 /* MyPageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageService.swift; sourceTree = "<group>"; };
@@ -281,6 +285,7 @@
 				DB3EB8BB299E086D00434666 /* LookAroundDelegate.swift */,
 				DB2503EF29AA6BF600B0AE39 /* TopTapBarDelegate.swift */,
 				DB58082729B722440095BEEF /* CalendarHeaderDelegate.swift */,
+				DB284A7B29B8E70C00630FCE /* ImageUploadDelegate.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -376,6 +381,7 @@
 				5DB24CB12995CC7D00654978 /* TokenService.swift */,
 				DBC3619729A0F8CD0011C319 /* FeedService.swift */,
 				DB3DE7C729B60C8700A95218 /* MyPageService.swift */,
+				DB284A7929B8D9C800630FCE /* ProfileService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -685,12 +691,14 @@
 				E56E0ECA29976763009FD906 /* ProfileCell.swift in Sources */,
 				DB2503EE29AA619F00B0AE39 /* UIImage+.swift in Sources */,
 				E5E05EB52967CD2F004C3891 /* EditOrDeleteViewController.swift in Sources */,
+				DB284A7A29B8D9C800630FCE /* ProfileService.swift in Sources */,
 				E56E0E9B29934661009FD906 /* AccountSettingViewController.swift in Sources */,
 				DBC3619829A0F8CD0011C319 /* FeedService.swift in Sources */,
 				DBC3619129A0B05C0011C319 /* NotificationName+.swift in Sources */,
 				E56E0E9A29934661009FD906 /* ServicePolicyViewController.swift in Sources */,
 				DB5AFDFD296006B200667336 /* TempView.swift in Sources */,
 				E56E0ED3299C0933009FD906 /* GetPersonaModel.swift in Sources */,
+				DB284A7C29B8E70C00630FCE /* ImageUploadDelegate.swift in Sources */,
 				DB3DE7CA29B62A4D00A95218 /* ProfileModel.swift in Sources */,
 				DBC3618B29A097490011C319 /* StandardAlertController.swift in Sources */,
 				5DB24CB22995CC7D00654978 /* TokenService.swift in Sources */,

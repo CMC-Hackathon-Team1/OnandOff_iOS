@@ -7,12 +7,10 @@
 
 import UIKit
 import SnapKit
-import SwiftUI
 import Alamofire
 
 final class EditProfileViewController: UIViewController {
     // MARK: - Properties
-    let imagePicker = UIImagePickerController()
     var profileImage: UIImage?
     
     private let profileImageButton = UIButton(type: .system).then {
@@ -24,7 +22,6 @@ final class EditProfileViewController: UIViewController {
     private let personaComponent = TextFieldComponent(title: "페르소나").then {
         $0.inputTextfield.textColor = .text4
         $0.titleLabel.textColor = .text4
-        $0.inputTextfield.text = "작가"
         $0.inputTextfield.isEnabled = false
     }
     
@@ -47,8 +44,7 @@ final class EditProfileViewController: UIViewController {
         
         self.addSubView()
         self.configureLayout()
-        
-        self.imagePicker.delegate = self
+        self.addTarget()
         
         MyPageService.fetchProfile(27) { item in
             self.personaComponent.inputTextfield.text = item.personaName
@@ -72,7 +68,6 @@ final class EditProfileViewController: UIViewController {
     
     // MARK: - Actions
     @objc func showPhotoSelectSheet() {
-        print(#function)
         let controller = ImageUploadViewController()
         controller.modalPresentationStyle = .fullScreen
         self.present(controller, animated: false)
@@ -151,9 +146,7 @@ final class EditProfileViewController: UIViewController {
     
 // MARK: - UIImagePickerControllerDelegate
 extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
         guard let selectedImage = info[.editedImage] as? UIImage else { return }
         profileImage = selectedImage
         profileImageButton.contentMode = .scaleAspectFill
@@ -162,6 +155,7 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
         profileImageButton.layer.masksToBounds = true
         profileImageButton.layer.borderColor = UIColor.white.cgColor
         profileImageButton.setImage(selectedImage.withRenderingMode(.alwaysOriginal), for: .normal)
+        
         self.dismiss(animated: true, completion: nil)
     }
 }
