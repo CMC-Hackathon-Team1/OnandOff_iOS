@@ -11,7 +11,7 @@ import Alamofire
 class MyPageService {
     private static let baseURL = "https://dev.onnoff.shop/"
     
-    static func fetchFeedWithDate(_ baseId: Int, targetId: Int, year: Int, month: String, day: Int?, page: Int = 1, completion: @escaping ([MyPageItem])->()) {
+    static func fetchFeedWithDate(_ baseId: Int, targetId: Int, year: String, month: String, day: Int?, page: Int = 1, completion: @escaping ([MyPageItem])->()) {
         let url = baseURL + "feeds/monthly"
         let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
         var parameter: Parameters = ["baseProfileId" : baseId,
