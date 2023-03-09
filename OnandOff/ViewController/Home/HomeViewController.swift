@@ -658,6 +658,7 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
  
     // MARK: - Helpers
     func CheckUserLogIn() {
+        print("-----")
         print("AccessToken in HomeVC is \(jwtToken ?? "UserIsNotLogIn")")
         if jwtToken == nil {
             DispatchQueue.main.async {

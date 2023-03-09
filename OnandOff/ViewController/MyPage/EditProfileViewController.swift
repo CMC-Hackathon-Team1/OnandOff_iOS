@@ -7,13 +7,14 @@
 
 import UIKit
 import SnapKit
-import SwiftUI
 import Alamofire
 
+// 이미지 관련 처리 필요 + 삭제 API 추가 필요
 final class EditProfileViewController: UIViewController {
     // MARK: - Properties
-    let imagePicker = UIImagePickerController()
-    var profileImage: UIImage?
+    private var profileImage: UIImage?
+    private var oldNickName = ""
+    private var oldIntroduction = ""
     
     private let profileImageButton = UIButton(type: .system).then {
         $0.setImage(UIImage(named: "ProfileInsertPhoto")?.withRenderingMode(.alwaysOriginal), for: .normal)
@@ -24,20 +25,20 @@ final class EditProfileViewController: UIViewController {
     private let personaComponent = TextFieldComponent(title: "페르소나").then {
         $0.inputTextfield.textColor = .text4
         $0.titleLabel.textColor = .text4
-        $0.inputTextfield.text = "작가"
         $0.inputTextfield.isEnabled = false
     }
     
-    private let nickNameComponent = TextFieldComponent(title: "닉네임")
+    private let nickNameComponent = TextFieldComponent(title: "닉네임").then { $0.inputTextfield.tag = 0 }
     
-    private let introductionComponent = TextFieldComponent(title: "한줄소개")
+    private let introductionComponent = TextFieldComponent(title: "한줄소개").then { $0.inputTextfield.tag = 1 }
     
     private let changeButton = UIButton(type: .system).then {
         $0.setTitle("변경", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = .notoSans(size: 16, family: .Bold)
-        $0.backgroundColor = .mainColor
+        $0.backgroundColor = .text3
         $0.layer.cornerRadius = 5
+        $0.isEnabled = false
     }
     
     // MARK: - Lifecycle
@@ -46,14 +47,16 @@ final class EditProfileViewController: UIViewController {
         self.view.backgroundColor = .white
         
         self.addSubView()
-        self.configureLayout()
+        self.layout()
+        self.addTarget()
+        self.configureNavigation()
         
-        self.imagePicker.delegate = self
-        
-        MyPageService.fetchProfile(27) { item in
+        MyPageService.fetchProfile(1610) { item in
             self.personaComponent.inputTextfield.text = item.personaName
             self.nickNameComponent.inputTextfield.text = item.profileName
             self.introductionComponent.inputTextfield.text = item.statusMessage
+            self.oldIntroduction = item.statusMessage
+            self.oldNickName = item.profileName
             
             DispatchQueue.global().async {
                 guard let url = URL(string: item.profileImgUrl) else { return }
@@ -72,19 +75,40 @@ final class EditProfileViewController: UIViewController {
     
     // MARK: - Actions
     @objc func showPhotoSelectSheet() {
-        print(#function)
         let controller = ImageUploadViewController()
         controller.modalPresentationStyle = .fullScreen
+        controller.delegate = self
+        
         self.present(controller, animated: false)
     }
     
-//    @objc func textDidChange(_ sender: UITextField) {
-//        if nickNameTextField.text!.count > 8 {
-//            nickNameTextField.deleteBackward()
-//        } else if infoTextField.text!.count > 30 {
-//            infoTextField.deleteBackward()
-//        }
-//    }
+    @objc func didChangeText(_ sender: UITextField) {
+        if sender.tag == 0 {
+            if sender.text!.count > 8 {
+                sender.deleteBackward()
+            }
+        } else {
+            if sender.text!.count > 30 {
+                sender.deleteBackward()
+            }
+        }
+        let newIntroduction = self.introductionComponent.inputTextfield.text ?? ""
+        let newNickName = self.nickNameComponent.inputTextfield.text ?? ""
+        
+        if (newIntroduction == oldIntroduction && newNickName == oldNickName) || newNickName == "" {
+            self.changeButton.backgroundColor = .text3
+            self.changeButton.isEnabled = false
+        } else {
+            self.changeButton.backgroundColor = .mainColor
+            self.changeButton.isEnabled = true
+        }
+    }
+    
+    @objc func didClickChangeButton(_ sender: UIButton) {
+        let profileName = self.nickNameComponent.inputTextfield.text!
+        let introduction = self.introductionComponent.inputTextfield.text ?? ""
+        ProfileService.editProfile(1610, profileName: profileName, statusMessage: introduction, image: self.profileImage, defaultImage: false)
+    }
     
     @objc func didTapDeleteButton() {
         print(#function)
@@ -99,19 +123,22 @@ final class EditProfileViewController: UIViewController {
         view.addSubview(changeButton)
     }
     
-    func configureLayout() {
+    private func configureNavigation() {
         self.title = "프로필 편집"
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationController?.navigationBar.topItem?.title = ""
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "삭제하기", style: .plain, target: self, action: #selector(didTapDeleteButton))
         navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 1, green: 0.4969086051, blue: 0.4779163599, alpha: 1)
-        
+    }
+    
+    private func layout() {
         self.profileImageButton.snp.makeConstraints {
             $0.width.equalTo(95)
             $0.height.equalTo(95)
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(142)
             $0.centerX.equalToSuperview()
         }
+        
         self.profileImageButton.layer.cornerRadius = 95 / 2
         
         self.personaComponent.snp.makeConstraints {
@@ -146,22 +173,36 @@ final class EditProfileViewController: UIViewController {
     //MARK: - AddTarget
     private func addTarget() {
         self.profileImageButton.addTarget(self, action: #selector(showPhotoSelectSheet), for: .touchUpInside)
+        self.nickNameComponent.inputTextfield.addTarget(self, action: #selector(didChangeText), for: .editingChanged)
+        self.introductionComponent.inputTextfield.addTarget(self, action: #selector(didChangeText), for: .editingChanged)
+        self.changeButton.addTarget(self, action: #selector(didClickChangeButton), for: .touchUpInside)
+    }
+}
+
+//MARK: - delegate
+extension EditProfileViewController: ImageUploadDelegate {
+    func didClickFindAlbumButton() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.allowsEditing = true
+        self.present(imagePicker, animated: true)
+    }
+    
+    func didClickSecondMenu() {
+        print(self)
     }
 }
     
 // MARK: - UIImagePickerControllerDelegate
 extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         guard let selectedImage = info[.editedImage] as? UIImage else { return }
-        profileImage = selectedImage
-        profileImageButton.contentMode = .scaleAspectFill
-        profileImageButton.clipsToBounds = true
-        profileImageButton.layer.cornerRadius = profileImageButton.frame.width / 2
-        profileImageButton.layer.masksToBounds = true
+        self.profileImage = selectedImage
         profileImageButton.layer.borderColor = UIColor.white.cgColor
         profileImageButton.setImage(selectedImage.withRenderingMode(.alwaysOriginal), for: .normal)
+        
         self.dismiss(animated: true, completion: nil)
     }
 }
