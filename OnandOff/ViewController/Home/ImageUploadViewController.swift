@@ -10,8 +10,8 @@ import SnapKit
 import Foundation
 
 final class ImageUploadViewController: UIViewController {
-//MARK: - Properties
-    let imagePicker = UIImagePickerController()
+    //MARK: - Properties
+    weak var delegate: ImageUploadDelegate?
     
     let mainView = UIView().then{
         $0.backgroundColor = .white
@@ -73,7 +73,9 @@ final class ImageUploadViewController: UIViewController {
     
 //MARK: - Selector
     @objc private func didClickseachFromAlbum(_ button: UIButton) {
-        self.present(imagePicker, animated: true)
+        self.dismiss(animated: false) { [weak self] in
+            self?.delegate?.didClickFindAlbumButton()
+        }
     }
     
     @objc private func didClickCamera(_ button: UIButton) {

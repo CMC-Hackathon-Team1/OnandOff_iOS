@@ -11,14 +11,30 @@ import Alamofire
 class ProfileService {
     private static let baseURL = "https://dev.onnoff.shop/"
     
-    static func editProfile(_ profileId: Int, profileName: String, statusMessage: String, image: String, defaultImage: Bool) {
-        let url = baseURL + "/profiles/\(profileId)"
-        let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
-        let parameter: Parameters = ["profileName" : profileName,
+    static func editProfile(_ profileId: Int, profileName: String, statusMessage: String, image: UIImage?, defaultImage: Bool) {
+        let url = baseURL + "profiles/\(profileId)"
+        var header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
+        header?["Content-Type"] = "multipart/form-data"
+        var parameters: Parameters = ["profileName" : profileName,
                                      "statusMessage" : statusMessage,
-                                     "image" : image,
                                      "defaultImage" : defaultImage]
-        let request = AF.request(url, parameters: parameter, encoding: JSONEncoding.default, headers: header)
-        request.responseString() { res in}
+        
+        let request = AF.upload(multipartFormData: { (multipartFormData) in
+            if let imageData = image?.pngData() {
+                multipartFormData.append(imageData, withName: "image", fileName: "\(imageData).png", mimeType: "image/png")
+            }
+            for (key,value) in parameters {
+                multipartFormData.append("\(value)".data(using: .utf8)!, withName: key)
+            }
+        }, to: url, method: .patch, headers: header)
+        
+        request.responseString() { res in
+            switch res.result {
+            case .success(let str):
+                print(str)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 }

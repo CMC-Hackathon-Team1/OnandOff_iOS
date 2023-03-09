@@ -133,8 +133,6 @@ class PostDeletePopupViewController: UIViewController{
         cancelView.addGestureRecognizer(cancelBtn)
         
     }
-    
-
 }
 
 
