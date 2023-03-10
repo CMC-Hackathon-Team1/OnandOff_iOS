@@ -110,4 +110,18 @@ class FeedService {
             }
         }
     }
+    
+    static func getCalendarInfo(profileId: Int, year: String, month: String, completion: @escaping ([CalendarInfoItem])->Void) {
+        let url = baseURL + "feeds/my-feeds/in-calendar?profileId=\(profileId)&year=\(year)&month=\(month)"
+        let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
+        let request = AF.request(url, headers: header)
+        request.responseDecodable(of: CalendarInfoModel.self) { res in
+            switch res.result {
+            case .success(let model):
+                completion(model.result)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
 }

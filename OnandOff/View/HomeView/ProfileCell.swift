@@ -7,83 +7,82 @@
 
 
 import UIKit
+import SnapKit
 
 final class ProfileCell: UICollectionViewCell {
-//MARK: - Properties
+    //MARK: - Properties
     static let identifier = "ProfileCell"
-    let borderView = UIView().then{
-        $0.backgroundColor = .mainColor
-        $0.roundCorners(cornerRadius: 25, maskedCorners: [.layerMaxXMaxYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner])
-    }
-    let profileImage = UIImageView().then{
+    
+    let profileImageView = UIImageView().then{
+        $0.layer.borderWidth = 1
+        $0.layer.borderColor = UIColor.text3.cgColor
+        $0.layer.cornerRadius = 26.5
+        $0.contentMode = .center
+        $0.layer.masksToBounds = true
         $0.backgroundColor = .white
-        $0.roundCorners(cornerRadius: 25, maskedCorners: [.layerMaxXMaxYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner])
     }
-    let profileName = UILabel().then{
+    
+    let profileNameLabel = UILabel().then{
         $0.text = "페르소나"
         $0.font = UIFont(name:"appleSDGothicNeo-Regular", size: 12)
         $0.textColor = .gray
         $0.textAlignment = .center
     }
-    let plusButton = UIImageView().then{
-        $0.image = UIImage(named: "ProfileMakePlus")?.withRenderingMode(.alwaysOriginal)
-        $0.isHidden = true
-    }
-
     
-//MARK: - Init
+    //MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setupView()
-        self.setupLayout()
+        self.layout()
         self.addTarget()
     }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Selector
+    override func prepareForReuse() {
+        self.profileImageView.contentMode = .scaleAspectFit
+        self.profileImageView.image = nil
+        self.profileImageView.layer.borderWidth = 1
+        self.profileImageView.layer.borderColor = UIColor.text3.cgColor
+    }
+    
+    func configureSelectedItem() {
+        self.profileImageView.layer.borderWidth = 2
+        self.profileImageView.layer.borderColor = UIColor.mainColor.cgColor
+    }
+    
+    // MARK: - Selector
 //    @objc func didClickProfile(sender: UITapGestureRecognizer) {
-//            print("didClickProfile")
-//        }
+//        print("didClickProfile")
+//    }
+    
     //MARK: - addSubView
     private func setupView(){
-        self.addSubview(self.borderView)
-        borderView.addSubview(self.profileImage)
-        self.addSubview(self.profileName)
-        profileImage.addSubview(self.plusButton)
+        self.addSubview(self.profileImageView)
+        self.addSubview(self.profileNameLabel)
     }
     
     //MARK: - layout
-    private func setupLayout(){
-        self.borderView.snp.makeConstraints{
-            $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().offset(5)
-            $0.height.width.equalTo(50)
+    private func layout() {
+        self.profileImageView.snp.makeConstraints {
+            $0.centerX.top.equalToSuperview()
+            $0.height.width.equalTo(53)
         }
-        self.profileImage.snp.makeConstraints{
+        
+        self.profileNameLabel.snp.makeConstraints{
             $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
-            $0.height.width.equalTo(47)
-        }
-        self.profileName.snp.makeConstraints{
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(self.profileImage.snp.bottom).offset(5)
+            $0.top.equalTo(self.profileImageView.snp.bottom).offset(5)
             $0.leading.trailing.equalToSuperview()
         }
-        plusButton.snp.makeConstraints{
-            $0.centerY.equalToSuperview()
-            $0.centerX.equalToSuperview()
-            $0.width.height.equalTo(15)
-        }
-
     }
     
     //MARK: - AddTarget
     private func addTarget(){
         
-        }
     }
+}
 
 
 

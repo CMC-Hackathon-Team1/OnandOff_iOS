@@ -186,6 +186,7 @@ extension EditProfileViewController: ImageUploadDelegate {
         imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary
         imagePicker.allowsEditing = true
+        
         self.present(imagePicker, animated: true)
     }
     

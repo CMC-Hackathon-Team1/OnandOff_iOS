@@ -11,9 +11,6 @@ import SnapKit
 import Then
 
 class LogoutViewController: UIViewController{
-    //MARK: - Datasource
-    
-    
     //MARK: - Properties
     let fullView = UIView().then{
         $0.backgroundColor = .black

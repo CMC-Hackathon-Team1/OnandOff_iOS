@@ -131,7 +131,7 @@ class EmailLoginViewController: UIViewController {
                     let tokenService = TokenService()
                     tokenService.create("https://dev.onnoff.shop/auth/login", account: "accessToken", value: accessToken)
                     print("EmailLogin Complete, AccessToken is \(TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken") ?? "")")
-                    self.dismiss(animated: true)
+                    self.navigationController?.popViewController(animated: false)
                     
                 case 400:
                     print(response.message)

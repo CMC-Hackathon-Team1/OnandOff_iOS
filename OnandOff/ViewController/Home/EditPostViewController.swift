@@ -99,7 +99,7 @@ class EditPostViewController: UIViewController {
         print("didClickPhoto")
     }
     @objc func didClickCategory(sender: UITapGestureRecognizer) {
-        let VC = CategorySelectonViewController()
+        let VC = CategoryActionSheetViewController()
         VC.modalPresentationStyle = .fullScreen
         present(VC, animated: true)
         print("didClickCategory")

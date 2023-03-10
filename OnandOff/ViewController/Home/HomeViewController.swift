@@ -6,73 +6,31 @@
 //
 //
 import UIKit
-import SnapKit
 import KakaoSDKUser
-import Alamofire
-import Then
 import FSCalendar
-//
-//protocol SendFeedIdProtocol: AnyObject{
-//    func sendFeedId(data: Array<Int>)
-//}
 
-class HomeViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
- 
-//    weak var FeedIdArray : SendFeedIdProtocol?
-    
- //MARK: Properties
-    let formatter = DateFormatter()
-    
-    var showingYear = 9999
-    var showingMonth = "00"
-    var clickedDay = "00"
-    var daysForDotsArray = [String]()
+final class HomeViewController: UIViewController {
+    //MARK: - Properties
+    private var personaDatas: [ProfileItem] = []
+    private var calendarDatas: [CalendarInfoItem] = []
     
     var profileIdNow = 0
-    var profileIdArray = [Int]()
-    var personaArray = [String]()
-    var profileNameArray = [String]()
-    var statusMesageArray = [String]()
-    var profileImageArray = [String]()
     
-    var getFeedIdArray = [Int]()
-    //녹음 있는 날짜 Array
-    let jwtToken = TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken")
-
-    let calendar = FSCalendar(frame: CGRect(x: 0, y: 0, width: 380, height: 300))
-    
-    //이미지있는 날짜
-    fileprivate let datesWithCat = [""]
-    // 동그라미 있는 날짜
-    var haveDataCircle = [String]()
-    
-    let calendarRight = UIButton().then{
-        $0.setImage(UIImage(named: "calendarright")?.withRenderingMode(.alwaysOriginal), for: .normal)
-//        $0.alpha = 0
-    }
-    let calendarLeft = UIButton().then{
-        $0.setImage(UIImage(named: "calendarleft")?.withRenderingMode(.alwaysOriginal), for: .normal)
-//        $0.alpha = 0
-    }
-
-    let dateFormatter = DateFormatter()
-    
-    let scrollView = UIScrollView().then {
+    private let scrollView = UIScrollView().then {
         $0.showsVerticalScrollIndicator = false
     }
     
-    let contentView = UIView()
-
-    let profileCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
+    private let contentView = UIView()
+    
+    private let profileCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
         $0.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)
-        $0.backgroundColor = .white
-
+        $0.showsHorizontalScrollIndicator = false
         if let layout = $0.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = .horizontal
         }
-        $0.showsHorizontalScrollIndicator = false
     }
-    let view2 = UIView().then {
+    
+    private let topFrameView = UIView().then {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 20
         $0.layer.maskedCorners = CACornerMask(arrayLiteral: .layerMinXMaxYCorner, .layerMaxXMaxYCorner)
@@ -82,610 +40,329 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         $0.layer.shadowColor = UIColor.gray.cgColor
     }
     
-//    let personaLbl = UILabel().then {
-//        $0.font = .notoSans(size: 20, family: .Bold)
-//        $0.text = "작가"
-//    }
-    
-    let nickNameLbl = UILabel().then {
+    private let nickNameLbl = UILabel().then {
         $0.font = .notoSans(size: 20, family: .Bold)
         $0.text = "직업 + 닉네임"
     }
     
-    let introduceLbl = UILabel().then {
+    private let introduceLbl = UILabel().then {
         $0.font = .notoSans(size: 20, family: .Regular)
-        $0.text = "오늘 당신의 하루를 공유해주세요"
+        $0.text = "오늘 당신의 하루를 공유해주세요 ✏️"
     }
     
-    let pencilLbl = UILabel().then {
-        $0.font = .notoSans(size: 20, family: .Regular)
-        $0.text = "✏️"
-    }
-    
-    let writeBookManImg = UIImageView().then {
+    private let writeBookManImg = UIImageView().then {
         $0.image = UIImage(named: "WriteBookMan")
     }
     
-    let writeBtn = UIButton().then {
+    private let writeBtn = UIButton(type: .system).then {
         $0.backgroundColor = UIColor.mainColor
         $0.layer.cornerRadius = 5
         $0.setTitle("기록하기", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
         $0.titleLabel?.font = .notoSans(size: 16, family: .Bold)
     }
     
-    let view3 = UIView().then {_ in
+    private let calendarView = FSCalendar()
+    
+    let calendarRight = UIButton().then{
+        $0.setImage(UIImage(named: "calendarright")?.withRenderingMode(.alwaysOriginal), for: .normal)
+    }
+    
+    let calendarLeft = UIButton().then{
+        $0.setImage(UIImage(named: "calendarleft")?.withRenderingMode(.alwaysOriginal), for: .normal)
     }
     
     let view4 = UIView().then {
         $0.backgroundColor = UIColor(rgb: 0xF2F2F2)
     }
     
-    let view5 = UIView().then {_ in
-    }
+    private let bottomFrameView = UIView()
     
-    let personaBottomLbl = UILabel().then {
+    private let personaLabel = UILabel().then {
         $0.font = .notoSans(size: 18, family: .Bold)
         $0.text = "작가"
     }
     
-    let heartLbl = UILabel().then {
-        $0.font = .systemFont(ofSize: 40)
-        $0.text = "💞"
+    private let bottomStackView = UIStackView().then {
+        $0.distribution = .fillEqually
     }
     
-    let writeLbl = UILabel().then {
-        $0.font = .systemFont(ofSize: 40)
-        $0.text = "📝"
+    private let heartComponent = StatisticsComponent().then {
+        $0.imageIconLabel.text = "💞"
     }
     
-    let peopleLbl = UILabel().then {
-        $0.font = .systemFont(ofSize: 40)
-        $0.text = "👥"
+    private let writeComponent = StatisticsComponent().then {
+        $0.imageIconLabel.text = "📝"
     }
     
-    let heartWritePeopleStackView = UIStackView().then {
-        $0.axis = .horizontal
-        $0.spacing = 80
+    private let peopleComponent = StatisticsComponent().then {
+        $0.imageIconLabel.text = "👥"
+    }
+  
+    private let alarmButton = UIButton().then {
+        $0.setImage(UIImage(named: "alarmButton")?.withRenderingMode(.alwaysOriginal), for: .normal)
     }
     
-    let monthlyReceiveHeartLbl1 = UILabel().then {
-        $0.font = .notoSans(size: 12, family: .Regular)
-        $0.text = "이번달에"
+    private let settingButton = UIButton().then {
+        $0.setImage(UIImage(named: "settingButton")?.withRenderingMode(.alwaysOriginal), for: .normal)
     }
     
-    var monthlyReceiveHeartCountLbl = UILabel().then {
-        $0.font = .notoSans(size: 12, family: .Bold)
-        $0.text = "0 개"
-        $0.textColor = UIColor.mainColor
-    }
-    
-    let monthlyReceiveHeartLbl2 = UILabel().then {
-        $0.font = .notoSans(size: 12, family: .Regular)
-        $0.text = "의"
-    }
-    
-    let monthlyReceiveHeartLbl3 = UILabel().then {
-        $0.font = .notoSans(size: 12, family: .Regular)
-        $0.text = "공감을 받았어요!"
-    }
-    
-    let monthlyWriteLbl1 = UILabel().then {
-        $0.font = .notoSans(size: 12, family: .Regular)
-        $0.text = "이번달에"
-    }
-    
-    var monthlyWriteCountLbl = UILabel().then {
-        $0.font = .notoSans(size: 12, family: .Bold)
-        $0.text = "0 개"
-        $0.textColor = UIColor.mainColor
-    }
-    
-    let monthlyWriteLbl2 = UILabel().then {
-        $0.font = .notoSans(size: 12, family: .Regular)
-        $0.text = "의"
-    }
-    
-    let monthlyWriteLbl3 = UILabel().then {
-        $0.font = .notoSans(size: 12, family: .Regular)
-        $0.text = "글을 작성했어요!"
-    }
-    
-    let monthlyReceiveFollowLbl1 = UILabel().then {
-        $0.font = .notoSans(size: 12, family: .Regular)
-        $0.text = "이번달에"
-    }
-    
-    var monthlyReceiveFollowCountLbl = UILabel().then {
-        $0.font = .notoSans(size: 12, family: .Bold)
-        $0.text = "0 개"
-        $0.textColor = UIColor.mainColor
-    }
-    
-    let monthlyReceiveFollowLbl2 = UILabel().then {
-        $0.font = .notoSans(size: 12, family: .Regular)
-        $0.text = "의"
-    }
-    
-    let monthlyReceiveFollowLbl3 = UILabel().then {
-        $0.font = .notoSans(size: 12, family: .Regular)
-        $0.text = "팔로우를 했어요!"
-    }
-    
-    let heartLblStackView = UIStackView().then {
-        $0.axis = .horizontal
-        $0.spacing = 1
-    }
-    
-    let writeLblStackView = UIStackView().then {
-        $0.axis = .horizontal
-        $0.spacing = 1
-    }
-    
-    let followLblStackView = UIStackView().then {
-        $0.axis = .horizontal
-        $0.spacing = 1
-    }
-    
-    let heartWriteFollowLblStackView = UIStackView().then {
-        $0.axis = .horizontal
-        $0.spacing = 80
-    }
-    let alarmButton = UIImageView().then{
-        $0.image = UIImage(named: "alarmButton")?.withRenderingMode(.alwaysOriginal)
-    }
-    let settingButton = UIImageView().then{
-        $0.image = UIImage(named: "settingButton")?.withRenderingMode(.alwaysOriginal)
-    }
-//MARK: LifeCycle
+    //MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Authentication
-        CheckUserLogIn()
-        LogOut()
-        kakaoLogOut()
+        self.setUpView()
+        self.layout()
+        self.addTarget()
+        self.canlendarSetUp()
+        self.configure()
+        self.addNotification()
         
-        setUpView()
-        layout()
-        addTarget()
-        canlendarSetUp()
-        
-        self.calendar.delegate = self
-        self.calendar.dataSource = self
+        self.calendarView.delegate = self
+        self.calendarView.dataSource = self
         self.profileCollectionView.delegate = self
         self.profileCollectionView.dataSource = self
         
-        if jwtToken != nil{
-            GetPersonaDataRequest().getRequestData(self)
-            
-        }
+        self.bottomStackView.addArrangedSubview(self.heartComponent)
+        self.bottomStackView.addArrangedSubview(self.writeComponent)
+        self.bottomStackView.addArrangedSubview(self.peopleComponent)
     }
+    
     override func viewWillAppear(_ animated: Bool) {
-        if jwtToken != nil{
-            self.profileIdArray = [Int]()
-            self.personaArray = [String]()
-            self.profileNameArray = [String]()
-            self.statusMesageArray = [String]()
-            self.profileImageArray = [String]()
-            GetPersonaDataRequest().getRequestData(self)
-            HomeStatisticsDataRequest().getStatisticsRequestData(self, profileId: profileIdNow)
+        if self.checkUserLogin() {
+            ProfileService.getProfileModels { [weak self] items in
+                self?.personaDatas = items
+                self?.profileIdNow = items[0].profileId
+                self?.profileCollectionView.reloadData()
+            }
+            self.fetchStatistic()
+            self.updateCalendar()
+        }
+    }
+    
+    //MARK: - Method
+    private func fetchStatistic() {
+        StatisticsService.getStatistics(1610) { item in
+            self.heartComponent.highlightColor("이번 달에 \(item.monthly_likes_count)개의\n공감을 받았어요!",
+                                               pointStr: "\(item.monthly_likes_count)개")
+            self.writeComponent.highlightColor("이번 달에 \(item.monthly_myFeeds_count)개의\n글을 작성했어요!",
+                                               pointStr: "\(item.monthly_myFeeds_count)개")
+            self.peopleComponent.highlightColor("이번 달에 \(item.monthly_myFollowers_count)명이\n팔로우를 했어요!",
+                                                pointStr: "\(item.monthly_myFollowers_count)명")
+        }
+    }
+    
+    private func updateCalendar() {
+        let current = self.calendarView.currentPage
+        FeedService.getCalendarInfo(profileId: 1610, year: current.getYear, month: current.getMonth) { [weak self] items in
+            print(items[0].day)
+            self?.calendarDatas = items
+            self?.calendarView.reloadData()
+        }
+    }
+    
+    private func configure() {
+        self.view.backgroundColor = .white
+        self.navigationItem.backButtonTitle = ""
+        self.navigationController?.navigationBar.tintColor = .black
+    }
+    
+    private func addNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.logout), name: .presentLoginVC, object: nil)
+    }
+    
+    //MARK: - CalendarUI
+    private func canlendarSetUp(){
+        _ = self.calendarView.then {
+            $0.placeholderType = .none
+            $0.locale = .current
+            $0.appearance.headerDateFormat = "YYYY년 M월"
+            $0.appearance.headerMinimumDissolvedAlpha = 0.0
+            $0.appearance.headerTitleFont = UIFont.notoSans(size: 16, family: .Bold)
+            $0.appearance.headerTitleColor = .black
+            $0.appearance.weekdayFont = UIFont.notoSans(size: 12)
+            $0.appearance.weekdayTextColor = .black
+            $0.appearance.todayColor = .white
+            $0.appearance.titleTodayColor = .black
+            $0.appearance.selectionColor = .white
+            $0.appearance.titleSelectionColor = .black
             
-            HomeCalendarDataRequest().getHomeCalendarRequestData(self, profileId: profileIdNow, year: showingYear, month: showingMonth)
-
-            
-        }
+            $0.appearance.eventDefaultColor = UIColor.mainColor
+            $0.appearance.eventSelectionColor = UIColor.mainColor
+        }        
     }
     
-    //MARK: CalendarUI
-    func canlendarSetUp(){
-        calendar.placeholderType = .none
-        calendar.appearance.headerDateFormat = "YYYY년 M월"
-        calendar.appearance.headerMinimumDissolvedAlpha = 0.0
-        calendar.appearance.headerTitleFont = UIFont.notoSans(size: 16, family: .Bold)
-        calendar.appearance.headerTitleColor = .black
-        calendar.appearance.weekdayFont = UIFont.notoSans(size: 12)
-        calendar.appearance.weekdayTextColor = .black
-        calendar.appearance.todayColor = .white
-        calendar.appearance.titleTodayColor = .black
-        calendar.appearance.selectionColor = .white
-        calendar.appearance.titleSelectionColor = .black
+    private func setUpView() {
+        self.view.addSubview(self.scrollView)
         
-        //이벤트 동그라미
-        calendar.appearance.eventDefaultColor = UIColor.mainColor
-        calendar.appearance.eventSelectionColor = UIColor.mainColor
+        self.scrollView.addSubview(self.contentView)
+        
+        self.contentView.addSubview(self.topFrameView)
+        self.contentView.addSubview(self.profileCollectionView)
+        self.contentView.addSubview(self.alarmButton)
+        self.contentView.addSubview(self.settingButton)
+        self.contentView.addSubview(self.calendarView)
+        self.contentView.addSubview(self.view4)
+        self.contentView.addSubview(self.bottomFrameView)
+        
+        self.topFrameView.addSubview(self.nickNameLbl)
+        self.topFrameView.addSubview(self.introduceLbl)
+        self.topFrameView.addSubview(self.writeBookManImg)
+        self.topFrameView.addSubview(self.writeBtn)
+        
+        self.calendarView.addSubview(self.calendarRight)
+        self.calendarView.addSubview(self.calendarLeft)
+        
+        self.bottomFrameView.addSubview(self.personaLabel)
+        self.bottomFrameView.addSubview(self.bottomStackView)
     }
     
-    func setUpView() {
-        view.backgroundColor = .white
-        view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
-//        contentView.addSubview(view1)
-        contentView.addSubview(view2)
-//        view1.addSubview(profileMakeBtn)
-        
-        contentView.addSubview(profileCollectionView)
-        contentView.addSubview(alarmButton)
-        contentView.addSubview(settingButton)
-        
-//        view2.addSubview(personaLbl)
-        view2.addSubview(nickNameLbl)
-        view2.addSubview(introduceLbl)
-        view2.addSubview(pencilLbl)
-        view2.addSubview(writeBookManImg)
-        view2.addSubview(writeBtn)
-        contentView.addSubview(view3)
-        view3.backgroundColor = .clear
-        view3.addSubview(calendar)
-        calendar.addSubview(self.calendarRight)
-        calendar.addSubview(self.calendarLeft)
-        contentView.addSubview(view4)
-        contentView.addSubview(view5)
-        view5.addSubview(personaBottomLbl)
-        view5.addSubview(writeLbl)
-        view5.addSubview(heartLbl)
-        view5.addSubview(peopleLbl)
-        view5.addSubview(monthlyReceiveHeartLbl1)
-        view5.addSubview(monthlyReceiveHeartCountLbl)
-        view5.addSubview(monthlyReceiveHeartLbl2)
-        view5.addSubview(monthlyReceiveHeartLbl3)
-        view5.addSubview(monthlyWriteLbl1)
-        view5.addSubview(monthlyWriteCountLbl)
-        view5.addSubview(monthlyWriteLbl2)
-        view5.addSubview(monthlyWriteLbl3)
-        view5.addSubview(monthlyReceiveFollowLbl1)
-        view5.addSubview(monthlyReceiveFollowCountLbl)
-        view5.addSubview(monthlyReceiveFollowLbl2)
-        view5.addSubview(monthlyReceiveFollowLbl3)
-        view5.addSubview(heartLblStackView)
-        view5.addSubview(writeLblStackView)
-        view5.addSubview(followLblStackView)
-    }
-    
-    func layout() {
-        
-        scrollView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.leading.bottom.trailing.equalToSuperview()
+    private func layout() {
+        self.scrollView.snp.makeConstraints {
+            $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.trailing.equalToSuperview()
         }
         
-        contentView.snp.makeConstraints {
-            $0.width.equalToSuperview()
-            $0.centerX.top.bottom.equalToSuperview()
+        self.contentView.snp.makeConstraints {
+            $0.centerX.width.top.bottom.equalToSuperview()
         }
         
-        settingButton.snp.makeConstraints{
-            $0.top.equalToSuperview().offset(35)
-            $0.trailing.equalToSuperview().offset(-27)
-            $0.width.height.equalTo(22)
-        }
-        alarmButton.snp.makeConstraints{
-            $0.top.equalToSuperview().offset(35)
-            $0.trailing.equalTo(settingButton.snp.leading).offset(-17.35)
-            $0.width.height.equalTo(20)
-        }
-        profileCollectionView.snp.makeConstraints{
+        self.profileCollectionView.snp.makeConstraints{
             $0.top.equalToSuperview()
-            $0.leading.equalToSuperview().offset(20)
+            $0.leading.equalToSuperview().offset(30)
             $0.trailing.equalTo(alarmButton.snp.leading).offset(-10)
-            $0.height.equalTo(90)
+            $0.height.equalTo(75)
         }
         
-        
-        view2.snp.makeConstraints {
+        self.topFrameView.snp.makeConstraints {
             $0.height.equalTo(317)
             $0.top.equalTo(profileCollectionView.snp.bottom).offset(30)
             $0.leading.trailing.equalToSuperview()
         }
         
-//        personaLbl.snp.makeConstraints {
-//            $0.top.equalToSuperview()
-//            $0.leading.equalToSuperview().inset(24)
-//        }
+        self.settingButton.snp.makeConstraints{
+            $0.top.equalToSuperview().offset(25)
+            $0.trailing.equalToSuperview().offset(-27)
+            $0.width.height.equalTo(22)
+        }
         
-        nickNameLbl.snp.makeConstraints {
+        self.alarmButton.snp.makeConstraints{
+            $0.top.equalToSuperview().offset(25)
+            $0.trailing.equalTo(settingButton.snp.leading).offset(-17.35)
+            $0.width.height.equalTo(20)
+        }
+        
+        self.nickNameLbl.snp.makeConstraints {
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview().inset(24)
         }
         
-        introduceLbl.snp.makeConstraints {
+        self.introduceLbl.snp.makeConstraints {
             $0.top.equalTo(nickNameLbl.snp.bottom).offset(2)
             $0.leading.equalToSuperview().inset(24)
         }
         
-        pencilLbl.snp.makeConstraints {
-            $0.top.equalTo(nickNameLbl.snp.bottom).offset(1)
-            $0.leading.equalTo(introduceLbl.snp.trailing).offset(2.3)
-        }
-        
-        writeBookManImg.snp.makeConstraints {
+        self.writeBookManImg.snp.makeConstraints {
             $0.top.equalTo(introduceLbl.snp.bottom).offset(14)
             $0.centerX.equalToSuperview()
         }
         
-        writeBtn.snp.makeConstraints {
+        self.writeBtn.snp.makeConstraints {
             $0.top.equalTo(writeBookManImg.snp.bottom).offset(14)
             $0.leading.trailing.equalToSuperview().inset(24)
             $0.bottom.equalToSuperview().inset(24)
         }
         
-        view3.snp.makeConstraints {
+        self.calendarView.snp.makeConstraints {
+            $0.top.equalTo(self.topFrameView.snp.bottom).offset(15)
             $0.height.equalTo(330)
-            $0.top.equalTo(view2.snp.bottom)
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.equalToSuperview().offset(15)
+            $0.trailing.equalToSuperview().offset(-15)
         }
         
-        calendar.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview().inset(15)
-            $0.leading.trailing.equalToSuperview().inset(15)
-        }
-        calendarRight.snp.makeConstraints{
+        self.calendarRight.snp.makeConstraints{
             $0.top.equalToSuperview().offset(12)
             $0.trailing.equalToSuperview().offset(-129)
         }
-        calendarLeft.snp.makeConstraints{
+        
+        self.calendarLeft.snp.makeConstraints{
             $0.top.equalToSuperview().offset(12)
             $0.leading.equalToSuperview().offset(127)
         }
+        
         view4.snp.makeConstraints {
             $0.height.equalTo(4)
-            $0.top.equalTo(view3.snp.bottom)
+            $0.top.equalTo(calendarView.snp.bottom)
             $0.leading.trailing.equalToSuperview()
         }
         
-        view5.snp.makeConstraints {
+        self.bottomFrameView.snp.makeConstraints {
             $0.height.equalTo(225)
             $0.top.equalTo(view4.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
         
-        personaBottomLbl.snp.makeConstraints {
+        self.personaLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(35)
             $0.leading.equalToSuperview().inset(24)
         }
-        heartLbl.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(86)
-            $0.leading.equalToSuperview().inset(45)
-        }
         
-        writeLbl.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(86)
-            $0.centerX.equalToSuperview().offset(1.5)
-        }
-        
-        peopleLbl.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(86)
-            $0.trailing.equalToSuperview().inset(42)
-        }
-        
-        [monthlyReceiveHeartLbl1, monthlyReceiveHeartCountLbl].map {
-            heartLblStackView.addArrangedSubview($0)
-        }
-        
-        heartLblStackView.snp.makeConstraints {
-            $0.top.equalTo(heartLbl.snp.bottom).offset(13)
-            $0.leading.equalToSuperview().inset(26)
-        }
-        
-        monthlyReceiveHeartLbl2.snp.makeConstraints {
-            $0.top.equalTo(heartLbl.snp.bottom).offset(13)
-            $0.leading.equalTo(heartLblStackView.snp.trailing)
-        }
-        
-        monthlyReceiveHeartLbl3.snp.makeConstraints {
-            $0.top.equalTo(monthlyReceiveHeartLbl2.snp.bottom).offset(1)
-            $0.leading.equalToSuperview().inset(26)
-        }
-        
-        [monthlyWriteLbl1, monthlyWriteCountLbl].map {
-            writeLblStackView.addArrangedSubview($0)
-        }
-        
-        writeLblStackView.snp.makeConstraints {
-            $0.top.equalTo(writeLbl.snp.bottom).offset(13)
-            $0.centerX.equalToSuperview().offset(-7)
-        }
-        
-        monthlyWriteLbl2.snp.makeConstraints {
-            $0.top.equalTo(writeLbl.snp.bottom).offset(13)
-            $0.leading.equalTo(writeLblStackView.snp.trailing)
-        }
-        
-        monthlyWriteLbl3.snp.makeConstraints {
-            $0.top.equalTo(monthlyWriteLbl1.snp.bottom).offset(1)
-            $0.leading.equalTo(monthlyWriteLbl1.snp.leading)
-        }
-        
-        [monthlyReceiveFollowLbl1, monthlyReceiveFollowCountLbl].map {
-            followLblStackView.addArrangedSubview($0)
-        }
-        
-        followLblStackView.snp.makeConstraints {
-            $0.top.equalTo(peopleLbl.snp.bottom).offset(13)
-            $0.trailing.equalToSuperview().inset(40)
-        }
-        
-        monthlyReceiveFollowLbl2.snp.makeConstraints {
-            $0.top.equalTo(peopleLbl.snp.bottom).offset(13)
-            $0.leading.equalTo(followLblStackView.snp.trailing)
-        }
-        
-        monthlyReceiveFollowLbl3.snp.makeConstraints {
-            $0.top.equalTo(monthlyReceiveFollowLbl1.snp.bottom).offset(1)
-            $0.leading.equalTo(monthlyReceiveFollowLbl1.snp.leading)
+        self.bottomStackView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(86)
+            $0.leading.bottom.trailing.equalToSuperview()
         }
     }
     
-//MARK: Calendar
-    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        print(dateFormatter.string(from: date) + " 선택됨")
-        
-        let dateFormatterForDay = DateFormatter()
-        dateFormatterForDay.dateFormat = "d"
-        clickedDay = dateFormatterForDay.string(from: date)
-        print(clickedDay)
-        
-        GetFeedIdDataRequest().getHomeCalendarRequestData(self, profileId: profileIdNow, year: showingYear, month: showingMonth, day: clickedDay, page: 1)
-        
-        let vc = SpecificPostViewController()
-        vc.feedIdArray = getFeedIdArray
-        vc.modalPresentationStyle = .automatic
-        self.present(vc, animated: true)
-        
-        //escaping completion 사용해야됨.
-//            if self.getFeedIdArray.isEmpty{
-//                print("empty. will not show viewController")
-//            }else{
-//                self.getFeedIdArray = []
-//                let vc = SpecificPostViewController()
-//                vc.modalPresentationStyle = .automatic
-//                self.present(vc, animated: true)
-//            }
-        
-        
-
-    }
-
-    
-    // 특정 날짜에 이미지 세팅
-    func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
-        let monthToday = DateFormatter()
-        monthToday.dateFormat = "MM"
-        var monthStr = monthToday.string(from: date)
-        showingMonth = monthStr
-        
-        let yearToday = DateFormatter()
-        yearToday.dateFormat = "YYYY"
-        var yearStr = yearToday.string(from: date)
-        showingYear = Int(yearStr)!
-        
-        let imageDateFormatter = DateFormatter()
-        imageDateFormatter.dateFormat = "yyyyMMdd"
-        var dateStr = imageDateFormatter.string(from: date)
-        print("date : \(dateStr)")
-        return datesWithCat.contains(dateStr) ? UIImage(named: "calendarexamplepic") : nil
-    }
-    
-    // 날짜 선택 해제 시 콜백 메소드
-    func calendar(_ calendar: FSCalendar, didDeselect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        print(dateFormatter.string(from: date) + " 해제됨")
-    }
-    
-    // 글 있는 날짜
-    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.dateFormat = "yyyy-MM-dd"
-        var dates = [Date]()
-        if haveDataCircle.count > 0{
-            for i in 0...haveDataCircle.count-1{
-                let a = formatter.date(from: haveDataCircle[i])
-                dates.append(a!)
-            }
-        }
-        if dates.contains(date){
-            return 1
-        }
-        return 0
-    }
-    
-//MARK: Selector
-    @objc func enterProfileMake(sender: UIButton!) {
-        let vc = ProfileMakeViewController()
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true)
-    }
+    //MARK: - Selector
     @objc private func didClickWrite(_ button: UIButton) {
-        
-        
-        let vc = PostViewController()
-        vc.sendProfileID = profileIdNow
-        print("현재 profileID는 : \(profileIdNow)")
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true)
+        let postVC = PostViewController()
+        self.navigationController?.pushViewController(postVC, animated: true)
     }
     
     @objc func didClickAlarm(sender: UITapGestureRecognizer) {
         let vc = AlarmViewController()
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
-        }
+    }
     
-    @objc func didClickSetting(sender: UITapGestureRecognizer) {
-//        GetPersonaDataRequest().getRequestData(self)
-        
-        let vc = SettingViewController()
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true)
-        }
-    private var currentPage: Date?
-    private lazy var today: Date = {
-        return Date()
-    }()
+    @objc func didClickSetting(_ sender: UIButton) {
+        let settingVC = SettingViewController()
+        self.navigationController?.pushViewController(settingVC, animated: true)
+    }
+    
     @objc func monthForthButtonPressed(_ sender: Any) {
-        self.moveCurrentPage(moveUp: true)
-    }
-    @objc func monthBackButtonPressed(_ sender: Any) {
-        self.moveCurrentPage(moveUp: false)
-    }
-    private func moveCurrentPage(moveUp: Bool) {
-        let calendar = Calendar.current
-        var dateComponents = DateComponents()
-        dateComponents.month = moveUp ? 1 : -1
-        self.currentPage = calendar.date(byAdding: dateComponents, to: self.currentPage ?? self.today)
-        self.calendar.setCurrentPage(self.currentPage!, animated: true)
-    }
-    
-    
-//MARK: AddTarget
-    func addTarget(){
-        self.writeBtn.addTarget(self, action: #selector(self.didClickWrite(_:)), for: .touchUpInside)
-        
-        let settingBtn = UITapGestureRecognizer(target: self, action: #selector(didClickSetting))
-        settingButton.isUserInteractionEnabled = true
-        settingButton.addGestureRecognizer(settingBtn)
-        
-        let alarmgBtn = UITapGestureRecognizer(target: self, action: #selector(didClickAlarm))
-        alarmButton.isUserInteractionEnabled = true
-        alarmButton.addGestureRecognizer(alarmgBtn)
-        
-        self.calendarRight.addTarget(self, action: #selector(self.monthForthButtonPressed), for: .touchUpInside)
-        
-        self.calendarLeft.addTarget(self, action: #selector(self.monthBackButtonPressed), for: .touchUpInside)
-    }
- 
-    // MARK: - Helpers
-    func CheckUserLogIn() {
-        print("-----")
-        print("AccessToken in HomeVC is \(jwtToken ?? "UserIsNotLogIn")")
-        if jwtToken == nil {
-            DispatchQueue.main.async {
-                let controller = LoginViewController()
-                let navigation = UINavigationController(rootViewController: controller)
-                navigation.modalPresentationStyle = .fullScreen
-                self.present(navigation, animated: true, completion: nil)
-            }
+        guard var year = Int(self.calendarView.currentPage.getYear),
+              var month = Int(self.calendarView.currentPage.getMonth) else { return}
+        month += 1
+        if month > 12 {
+            month = 1
+            year += 1
         }
-
+        let newPage = Date("\(year)-" + String(format: "%02d", month) + "-\(self.calendarView.currentPage.getDay)")
+        self.calendarView.setCurrentPage(newPage, animated: true)
     }
 
-    func LogOut() {
-        let headers: HTTPHeaders = ["Authorization": "Bearer " + (jwtToken ?? "UserIsNotLogIn")]
-        print(headers)
-        
-        AuthService.userLogOut(nil, headers: headers) { response in
+    @objc func monthBackButtonPressed(_ sender: Any) {
+        guard var year = Int(self.calendarView.currentPage.getYear),
+              var month = Int(self.calendarView.currentPage.getMonth) else { return}
+        month -= 1
+        if month < 1 {
+            month = 12
+            year -= 1
+        }
+        let newPage = Date("\(year)-" + String(format: "%02d", month) + "-\(self.calendarView.currentPage.getDay)")
+        self.calendarView.setCurrentPage(newPage, animated: true)
+    }
+    
+    @objc private func logout() {
+        AuthService.userLogOut() { response in
             if let response = response {
+                print(response.message)
                 switch response.statusCode {
                 case 100:
-                    let tokenService = TokenService()
-                    tokenService.delete("https://dev.onnoff.shop/auth/login", account: "accessToken")
-                    print("LogOut Complete, AccessToken is \(TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken") ?? "Delete Token")")
-                    let controller = LoginViewController()
-                    let navigation = UINavigationController(rootViewController: controller)
-                    navigation.modalPresentationStyle = .fullScreen
-                    self.present(navigation, animated: true, completion: nil)
+                    TokenService().delete("https://dev.onnoff.shop/auth/login", account: "accessToken") // JWT 삭제
+                    let loginVC = LoginViewController()
+                    self.navigationController?.pushViewController(loginVC, animated: true)
                 case 400:
                     print(response.message)
                 case 401:
@@ -700,184 +377,115 @@ class HomeViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
     }
     
-    func kakaoLogOut() {
-        UserApi.shared.logout { error in
-            if let error = error {
-                print(error.localizedDescription)
-            } else {
-                print("logout() success..")
-                let controller = LoginViewController()
-                let navigation = UINavigationController(rootViewController: controller)
-                navigation.modalPresentationStyle = .fullScreen
-                self.present(navigation, animated: true, completion: nil)
+    //MARK: - AddTarget
+    private func addTarget(){
+        self.writeBtn.addTarget(self, action: #selector(self.didClickWrite(_:)), for: .touchUpInside)
+        self.settingButton.addTarget(self, action: #selector(self.didClickSetting), for: .touchUpInside)
+        self.alarmButton.addTarget(self, action: #selector(self.didClickAlarm), for: .touchUpInside)
+        self.calendarRight.addTarget(self, action: #selector(self.monthForthButtonPressed), for: .touchUpInside)
+        self.calendarLeft.addTarget(self, action: #selector(self.monthBackButtonPressed), for: .touchUpInside)
+    }
+    
+    // MARK: - Helpers
+    private func checkUserLogin() -> Bool {
+        if TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken") == nil {
+            let loginVC = LoginViewController()
+            self.navigationController?.pushViewController(loginVC, animated: true)
+            return false
+        } else {
+            return true
+        }
+    }
+}
+
+//MARK: - CalendarDelegate
+extension HomeViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
+    // 특정 날짜에 이미지 세팅
+    func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
+        let tempItem = self.calendarDatas.filter({ $0.day == date.getDay })
+        
+        if let item = tempItem.first, let imgURL = item.feedImgUrl {
+            async {
+                return UIImage(data: try! Data(contentsOf: URL(string: imgURL)!))
             }
+        } else {
+            return nil
+        }
+        
+        if self.calendarDatas.contains(where: { $0.day == date.getDay && $0.feedImgUrl != nil }) {
+            
+            return nil
+        } else {
+            return nil
         }
     }
     
-//MARK: Extensions
-    func createLayout() -> UICollectionViewCompositionalLayout {
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         
-        // item
-        let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(0.85)))
-
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 6, trailing: 11.5)
-
-        // Group
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: NSCollectionLayoutSize(widthDimension: .absolute(500), heightDimension: .fractionalHeight(1)), subitem: item, count: 2)
-
-        // Section
-        let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
-
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 18, bottom: 0, trailing: 7)
-
-        // return
-        return UICollectionViewCompositionalLayout(section: section)
+        
     }
+    
+    func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
+        self.fetchStatistic()
+    }
+    
+    // 글 있는 날짜
+    func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
+        if self.calendarDatas.contains(where: { $0.day == date.getDay }) {
+            return 1
+        } else {
+            return 0
+        }
+    }
+}
 
-//MARK: COLLECTIONVIEW
+//MARK: - CollectionView Delegate
+extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return personaArray.count + 1
+        return self.personaDatas.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCell.identifier, for: indexPath) as! ProfileCell
-
-        if indexPath.row == personaArray.count{
-            cell.profileName.text = ""
-            cell.plusButton.isHidden = false
-            cell.borderView.backgroundColor = .systemGray3
-            cell.profileImage.image = UIImage(named: "")?.withRenderingMode(.alwaysOriginal)
+        cell.prepareForReuse()
+        
+        if indexPath.row == self.personaDatas.count{ // 페르소나 추가
+            cell.profileNameLabel.text = ""
+            cell.profileImageView.contentMode = .center
+            cell.profileImageView.image = UIImage(named: "plus")?.withRenderingMode(.alwaysOriginal)
         }else{
-            cell.plusButton.isHidden = true
-            cell.borderView.backgroundColor = .mainColor
-            //이미지
-            if let imageURL = URL(string: profileImageArray[indexPath.row]) {
-                let task = URLSession.shared.dataTask(with: imageURL, completionHandler: { data, response, error in
-                    if let data = data, let image = UIImage(data: data) {
-                        DispatchQueue.main.async {
-                            cell.profileImage.image = image
-                        }
-                    }
-                })
-                task.resume()
-            }
-            
-            cell.profileName.text = personaArray[indexPath.row]
+            if profileIdNow == self.personaDatas[indexPath.row].profileId { cell.configureSelectedItem() }
+            cell.profileImageView.loadImage(self.personaDatas[indexPath.row].profileImgUrl)
+            cell.profileNameLabel.text = self.personaDatas[indexPath.row].personaName
         }
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            return CGSize(width: self.view.frame.width , height: 90)
+        return CGSize(width: 53, height: 75)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 12
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCell.identifier, for: indexPath) as! ProfileCell
-        
-        if indexPath.row == personaArray.count{
-            let VC = ProfileMakeViewController()
-            VC.modalPresentationStyle = .fullScreen
-            present(VC, animated: true)
+        if indexPath.row == self.personaDatas.count{
+            let makeProfileVC = ProfileMakeViewController()
+            self.navigationController?.pushViewController(makeProfileVC, animated: true)
         }else{
-            DispatchQueue.main.async {
-                self.nickNameLbl.text = "\(self.profileNameArray[indexPath.row])님,"
-                self.personaBottomLbl.text = "\(self.profileNameArray[indexPath.row])님,"
-            }
-            self.profileIdNow = self.profileIdArray[indexPath.row]
-            HomeStatisticsDataRequest().getStatisticsRequestData(self, profileId: profileIdNow)
-            HomeCalendarDataRequest().getHomeCalendarRequestData(self, profileId: profileIdNow, year: 2023, month: "02")
-            print(self.profileIdNow)
-            calendar.reloadData()
+            self.nickNameLbl.text = "\(self.personaDatas[indexPath.row].personaName)님,"
+            self.personaLabel.text = "\(self.personaDatas[indexPath.row].personaName)님,"
+            
+            self.profileIdNow = self.personaDatas[indexPath.row].profileId
+            
+            self.calendarView.reloadData()
+            collectionView.reloadData()
         }
     }
-//MARK: Alamofire
-    func didSuccess(_ response: GetPersonaModel){
-        print("didSuccess hello")
-        
-        for i in 0...(response.result?.count)!-1{
-            profileIdArray.append(contentsOf: [(response.result?[i].profileId)!])
-            personaArray.append(contentsOf: ["\((response.result?[i].personaName)!)"])
-            profileNameArray.append(contentsOf: ["\((response.result?[i].profileName)!)"])
-            statusMesageArray.append(contentsOf: ["\((response.result?[i].statusMessage)!)"])
-            profileImageArray.append(contentsOf: ["\((response.result?[i].profileImgUrl)!)"])
-        }
-        profileCollectionView.reloadData()
-        
-        print(profileIdArray)
-        print(personaArray)
-        print(profileNameArray)
-        print(statusMesageArray)
-        print(profileImageArray)
-        
-        self.nickNameLbl.text = "\(self.profileNameArray[0])님,"
-        self.personaBottomLbl.text = "\(self.profileNameArray[0])님,"
-        self.profileIdNow = self.profileIdArray[0]
-        
-        print("didSuccess hello")
-    }
-    
-    func didSuccessStatistics(_ response: HomeStatisticsModel){
-        print("didSuccessStatistics")
-        if response.result?.monthly_likes_count != nil && response.result?.monthly_myFeeds_count != nil && response.result?.monthly_myFollowers_count != nil{
-                DispatchQueue.main.async {
-                    self.monthlyReceiveHeartCountLbl.text = "\((response.result?.monthly_likes_count)!) 개"
-                    self.monthlyWriteCountLbl.text = "\((response.result?.monthly_myFeeds_count)!) 개"
-                    self.monthlyReceiveFollowCountLbl.text = "\((response.result?.monthly_myFollowers_count)!) 명"
-            }
-        }
-    }
-    
-    func didSuccessCalendar(_ response: HomeCalendarModel){
-        print("didSuccessCalendar")
-        haveDataCircle = []
-        if response.result!.isEmpty == false{
-            for i in 0...response.result!.count-1{
-                var a = response.result![i].day
-                daysForDotsArray.append(a!)
-            }
-            for i in 0...daysForDotsArray.count-1{
-                haveDataCircle.append(contentsOf: ["\(showingYear)-\(showingMonth)-\(daysForDotsArray[i])"])
-            }
-        }
-        calendar.reloadData()
-    }
-    
-    func didSuccessGetFeedId(_ response: GetFeedIdModel){
-        
-        getFeedIdArray = []
-        print("didSuccessGetFeedId")
-        if response.result!.feedArray!.isEmpty{
-            print("empty")
-        }else{
-            for i in 0...response.result!.feedArray!.count-1{
-                getFeedIdArray.append(response.result!.feedArray![i].feedId!)
-            }
-        }
-        print(getFeedIdArray)
-//        FeedIdArray?.sendFeedId(data: getFeedIdArray)
-        print("didSuccessGetFeedId")
-       
-    }
-
 }
-
-extension UIColor {
-   convenience init(red: Int, green: Int, blue: Int) {
-       assert(red >= 0 && red <= 255, "Invalid red component")
-       assert(green >= 0 && green <= 255, "Invalid green component")
-       assert(blue >= 0 && blue <= 255, "Invalid blue component")
-
-       self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
-   }
-
-   convenience init(rgb: Int) {
-       self.init(
-           red: (rgb >> 16) & 0xFF,
-           green: (rgb >> 8) & 0xFF,
-           blue: rgb & 0xFF
-       )
-   }
-}
-

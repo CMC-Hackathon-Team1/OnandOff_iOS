@@ -11,4 +11,5 @@ extension Notification.Name {
     static let dismissStandardAlert = Notification.Name("dismissStandardAlert")
     static let selectCategory = Notification.Name("selectCategory")
     static let presentReportVC = Notification.Name("presentReportVC")
+    static let presentLoginVC = Notification.Name("presentLoginVC")
 }
