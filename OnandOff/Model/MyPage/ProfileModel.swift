@@ -13,6 +13,12 @@ class ProfileModel: Codable {
     let result: ProfileItem
 }
 
+class ProfileModels: Codable {
+    let statusCode: Int
+    let message: String
+    let result: [ProfileItem]
+}
+
 class ProfileItem: Codable {
     let profileId: Int
     let personaName: String

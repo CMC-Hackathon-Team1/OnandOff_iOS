@@ -6,71 +6,51 @@
 //
 
 import UIKit
-import SnapKit
+import Photos
 
-class PostViewController: UIViewController, CategorySelectProtocol {
-
+final class PostViewController: UIViewController {
     
-
-    var sendProfileID = Int()
-    var sendCategoryID = Int()
-    var sendHashTagList = [String]()
-    var sendContent = String()
-    var sendIsSecret = String()
-    
-    
-//MARK: - Properties
-    let heading = UILabel().then {
-        $0.textAlignment = .center
-        $0.text = "글 작성하기"
-        $0.font = UIFont(name: "notoSans", size : 16)
-    }
-    let backButton = UIButton().then{
-        $0.setImage(UIImage(named: "backbutton")?.withRenderingMode(.alwaysOriginal), for: .normal)
-    }
-    let submitButton = UIButton().then{
-        $0.setTitle("작성", for: .normal)
-        $0.setTitleColor(UIColor.mainColor, for: .normal)
-        $0.titleLabel?.font = .notoSans(size: 14, family: .Bold)
-    }
-    let photoButton = UIImageView().then{
-        $0.image = UIImage(named: "photoButton")?.withRenderingMode(.alwaysOriginal)
-    }
-    let line = UIView().then{
-        $0.backgroundColor = UIColor.gray
-    }
-    let line2 = UIView().then{
-        $0.backgroundColor = UIColor.gray
-    }
-    let line3 = UIView().then{
-        $0.backgroundColor = UIColor.gray
-    }
-    let emptyView = UIView().then{
-        $0.backgroundColor = UIColor.white
+    //MARK: - Properties
+    private let photoButton = UIButton().then {
+        $0.setImage(UIImage(named: "photoButton")?.withRenderingMode(.alwaysOriginal), for: .normal)
     }
     
-    let category = UILabel().then{
+    private let separatorLineView = UIView().then {
+        $0.backgroundColor = .gray
+    }
+    
+    private let categoryFrameView = UIView()
+    
+    private let categoryLabel = UILabel().then {
         $0.textAlignment = .center
         $0.text = "카테고리"
-        $0.font = UIFont(name: "notoSans", size : 16)
+        $0.font = .notoSans(size: 16, family: .Bold)
     }
-    let categoryButton = UIImageView().then{
+    
+    private let rightArrowImageView = UIImageView().then {
         $0.image = UIImage(named: "rightArrow")?.withRenderingMode(.alwaysOriginal)
     }
-    let hashtag = UITextField().then{
-        $0.placeholder = "해시태그를 달아보세요. (ex: #에세이, #수필)"
-        $0.font = UIFont(name: "notoSans", size : 16)
+    
+    private let separatorLineView2 = UIView().then {
+        $0.backgroundColor = UIColor.gray
     }
-    private lazy var textView: UITextView = {
-            let textView = UITextView()
-            textView.font = .systemFont(ofSize: 14, weight: .medium)
-            textView.font = .notoSans(size:14)
-            textView.text = "작가 키키님의 하루를 기록하고 공유해주세요."
-            textView.backgroundColor = .white
-            textView.textColor = .placeholderText
-            textView.delegate = self
-            return textView
-        }()
+    
+    private let hashtagTextfield = UITextField().then {
+        $0.placeholder = "해시태그를 달아보세요. (ex: #에세이, #수필)"
+        $0.font = .notoSans(size: 16)
+    }
+    
+    private let separatorLineView3 = UIView().then {
+        $0.backgroundColor = UIColor.gray
+    }
+    
+    private let contentTextView = UITextView().then {
+        $0.font = .notoSans(size:14)
+        $0.text = "작가 키키님의 하루를 기록하고 공유해주세요."
+        $0.backgroundColor = .white
+        $0.textColor = .placeholderText
+        
+    }
     let bottomline = UIView().then{
         $0.backgroundColor = UIColor.black
     }
@@ -85,77 +65,64 @@ class PostViewController: UIViewController, CategorySelectProtocol {
 
     let checkArray = ["anonymousCheck","anonymousCheckOff"]
     var index = 0
-
-    let vcHome = HomeViewController()
+    
 //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
 
-        setUpView()
-        layout()
-        addTarget()
+        self.setUpView()
+        self.layout()
+        self.addTarget()
 
-        print("testtest")
-        print(sendProfileID)
+        self.contentTextView.delegate = self
+        
+        self.navigationItem.title = "글 작성하기"
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "작성", style: .plain, target: self, action: #selector(self.didClickSubmit)).then {
+            $0.tintColor = .mainColor
+        }
     }
+    
 //MARK: - Delegate
     func sendCategoryNumber(data: Int) {
         DispatchQueue.main.async {
             if data == 1{
-                self.category.text = "문화/예술"
+                self.categoryLabel.text = "문화/예술"
             }else if data == 2{
-                self.category.text = "스포츠"
+                self.categoryLabel.text = "스포츠"
             }else if data == 3{
-                self.category.text = "자기계발"
+                self.categoryLabel.text = "자기계발"
             }else{
-                self.category.text = "기타"
+                self.categoryLabel.text = "기타"
             }
         }
-        sendCategoryID = data
     }
+    
 //MARK: - Selector
     @objc private func didClickBack(_ button: UIButton) {
         dismiss(animated: true)
         print("didClickBack")
     }
+    
     @objc private func didClickSubmit(_ button: UIButton) {
         print("didClickSubmit")
-        
-        sendHashTagList.append(hashtag.text!)
-        sendContent = textView.text
-        
-        if index == 0{
-            sendIsSecret = "PRIVATE"
-        }else{
-            sendIsSecret = "PUBLIC"
-        }
-        
-        PostModelDataRequest().getRequestData(self, profileId: sendProfileID, categoryId: sendCategoryID, hashTagList: sendHashTagList, content: sendContent, isSecret: sendIsSecret)
-        
-        print("무슨 내용이 보내졌는지")
-        print(sendProfileID)
-        print(sendCategoryID)
-        print(sendHashTagList)
-        print(sendContent)
-        print(sendIsSecret)
-        print("무슨 내용이 보내졌는지")
-        
-        dismiss(animated: true)
     }
+    
     @objc func didClickPhoto(sender: UITapGestureRecognizer) {
-        let VC = ImageUploadViewController()
-        VC.modalPresentationStyle = .fullScreen
-        present(VC, animated: true)
-        print("didClickPhoto")
+        let controller = ImageUploadViewController()
+        controller.modalPresentationStyle = .fullScreen
+        controller.delegate = self
+        
+        self.present(controller, animated: false)
     }
+    
     @objc func didClickCategory(sender: UITapGestureRecognizer) {
-        let VC = CategorySelectonViewController()
-        VC.categoryNumber = self
+        let VC = CategoryActionSheetViewController()
         VC.modalPresentationStyle = .fullScreen
         present(VC, animated: true)
         print("didClickCategory")
     }
+    
     @objc func didClickAnonymous(sender: UITapGestureRecognizer) {
         print("didClickAnonymous")
         self.index = (self.index >= self.checkArray.count-1) ? 0 : self.index+1
@@ -163,19 +130,18 @@ class PostViewController: UIViewController, CategorySelectProtocol {
     }
     
 //MARK: - addSubView
-    func setUpView(){
-        self.view.addSubview(self.heading)
-        self.view.addSubview(self.backButton)
-        self.view.addSubview(self.submitButton)
+    private func setUpView(){
         self.view.addSubview(self.photoButton)
-        self.view.addSubview(self.line)
-        self.view.addSubview(self.emptyView)
-        emptyView.addSubview(self.category)
-        emptyView.addSubview(self.categoryButton)
-        self.view.addSubview(self.line2)
-        self.view.addSubview(self.hashtag)
-        self.view.addSubview(self.line3)
-        self.view.addSubview(self.textView)
+        self.view.addSubview(self.separatorLineView)
+        self.view.addSubview(self.categoryFrameView)
+        
+        self.categoryFrameView.addSubview(self.categoryLabel)
+        self.categoryFrameView.addSubview(self.rightArrowImageView)
+        
+        self.view.addSubview(self.separatorLineView2)
+        self.view.addSubview(self.hashtagTextfield)
+        self.view.addSubview(self.separatorLineView3)
+        self.view.addSubview(self.contentTextView)
         self.view.addSubview(self.bottomline)
         self.view.addSubview(self.anonymousCheck)
         self.view.addSubview(self.anonymousLabel)
@@ -183,74 +149,64 @@ class PostViewController: UIViewController, CategorySelectProtocol {
     
 //MARK: - Layout
     private func layout(){
-        self.heading.snp.makeConstraints{
-            $0.top.equalToSuperview().offset(40)
-            $0.leading.equalToSuperview().offset(24)
-            $0.trailing.equalToSuperview().offset(-24)
-        }
-        self.backButton.snp.makeConstraints{
-            $0.top.equalToSuperview().offset(43.88)
-            $0.leading.equalToSuperview().offset(0)
-            $0.trailing.equalTo(self.heading.snp.leading).offset(50)
-            $0.height.equalTo(heading.snp.height)
-        }
-        self.submitButton.snp.makeConstraints{
-            $0.top.equalToSuperview().offset(43.88)
-            $0.leading.equalTo(self.heading.snp.trailing).offset(-50)
-            $0.trailing.equalToSuperview().offset(0)
-            $0.height.equalTo(heading.snp.height)
-        }
         self.photoButton.snp.makeConstraints{
-            $0.top.equalTo(self.heading.snp.bottom).offset(40)
-            $0.leading.equalToSuperview().offset(163)
-            $0.trailing.equalToSuperview().offset(-163)
+            $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(40)
+            $0.centerX.equalToSuperview()
+            $0.height.width.equalTo(64)
         }
-        self.line.snp.makeConstraints{
+        
+        self.separatorLineView.snp.makeConstraints{
             $0.top.equalTo(self.photoButton.snp.bottom).offset(36.5)
+            $0.height.equalTo(1)
+            $0.leading.equalToSuperview().offset(13)
+            $0.trailing.equalToSuperview().offset(-13)
+        }
+        
+        self.categoryFrameView.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(13)
+            $0.trailing.equalToSuperview().offset(-13)
+            $0.top.equalTo(self.separatorLineView.snp.bottom)
+            $0.height.equalTo(55)
+        }
+        
+        self.categoryLabel.snp.makeConstraints{
+            $0.centerY.equalToSuperview()
+            $0.leading.equalToSuperview().offset(12)
+        }
+        
+        self.rightArrowImageView.snp.makeConstraints{
+            $0.trailing.equalToSuperview().offset(-12)
+            $0.centerY.equalToSuperview()
+        }
+        
+        self.separatorLineView2.snp.makeConstraints{
+            $0.top.equalTo(self.categoryFrameView.snp.bottom)
             $0.size.height.equalTo(1)
             $0.leading.equalToSuperview().offset(13)
             $0.trailing.equalToSuperview().offset(-13)
         }
-        self.emptyView.snp.makeConstraints{
-            $0.top.equalTo(self.line.snp.bottom).offset(10)
-            $0.size.height.equalTo(32)
-            $0.leading.equalToSuperview().offset(24)
-            $0.trailing.equalToSuperview().offset(-24)
-        }
-        self.category.snp.makeConstraints{
-            $0.leading.equalTo(self.emptyView.snp.leading).offset(0)
-            $0.centerY.equalTo(self.emptyView)
-        }
-        self.categoryButton.snp.makeConstraints{
-            $0.trailing.equalTo(self.emptyView.snp.trailing).offset(0)
-            $0.centerY.equalTo(self.emptyView)
-        }
-        self.line2.snp.makeConstraints{
-            $0.top.equalTo(self.emptyView.snp.bottom).offset(10)
-            $0.size.height.equalTo(1)
-            $0.leading.equalToSuperview().offset(13)
-            $0.trailing.equalToSuperview().offset(-13)
-        }
-        self.hashtag.snp.makeConstraints{
-            $0.top.equalTo(self.line2.snp.bottom).offset(10)
+        
+        self.hashtagTextfield.snp.makeConstraints{
+            $0.top.equalTo(self.separatorLineView2.snp.bottom).offset(10)
             $0.size.height.equalTo(30)
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview().offset(-20)
         }
-        self.line3.snp.makeConstraints{
-            $0.top.equalTo(self.hashtag.snp.bottom).offset(10)
+        
+        self.separatorLineView3.snp.makeConstraints{
+            $0.top.equalTo(self.hashtagTextfield.snp.bottom).offset(10)
             $0.size.height.equalTo(1)
             $0.leading.equalToSuperview().offset(13)
             $0.trailing.equalToSuperview().offset(-13)
         }
-        self.textView.snp.makeConstraints{
-            $0.top.equalTo(self.line3.snp.bottom).offset(10)
+        self.contentTextView.snp.makeConstraints{
+            $0.top.equalTo(self.separatorLineView3.snp.bottom).offset(10)
             $0.size.height.equalTo(370)
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview().offset(-20)
         }
         self.bottomline.snp.makeConstraints{
-            $0.top.equalTo(self.textView.snp.bottom).offset(10)
+            $0.top.equalTo(self.contentTextView.snp.bottom).offset(10)
             $0.size.height.equalTo(1)
             $0.leading.equalToSuperview().offset(0)
             $0.trailing.equalToSuperview().offset(0)
@@ -269,15 +225,10 @@ class PostViewController: UIViewController, CategorySelectProtocol {
     
 //MARK: - AddTarget
     private func addTarget() {
-        self.backButton.addTarget(self, action: #selector(self.didClickBack(_:)), for: .touchUpInside)
-        self.submitButton.addTarget(self, action: #selector(self.didClickSubmit(_:)), for: .touchUpInside)
+        self.photoButton.addTarget(self, action: #selector(self.didClickPhoto), for: .touchUpInside)
         
-        let tapGestureCategory = UITapGestureRecognizer(target: self, action: #selector(didClickCategory(sender:)))
-        emptyView.addGestureRecognizer(tapGestureCategory)
-        
-        let PhotoBtn = UITapGestureRecognizer(target: self, action: #selector(didClickPhoto))
-        photoButton.isUserInteractionEnabled = true
-        photoButton.addGestureRecognizer(PhotoBtn)
+        let categoryTapGesture = UITapGestureRecognizer(target: self, action: #selector(didClickCategory(sender:)))
+        self.categoryFrameView.addGestureRecognizer(categoryTapGesture)
         
         let ImgBtn = UITapGestureRecognizer(target: self, action: #selector(didClickAnonymous))
         anonymousCheck.isUserInteractionEnabled = true
@@ -285,8 +236,6 @@ class PostViewController: UIViewController, CategorySelectProtocol {
     }
     
 }
-
-
 
 extension PostViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -302,4 +251,13 @@ extension PostViewController: UITextViewDelegate {
     }
 }
 
+extension PostViewController: ImageUploadDelegate {
+    func didClickFindAlbumButton() {
+        print("")
+    }
+    
+    func didClickSecondMenu() {
+        print("")
+    }
+}
 

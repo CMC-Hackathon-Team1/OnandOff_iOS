@@ -61,12 +61,12 @@ struct AuthService {
     }
     
     static func userRegister(_ parameter: AuthDataModel, completion: @escaping(AuthResultModel?) -> Void) {
-
+        let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
         AF.request("https://dev.onnoff.shop/auth/signup",
                    method: .post,
                    parameters: parameter,
                    encoder: JSONParameterEncoder.default,
-                   headers: nil).validate().responseDecodable(of: AuthResultModel.self) { response in
+                   headers: header).validate().responseDecodable(of: AuthResultModel.self) { response in
             switch response.result {
             case .success(let result):
                 print("StatusCode: \(result.statusCode)")
@@ -78,20 +78,14 @@ struct AuthService {
         }
     }
     
-    static func userLogOut(_ parameter: AuthDataModel?, headers: HTTPHeaders, completion: @escaping(AuthResultModel?) -> Void) {
-
+    static func userLogOut(_ completion: @escaping(AuthResultModel?) -> Void) {
+        let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
         AF.request("https://dev.onnoff.shop/auth/logout",
                    method: .post,
-                   parameters: parameter,
-                   encoder: JSONParameterEncoder.default,
-                   headers: headers).validate().responseDecodable(of: AuthResultModel.self) { response in
+                   headers: header).responseDecodable(of: AuthResultModel.self) { response in
             switch response.result {
             case .success(let result):
-                print("StatusCode: \(result.statusCode)")
-                print("Message: \(result.message)")
-                print("Todo: \(result.result?.TODO ?? "")")
                 completion(result)
-                
             case .failure(let error):
                 print("LogOut Error: \(error.localizedDescription)")
             }

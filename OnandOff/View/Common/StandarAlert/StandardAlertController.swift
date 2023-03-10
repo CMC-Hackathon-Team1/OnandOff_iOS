@@ -32,7 +32,7 @@ final class StandardAlertController: UIViewController{
     
     private let messageLabel = PaddingLabel(padding: .init(top: 0, left: 14, bottom: 20, right: 14)).then {
         $0.textAlignment = .center
-        $0.font = .notoSans(size: 12)
+        $0.font = .notoSans(size: 12, family: .Bold)
         $0.numberOfLines = 0
         $0.textColor = .black
     }

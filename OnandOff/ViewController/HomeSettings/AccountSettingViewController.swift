@@ -12,16 +12,10 @@ import Then
 
 class AccountSettingViewController: UIViewController{
     //MARK: - Datasource
-    
+    var settingImageArray = [String]()
+    var settingLabelArray = [String]()
     
     //MARK: - Properties
-    let backButton = UIImageView().then{
-        $0.image = UIImage(named: "backbutton")?.withRenderingMode(.alwaysOriginal)
-    }
-    let settingLabel = UILabel().then{
-        $0.text = "계정"
-        $0.font = UIFont(name:"NotoSans-Bold", size: 16)
-    }
     let emailView = UIView().then{
         $0.backgroundColor = .systemGray6
     }
@@ -55,27 +49,18 @@ class AccountSettingViewController: UIViewController{
         $0.backgroundColor = UIColor.systemGray4
     }
     
-    
-    var settingImageArray = [String]()
-    var settingLabelArray = [String]()
-    
-    
     //MARK: - LifeCycle
     override func viewDidLoad() {
         setUpView()
         layout()
         addTarget()
         
-        self.navigationController?.navigationBar.isHidden = true;
         self.view.backgroundColor = .white
-
-        
+        self.navigationItem.title = "계정"
     }
     
     //MARK: - AddSubview
-    func setUpView(){
-        self.view.addSubview(self.backButton)
-        self.view.addSubview(self.settingLabel)
+    private func setUpView(){
         self.view.addSubview(self.emailView)
         self.emailView.addSubview(self.emailLabelTitle)
         self.emailView.addSubview(self.userEmail)
@@ -93,30 +78,22 @@ class AccountSettingViewController: UIViewController{
         VC.modalPresentationStyle = .overCurrentContext
         present(VC, animated: false)
     }
+    
     @objc func didClickAccountDelete(sender: UITapGestureRecognizer){
         let VC = AccountDeleteViewController()
         VC.modalPresentationStyle = .overCurrentContext
         present(VC, animated: false)
     }
+    
     @objc func didClickBackButton(sender: UITapGestureRecognizer){
         dismiss(animated: true)
     }
     
     
     //MARK: - Layout
-    func layout(){
-        self.backButton.snp.makeConstraints{
-            $0.leading.equalToSuperview().offset(25.28)
-            $0.top.equalToSuperview().offset(55)
-            $0.width.equalTo(14)
-            $0.height.equalTo(16.22)
-        }
-        self.settingLabel.snp.makeConstraints{
-            $0.top.equalToSuperview().offset(50)
-            $0.centerX.equalToSuperview()
-        }
+    private func layout(){
         self.emailView.snp.makeConstraints{
-            $0.top.equalTo(self.settingLabel.snp.bottom).offset(15)
+            $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(15)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(110)
         }
@@ -165,7 +142,6 @@ class AccountSettingViewController: UIViewController{
     
     //MARK: - Target
     func addTarget(){
-        
         let passwordResetBtn = UITapGestureRecognizer(target: self, action: #selector(didClickPasswordReset))
         lineTitle1.isUserInteractionEnabled = true
         lineTitle1.addGestureRecognizer(passwordResetBtn)
@@ -173,12 +149,6 @@ class AccountSettingViewController: UIViewController{
         let accountDeleteBtn = UITapGestureRecognizer(target: self, action: #selector(didClickAccountDelete))
         lineTitle2.isUserInteractionEnabled = true
         lineTitle2.addGestureRecognizer(accountDeleteBtn)
-        
-        let backBtn = UITapGestureRecognizer(target: self, action: #selector(didClickBackButton))
-        backButton.isUserInteractionEnabled = true
-        backButton.addGestureRecognizer(backBtn)
     }
-    
-
 }
 

@@ -5,91 +5,60 @@
 //  Created by 077tech on 2023/02/08.
 //
 
-import Foundation
 import UIKit
-import SnapKit
-import Then
 
-class SettingViewController: UIViewController{
-    //MARK: - Datasource
-    
-    
+final class SettingViewController: UIViewController{
     //MARK: - Properties
-    let backButton = UIImageView().then{
-        $0.image = UIImage(named: "backbutton")?.withRenderingMode(.alwaysOriginal)
-    }
-    let settingLabel = UILabel().then{
-        $0.text = "설정"
-        $0.font = UIFont(name:"NotoSans-Bold", size: 16)
-    }
     let settingCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
         $0.register(SettingCell.self, forCellWithReuseIdentifier: SettingCell.identifier)
     }
     
-    
     var settingImageArray = [String]()
     var settingLabelArray = [String]()
-    
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
         setUpView()
         layout()
         addTarget()
+        self.configureNavigation()
         
-        self.navigationController?.navigationBar.isHidden = true;
         self.view.backgroundColor = .white
+        
         self.settingCollectionView.delegate = self
         self.settingCollectionView.dataSource = self
         
-        
         settingImageArray.append(contentsOf: ["UserCircle", "LockSimple", "alarmButton", "ChatCenteredDots", "ClipboardText", "WarningCircle", "SignOut"])
         settingLabelArray.append(contentsOf: ["계정", "개인정보 보호", "알림", "피드백/문의하기", "약관 및 정책", "버전", "로그아웃"])
-        
+    }
+    
+    //MARK: - ConfigureNavigation
+    private func configureNavigation() {
+        self.navigationItem.title = "설정"
     }
     
     //MARK: - AddSubview
-    func setUpView(){
-        self.view.addSubview(self.backButton)
-        self.view.addSubview(self.settingLabel)
+    private func setUpView(){
         self.view.addSubview(self.settingCollectionView)
     }
     
     //MARK: - Selector
-    @objc func didClickBackButton(sender: UITapGestureRecognizer){
-        dismiss(animated: true)
-    }
     
     //MARK: - Layout
-    func layout(){
-        self.backButton.snp.makeConstraints{
-            $0.leading.equalToSuperview().offset(25.28)
-            $0.top.equalToSuperview().offset(55)
-            $0.width.equalTo(14)
-            $0.height.equalTo(16.22)
-        }
-        self.settingLabel.snp.makeConstraints{
-            $0.top.equalToSuperview().offset(50)
-            $0.centerX.equalToSuperview()
-        }
+    private func layout(){
         self.settingCollectionView.snp.makeConstraints{
-            $0.top.equalTo(self.settingLabel.snp.bottom).offset(35)
+            $0.top.equalToSuperview().offset(35)
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }
     
     //MARK: - Target
     func addTarget(){
-        let backBtn = UITapGestureRecognizer(target: self, action: #selector(didClickBackButton))
-        backButton.isUserInteractionEnabled = true
-        backButton.addGestureRecognizer(backBtn)
         
     }
-    
-
 }
 
-//CollectionVIew
+//MARK: - CollectionVIew
 extension SettingViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -111,40 +80,40 @@ extension SettingViewController: UICollectionViewDelegate, UICollectionViewDataS
             cell.arrow.isHidden = true
         }
         
-        
         return cell
-        
     }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         if indexPath.row == 0{
-            let VC = AccountSettingViewController()
-            VC.modalPresentationStyle = .fullScreen
-            present(VC, animated: false)
+            let accountVC = AccountSettingViewController()
+            self.navigationController?.pushViewController(accountVC, animated: true)
         }else if indexPath.row == 1{
-            let VC = PrivacyViewController()
-            VC.modalPresentationStyle = .fullScreen
-            present(VC, animated: false)
+            let privacyVC = PrivacyViewController()
+            self.navigationController?.pushViewController(privacyVC, animated: true)
         }
         else if indexPath.row == 2{
-            let VC = AlertViewController()
-            VC.modalPresentationStyle = .fullScreen
-            present(VC, animated: false)
+            let alertVC = AlertViewController()
+            self.navigationController?.pushViewController(alertVC, animated: true)
         }
         else if indexPath.row == 3{
-            let VC = FeedbackViewController()
-            VC.modalPresentationStyle = .fullScreen
-            present(VC, animated: false)
+            let feedbackVC = FeedbackViewController()
+            self.navigationController?.pushViewController(feedbackVC, animated: true)
         }
         else if indexPath.row == 4{
-            let VC = PolicyViewController()
-            VC.modalPresentationStyle = .fullScreen
-            present(VC, animated: false)
+            let plicyVC = PolicyViewController()
+            self.navigationController?.pushViewController(plicyVC, animated: true)
         }
         else if indexPath.row == 6{
-            let VC = LogoutViewController()
-            VC.modalPresentationStyle = .overCurrentContext
-            present(VC, animated: false)
+            let alert = StandardAlertController(title: "로그아웃 하시겠습니까?", message: nil)
+            let cancel = StandardAlertAction(title: "취소", style: .cancel)
+            let logout = StandardAlertAction(title: "로그아웃", style: .basic) { _ in
+                self.navigationController?.popViewController(animated: false)
+                NotificationCenter.default.post(name: .presentLoginVC, object: nil)
+            }
+            alert.addAction(cancel)
+            alert.addAction(logout)
+            
+            self.present(alert, animated: false)
         }
 
         
@@ -164,5 +133,4 @@ extension SettingViewController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: self.view.frame.width , height: 50)
         
     }
-    
 }
