@@ -141,9 +141,7 @@ class LoginViewController: UIViewController {
     
     // MARK: - Actions
     @objc func handleShowLogin() {
-        print(#function)
         let controller = EmailLoginViewController()
-        print(controller)
         self.navigationController?.pushViewController(controller, animated: true)
     }
     

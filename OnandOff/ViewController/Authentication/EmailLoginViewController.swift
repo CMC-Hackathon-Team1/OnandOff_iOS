@@ -131,8 +131,8 @@ class EmailLoginViewController: UIViewController {
                     let tokenService = TokenService()
                     tokenService.create("https://dev.onnoff.shop/auth/login", account: "accessToken", value: accessToken)
                     print("EmailLogin Complete, AccessToken is \(TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken") ?? "")")
-                    self.navigationController?.popViewController(animated: false)
                     
+                    self.navigationController?.dismiss(animated: true)
                 case 400:
                     print(response.message)
                 case 500:
@@ -150,7 +150,6 @@ class EmailLoginViewController: UIViewController {
     }
     
     @objc func handleFindPassword() {
-        print(#function)
         guard let email = emailTextField.text else { return }
         if email.isEmpty {
             let alert = StandardAlertController(title: nil, message: "이메일을 입력한 뒤 다시 버튼을 눌려주세요")

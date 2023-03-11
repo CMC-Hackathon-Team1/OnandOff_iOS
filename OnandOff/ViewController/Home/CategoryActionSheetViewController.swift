@@ -10,7 +10,8 @@ import UIKit
 final class CategoryActionSheetViewController: UIViewController {
     //MARK: - Properties
     private var categories: [CategoryItem] = []
-
+    weak var delegate: CategoryDelegate?
+    
     private let mainView = UIView().then{
         $0.backgroundColor = .white
         $0.roundCorners(cornerRadius: 20, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
@@ -27,58 +28,6 @@ final class CategoryActionSheetViewController: UIViewController {
     
     private let categoryTableView = UITableView().then {
         $0.register(CategoryCell.self, forCellReuseIdentifier: CategoryCell.identifier)
-    }
-    
-    let artPic = UIImageView().then{
-        $0.image = UIImage(named: "culture")?.withRenderingMode(.alwaysOriginal)
-    }
-    
-    let artButton = UIButton().then{
-        $0.setTitle("문화/예술", for: .normal)
-        $0.setTitleColor(UIColor.black, for: .normal)
-        $0.titleLabel?.font = .notoSans(size: 14, family: .Regular)
-        
-    }
-    
-    let line = UIView().then{
-        $0.backgroundColor = UIColor.gray
-    }
-    
-    let sportPic = UIImageView().then{
-        $0.image = UIImage(named: "sport")?.withRenderingMode(.alwaysOriginal)
-    }
-    
-    let sportButton = UIButton().then{
-        $0.setTitle("스포츠", for: .normal)
-        $0.setTitleColor(UIColor.black, for: .normal)
-        $0.titleLabel?.font = .notoSans(size: 14, family: .Regular)
-    }
-    
-    let line2 = UIView().then{
-        $0.backgroundColor = UIColor.gray
-    }
-    
-    let selfdevPic = UIImageView().then{
-        $0.image = UIImage(named: "selfdev")?.withRenderingMode(.alwaysOriginal)
-    }
-    let selfdevButton = UIButton().then{
-        $0.setTitle("자기계발", for: .normal)
-        $0.setTitleColor(UIColor.black, for: .normal)
-        $0.titleLabel?.font = .notoSans(size: 14, family: .Regular)
-    }
-    
-    let line3 = UIView().then{
-        $0.backgroundColor = UIColor.gray
-    }
-    
-    let etcPic = UIImageView().then{
-        $0.image = UIImage(named: "ellipsis")?.withRenderingMode(.alwaysOriginal)
-    }
-    
-    let etcButton = UIButton().then{
-        $0.setTitle("기타", for: .normal)
-        $0.setTitleColor(UIColor.black, for: .normal)
-        $0.titleLabel?.font = .notoSans(size: 14, family: .Regular)
     }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -112,25 +61,14 @@ final class CategoryActionSheetViewController: UIViewController {
         print("didClickClose")
         self.dismiss(animated: true)
     }
+    
     //MARK: - addSubView
-    func setUpView(){
+    private func setUpView(){
         self.view.addSubview(self.mainView)
         
         self.mainView.addSubview(self.closeButton)
         self.mainView.addSubview(self.mainLabel)
         self.mainView.addSubview(self.categoryTableView)
-        
-        mainView.addSubview(self.artPic)
-        mainView.addSubview(self.artButton)
-        mainView.addSubview(self.sportPic)
-        mainView.addSubview(self.sportButton)
-        mainView.addSubview(self.line)
-        mainView.addSubview(self.selfdevPic)
-        mainView.addSubview(self.selfdevButton)
-        mainView.addSubview(self.line2)
-        mainView.addSubview(self.line3)
-        mainView.addSubview(self.etcPic)
-        mainView.addSubview(self.etcButton)
     }
     
     //MARK: - Layout
@@ -181,6 +119,11 @@ extension CategoryActionSheetViewController: UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 53
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.delegate?.selectedCategory(categories[indexPath.row].categoryId)
+        self.dismiss(animated: true)
     }
 }
 

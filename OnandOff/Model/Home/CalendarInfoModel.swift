@@ -5,7 +5,7 @@
 //  Created by 신상우 on 2023/03/10.
 //
 
-import Foundation
+import UIKit
 
 class CalendarInfoModel: Codable {
     let statusCode: Int

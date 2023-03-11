@@ -10,6 +10,7 @@ import UIKit
 final class LookAroundViewController: UIViewController {
     //MARK: - Properties
     private var currentCategoryId = 0
+    private var currentProfileId = 0
     
     private var explorationDatas: [FeedItem] = []
     private var followingDatas: [FeedItem] = []
@@ -65,7 +66,10 @@ final class LookAroundViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(didSelectCategory), name: .selectCategory, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didClickReportButton), name: .presentReportVC, object: nil)
-        self.fetchFeed(profileId: 1610, text: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didChangeProfileId), name: .changeProfileId, object: nil)
+        
+        self.currentProfileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
+        self.fetchFeed(profileId: self.currentProfileId, text: nil)
     }
     
     //MARK: - Method
@@ -87,37 +91,46 @@ final class LookAroundViewController: UIViewController {
     }
     
     private func fetchFeed(profileId: Int, text: String?, isReset: Bool = false, completion: (() -> ())? = nil) {
+        let profileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
         let isFollowing = self.topTabbar.selectedItem == .following
         let text = text ?? ""
         if isReset { self.resetData() }
         
         if !text.isEmpty {
-            FeedService.searchFeed(1610, text: text, categoryId: self.currentCategoryId, page: self.followingPage, fResult: isFollowing) { list in
-                if isFollowing {
+            if isFollowing {
+                FeedService.searchFeed(profileId, text: text, categoryId: self.currentProfileId, page: self.followingPage, fResult: isFollowing) { list in
                     if list.isEmpty { self.followingHasNextPage = false }
                     self.followingDatas.append(contentsOf: list)
                     self.followingCollectionView.reloadData()
-                } else {
+                    
+                    completion?()
+                }
+            } else {
+                FeedService.searchFeed(profileId, text: text, categoryId: self.currentCategoryId, page: self.followingPage, fResult: isFollowing) { list in
                     if list.isEmpty { self.explorationHasNextPage = false }
                     self.explorationDatas.append(contentsOf: list)
                     self.explorationCollectionView.reloadData()
+                    
+                    completion?()
                 }
-                
-                completion?()
             }
         } else {
-            FeedService.fetchFeed(1610, categoryId: self.currentCategoryId, page: self.explorationPage, fResult: isFollowing) { list in
-                if isFollowing {
+            if isFollowing {
+                FeedService.fetchFeed(profileId, categoryId: self.currentCategoryId, page: self.followingPage, fResult: isFollowing) { list in
                     if list.isEmpty { self.followingHasNextPage = false }
                     self.followingDatas.append(contentsOf: list)
                     self.followingCollectionView.reloadData()
-                } else {
+                    
+                    completion?()
+                }
+            } else {
+                FeedService.fetchFeed(profileId, categoryId: self.currentCategoryId, page: self.explorationPage, fResult: isFollowing) { list in
                     if list.isEmpty { self.explorationHasNextPage = false }
                     self.explorationDatas.append(contentsOf: list)
                     self.explorationCollectionView.reloadData()
+                    
+                    completion?()
                 }
-    
-                completion?()
             }
         }
     }
@@ -134,11 +147,12 @@ final class LookAroundViewController: UIViewController {
     private func paging() {
         self.isPaging = true
         if self.topTabbar.selectedItem == .following {
+            print(self.followingPage)
             self.followingPage += 1
         } else {
             self.explorationPage += 1
         }
-        self.fetchFeed(profileId: 1610, text: self.searchBar.text) {
+        self.fetchFeed(profileId: self.currentProfileId, text: self.searchBar.text) {
             self.isPaging = false
         }
     }
@@ -159,7 +173,7 @@ final class LookAroundViewController: UIViewController {
             self.currentCategoryId = 0
         }
         
-        self.fetchFeed(profileId: 1610, text: self.searchBar.text, isReset: true)
+        self.fetchFeed(profileId: self.currentProfileId, text: self.searchBar.text, isReset: true)
     }
     
     @objc private func pullToRefresh(_ refresh: UIRefreshControl) {
@@ -172,7 +186,7 @@ final class LookAroundViewController: UIViewController {
             self.explorationPage = 1
             self.explorationHasNextPage = true
         }
-        self.fetchFeed(profileId: 1610, text: self.searchBar.text) {
+        self.fetchFeed(profileId: self.currentProfileId, text: self.searchBar.text) {
             refresh.endRefreshing()
         }
     }
@@ -181,6 +195,12 @@ final class LookAroundViewController: UIViewController {
         guard let feedId = notification.object as? Int else { return }
         let reportVC = ReportViewController(feedId)
         self.navigationController?.pushViewController(reportVC, animated: false)
+    }
+    
+    
+    @objc private func didChangeProfileId() {
+        self.resetData()
+        self.currentProfileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
     }
     
     //MARK: - addSubView
@@ -294,11 +314,10 @@ extension LookAroundViewController: LookAroundDelegate {
                 make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
             }
         }
-        print("didClickEllipsisButton")
     }
     
     func didClickHeart(_ feedId: Int) {
-        FeedService.toggleLike(profileId: 1610, feedId: feedId) { [weak self] in
+        FeedService.toggleLike(profileId: self.currentProfileId, feedId: feedId) { [weak self] in
             if let idx = self?.followingDatas.firstIndex(where: {$0.feedId == feedId }) {
                 guard let isLike = self?.followingDatas[idx].isLike else { return }
                 self?.followingDatas[idx].isLike = !isLike
@@ -314,7 +333,7 @@ extension LookAroundViewController: LookAroundDelegate {
     }
     
     func didClickFollow(_ toProfileId: Int) {
-        FeedService.togglefollow(fromProfileId: 1610, toProfileId: toProfileId) { [weak self] in
+        FeedService.togglefollow(fromProfileId: self.currentProfileId, toProfileId: toProfileId) { [weak self] in
             self?.explorationDatas.enumerated().forEach { (i,v) in
                 if v.profileId == toProfileId {
                     v.isFollowing = !v.isFollowing
@@ -337,7 +356,7 @@ extension LookAroundViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         
-        self.fetchFeed(profileId: 1610, text: searchBar.text, isReset: true)
+        self.fetchFeed(profileId: self.currentProfileId, text: searchBar.text, isReset: true)
     }
 }
 
@@ -348,7 +367,7 @@ extension LookAroundViewController: TopTapBarDelegate {
         self.explorationCollectionView.isHidden = true
         
         if followingDatas.isEmpty {
-            self.fetchFeed(profileId: 1610, text: self.searchBar.text)
+            self.fetchFeed(profileId: self.currentProfileId, text: self.searchBar.text)
         }
     }
     
@@ -357,7 +376,7 @@ extension LookAroundViewController: TopTapBarDelegate {
         self.explorationCollectionView.isHidden = false
         
         if explorationDatas.isEmpty {
-            self.fetchFeed(profileId: 1610, text: self.searchBar.text)
+            self.fetchFeed(profileId: self.currentProfileId, text: self.searchBar.text)
         }
     }
 }

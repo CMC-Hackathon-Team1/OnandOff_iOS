@@ -12,4 +12,5 @@ extension Notification.Name {
     static let selectCategory = Notification.Name("selectCategory")
     static let presentReportVC = Notification.Name("presentReportVC")
     static let presentLoginVC = Notification.Name("presentLoginVC")
+    static let changeProfileId = Notification.Name("changeProfileId")
 }

@@ -11,15 +11,47 @@ import Alamofire
 class FeedService {
     private static let baseURL = "https://dev.onnoff.shop/"
     
+    static func createFeed(_ profileId: Int, categoryId: Int, hasTagList: [String], content: String, isSecret: String, images: [UIImage], completion: @escaping () -> Void) {
+        let url = baseURL + "feeds"
+        var header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
+        header?["Content-Type"] = "multipart/form-data"
+        let parameters: Parameters = ["profileId" : profileId,
+                                     "categoryId" : categoryId,
+                                     "hashTagList" : hasTagList,
+                                     "content" : content,
+                                     "isSecret" : isSecret]
+        let request = AF.upload(multipartFormData: { multipartFormData in
+            for image in images {
+                if let imageData = image.jpegData(compressionQuality: 0.5) {
+                    multipartFormData.append(imageData, withName: "images", fileName: "\(imageData).jpeg", mimeType: "image/jpeg")
+                }
+            }
+            for (key,value) in parameters {
+                multipartFormData.append("\(value)".data(using: .utf8)!, withName: key)
+            }
+        }, to: url, method: .post, headers: header)
+        
+        request.responseString() { res in
+            switch res.result {
+            case .success(let str):
+                print(str)
+                completion()
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
     static func fetchFeed(_ profileId: Int, categoryId: Int, page: Int = 1, fResult: Bool = false, completion: @escaping ([FeedItem])->()) {
         let url = baseURL + "feeds/feedlist/\(profileId)?page=\(page)&categoryId=\(categoryId)&fResult=\(fResult)"
+        print(url)
         let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
         let request = AF.request(url, headers: header)
     
         request.responseDecodable(of: FeedListModel.self) { res in
             switch res.result {
             case .success(let model):
-                completion(model.result)
+                completion(model.result ?? [])
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -72,7 +104,7 @@ class FeedService {
         request.responseDecodable(of: FeedListModel.self) { res in
             switch res.result {
             case .success(let model):
-                completion(model.result)
+                completion(model.result ?? [])
             case .failure(let error):
                 print(error.localizedDescription)
             }

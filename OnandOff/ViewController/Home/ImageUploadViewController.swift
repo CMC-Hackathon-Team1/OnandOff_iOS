@@ -70,7 +70,6 @@ final class ImageUploadViewController: UIViewController {
         addTarget()
     }
     
-    
 //MARK: - Selector
     @objc private func didClickseachFromAlbum(_ button: UIButton) {
         self.dismiss(animated: false) { [weak self] in

@@ -6,11 +6,20 @@
 //
 
 import UIKit
-import Photos
+import PhotosUI
 
 final class PostViewController: UIViewController {
-    
     //MARK: - Properties
+    private let selectedProfileItem: ProfileItem
+    private var selectedCategoryId: Int = 0
+    private var selectedImages: [UIImage] = []
+    private var isAnonymous: Bool = false {
+        didSet {
+            let imageName = isAnonymous ? "anonymousCheck" : "anonymousCheckOff"
+            self.anonymousCheckButton.setImage(UIImage(named: imageName)?.withRenderingMode(.alwaysOriginal), for: .normal)
+        }
+    }
+    
     private let photoButton = UIButton().then {
         $0.setImage(UIImage(named: "photoButton")?.withRenderingMode(.alwaysOriginal), for: .normal)
     }
@@ -49,41 +58,53 @@ final class PostViewController: UIViewController {
         $0.text = "작가 키키님의 하루를 기록하고 공유해주세요."
         $0.backgroundColor = .white
         $0.textColor = .placeholderText
-        
     }
-    let bottomline = UIView().then{
-        $0.backgroundColor = UIColor.black
-    }
-    let anonymousCheck = UIImageView().then{
-        $0.image = UIImage(named: "anonymousCheck")?.withRenderingMode(.alwaysOriginal)
-    }
-    let anonymousLabel = UILabel().then {
-      $0.textAlignment = .center
-      $0.text = "비공개"
-      $0.font = UIFont(name: "notoSans", size : 14)
-    }
-
-    let checkArray = ["anonymousCheck","anonymousCheckOff"]
-    var index = 0
     
-//MARK: - LifeCycle
+    private let bottomline = UIView().then{
+        $0.backgroundColor = .black
+    }
+    
+    private let anonymousCheckButton = UIButton().then {
+        $0.setImage(UIImage(named: "anonymousCheckOff")?.withRenderingMode(.alwaysOriginal), for: .normal)
+    }
+    
+    private let anonymousLabel = UILabel().then {
+        $0.textAlignment = .center
+        $0.text = "비공개"
+        $0.font = .notoSans(size: 14)
+    }
+    
+    //MARK: - Init
+    init(_ profileItem: ProfileItem) {
+        self.selectedProfileItem = profileItem
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-
+        
         self.setUpView()
         self.layout()
         self.addTarget()
-
+        
         self.contentTextView.delegate = self
+        self.contentTextView.text = "\(self.selectedProfileItem.profileName + self.selectedProfileItem.personaName)님의 하루를 기록하고 공유해주세요."
         
         self.navigationItem.title = "글 작성하기"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "작성", style: .plain, target: self, action: #selector(self.didClickSubmit)).then {
             $0.tintColor = .mainColor
         }
+        
+        self.tabBarController?.tabBar.isHidden = true
     }
     
-//MARK: - Delegate
+    //MARK: - Delegate
     func sendCategoryNumber(data: Int) {
         DispatchQueue.main.async {
             if data == 1{
@@ -98,38 +119,59 @@ final class PostViewController: UIViewController {
         }
     }
     
-//MARK: - Selector
-    @objc private func didClickBack(_ button: UIButton) {
-        dismiss(animated: true)
-        print("didClickBack")
-    }
-    
+    //MARK: - Selector
     @objc private func didClickSubmit(_ button: UIButton) {
-        print("didClickSubmit")
+        if self.contentTextView.text.isEmpty || self.contentTextView.text == "\(self.selectedProfileItem.profileName + self.selectedProfileItem.personaName)님의 하루를 기록하고 공유해주세요." {
+            let alert = StandardAlertController(title: "작성된 내용이 없습니다.", message: nil)
+            let ok = StandardAlertAction(title: "확인", style: .basic)
+            alert.addAction(ok)
+            
+            self.present(alert, animated: false)
+            return
+        }
+        
+        if self.selectedCategoryId == 0 {
+            let alert = StandardAlertController(title: "선택된 카테고리가 없습니다.", message: nil)
+            let ok = StandardAlertAction(title: "확인", style: .basic)
+            alert.addAction(ok)
+            
+            self.present(alert, animated: false)
+            return
+        }
+        
+        let hastag = self.hashtagTextfield.text!.split(separator: "#").map { String($0) }
+        let isSecret = self.isAnonymous ? "PRIVATE" : "PUBLIC"
+        FeedService.createFeed(self.selectedProfileItem.profileId,
+                               categoryId: self.selectedCategoryId,
+                               hasTagList: hastag,
+                               content: self.contentTextView.text!,
+                               isSecret: isSecret,
+                               images: self.selectedImages) {
+            print("호출")
+        }
     }
     
     @objc func didClickPhoto(sender: UITapGestureRecognizer) {
-        let controller = ImageUploadViewController()
-        controller.modalPresentationStyle = .fullScreen
-        controller.delegate = self
+        let imageUploadVC = ImageUploadViewController()
+        imageUploadVC.modalPresentationStyle = .fullScreen
+        imageUploadVC.delegate = self
         
-        self.present(controller, animated: false)
+        self.present(imageUploadVC, animated: false)
     }
     
     @objc func didClickCategory(sender: UITapGestureRecognizer) {
-        let VC = CategoryActionSheetViewController()
-        VC.modalPresentationStyle = .fullScreen
-        present(VC, animated: true)
-        print("didClickCategory")
+        let categoryVC = CategoryActionSheetViewController()
+        categoryVC.delegate = self
+        categoryVC.modalPresentationStyle = .fullScreen
+        
+        self.present(categoryVC, animated: true)
     }
     
     @objc func didClickAnonymous(sender: UITapGestureRecognizer) {
-        print("didClickAnonymous")
-        self.index = (self.index >= self.checkArray.count-1) ? 0 : self.index+1
-        self.anonymousCheck.image = UIImage(named:checkArray[index])
+        self.isAnonymous = !self.isAnonymous
     }
     
-//MARK: - addSubView
+    //MARK: - addSubView
     private func setUpView(){
         self.view.addSubview(self.photoButton)
         self.view.addSubview(self.separatorLineView)
@@ -143,11 +185,11 @@ final class PostViewController: UIViewController {
         self.view.addSubview(self.separatorLineView3)
         self.view.addSubview(self.contentTextView)
         self.view.addSubview(self.bottomline)
-        self.view.addSubview(self.anonymousCheck)
+        self.view.addSubview(self.anonymousCheckButton)
         self.view.addSubview(self.anonymousLabel)
     }
     
-//MARK: - Layout
+    //MARK: - Layout
     private func layout(){
         self.photoButton.snp.makeConstraints{
             $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(40)
@@ -199,42 +241,39 @@ final class PostViewController: UIViewController {
             $0.leading.equalToSuperview().offset(13)
             $0.trailing.equalToSuperview().offset(-13)
         }
+        
         self.contentTextView.snp.makeConstraints{
             $0.top.equalTo(self.separatorLineView3.snp.bottom).offset(10)
-            $0.size.height.equalTo(370)
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview().offset(-20)
+            $0.bottom.equalTo(self.bottomline.snp.top).offset(-16)
         }
+        
         self.bottomline.snp.makeConstraints{
-            $0.top.equalTo(self.contentTextView.snp.bottom).offset(10)
-            $0.size.height.equalTo(1)
-            $0.leading.equalToSuperview().offset(0)
-            $0.trailing.equalToSuperview().offset(0)
+            $0.bottom.equalTo(self.anonymousCheckButton.snp.top).offset(-16)
+            $0.height.equalTo(1)
+            $0.trailing.leading.equalToSuperview()
         }
-        self.anonymousCheck.snp.makeConstraints{
-            $0.top.equalTo(self.bottomline.snp.bottom).offset(17.5)
+        
+        self.anonymousCheckButton.snp.makeConstraints{
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide)
             $0.leading.equalToSuperview().offset(20)
         }
         
         self.anonymousLabel.snp.makeConstraints{
-            $0.top.equalTo(self.bottomline.snp.bottom).offset(16)
-            $0.leading.equalTo(self.anonymousCheck.snp.trailing).offset(10.75)
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide)
+            $0.leading.equalTo(self.anonymousCheckButton.snp.trailing).offset(10)
         }
-        
     }
     
-//MARK: - AddTarget
+    //MARK: - AddTarget
     private func addTarget() {
         self.photoButton.addTarget(self, action: #selector(self.didClickPhoto), for: .touchUpInside)
+        self.anonymousCheckButton.addTarget(self, action: #selector(self.didClickAnonymous), for: .touchUpInside)
         
         let categoryTapGesture = UITapGestureRecognizer(target: self, action: #selector(didClickCategory(sender:)))
         self.categoryFrameView.addGestureRecognizer(categoryTapGesture)
-        
-        let ImgBtn = UITapGestureRecognizer(target: self, action: #selector(didClickAnonymous))
-        anonymousCheck.isUserInteractionEnabled = true
-        anonymousCheck.addGestureRecognizer(ImgBtn)
     }
-    
 }
 
 extension PostViewController: UITextViewDelegate {
@@ -243,17 +282,24 @@ extension PostViewController: UITextViewDelegate {
         textView.textColor = .label
         textView.text = nil
     }
+    
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
-            textView.text = "작가 키키님의 하루를 기록하고 공유해주세요."
+            textView.text = "\(self.selectedProfileItem.profileName + self.selectedProfileItem.personaName)님의 하루를 기록하고 공유해주세요."
             textView.textColor = .placeholderText
         }
     }
 }
 
+//MARK: - ImageUploadDelegate
 extension PostViewController: ImageUploadDelegate {
     func didClickFindAlbumButton() {
-        print("")
+        var configuration = PHPickerConfiguration()
+        configuration.selectionLimit = 5
+        configuration.filter = .images
+        let photoPickerVC = PHPickerViewController(configuration: configuration)
+        photoPickerVC.delegate = self
+        self.present(photoPickerVC, animated: true)
     }
     
     func didClickSecondMenu() {
@@ -261,3 +307,31 @@ extension PostViewController: ImageUploadDelegate {
     }
 }
 
+extension PostViewController: CategoryDelegate {
+    func selectedCategory(_ categoryId: Int) {
+        self.selectedCategoryId = categoryId
+    }
+}
+
+//MARK: - PHPickerDelegate
+extension PostViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        self.selectedImages = []
+        picker.dismiss(animated: true)
+        
+        for item in results {
+            let itemProvider = item.itemProvider
+            if itemProvider.canLoadObject(ofClass: UIImage.self) {
+                itemProvider.loadObject(ofClass: UIImage.self) { [weak self] result, error in
+                    guard let image = result as? UIImage else { return }
+                    self?.selectedImages.append(image)
+                    if self?.selectedImages.count == 1 {
+                        DispatchQueue.main.async {
+                            self?.photoButton.setImage(image, for: .normal)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

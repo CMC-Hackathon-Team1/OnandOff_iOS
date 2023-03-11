@@ -10,7 +10,7 @@ import Foundation
 class FeedListModel: Decodable {
     let statusCode: Int
     let message: String
-    let result: [FeedItem]
+    let result: [FeedItem]?
 }
 
 class FeedItem: Decodable {

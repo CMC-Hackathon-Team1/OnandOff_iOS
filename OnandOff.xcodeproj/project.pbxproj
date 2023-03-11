@@ -59,6 +59,8 @@
 		DB5AFE0E2960171100667336 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFE0D2960171100667336 /* HomeViewController.swift */; };
 		DB5AFE102960171E00667336 /* LookAroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFE0F2960171E00667336 /* LookAroundViewController.swift */; };
 		DB5AFE122960173900667336 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFE112960173800667336 /* MyPageViewController.swift */; };
+		DB7987A329BB8D7500E0CACC /* CategoryDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7987A229BB8D7500E0CACC /* CategoryDelegate.swift */; };
+		DB7987A529BC6EEE00E0CACC /* CalendarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7987A429BC6EEE00E0CACC /* CalendarCell.swift */; };
 		DB7BDC8A2961601200AA304B /* CustomTopTabbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7BDC892961601200AA304B /* CustomTopTabbar.swift */; };
 		DB7BDC8C2961BCF400AA304B /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7BDC8B2961BCF400AA304B /* FeedCell.swift */; };
 		DB80B37D29BA0FDE009F8E2E /* StatisticsComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB80B37C29BA0FDE009F8E2E /* StatisticsComponent.swift */; };
@@ -168,6 +170,8 @@
 		DB5AFE0D2960171100667336 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		DB5AFE0F2960171E00667336 /* LookAroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookAroundViewController.swift; sourceTree = "<group>"; };
 		DB5AFE112960173800667336 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		DB7987A229BB8D7500E0CACC /* CategoryDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDelegate.swift; sourceTree = "<group>"; };
+		DB7987A429BC6EEE00E0CACC /* CalendarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCell.swift; sourceTree = "<group>"; };
 		DB7BDC892961601200AA304B /* CustomTopTabbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTopTabbar.swift; sourceTree = "<group>"; };
 		DB7BDC8B2961BCF400AA304B /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		DB80B37C29BA0FDE009F8E2E /* StatisticsComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsComponent.swift; sourceTree = "<group>"; };
@@ -284,6 +288,7 @@
 				DB2503EF29AA6BF600B0AE39 /* TopTapBarDelegate.swift */,
 				DB58082729B722440095BEEF /* CalendarHeaderDelegate.swift */,
 				DB284A7B29B8E70C00630FCE /* ImageUploadDelegate.swift */,
+				DB7987A229BB8D7500E0CACC /* CategoryDelegate.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -541,6 +546,7 @@
 				E5357A1429A5F35D00716CDF /* SpecificPostCell.swift */,
 				DB80B37C29BA0FDE009F8E2E /* StatisticsComponent.swift */,
 				DB80B38629BB7824009F8E2E /* CategoryCell.swift */,
+				DB7987A429BC6EEE00E0CACC /* CalendarCell.swift */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";
@@ -698,6 +704,7 @@
 				DB5AFDFD296006B200667336 /* TempView.swift in Sources */,
 				DB80B38329BA4998009F8E2E /* Date+.swift in Sources */,
 				DB284A7C29B8E70C00630FCE /* ImageUploadDelegate.swift in Sources */,
+				DB7987A329BB8D7500E0CACC /* CategoryDelegate.swift in Sources */,
 				DB80B38129BA2DBE009F8E2E /* StatisticsModel.swift in Sources */,
 				DB3DE7CA29B62A4D00A95218 /* ProfileModel.swift in Sources */,
 				DBC3618B29A097490011C319 /* StandardAlertController.swift in Sources */,
@@ -769,6 +776,7 @@
 				E5357A1729A617F700716CDF /* PostDeletePopupViewController.swift in Sources */,
 				5DCAA353299FC619005090E5 /* AgreeViewController.swift in Sources */,
 				E56E0E9C29934661009FD906 /* PasswordResetViewController.swift in Sources */,
+				DB7987A529BC6EEE00E0CACC /* CalendarCell.swift in Sources */,
 				DB5AFDE32960052D00667336 /* SceneDelegate.swift in Sources */,
 				DBED0ED929B4C71900415219 /* ReportModel.swift in Sources */,
 				DB3EB8C2299E414200434666 /* ReportCell.swift in Sources */,
@@ -840,7 +848,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -894,7 +902,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -921,7 +929,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -955,7 +963,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
