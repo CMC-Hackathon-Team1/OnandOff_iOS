@@ -9,10 +9,10 @@ import UIKit
 
 extension UIFont {
     enum Family: String {
-        case Bold, Regular
+        case Bold, Regular, Medium
     }
     
-    static func notoSans(size: CGFloat = 14, family: Family = .Regular) -> UIFont {
+    static func notoSans(size: CGFloat, family: Family = .Regular) -> UIFont {
         return UIFont(name: "NotoSans-\(family)", size: size) ?? UIFont()
     }
 }

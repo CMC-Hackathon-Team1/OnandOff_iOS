@@ -6,17 +6,47 @@
 //
 
 import UIKit
+import Then
+import KakaoSDKAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = ViewController()
+        
+        let homeVC = UINavigationController(rootViewController: HomeViewController())
+        homeVC.tabBarItem.image = UIImage(named: "home")
+        
+        let LookAroundVC = UINavigationController(rootViewController: LookAroundViewController())
+        LookAroundVC.tabBarItem.image = UIImage(named: "magnifyingglass")
+        
+        let myPageVC = UINavigationController(rootViewController: MyPageViewController())
+        myPageVC.tabBarItem.image = UIImage(named: "user")
+        
+        let tabbar = UITabBarController().then {
+            $0.tabBar.backgroundColor = .white
+            $0.viewControllers = [homeVC, LookAroundVC, myPageVC]
+            $0.tabBar.tintColor = .mainColor
+            $0.tabBar.unselectedItemTintColor = .darkGray
+            $0.tabBar.layer.shadowColor = UIColor.lightGray.cgColor
+            $0.tabBar.layer.shadowOpacity = 1.0
+            $0.tabBar.layer.shadowOffset = .zero
+            $0.tabBar.clipsToBounds = false
+        }
+        
+        window?.rootViewController = tabbar
         window?.makeKeyAndVisible()
+    }
+    
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        if let url = URLContexts.first?.url {
+            if (AuthApi.isKakaoTalkLoginUrl(url)) {
+                _ = AuthController.handleOpenUrl(url: url)
+            }
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

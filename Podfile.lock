@@ -1,20 +1,106 @@
 PODS:
+  - Alamofire (5.6.4)
+  - AppAuth (1.6.0):
+    - AppAuth/Core (= 1.6.0)
+    - AppAuth/ExternalUserAgent (= 1.6.0)
+  - AppAuth/Core (1.6.0)
+  - AppAuth/ExternalUserAgent (1.6.0):
+    - AppAuth/Core
+  - FSCalendar (2.8.4)
+  - GoogleSignIn (7.0.0):
+    - AppAuth (~> 1.5)
+    - GTMAppAuth (< 3.0, >= 1.3)
+    - GTMSessionFetcher/Core (< 4.0, >= 1.1)
+  - GTMAppAuth (2.0.0):
+    - AppAuth/Core (~> 1.6)
+    - GTMSessionFetcher/Core (< 4.0, >= 1.5)
+  - GTMSessionFetcher/Core (3.0.0)
+  - KakaoSDK (2.13.1):
+    - KakaoSDKAuth (= 2.13.1)
+    - KakaoSDKCommon (= 2.13.1)
+    - KakaoSDKFriend (= 2.13.1)
+    - KakaoSDKNavi (= 2.13.1)
+    - KakaoSDKShare (= 2.13.1)
+    - KakaoSDKStory (= 2.13.1)
+    - KakaoSDKTalk (= 2.13.1)
+    - KakaoSDKTemplate (= 2.13.1)
+    - KakaoSDKUser (= 2.13.1)
+  - KakaoSDKAuth (2.13.1):
+    - KakaoSDKCommon (= 2.13.1)
+  - KakaoSDKCommon (2.13.1):
+    - KakaoSDKCommon/Common (= 2.13.1)
+    - KakaoSDKCommon/Network (= 2.13.1)
+  - KakaoSDKCommon/Common (2.13.1)
+  - KakaoSDKCommon/Network (2.13.1):
+    - Alamofire (~> 5.1)
+    - KakaoSDKCommon/Common (= 2.13.1)
+  - KakaoSDKFriend (2.13.1):
+    - KakaoSDKUser (= 2.13.1)
+  - KakaoSDKNavi (2.13.1):
+    - KakaoSDKCommon/Common (= 2.13.1)
+  - KakaoSDKShare (2.13.1):
+    - KakaoSDKCommon (= 2.13.1)
+    - KakaoSDKTemplate (= 2.13.1)
+  - KakaoSDKStory (2.13.1):
+    - KakaoSDKUser (= 2.13.1)
+  - KakaoSDKTalk (2.13.1):
+    - KakaoSDKTemplate (= 2.13.1)
+    - KakaoSDKUser (= 2.13.1)
+  - KakaoSDKTemplate (2.13.1):
+    - KakaoSDKCommon/Common (= 2.13.1)
+  - KakaoSDKUser (2.13.1):
+    - KakaoSDKAuth (= 2.13.1)
   - SnapKit (5.0.1)
   - Then (3.0.0)
 
 DEPENDENCIES:
+  - FSCalendar
+  - GoogleSignIn
+  - KakaoSDK
   - SnapKit (~> 5.0.0)
   - Then
 
 SPEC REPOS:
   trunk:
+    - Alamofire
+    - AppAuth
+    - FSCalendar
+    - GoogleSignIn
+    - GTMAppAuth
+    - GTMSessionFetcher
+    - KakaoSDK
+    - KakaoSDKAuth
+    - KakaoSDKCommon
+    - KakaoSDKFriend
+    - KakaoSDKNavi
+    - KakaoSDKShare
+    - KakaoSDKStory
+    - KakaoSDKTalk
+    - KakaoSDKTemplate
+    - KakaoSDKUser
     - SnapKit
     - Then
 
 SPEC CHECKSUMS:
+  Alamofire: 4e95d97098eacb88856099c4fc79b526a299e48c
+  AppAuth: 8fca6b5563a5baef2c04bee27538025e4ceb2add
+  FSCalendar: 2d1d0d9398f12d439f55c1fe0f01525b151b8260
+  GoogleSignIn: b232380cf495a429b8095d3178a8d5855b42e842
+  GTMAppAuth: 99fb010047ba3973b7026e45393f51f27ab965ae
+  GTMSessionFetcher: c1edebe64e9fb4e8f6415d018edf1fd3eac074a1
+  KakaoSDK: c898c01a07ea78081f618c676664ea15596ad573
+  KakaoSDKAuth: d9de0cb0c723441ced3616d481952bde34438dcb
+  KakaoSDKCommon: a16807e19984a0a208c3117c7ef117f101a9a128
+  KakaoSDKFriend: 3bfc8e3c620661365b237b1c839ae4873ec66116
+  KakaoSDKNavi: bc3c7b5fc8fe4a958fc0a392a5918b0a51bcc849
+  KakaoSDKShare: c5d7f1cf9dc38a0a084892f3cab3469c3a8a789d
+  KakaoSDKStory: f4f7e5159766ce1896e44b81f631a06450f4cff8
+  KakaoSDKTalk: 4e43ecb1484191783bf7439da536be8677a0619b
+  KakaoSDKTemplate: 9732b6123946efd1dbafacd0e807ac76c1b3d71c
+  KakaoSDKUser: 92d34cf6af7b123c22a7ee44424332123e356901
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   Then: 844265ae87834bbe1147d91d5d41a404da2ec27d
 
-PODFILE CHECKSUM: e45bda2e72a680ad31887dde8ae088d08b53f176
+PODFILE CHECKSUM: 06e04b3ddee81bd65ebef90fe4b8ac0040702b90
 
 COCOAPODS: 1.11.3
