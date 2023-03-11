@@ -6,7 +6,6 @@
 //
 //
 import UIKit
-import KakaoSDKUser
 import FSCalendar
 
 final class HomeViewController: UIViewController {
@@ -18,7 +17,6 @@ final class HomeViewController: UIViewController {
     
     private var selectedProfile: ProfileItem? {
         didSet {
-            print("change")
             self.nickNameLbl.text = self.selectedProfile!.personaName + " " + self.selectedProfile!.profileName
             self.personaLabel.text = "\(self.selectedProfile!.personaName)님,"
             
@@ -146,7 +144,6 @@ final class HomeViewController: UIViewController {
                 let profileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
                 self?.profileImageDatas = []
                 self?.personaDatas = items
-                self?.selectedProfile = items[0]
                 DispatchQueue.global().async {
                     for item in items {
                         DispatchQueue.main.async {
@@ -163,6 +160,7 @@ final class HomeViewController: UIViewController {
                     if self?.selectedProfile == nil { self?.selectedProfile = items[0] }
                     DispatchQueue.main.async {
                         self?.profileCollectionView.reloadData()
+                        self?.selectedProfile = items[0]
                     }
                 }
             }
@@ -188,10 +186,9 @@ final class HomeViewController: UIViewController {
         self.calendarImageDatas = []
         let current = self.calendarView.currentPage
         FeedService.getCalendarInfo(profileId: self.selectedProfile!.profileId, year: current.getYear, month: current.getMonth) { [weak self] items in
-            self?.calendarDatas = items
             DispatchQueue.global().async {
                 for item in items {
-                    print(item.feedId)
+                    self?.calendarDatas.append(item)
                     do {
                         if let urlString = item.feedImgUrl {
                             guard let url = URL(string: urlString) else { return }
@@ -458,7 +455,7 @@ final class HomeViewController: UIViewController {
 extension HomeViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     // 특정 날짜에 이미지 세팅
     func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
-        if let idx = self.calendarDatas.firstIndex(where: { $0.day == date.getDay }) {
+        if let idx = self.calendarDatas.firstIndex(where: { $0.day == date.getDay && $0.feedImgUrl != nil }) {
             return self.calendarImageDatas[idx]
         }
         return nil
