@@ -135,8 +135,7 @@ final class MyPageCell: UICollectionViewCell {
         self.heartButton.snp.makeConstraints { make in
             make.centerY.equalTo(postDateLabel)
             make.trailing.equalTo(self.likeCountLabel.snp.leading).offset(-4.5)
-            make.width.equalTo(12)
-            make.height.equalTo(12)
+            make.width.height.equalTo(12)
         }
         
         self.likeCountLabel.snp.makeConstraints { make in
@@ -147,8 +146,7 @@ final class MyPageCell: UICollectionViewCell {
         self.ellipsisButton.snp.makeConstraints { make in
             make.centerY.equalTo(postDateLabel)
             make.trailing.equalToSuperview().offset(-15)
-            make.width.equalTo(12)
-            make.height.equalTo(12)
+            make.width.height.equalTo(12)
         }
         
         self.postImageView.snp.makeConstraints { make in

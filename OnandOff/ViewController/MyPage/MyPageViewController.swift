@@ -177,6 +177,7 @@ extension MyPageViewController: UICollectionViewDelegateFlowLayout {
         if data.feedImgList != [] {
             imgViewHeight = (303 + 20) // 이미지뷰 크기 303 위 아래 여백 10 + 20
         }
+        
         let width = collectionView.bounds.width
         return CGSize(width: width-48, height: contentSize.height + imgViewHeight + 12+16+16+20)
     }

@@ -142,13 +142,12 @@ final class HomeViewController: UIViewController {
         if self.checkUserLogin() {
             ProfileService.getProfileModels { [weak self] items in
                 let profileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
+                var profile: ProfileItem?
                 self?.profileImageDatas = []
                 self?.personaDatas = items
                 DispatchQueue.global().async {
                     for item in items {
-                        DispatchQueue.main.async {
-                            if item.profileId == profileId { self?.selectedProfile = item }
-                        }
+                        if item.profileId == profileId { profile = item }
                         do {
                             guard let url = URL(string: item.profileImgUrl) else { return }
                             let data = try Data(contentsOf: url)
@@ -157,10 +156,10 @@ final class HomeViewController: UIViewController {
                             print(error)
                         }
                     }
-                    if self?.selectedProfile == nil { self?.selectedProfile = items[0] }
                     DispatchQueue.main.async {
+                        if let profile { self?.selectedProfile = profile }
+                        if self?.selectedProfile == nil { self?.selectedProfile = items[0] }
                         self?.profileCollectionView.reloadData()
-                        self?.selectedProfile = items[0]
                     }
                 }
             }
@@ -472,8 +471,8 @@ extension HomeViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalend
     }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        
-        
+        let feedVC = FeedWithDayViewController(profile: self.selectedProfile!, year: date.getYear, month: date.getMonth, day: date.getDay)
+        self.present(feedVC, animated: true)
     }
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {

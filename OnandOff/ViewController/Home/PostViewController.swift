@@ -13,6 +13,8 @@ final class PostViewController: UIViewController {
     private let selectedProfileItem: ProfileItem
     private var selectedCategoryId: Int = 0
     private var selectedImages: [UIImage] = []
+    private var isEditMode = false
+    private var feedId: Int?
     private var isAnonymous: Bool = false {
         didSet {
             let imageName = isAnonymous ? "anonymousCheck" : "anonymousCheckOff"
@@ -55,9 +57,7 @@ final class PostViewController: UIViewController {
     
     private let contentTextView = UITextView().then {
         $0.font = .notoSans(size:14)
-        $0.text = "작가 키키님의 하루를 기록하고 공유해주세요."
         $0.backgroundColor = .white
-        $0.textColor = .placeholderText
     }
     
     private let bottomline = UIView().then{
@@ -75,9 +75,54 @@ final class PostViewController: UIViewController {
     }
     
     //MARK: - Init
+    //작성
     init(_ profileItem: ProfileItem) {
         self.selectedProfileItem = profileItem
         super.init(nibName: nil, bundle: nil)
+        self.navigationItem.title = "글 작성하기"
+        self.isEditMode = false
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "작성", style: .plain, target: self, action: #selector(self.didClickSubmit)).then {
+            $0.tintColor = .mainColor
+        }
+        self.contentTextView.textColor = .placeholderText
+        self.contentTextView.text = "\(self.selectedProfileItem.profileName + self.selectedProfileItem.personaName)님의 하루를 기록하고 공유해주세요."
+    }
+    
+    //수정
+    init(_ profileItem: ProfileItem, feedId: Int) {
+        self.selectedProfileItem = profileItem
+        self.feedId = feedId
+        super.init(nibName: nil, bundle: nil)
+        self.isEditMode = true
+        self.photoButton.isEnabled = false
+        self.navigationItem.title = "글 수정하기"
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "수정", style: .plain, target: self, action: #selector(self.didClickEditButton)).then {
+            $0.tintColor = .mainColor
+        }
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "calendarleft")?.withRenderingMode(.alwaysOriginal),
+                                                                style: .plain, target: self, action: #selector(self.dismissVC))
+        FeedService.getFeedWithFeedId(self.selectedProfileItem.profileId, feedId: feedId) { item in
+            self.contentTextView.text = item.feedContent
+            self.hashtagTextfield.textColor = .black
+            self.hashtagTextfield.text = item.hashTagList.joined(separator: "#")
+            self.selectedCategoryId = item.categoryId
+            if item.isSecret == "PUBLIC" { self.isAnonymous = false }
+            DispatchQueue.global().async {
+                for urlString in item.feedImgList {
+                    guard let url = URL(string: urlString) else { return }
+                    
+                    do {
+                        let data = try Data(contentsOf: url)
+                        self.selectedImages.append(UIImage(data: data) ?? UIImage())
+                    } catch let error {
+                        print(error)
+                    }
+                }
+                DispatchQueue.main.async {
+                    if !self.selectedImages.isEmpty { self.photoButton.setImage(self.selectedImages[0], for: .normal) }
+                }
+            }
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -94,12 +139,6 @@ final class PostViewController: UIViewController {
         self.addTarget()
         
         self.contentTextView.delegate = self
-        self.contentTextView.text = "\(self.selectedProfileItem.profileName + self.selectedProfileItem.personaName)님의 하루를 기록하고 공유해주세요."
-        
-        self.navigationItem.title = "글 작성하기"
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "작성", style: .plain, target: self, action: #selector(self.didClickSubmit)).then {
-            $0.tintColor = .mainColor
-        }
         
         self.tabBarController?.tabBar.isHidden = true
     }
@@ -120,6 +159,10 @@ final class PostViewController: UIViewController {
     }
     
     //MARK: - Selector
+    @objc private func dismissVC() {
+        self.dismiss(animated: true)
+    }
+    
     @objc private func didClickSubmit(_ button: UIButton) {
         if self.contentTextView.text.isEmpty || self.contentTextView.text == "\(self.selectedProfileItem.profileName + self.selectedProfileItem.personaName)님의 하루를 기록하고 공유해주세요." {
             let alert = StandardAlertController(title: "작성된 내용이 없습니다.", message: nil)
@@ -147,7 +190,38 @@ final class PostViewController: UIViewController {
                                content: self.contentTextView.text!,
                                isSecret: isSecret,
                                images: self.selectedImages) {
-            print("호출")
+            self.dismiss(animated: true)
+        }
+    }
+    
+    @objc private func didClickEditButton(_ button: UIButton) {
+        if self.contentTextView.text.isEmpty || self.contentTextView.text == "\(self.selectedProfileItem.profileName + self.selectedProfileItem.personaName)님의 하루를 기록하고 공유해주세요." {
+            let alert = StandardAlertController(title: "작성된 내용이 없습니다.", message: nil)
+            let ok = StandardAlertAction(title: "확인", style: .basic)
+            alert.addAction(ok)
+            
+            self.present(alert, animated: false)
+            return
+        }
+        
+        if self.selectedCategoryId == 0 {
+            let alert = StandardAlertController(title: "선택된 카테고리가 없습니다.", message: nil)
+            let ok = StandardAlertAction(title: "확인", style: .basic)
+            alert.addAction(ok)
+            
+            self.present(alert, animated: false)
+            return
+        }
+        
+        let hastag = self.hashtagTextfield.text!.split(separator: "#").map { String($0) }
+        let isSecret = self.isAnonymous ? "PRIVATE" : "PUBLIC"
+        FeedService.editFeed(self.selectedProfileItem.profileId,
+                             feedId: self.feedId!,
+                               categoryId: self.selectedCategoryId,
+                               hashTagList: hastag,
+                               content: self.contentTextView.text!,
+                               isSecret: isSecret) {
+            self.dismiss(animated: true)
         }
     }
     
@@ -223,21 +297,21 @@ final class PostViewController: UIViewController {
         
         self.separatorLineView2.snp.makeConstraints{
             $0.top.equalTo(self.categoryFrameView.snp.bottom)
-            $0.size.height.equalTo(1)
+            $0.height.equalTo(1)
             $0.leading.equalToSuperview().offset(13)
             $0.trailing.equalToSuperview().offset(-13)
         }
         
         self.hashtagTextfield.snp.makeConstraints{
             $0.top.equalTo(self.separatorLineView2.snp.bottom).offset(10)
-            $0.size.height.equalTo(30)
+            $0.height.equalTo(30)
             $0.leading.equalToSuperview().offset(20)
             $0.trailing.equalToSuperview().offset(-20)
         }
         
         self.separatorLineView3.snp.makeConstraints{
             $0.top.equalTo(self.hashtagTextfield.snp.bottom).offset(10)
-            $0.size.height.equalTo(1)
+            $0.height.equalTo(1)
             $0.leading.equalToSuperview().offset(13)
             $0.trailing.equalToSuperview().offset(-13)
         }

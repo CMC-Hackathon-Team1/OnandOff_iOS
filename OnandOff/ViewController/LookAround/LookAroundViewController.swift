@@ -147,7 +147,6 @@ final class LookAroundViewController: UIViewController {
     private func paging() {
         self.isPaging = true
         if self.topTabbar.selectedItem == .following {
-            print(self.followingPage)
             self.followingPage += 1
         } else {
             self.explorationPage += 1
@@ -197,10 +196,9 @@ final class LookAroundViewController: UIViewController {
         self.navigationController?.pushViewController(reportVC, animated: false)
     }
     
-    
     @objc private func didChangeProfileId() {
-        self.resetData()
         self.currentProfileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
+        self.fetchFeed(profileId: self.currentProfileId, text: self.searchBar.text, isReset: true)
     }
     
     //MARK: - addSubView
