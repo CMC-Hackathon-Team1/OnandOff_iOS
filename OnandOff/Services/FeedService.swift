@@ -156,4 +156,57 @@ class FeedService {
             }
         }
     }
+    
+    static func getFeedWithFeedId(_ profileId: Int, feedId: Int, completion: @escaping (DetailFeedItem) -> Void) {
+        let url = baseURL + "feeds/\(feedId)/profiles/\(profileId)"
+        let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
+        let request = AF.request(url, headers: header)
+        request.responseDecodable(of: DetailFeedItem.self) { res in
+            switch res.result {
+            case .success(let model):
+                completion(model)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    static func editFeed(_ profileId: Int, feedId: Int, categoryId: Int, hashTagList: [String], content: String, isSecret: String, completion: @escaping ()->Void) {
+        let url = baseURL + "feeds"
+        let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
+        let parameters: Parameters = ["profileId" : profileId,
+                                     "categoryId" : categoryId,
+                                     "hashTagList" : hashTagList,
+                                      "feedId" : feedId,
+                                     "content" : content,
+                                     "isSecret" : isSecret]
+        let request = AF.request(url, method: .patch, parameters: parameters, encoding: JSONEncoding.default, headers: header)
+        
+        request.responseString() { res in
+            switch res.result {
+            case .success(let str):
+                print(str)
+                completion()
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    static func deleteFeed(profileId: Int, feedId: Int, completion: @escaping () -> Void) {
+        let url = baseURL + "feeds/status"
+        var header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
+        let parameter: Parameters = ["profileId" : profileId,
+                                     "feedId" : feedId]
+        let request = AF.request(url, method: .patch, parameters: parameter, encoding: JSONEncoding.default, headers: header)
+        request.responseString() { res in
+            switch res.result {
+            case .success(let str):
+                completion()
+                print(str)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
 }
