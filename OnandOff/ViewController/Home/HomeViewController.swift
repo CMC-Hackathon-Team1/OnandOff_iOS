@@ -157,6 +157,7 @@ final class HomeViewController: UIViewController {
                         }
                     }
                     DispatchQueue.main.async {
+                        if profileId == -1 { self?.selectedProfile = items[0] }
                         if let profile { self?.selectedProfile = profile }
                         if self?.selectedProfile == nil { self?.selectedProfile = items[0] }
                         self?.profileCollectionView.reloadData()

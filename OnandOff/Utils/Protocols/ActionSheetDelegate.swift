@@ -11,3 +11,8 @@ protocol ActionSheetDelegate: AnyObject {
     func didClickFirstItem(id: Int)
     func didClickSecondItem(id: Int)
 }
+
+protocol ActionSheetPhotoDelegate: AnyObject {
+    func didClickFirstItem()
+    func didClickSecondItem()
+}

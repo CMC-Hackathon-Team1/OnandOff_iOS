@@ -81,4 +81,19 @@ class ProfileService {
             }
         }
     }
+    
+    static func deleteProfile(_ profileId: Int, completion: @escaping () -> Void) {
+        let url = baseURL + "profiles/\(profileId)"
+        let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
+        AF.request(url, method: .delete, headers: header).responseString() { res in
+            switch res.result {
+            case .success(let str):
+                print(str)
+                completion()
+            case .failure(let error):
+                print(error)
+            }
+            
+        }
+    }
 }

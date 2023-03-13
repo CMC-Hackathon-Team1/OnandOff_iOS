@@ -119,11 +119,15 @@ final class ProfileMakeViewController: UIViewController {
     
     //MARK: - Selector
     @objc func didClickInsertPhotoButton(sender: UIButton) {
-        let controller = ImageUploadViewController()
-        controller.modalPresentationStyle = .fullScreen
-        controller.delegate = self
+        let actionSheetVC = ActionSheetViewController(title: "프로필 사진 업로드",
+                                                      firstImage: UIImage(named: "searchfromalbum")?.withRenderingMode(.alwaysOriginal) ?? UIImage(),
+                                                      firstText: "앨범에서 찾기",
+                                                      secondImage: UIImage(named: "camera")?.withRenderingMode(.alwaysOriginal) ?? UIImage(),
+                                                      secondText: "촬영")
+        actionSheetVC.delegatePhoto = self
+        actionSheetVC.modalPresentationStyle = .fullScreen
         
-        self.present(controller, animated: false)
+        self.present(actionSheetVC, animated: false)
     }
     
     @objc func didChangeText(_ sender: UITextField) {
@@ -194,8 +198,8 @@ final class ProfileMakeViewController: UIViewController {
     }
 }
 
-extension ProfileMakeViewController: ImageUploadDelegate {
-    func didClickFindAlbumButton() {
+extension ProfileMakeViewController: ActionSheetPhotoDelegate {
+    func didClickFirstItem() {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary
@@ -204,8 +208,14 @@ extension ProfileMakeViewController: ImageUploadDelegate {
         self.present(imagePicker, animated: true)
     }
     
-    func didClickSecondMenu() {
-        print("didClickSecondMenu")
+    func didClickSecondItem() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .camera
+        imagePicker.cameraDevice = .front
+        imagePicker.cameraCaptureMode = .photo
+        imagePicker.delegate = self
+        
+        present(imagePicker, animated: true)
     }
 }
 

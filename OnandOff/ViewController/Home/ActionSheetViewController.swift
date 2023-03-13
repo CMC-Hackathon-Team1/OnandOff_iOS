@@ -10,6 +10,7 @@ import SnapKit
 
 final class ActionSheetViewController: UIViewController {
     weak var delegate: ActionSheetDelegate?
+    weak var delegatePhoto: ActionSheetPhotoDelegate?
     var id: Int?
     
     private let frameView = UIView().then {
@@ -71,6 +72,8 @@ final class ActionSheetViewController: UIViewController {
         self.addSubView()
         self.layout()
         self.addTarget()
+        
+        self.view.backgroundColor = .systemGray4
     }
     
     //MARK: - Selector
@@ -81,6 +84,7 @@ final class ActionSheetViewController: UIViewController {
     @objc private func respondsToButton(_ sender: UIButton) {
         self.dismiss(animated: true) { [weak self] in
             sender.tag == 0 ? self?.delegate?.didClickFirstItem(id: self?.id ?? 0) : self?.delegate?.didClickSecondItem(id: self?.id ?? 0)
+            sender.tag == 0 ? self?.delegatePhoto?.didClickFirstItem() : self?.delegatePhoto?.didClickSecondItem()
         }
     }
     

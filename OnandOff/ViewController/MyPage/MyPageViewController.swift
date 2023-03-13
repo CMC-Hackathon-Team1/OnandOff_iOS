@@ -13,6 +13,13 @@ final class MyPageViewController: UIViewController {
     private var hasNextPage: Bool = true
     private var isPaging: Bool = false
     private var currentPage: Int = 1
+    private var currentProfileId: Int = 0 {
+        didSet {
+            self.MyPageFeedData = []
+            self.hasNextPage = true
+            self.currentPage = 1
+        }
+    }
     
     private let profileView = ProfileView()
     
@@ -35,23 +42,24 @@ final class MyPageViewController: UIViewController {
         self.myPageCollectionView.dataSource = self
         self.myPageCollectionView.delegate = self
         self.calendarHeaderView.delegate = self
+        self.currentProfileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
+        
+        MyPageService.fetchProfile(self.currentProfileId) { [weak self] item in
+            self?.profileView.configureProfile(item)
+        }
         
         // 선택된 ProfileId 변경 옵저버 추가 -> 변경시 nextpage = true feeddata 빈배열 currentPage = 1로 바꿔주기.
-        // NotificationCenter.default.addObserver(self, selector: #selector(<#T##@objc method#>), name: <#T##NSNotification.Name?#>, object: <#T##Any?#>)
+        NotificationCenter.default.addObserver(self, selector: #selector(changeProfileId), name: .changeProfileId, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if MyPageFeedData.isEmpty {
-            MyPageService.fetchFeedWithDate(27, targetId: 27, year: self.calendarHeaderView.getYear,
+            MyPageService.fetchFeedWithDate(self.currentProfileId, targetId: self.currentProfileId, year: self.calendarHeaderView.getYear,
                                             month: self.calendarHeaderView.getMonth, day: nil, page: self.currentPage) { [weak self] items in
                 self?.MyPageFeedData = items
                 self?.myPageCollectionView.reloadData()
             }
-        }
-        
-        MyPageService.fetchProfile(1610) { [weak self] item in
-            self?.profileView.configureProfile(item)
         }
     }
     
@@ -65,7 +73,7 @@ final class MyPageViewController: UIViewController {
     private func paging() {
         self.isPaging = true
         self.currentPage += 1
-        MyPageService.fetchFeedWithDate(27, targetId: 27, year: self.calendarHeaderView.getYear, month: self.calendarHeaderView.getMonth, day: nil, page: self.currentPage) { [weak self] items in
+        MyPageService.fetchFeedWithDate(self.currentProfileId, targetId: self.currentProfileId, year: self.calendarHeaderView.getYear, month: self.calendarHeaderView.getMonth, day: nil, page: self.currentPage) { [weak self] items in
             if items.isEmpty { self?.hasNextPage = false }
             self?.MyPageFeedData.append(contentsOf: items)
             self?.isPaging = false
@@ -75,9 +83,15 @@ final class MyPageViewController: UIViewController {
     
     // MARK: - Selector
     @objc private func didClickEditButton(_ button: UIButton) {
-        print("didClickEditButton")
-        let controller = EditProfileViewController()
+        let controller = EditProfileViewController(self.currentProfileId)
         self.navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    @objc private func changeProfileId() {
+        self.currentProfileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
+        MyPageService.fetchProfile(self.currentProfileId) { [weak self] item in
+            self?.profileView.configureProfile(item)
+        }
     }
     
     @objc private func pullToRefresh(_ refresh: UIRefreshControl) {
@@ -85,7 +99,7 @@ final class MyPageViewController: UIViewController {
         self.currentPage = 1
         self.hasNextPage = true
         
-        MyPageService.fetchFeedWithDate(27, targetId: 27, year: self.calendarHeaderView.getYear, month: self.calendarHeaderView.getMonth, day: nil, page: self.currentPage) { [weak self] items in
+        MyPageService.fetchFeedWithDate(self.currentProfileId, targetId: self.currentProfileId, year: self.calendarHeaderView.getYear, month: self.calendarHeaderView.getMonth, day: nil, page: self.currentPage) { [weak self] items in
             if items.isEmpty { self?.hasNextPage = false }
             self?.MyPageFeedData.append(contentsOf: items)
             self?.myPageCollectionView.reloadData()
@@ -164,8 +178,6 @@ extension MyPageViewController: UICollectionViewDelegateFlowLayout {
         return 0
     }
     
-    
-    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let data = self.MyPageFeedData[indexPath.row]
         let contentText: NSString = data.feedContent as NSString
@@ -203,7 +215,7 @@ extension MyPageViewController: CalendarHeaderDelegate {
         self.currentPage = 1
         self.hasNextPage = true
         
-        MyPageService.fetchFeedWithDate(27, targetId: 27, year: self.calendarHeaderView.getYear,
+        MyPageService.fetchFeedWithDate(self.currentProfileId, targetId: self.currentProfileId, year: self.calendarHeaderView.getYear,
                                         month: self.calendarHeaderView.getMonth, day: nil) { [weak self] items in
             self?.MyPageFeedData = items
             self?.myPageCollectionView.reloadData()
