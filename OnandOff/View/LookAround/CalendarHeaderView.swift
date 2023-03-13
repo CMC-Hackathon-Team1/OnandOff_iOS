@@ -56,6 +56,9 @@ class CalendarHeaderView: UICollectionReusableView {
                             print(error)
                         }
                     }
+                    DispatchQueue.main.async {
+                        self?.calendarView.reloadData()
+                    }
                 }
             }
         }
