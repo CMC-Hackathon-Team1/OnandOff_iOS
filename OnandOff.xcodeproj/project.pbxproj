@@ -31,6 +31,9 @@
 		DB2503F029AA6BF600B0AE39 /* TopTapBarDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2503EF29AA6BF600B0AE39 /* TopTapBarDelegate.swift */; };
 		DB284A7A29B8D9C800630FCE /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB284A7929B8D9C800630FCE /* ProfileService.swift */; };
 		DB284A7C29B8E70C00630FCE /* ImageUploadDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB284A7B29B8E70C00630FCE /* ImageUploadDelegate.swift */; };
+		DB3545EF29BEBF2900A6087E /* OtherProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3545EE29BEBF2900A6087E /* OtherProfileViewController.swift */; };
+		DB3545F129BED6AF00A6087E /* CalendarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3545F029BED6AF00A6087E /* CalendarHeaderView.swift */; };
+		DB3545F329BF4D7300A6087E /* DefaultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3545F229BF4D7300A6087E /* DefaultModel.swift */; };
 		DB3B464729AB3CF8005F90C3 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B464629AB3CF8005F90C3 /* CategoryModel.swift */; };
 		DB3B601829BDB4D40087B04B /* FeedCellWithHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B601729BDB4D40087B04B /* FeedCellWithHome.swift */; };
 		DB3B601A29BDD8800087B04B /* ActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B601929BDD8800087B04B /* ActionSheetViewController.swift */; };
@@ -137,6 +140,9 @@
 		DB2503EF29AA6BF600B0AE39 /* TopTapBarDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopTapBarDelegate.swift; sourceTree = "<group>"; };
 		DB284A7929B8D9C800630FCE /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		DB284A7B29B8E70C00630FCE /* ImageUploadDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploadDelegate.swift; sourceTree = "<group>"; };
+		DB3545EE29BEBF2900A6087E /* OtherProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileViewController.swift; sourceTree = "<group>"; };
+		DB3545F029BED6AF00A6087E /* CalendarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHeaderView.swift; sourceTree = "<group>"; };
+		DB3545F229BF4D7300A6087E /* DefaultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultModel.swift; sourceTree = "<group>"; };
 		DB3B464629AB3CF8005F90C3 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		DB3B601729BDB4D40087B04B /* FeedCellWithHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCellWithHome.swift; sourceTree = "<group>"; };
 		DB3B601929BDD8800087B04B /* ActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewController.swift; sourceTree = "<group>"; };
@@ -262,6 +268,7 @@
 				DB2503E929A9EDFE00B0AE39 /* FeedListModel.swift */,
 				DB3B464629AB3CF8005F90C3 /* CategoryModel.swift */,
 				DBED0ED829B4C71900415219 /* ReportModel.swift */,
+				DB3545F229BF4D7300A6087E /* DefaultModel.swift */,
 			);
 			path = LookAround;
 			sourceTree = "<group>";
@@ -455,6 +462,7 @@
 			children = (
 				DB5AFE0F2960171E00667336 /* LookAroundViewController.swift */,
 				DB3EB8BD299E384400434666 /* ReportViewController.swift */,
+				DB3545EE29BEBF2900A6087E /* OtherProfileViewController.swift */,
 			);
 			path = LookAround;
 			sourceTree = "<group>";
@@ -467,6 +475,7 @@
 				DB3EB8B8299E054800434666 /* ReportActionSheet.swift */,
 				DB7BDC8B2961BCF400AA304B /* FeedCell.swift */,
 				DB3EB8C1299E414200434666 /* ReportCell.swift */,
+				DB3545F029BED6AF00A6087E /* CalendarHeaderView.swift */,
 			);
 			path = LookAround;
 			sourceTree = "<group>";
@@ -679,8 +688,11 @@
 				DB000F06297012010097D6C8 /* ProfileMakeViewController.swift in Sources */,
 				DB5AFE082960134400667336 /* UIFont+.swift in Sources */,
 				DB2503F029AA6BF600B0AE39 /* TopTapBarDelegate.swift in Sources */,
+				DB3545EF29BEBF2900A6087E /* OtherProfileViewController.swift in Sources */,
 				5DB24CAA2995BB5900654978 /* RegisterationController.swift in Sources */,
 				E5357A1529A5F35D00716CDF /* SpecificPostCell.swift in Sources */,
+				DB3545F129BED6AF00A6087E /* CalendarHeaderView.swift in Sources */,
+				DB3545F329BF4D7300A6087E /* DefaultModel.swift in Sources */,
 				25432FDB299E378900CC2FBC /* String+.swift in Sources */,
 				E56E0ECA29976763009FD906 /* ProfileCell.swift in Sources */,
 				DB80B38729BB7824009F8E2E /* CategoryCell.swift in Sources */,

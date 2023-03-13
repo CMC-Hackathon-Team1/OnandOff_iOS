@@ -13,4 +13,8 @@ extension Notification.Name {
     static let presentReportVC = Notification.Name("presentReportVC")
     static let presentLoginVC = Notification.Name("presentLoginVC")
     static let changeProfileId = Notification.Name("changeProfileId")
+    static let getProfileId = Notification.Name("getProfileId")
+    static let clcikDay = Notification.Name("clickDay")
+    static let clickFollow = Notification.Name("clickFollow")
+    static let changeCurrentPage = Notification.Name("changeCurrentPage")
 }

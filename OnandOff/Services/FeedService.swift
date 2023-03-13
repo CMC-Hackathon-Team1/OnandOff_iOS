@@ -209,4 +209,22 @@ class FeedService {
             }
         }
     }
+    
+    static func isFollowing(fromProfileId: Int, toProfileId: Int, completion: @escaping (Bool)->Void) {
+        let url = baseURL + "follow/test"
+        var header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
+        let parameter: Parameters = ["fromProfileId" : fromProfileId,
+                                     "toProfileId" : toProfileId]
+        let request = AF.request(url, method: .post, parameters: parameter,headers: header)
+        request.responseDecodable(of: DefaultModel.self) { res in
+            switch res.result {
+            case .success(let model):
+                print(model)
+                var isFollowing = model.message == "Follow" ? true : false
+                completion(isFollowing)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
 }

@@ -15,7 +15,8 @@ final class EditProfileViewController: UIViewController {
     private var profileImage: UIImage?
     private var oldNickName = ""
     private var oldIntroduction = ""
-    
+    private let profileId: Int
+    private var isDefaultImage = false
     private let profileImageButton = UIButton(type: .system).then {
         $0.setImage(UIImage(named: "ProfileInsertPhoto")?.withRenderingMode(.alwaysOriginal), for: .normal)
         $0.contentMode = .scaleAspectFit
@@ -41,17 +42,10 @@ final class EditProfileViewController: UIViewController {
         $0.isEnabled = false
     }
     
-    // MARK: - Lifecycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view.backgroundColor = .white
-        
-        self.addSubView()
-        self.layout()
-        self.addTarget()
-        self.configureNavigation()
-        
-        MyPageService.fetchProfile(1610) { item in
+    init(_ profileId: Int) {
+        self.profileId = profileId
+        super.init(nibName: nil, bundle: nil)
+        MyPageService.fetchProfile(profileId) { item in
             self.personaComponent.inputTextfield.text = item.personaName
             self.nickNameComponent.inputTextfield.text = item.profileName
             self.introductionComponent.inputTextfield.text = item.statusMessage
@@ -64,7 +58,6 @@ final class EditProfileViewController: UIViewController {
                     let data = try Data(contentsOf: url)
                     DispatchQueue.main.async {
                         self.profileImageButton.setImage(UIImage(data: data)?.withRenderingMode(.alwaysOriginal), for: .normal)
-                        
                     }
                 } catch let error {
                     print(error.localizedDescription)
@@ -73,13 +66,32 @@ final class EditProfileViewController: UIViewController {
         }
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.backgroundColor = .white
+        
+        self.addSubView()
+        self.layout()
+        self.addTarget()
+        self.configureNavigation()
+    }
+    
     // MARK: - Actions
     @objc func showPhotoSelectSheet() {
-        let controller = ImageUploadViewController()
-        controller.modalPresentationStyle = .fullScreen
-        controller.delegate = self
+        let actionSheetVC = ActionSheetViewController(title: "프로필 사진 업로드",
+                                                      firstImage: UIImage(named: "defaultProfile") ?? UIImage(),
+                                                      firstText: "기본 이미지로 변경",
+                                                      secondImage: UIImage(named: "searchfromalbum")?.withRenderingMode(.alwaysOriginal) ?? UIImage(),
+                                                      secondText: "앨범에서 찾기")
+        actionSheetVC.delegatePhoto = self
+        actionSheetVC.modalPresentationStyle = .fullScreen
         
-        self.present(controller, animated: false)
+        self.present(actionSheetVC, animated: false)
     }
     
     @objc func didChangeText(_ sender: UITextField) {
@@ -107,11 +119,44 @@ final class EditProfileViewController: UIViewController {
     @objc func didClickChangeButton(_ sender: UIButton) {
         let profileName = self.nickNameComponent.inputTextfield.text!
         let introduction = self.introductionComponent.inputTextfield.text ?? ""
-        ProfileService.editProfile(1610, profileName: profileName, statusMessage: introduction, image: self.profileImage, defaultImage: false)
+        ProfileService.editProfile(self.profileId, profileName: profileName, statusMessage: introduction, image: self.profileImage, defaultImage: self.isDefaultImage)
     }
     
     @objc func didTapDeleteButton() {
-        print(#function)
+        let alert = StandardAlertController(title: "프로필을 정말로 삭제하시겠습니까?", message: nil)
+        alert.titleHighlight(highlightString: "삭제", color: .point)
+        let cancel = StandardAlertAction(title: "취소", style: .cancel)
+        let delete = StandardAlertAction(title: "삭제", style: .basic) { _ in
+            ProfileService.getProfileModels { items in
+                if items.count > 1 {
+                    ProfileService.deleteProfile(self.profileId) {
+                        self.navigationController?.popViewController(animated: true)
+                        self.tabBarController?.selectedIndex = 0
+                        UserDefaults.standard.set(-1, forKey: "selectedProfileId")
+                    }
+                } else {
+                    self.presentWarning()
+                }
+            }
+        }
+        alert.addAction(cancel)
+        alert.addAction(delete)
+        
+        self.present(alert, animated: false)
+    }
+    
+    private func presentWarning() {
+        let alert = StandardAlertController(title: nil, message: "반드시 하나의 프로필은 있어야합니다./n해당 프로필 삭제를 원하실 경우/n새프로필 생성 후 다시 진행해주세요.")
+        alert.messageHighlight(highlightString: "하나의 프로필", color: .point)
+        let cancel = StandardAlertAction(title: "취소", style: .cancel)
+        let moveHome = StandardAlertAction(title: "홈으로 이동", style: .basic) { _ in
+            self.tabBarController?.selectedIndex = 0
+            self.navigationController?.viewControllers.removeLast()
+        }
+        alert.addAction(cancel)
+        alert.addAction(moveHome)
+        
+        self.present(alert, animated: false)
     }
     
     // MARK: - Helpers
@@ -180,18 +225,20 @@ final class EditProfileViewController: UIViewController {
 }
 
 //MARK: - delegate
-extension EditProfileViewController: ImageUploadDelegate {
-    func didClickFindAlbumButton() {
+extension EditProfileViewController: ActionSheetPhotoDelegate {
+    func didClickFirstItem() {
+        self.isDefaultImage = true
+        self.profileImage = UIImage(named: "defaultImage")?.withRenderingMode(.alwaysOriginal) ?? UIImage()
+        self.profileImageButton.setImage(self.profileImage, for: .normal)
+    }
+    
+    func didClickSecondItem() {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary
         imagePicker.allowsEditing = true
         
         self.present(imagePicker, animated: true)
-    }
-    
-    func didClickSecondMenu() {
-        print(self)
     }
 }
     

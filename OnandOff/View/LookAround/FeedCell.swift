@@ -11,6 +11,7 @@ final class FeedCell: UICollectionViewCell {
     //MARK: - Properties
     static let identifier = "FeedCell"
     weak var delegate: LookAroundDelegate?
+    private var profileId: Int!
     
     let profileImageView = UIImageView().then {
         $0.layer.cornerRadius = 21
@@ -29,6 +30,8 @@ final class FeedCell: UICollectionViewCell {
         $0.textColor = .text4
         $0.text = "어제"
     }
+    
+    private let touchView = UIView()
     
     let contentLabel = UILabel().then {
         $0.numberOfLines = 0
@@ -64,6 +67,9 @@ final class FeedCell: UICollectionViewCell {
         self.addSubView()
         self.layout()
         self.addTarget()
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didClickProfile))
+        self.touchView.addGestureRecognizer(tapGesture)
     }
     
     required init?(coder: NSCoder) {
@@ -83,6 +89,10 @@ final class FeedCell: UICollectionViewCell {
         delegate?.didClickEllipsis(button.tag)
     }
     
+    @objc private func didClickProfile(_ gesture: UITapGestureRecognizer) {
+        delegate?.didClickProfile(self.profileId)
+    }
+    
     //MARK: - Configure
     private func configure() {
         self.backgroundColor = .white
@@ -96,7 +106,7 @@ final class FeedCell: UICollectionViewCell {
     func configureCell(_ item: FeedItem) {
         let heartImageName = item.isLike ? "heart.fill" : "heart"
         let followImageName = item.isFollowing ? "following" :"follow"
-        
+        self.profileId = item.profileId
         self.followButton.setImage(UIImage(named: followImageName)?.withRenderingMode(.alwaysOriginal), for: .normal)
         self.heartButton.setImage(UIImage(named: heartImageName)?.withRenderingMode(.alwaysOriginal), for: .normal)
         self.profileImageView.loadImage(item.profileImg)
@@ -135,6 +145,7 @@ final class FeedCell: UICollectionViewCell {
         self.addSubview(self.profileImageView)
         self.addSubview(self.contentLabel)
         self.addSubview(self.nameLabel)
+        self.addSubview(self.touchView)
         self.addSubview(self.dateLabel)
         self.addSubview(self.heartButton)
         self.addSubview(self.followButton)
@@ -159,6 +170,11 @@ final class FeedCell: UICollectionViewCell {
         self.dateLabel.snp.makeConstraints {
             $0.leading.equalTo(self.nameLabel.snp.leading)
             $0.top.equalTo(self.nameLabel.snp.bottom).offset(2)
+        }
+        
+        self.touchView.snp.makeConstraints {
+            $0.leading.top.bottom.equalTo(self.profileImageView)
+            $0.trailing.equalTo(self.nameLabel.snp.trailing)
         }
     
         self.contentLabel.snp.makeConstraints {

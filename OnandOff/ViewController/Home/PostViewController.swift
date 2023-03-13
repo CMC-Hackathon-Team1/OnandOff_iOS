@@ -190,7 +190,7 @@ final class PostViewController: UIViewController {
                                content: self.contentTextView.text!,
                                isSecret: isSecret,
                                images: self.selectedImages) {
-            self.dismiss(animated: true)
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
