@@ -93,6 +93,7 @@ final class MyPageCell: UICollectionViewCell {
     
     func configureCell(_ item: MyPageItem) {
         self.postDateLabel.text = self.convertDateFormat(item.createdAt)
+        self.contentLabel.text = item.feedContent
         self.likeCountLabel.text = "\(item.likeNum)"
         self.subLayout(item: item)
         self.postImageView.setImageSlider(images: item.feedImgList)

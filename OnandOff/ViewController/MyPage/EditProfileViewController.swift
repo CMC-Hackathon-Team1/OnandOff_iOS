@@ -123,11 +123,40 @@ final class EditProfileViewController: UIViewController {
     }
     
     @objc func didTapDeleteButton() {
-        ProfileService.deleteProfile(self.profileId) {
-            self.navigationController?.popViewController(animated: true)
-            self.tabBarController?.selectedIndex = 0
-            UserDefaults.standard.set(-1, forKey: "selectedProfileId")
+        let alert = StandardAlertController(title: "프로필을 정말로 삭제하시겠습니까?", message: nil)
+        alert.titleHighlight(highlightString: "삭제", color: .point)
+        let cancel = StandardAlertAction(title: "취소", style: .cancel)
+        let delete = StandardAlertAction(title: "삭제", style: .basic) { _ in
+            ProfileService.getProfileModels { items in
+                if items.count > 1 {
+                    ProfileService.deleteProfile(self.profileId) {
+                        self.navigationController?.popViewController(animated: true)
+                        self.tabBarController?.selectedIndex = 0
+                        UserDefaults.standard.set(-1, forKey: "selectedProfileId")
+                    }
+                } else {
+                    self.presentWarning()
+                }
+            }
         }
+        alert.addAction(cancel)
+        alert.addAction(delete)
+        
+        self.present(alert, animated: false)
+    }
+    
+    private func presentWarning() {
+        let alert = StandardAlertController(title: nil, message: "반드시 하나의 프로필은 있어야합니다./n해당 프로필 삭제를 원하실 경우/n새프로필 생성 후 다시 진행해주세요.")
+        alert.messageHighlight(highlightString: "하나의 프로필", color: .point)
+        let cancel = StandardAlertAction(title: "취소", style: .cancel)
+        let moveHome = StandardAlertAction(title: "홈으로 이동", style: .basic) { _ in
+            self.tabBarController?.selectedIndex = 0
+            self.navigationController?.viewControllers.removeLast()
+        }
+        alert.addAction(cancel)
+        alert.addAction(moveHome)
+        
+        self.present(alert, animated: false)
     }
     
     // MARK: - Helpers

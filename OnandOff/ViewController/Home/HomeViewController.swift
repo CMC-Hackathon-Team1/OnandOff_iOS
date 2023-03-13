@@ -13,7 +13,7 @@ final class HomeViewController: UIViewController {
     private var personaDatas: [ProfileItem] = []
     private var profileImageDatas: [UIImage] = []
     private var calendarDatas: [CalendarInfoItem] = []
-    private var calendarImageDatas: [UIImage?] = []
+    private var calendarImages: [String : UIImage?] = [:]
     
     private var selectedProfile: ProfileItem? {
         didSet {
@@ -182,22 +182,21 @@ final class HomeViewController: UIViewController {
     }
     
     private func updateCalendar() {
-        self.calendarDatas = []
-        self.calendarImageDatas = []
         let current = self.calendarView.currentPage
         FeedService.getCalendarInfo(profileId: self.selectedProfile!.profileId, year: current.getYear, month: current.getMonth) { [weak self] items in
+            self?.calendarDatas = items
+            self?.calendarImages = [:]
             DispatchQueue.global().async {
                 for item in items {
-                    self?.calendarDatas.append(item)
                     do {
                         if let urlString = item.feedImgUrl {
                             guard let url = URL(string: urlString) else { return }
                             let data = try Data(contentsOf: url)
-                            self?.calendarImageDatas.append(UIImage(data: data))
-                        } else {
-                            self?.calendarImageDatas.append(nil)
+                            self?.calendarImages[item.day] = UIImage(data: data)
                         }
-                        
+                        DispatchQueue.main.async {
+                            self?.calendarView.reloadData()
+                        }
                     } catch let error {
                         print(error)
                     }
@@ -455,9 +454,10 @@ final class HomeViewController: UIViewController {
 extension HomeViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     // 특정 날짜에 이미지 세팅
     func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
-        if let idx = self.calendarDatas.firstIndex(where: { $0.day == date.getDay && $0.feedImgUrl != nil }) {
-            return self.calendarImageDatas[idx]
+        if let item = self.calendarImages.filter({ $0.key == date.getDay }).first {
+            return item.value
         }
+        
         return nil
     }
     

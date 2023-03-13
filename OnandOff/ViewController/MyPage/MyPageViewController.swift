@@ -165,7 +165,6 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: self.view.frame.width, height: 2)
     }
-    
 }
 
 //MARK: - CollectionViewDelegate
