@@ -8,248 +8,178 @@
 import UIKit
 import Alamofire
 
-class EmailLoginViewController: UIViewController {
-    
+final class EmailLoginViewController: UIViewController {
     // MARK: - Properties
     var isValid: Bool {
-        return emailTextField.text?.isEmpty == false && passwordTextField.text?.isEmpty == false
+        return self.emailTextfileView.getText?.isEmpty == false && self.passwordTextFieldView.getText?.isEmpty == false
     }
     
-    private lazy var emailContainerView: ContainerView = {
-        return ContainerView(title: "이메일", textField: emailTextField, leftOffset: 62)
-    }()
+    private let emailTextfileView = UnderLineTextField(.other, title: "이메일   ")
     
-    private lazy var passwordContainerView: ContainerView = {
-        return ContainerView(title: "비밀번호", textField: passwordTextField, leftOffset: 62)
-    }()
+    private let passwordTextFieldView = UnderLineTextField(.password, title: "패스워드")
+
+    private lazy var loginButton = UIButton().then {
+        $0.setTitle("로그인", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+        $0.backgroundColor = .text3
+        $0.layer.cornerRadius = 5
+        $0.addTarget(self, action: #selector(self.didClickLoginButton), for: .touchUpInside)
+        $0.isEnabled = false
+    }
     
-    private let emailTextField: UITextField = {
-        let textField = UITextField()
-        textField.borderStyle = .none
-        textField.textColor = .black
-        textField.textAlignment = .left
-        textField.autocapitalizationType = .none
-        textField.widthAnchor.constraint(equalToConstant: 240).isActive = true
-        return textField
-    }()
-    
-    private lazy var emailDividerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = #colorLiteral(red: 0.5215686275, green: 0.5215686275, blue: 0.5215686275, alpha: 1)
-        return view
-    }()
-    
-    private let passwordTextField: UITextField = {
-        let textField = UITextField()
-        textField.borderStyle = .none
-        textField.textColor = .black
-        textField.textAlignment = .left
-        textField.autocapitalizationType = .none
-        textField.isSecureTextEntry = true
-        textField.widthAnchor.constraint(equalToConstant: 240).isActive = true
-        return textField
-    }()
-    
-    private lazy var passwordDividerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = #colorLiteral(red: 0.5215686275, green: 0.5215686275, blue: 0.5215686275, alpha: 1)
-        return view
-    }()
-    
-    private lazy var loginButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("로그인", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = UIColor(red: 0.868, green: 0.868, blue: 0.868, alpha: 1)
-        button.layer.cornerRadius = 5
-        button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
-        button.isEnabled = false
-        return button
-    }()
-    
-    private lazy var findPasswordButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.backgroundColor = .white
+    private lazy var findPasswordButton = UIButton().then {
+        $0.backgroundColor = .white
+        $0.addTarget(self, action: #selector(handleFindPassword), for: .touchUpInside)
         let attributedTitle = NSMutableAttributedString(string: "비밀번호 찾기", attributes: [.font: UIFont.notoSans(size: 12, family: .Bold),
                                                                                            .foregroundColor: #colorLiteral(red: 0.4056565464, green: 0.7636143565, blue: 0.6924937367, alpha: 1),
                                                                                            NSAttributedString.Key.underlineStyle : NSUnderlineStyle.single.rawValue,
                                                                                            .underlineColor: #colorLiteral(red: 0.4056565464, green: 0.7636143565, blue: 0.6924937367, alpha: 1)])
-        button.setAttributedTitle(attributedTitle, for: .normal)
-        button.addTarget(self, action: #selector(handleFindPassword), for: .touchUpInside)
-        return button
-    }()
+        $0.setAttributedTitle(attributedTitle, for: .normal)
+    }
     
-    private lazy var registerationButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.backgroundColor = .white
-        
-        
-        let attributedTitle = NSMutableAttributedString(string: "아직 아이디가 없다면? ",
+    private lazy var registerationButton = UIButton(type: .system).then {
+        $0.backgroundColor = .white
+        $0.addTarget(self, action: #selector(handleShowSignUp), for: .touchUpInside)
+        let title = "아직 아이디가 없다면? 회원가입"
+        let attributedTitle = NSMutableAttributedString(string: title,
                                                         attributes: [.font: UIFont.notoSans(size: 12, family: .Bold),
                                                                      .foregroundColor: #colorLiteral(red: 0.7810429931, green: 0.7810428739, blue: 0.7810428739, alpha: 1),
                                                                      NSAttributedString.Key.underlineStyle : NSUnderlineStyle.single.rawValue,
                                                                      .underlineColor: #colorLiteral(red: 0.7810429931, green: 0.7810428739, blue: 0.7810428739, alpha: 1)])
-        
-        attributedTitle.append(NSAttributedString(string: "회원가입",
-                                                  attributes: [.font: UIFont.notoSans(size: 12, family: .Bold),
-                                                               .foregroundColor: #colorLiteral(red: 0.4056565464, green: 0.7636143565, blue: 0.6924937367, alpha: 1),
-                                                               NSAttributedString.Key.underlineStyle : NSUnderlineStyle.single.rawValue,
-                                                               .underlineColor: #colorLiteral(red: 0.4056565464, green: 0.7636143565, blue: 0.6924937367, alpha: 1)]))
-        
-        button.setAttributedTitle(attributedTitle, for: .normal)
-        button.addTarget(self, action: #selector(handleShowSignUp), for: .touchUpInside)
-        return button
-    }()
-    
+        attributedTitle.addAttribute(.foregroundColor, value: UIColor.mainColor, range: (title as NSString).range(of: "회원가입"))
+        $0.setAttributedTitle(attributedTitle, for: .normal)
+    }
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "로그인 하기"
+
+        self.addSubView()
+        self.configureLayout()
+        
+        self.emailTextfileView.delegate = self
+        self.passwordTextFieldView.delegate = self
+        
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationController?.navigationBar.topItem?.title = ""
-        configureLayout()
-        textFieldObservers()
     }
     
     // MARK: - Actions
     @objc func handleShowSignUp() {
         print(#function)
-        let controller = RegisterationController()
-        navigationController?.pushViewController(controller, animated: true)
+        let registVC = RegisterationController()
+        self.navigationController?.pushViewController(registVC, animated: true)
     }
     
-    @objc func handleLogin() {
-        guard let email = self.emailTextField.text else { return }
-        guard let password = self.passwordTextField.text else { return }
+    @objc func didClickLoginButton() {
+        guard let email = self.emailTextfileView.getText else { return }
+        guard let password = self.passwordTextFieldView.getText else { return }
         
-        AuthService.userLogin(AuthDataModel(email: email, password: password)) { response in
+        AuthService.userLogin(email: email, password: password) { response in
             if let response = response {
                 switch response.statusCode {
                 case 100:
                     guard let accessToken = response.result?.jwt else { return }
-                    let tokenService = TokenService()
-                    tokenService.create("https://dev.onnoff.shop/auth/login", account: "accessToken", value: accessToken)
-                    print("EmailLogin Complete, AccessToken is \(TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken") ?? "")")
                     
+                    TokenService().create("https://dev.onnoff.shop/auth/login", account: "accessToken", value: accessToken)
                     self.navigationController?.dismiss(animated: true)
                 case 400:
                     print(response.message)
                 case 500:
                     print(response.message)
                 case 1101:
-                    print(response.message)
+                    self.showAlert(title: "잘못된 회원정보 입니다.")
                 case 3011:
-                    print(response.message)
+                    self.showAlert(title: "다른 플랫폼으로 가입된 회원입니다.")
                 default:
                     break
                 }
             }
-            return
         }
     }
     
     @objc func handleFindPassword() {
-        guard let email = emailTextField.text else { return }
-        if email.isEmpty {
-            let alert = StandardAlertController(title: nil, message: "이메일을 입력한 뒤 다시 버튼을 눌려주세요")
-            let report = StandardAlertAction(title: "확인", style: .basic)
-            alert.addAction(report)
-            self.present(alert, animated: false)
-        } else {
-            let alert = StandardAlertController(title: nil, message: "비밀번호 재설정 이메일이 \n \(email)으로 전송되었습니다")
-            let report = StandardAlertAction(title: "확인", style: .basic)
-            alert.addAction(report)
-            self.present(alert, animated: false)
-        }
+//        guard let email = emailTextField.text else { return }
+//        if email.isEmpty {
+//            let alert = StandardAlertController(title: nil, message: "이메일을 입력한 뒤 다시 버튼을 눌려주세요")
+//            let report = StandardAlertAction(title: "확인", style: .basic)
+//            alert.addAction(report)
+//            self.present(alert, animated: false)
+//        } else {
+//            let alert = StandardAlertController(title: nil, message: "비밀번호 재설정 이메일이 \n \(email)으로 전송되었습니다")
+//            let report = StandardAlertAction(title: "확인", style: .basic)
+//            alert.addAction(report)
+//            self.present(alert, animated: false)
+//        }
     }
     
-    @objc func textDidChange(sender: UITextField) {
-        if isValid {
-            loginButton.isEnabled = true
-            loginButton.backgroundColor = #colorLiteral(red: 0.4056565464, green: 0.7636143565, blue: 0.6924937367, alpha: 1)
-        } else {
-            loginButton.isEnabled = false
-            loginButton.backgroundColor = UIColor(red: 0.868, green: 0.868, blue: 0.868, alpha: 1)
-        }
+    private func showAlert(title: String) {
+        let alert = StandardAlertController(title: title, message: nil)
+        let ok = StandardAlertAction(title: "확인", style: .basic)
+        alert.addAction(ok)
+        
+        self.present(alert, animated: false)
+    }
+
+    //MARK: - AddSubView()
+    private func addSubView() {
+        self.view.addSubview(self.emailTextfileView)
+        self.view.addSubview(self.passwordTextFieldView)
+        self.view.addSubview(self.loginButton)
+        self.view.addSubview(self.findPasswordButton)
+        self.view.addSubview(self.registerationButton)
     }
     
     // MARK: - Helpers
     private func configureLayout() {
         view.backgroundColor = .white
-        
-        view.addSubview(emailContainerView)
-        emailContainerView.delegate = self
-        emailContainerView.snp.makeConstraints {
-            $0.bottom.equalTo(view.snp.top).offset(145)
-            $0.left.equalTo(view.snp.left).offset(31)
-            $0.right.equalTo(view.snp.right).offset(-31)
+
+        self.emailTextfileView.snp.makeConstraints {
+            $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(30)
+            $0.leading.equalToSuperview().offset(24)
+            $0.trailing.equalToSuperview().offset(-24)
             $0.height.equalTo(40)
         }
         
-        view.addSubview(emailDividerView)
-        emailDividerView.snp.makeConstraints {
-            $0.height.equalTo(1)
-            $0.top.equalTo(view.snp.top).offset(145)
-            $0.left.equalTo(view.snp.left).offset(31)
-            $0.right.equalTo(view.snp.right).offset(-31)
-        }
-        
-        view.addSubview(passwordContainerView)
-        passwordContainerView.delegate = self
-        passwordContainerView.snp.makeConstraints {
-            $0.bottom.equalTo(view.snp.top).offset(201)
-            $0.left.equalTo(view.snp.left).offset(31)
-            $0.right.equalTo(view.snp.right).offset(-31)
+        self.passwordTextFieldView.snp.makeConstraints {
+            $0.top.equalTo(self.emailTextfileView.snp.bottom).offset(30)
+            $0.leading.equalToSuperview().offset(24)
+            $0.trailing.equalToSuperview().offset(-24)
             $0.height.equalTo(40)
         }
         
-        view.addSubview(passwordDividerView)
-        passwordDividerView.snp.makeConstraints {
-            $0.height.equalTo(1)
-            $0.top.equalTo(view.snp.top).offset(201)
-            $0.left.equalTo(view.snp.left).offset(31)
-            $0.right.equalTo(view.snp.right).offset(-31)
-        }
-        
-        view.addSubview(loginButton)
-        loginButton.snp.makeConstraints {
-            $0.left.equalTo(view.snp.left).offset(34)
-            $0.right.equalTo(view.snp.right).offset(-34)
-            $0.top.equalTo(view.snp.top).offset(250)
+        self.loginButton.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(34)
+            $0.trailing.equalToSuperview().offset(-34)
+            $0.top.equalTo(self.passwordTextFieldView.snp.bottom).offset(50)
             $0.height.equalTo(49)
         }
         
-        view.addSubview(findPasswordButton)
-        findPasswordButton.snp.makeConstraints {
-            $0.top.equalTo(loginButton.snp.bottom).offset(10)
-            $0.left.equalTo(view.snp.left).offset(70)
+        self.findPasswordButton.snp.makeConstraints {
+            $0.top.equalTo(self.loginButton.snp.bottom).offset(10)
+            $0.leading.equalTo(self.loginButton.snp.leading).offset(36)
             $0.width.equalTo(67)
             $0.height.equalTo(18)
         }
         
-        
-        view.addSubview(registerationButton)
-        registerationButton.snp.makeConstraints {
-            $0.top.equalTo(loginButton.snp.bottom).offset(10)
-            $0.left.equalTo(view.snp.left).offset(168)
+        self.registerationButton.snp.makeConstraints {
+            $0.top.equalTo(self.loginButton.snp.bottom).offset(10)
+            $0.leading.equalTo(self.findPasswordButton.snp.trailing).offset(20)
             $0.width.equalTo(152)
             $0.height.equalTo(18)
         }
     }
-    
-    func textFieldObservers() {
-        emailTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-        passwordTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-    }
 }
 
-extension EmailLoginViewController: ContainerViewDelegate {
-    func resetTextField(_ view: UIView) {
-        if view == emailContainerView {
-            emailTextField.text = nil
-        } else if view == passwordContainerView {
-            passwordTextField.text = nil
+extension EmailLoginViewController: UnderLineTextFieldDelegate {
+    func didChangeText(_ textfield: UITextField) {
+        if self.isValid {
+            loginButton.isEnabled = true
+            loginButton.backgroundColor = #colorLiteral(red: 0.4056565464, green: 0.7636143565, blue: 0.6924937367, alpha: 1)
+        } else {
+            loginButton.isEnabled = false
+            loginButton.backgroundColor = .text3
         }
     }
 }

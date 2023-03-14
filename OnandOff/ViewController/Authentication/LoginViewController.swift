@@ -195,7 +195,7 @@ final class LoginViewController: UIViewController {
     
     private func showAlert(title: String) {
         let alert = StandardAlertController(title: title, message: nil)
-        let ok = StandardAlertAction(title: "확인", style: .cancel)
+        let ok = StandardAlertAction(title: "확인", style: .basic)
         alert.addAction(ok)
         
         self.present(alert, animated: false)
@@ -224,40 +224,18 @@ final class LoginViewController: UIViewController {
             $0.height.equalTo(49)
         }
         
-        let stackView = UIStackView(arrangedSubviews: [loginButton, kakaoLoginButton, appleLoginButton, googleLoginButton])
-        stackView.axis = .vertical
-        stackView.distribution = .fillEqually
-        stackView.spacing = 15
-        view.addSubview(stackView)
+        let stackView = UIStackView(arrangedSubviews: [loginButton, kakaoLoginButton, appleLoginButton, googleLoginButton]).then {
+            $0.axis = .vertical
+            $0.distribution = .fillEqually
+            $0.spacing = 15
+            self.view.addSubview($0)
+        }
         
         stackView.snp.makeConstraints {
             $0.top.equalTo(view.snp.top).offset(582)
             $0.left.equalTo(view.snp.left).offset(20)
             $0.right.equalTo(view.snp.right).offset(-20)
             $0.bottom.equalTo(view.snp.top).offset(800)
-        }
-    }
-}
-
-// MARK: - KaKaoOAuth
-extension LoginViewController {
-    // 로그인 성공 -> 화면 전환
-    private func moveToHomeVC() {
-        // 사용자 정보 가져오기
-        UserApi.shared.me() {(user, error) in
-            if let error = error {
-                print(error)
-            }
-            else {
-                print("me() success.")
-
-                // 닉네임, 이메일 정보
-                // let nickname = user?.kakaoAccount?.profile?.nickname
-                // let email = user?.kakaoAccount?.email
-
-                // 화면전환
-                self.dismiss(animated: true, completion: nil)
-            }
         }
     }
 }

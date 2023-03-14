@@ -10,17 +10,16 @@ import UIKit
 
 struct AuthService {
     static let baseURL = "https://dev.onnoff.shop/"
-    static func userLogin(_ parameter: AuthDataModel, completion: @escaping(AuthResultModel?) -> Void) {
-        AF.request("https://dev.onnoff.shop/auth/login",
-                   method: .post,
-                   parameters: parameter,
-                   encoder: JSONParameterEncoder.default,
-                   headers: nil).validate().responseDecodable(of: AuthResultModel.self) { response in
+    
+    static func userLogin(email: String, password: String, completion: @escaping(AuthResultModel?) -> Void) {
+        let url = baseURL + "auth/login"
+        let parameter: Parameters = ["email" : email,
+                                      "password" : password]
+        AF.request(url, method: .post, parameters: parameter, encoding: JSONEncoding.default)
+                   .responseDecodable(of: AuthResultModel.self) { response in
             switch response.result {
             case .success(let result):
-                print("AccessToken: \(result.result?.jwt)")
                 completion(result)
-                
             case .failure(let error):
                 print("Login Error: \(error.localizedDescription)")
             }
@@ -35,11 +34,6 @@ struct AuthService {
             .responseDecodable(of: AuthResultModel.self) { res in
                 switch res.result {
                 case .success(let result):
-                    print("AccessToken: \(result.result?.jwt)")
-                    print("statusCode: \(result.statusCode)")
-                    print("error: \(result.error)")
-                    print("state: \(result.result?.state)")
-                    print("message: \(result.message)")
                     completion(result)
                     
                 case .failure(let error):
@@ -65,22 +59,16 @@ struct AuthService {
     static func appleLogin(_ idToken: String, completion: @escaping(AuthResultModel?)->Void) {
         let url = baseURL + "auth/apple-login"
         let parameter: Parameters = ["identity_token" : idToken]
-        
+    
         AF.request(url, method: .post, parameters: parameter, encoding: JSONEncoding.default)
             .responseDecodable(of: AuthResultModel.self) { res in
                 switch res.result {
                 case .success(let result):
-                    print("AccessToken: \(result.result?.jwt)")
-                    print("statusCode: \(result.statusCode)")
-                    print("error: \(result.error)")
-                    print("state: \(result.result?.state)")
-                    print("message: \(result.message)")
                     completion(result)
                 case .failure(let error):
                     print(error)
                 }
             }
-     
     }
     
     static func userRegister(_ parameter: AuthDataModel, completion: @escaping(AuthResultModel?) -> Void) {
