@@ -8,5 +8,5 @@
 import UIKit
 
 protocol UnderLineTextFieldDelegate: AnyObject {
-    func didChangeText(_ textfield: UITextField)
+    func didChangeText(_ textfield: UITextField, identifier: String)
 }

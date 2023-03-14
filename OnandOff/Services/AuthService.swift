@@ -71,18 +71,16 @@ struct AuthService {
             }
     }
     
-    static func userRegister(_ parameter: AuthDataModel, completion: @escaping(AuthResultModel?) -> Void) {
+    static func userRegister(email: String, password: String, level: Int, completion: @escaping(AuthResultModel?) -> Void) {
+        let url = baseURL + "auth/signup/\(level)"
         let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
-        AF.request("https://dev.onnoff.shop/auth/signup",
-                   method: .post,
-                   parameters: parameter,
-                   encoder: JSONParameterEncoder.default,
-                   headers: header).validate().responseDecodable(of: AuthResultModel.self) { response in
+        let parameter: Parameters = ["email" : email,
+                                     "password" : password]
+        AF.request(url, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header)
+            .responseDecodable(of: AuthResultModel.self) { response in
             switch response.result {
             case .success(let result):
-                print("StatusCode: \(result.statusCode)")
                 completion(result)
-                
             case .failure(let error):
                 print("Register Error: \(error.localizedDescription)")
             }
@@ -101,5 +99,19 @@ struct AuthService {
                 print("LogOut Error: \(error.localizedDescription)")
             }
         }
+    }
+
+    static func getUserEmail() {
+        let url = baseURL + "users/email"
+        let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
+        AF.request(url, headers: header)
+            .responseString() { res in
+                switch res.result {
+                case .success(let str):
+                    print(str)
+                case .failure(let error):
+                    print(error)
+                }
+            }
     }
 }

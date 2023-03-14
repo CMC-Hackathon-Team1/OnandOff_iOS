@@ -17,7 +17,6 @@
 		5DB24CAE2995CC4B00654978 /* AuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB24CAD2995CC4B00654978 /* AuthModel.swift */; };
 		5DB24CB02995CC6E00654978 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB24CAF2995CC6E00654978 /* AuthService.swift */; };
 		5DB24CB22995CC7D00654978 /* TokenService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB24CB12995CC7D00654978 /* TokenService.swift */; };
-		5DB24CB52995CCDE00654978 /* ContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB24CB42995CCDE00654978 /* ContainerView.swift */; };
 		5DCAA34F299F9A63005090E5 /* EmailAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCAA34E299F9A63005090E5 /* EmailAuthViewController.swift */; };
 		5DCAA351299FBB7F005090E5 /* CheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCAA350299FBB7F005090E5 /* CheckView.swift */; };
 		5DCAA353299FC619005090E5 /* AgreeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCAA352299FC619005090E5 /* AgreeViewController.swift */; };
@@ -64,6 +63,9 @@
 		DB5AFE0E2960171100667336 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFE0D2960171100667336 /* HomeViewController.swift */; };
 		DB5AFE102960171E00667336 /* LookAroundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFE0F2960171E00667336 /* LookAroundViewController.swift */; };
 		DB5AFE122960173900667336 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFE112960173800667336 /* MyPageViewController.swift */; };
+		DB5E6A3429C0DF850078B27F /* TermsOfUseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5E6A3329C0DF850078B27F /* TermsOfUseViewController.swift */; };
+		DB5E6A3629C0E6D00078B27F /* PrivacyTermsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5E6A3529C0E6D00078B27F /* PrivacyTermsViewController.swift */; };
+		DB5E6A3829C0ED2E0078B27F /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5E6A3729C0ED2E0078B27F /* UIViewController+.swift */; };
 		DB61A71729BDE57B00D3CE06 /* ActionSheetDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB61A71629BDE57B00D3CE06 /* ActionSheetDelegate.swift */; };
 		DB61A71929BDEB0600D3CE06 /* DetailFeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB61A71829BDEB0600D3CE06 /* DetailFeedModel.swift */; };
 		DB7987A329BB8D7500E0CACC /* CategoryDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7987A229BB8D7500E0CACC /* CategoryDelegate.swift */; };
@@ -85,8 +87,6 @@
 		DBC3619829A0F8CD0011C319 /* FeedService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC3619729A0F8CD0011C319 /* FeedService.swift */; };
 		DBD8DD5F296315150081CD21 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBD8DD5E296315150081CD21 /* ProfileView.swift */; };
 		DBED0ED929B4C71900415219 /* ReportModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBED0ED829B4C71900415219 /* ReportModel.swift */; };
-		E5357A1529A5F35D00716CDF /* SpecificPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5357A1429A5F35D00716CDF /* SpecificPostCell.swift */; };
-		E5357A1729A617F700716CDF /* PostDeletePopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5357A1629A617F700716CDF /* PostDeletePopupViewController.swift */; };
 		E56E0E9429934661009FD906 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0E8729934661009FD906 /* SettingViewController.swift */; };
 		E56E0E9529934661009FD906 /* PolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0E8829934661009FD906 /* PolicyViewController.swift */; };
 		E56E0E9629934661009FD906 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0E8929934661009FD906 /* FeedbackViewController.swift */; };
@@ -109,8 +109,6 @@
 		E56E0ED9299F0228009FD906 /* AlarmViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0ED8299F0228009FD906 /* AlarmViewCell.swift */; };
 		E56E0EDB299F0D9F009FD906 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0EDA299F0D9F009FD906 /* PostModel.swift */; };
 		E5E05EB12967C2F5004C3891 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E05EB02967C2F5004C3891 /* PostViewController.swift */; };
-		E5E05EB32967CAC7004C3891 /* EditPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E05EB22967CAC7004C3891 /* EditPostViewController.swift */; };
-		E5E05EB52967CD2F004C3891 /* EditOrDeleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E05EB42967CD2F004C3891 /* EditOrDeleteViewController.swift */; };
 		E5E05EB72967D025004C3891 /* CategoryActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E05EB62967D025004C3891 /* CategoryActionSheetViewController.swift */; };
 		E5E05EB929697B87004C3891 /* ImageUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5E05EB829697B87004C3891 /* ImageUploadViewController.swift */; };
 /* End PBXBuildFile section */
@@ -128,7 +126,6 @@
 		5DB24CAD2995CC4B00654978 /* AuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
 		5DB24CAF2995CC6E00654978 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		5DB24CB12995CC7D00654978 /* TokenService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenService.swift; sourceTree = "<group>"; };
-		5DB24CB42995CCDE00654978 /* ContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerView.swift; sourceTree = "<group>"; };
 		5DCAA34E299F9A63005090E5 /* EmailAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAuthViewController.swift; sourceTree = "<group>"; };
 		5DCAA350299FBB7F005090E5 /* CheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckView.swift; sourceTree = "<group>"; };
 		5DCAA352299FC619005090E5 /* AgreeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreeViewController.swift; sourceTree = "<group>"; };
@@ -177,6 +174,9 @@
 		DB5AFE0D2960171100667336 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		DB5AFE0F2960171E00667336 /* LookAroundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookAroundViewController.swift; sourceTree = "<group>"; };
 		DB5AFE112960173800667336 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		DB5E6A3329C0DF850078B27F /* TermsOfUseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfUseViewController.swift; sourceTree = "<group>"; };
+		DB5E6A3529C0E6D00078B27F /* PrivacyTermsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyTermsViewController.swift; sourceTree = "<group>"; };
+		DB5E6A3729C0ED2E0078B27F /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		DB61A71629BDE57B00D3CE06 /* ActionSheetDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetDelegate.swift; sourceTree = "<group>"; };
 		DB61A71829BDEB0600D3CE06 /* DetailFeedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailFeedModel.swift; sourceTree = "<group>"; };
 		DB7987A229BB8D7500E0CACC /* CategoryDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDelegate.swift; sourceTree = "<group>"; };
@@ -198,8 +198,6 @@
 		DBC3619729A0F8CD0011C319 /* FeedService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedService.swift; sourceTree = "<group>"; };
 		DBD8DD5E296315150081CD21 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		DBED0ED829B4C71900415219 /* ReportModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportModel.swift; sourceTree = "<group>"; };
-		E5357A1429A5F35D00716CDF /* SpecificPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificPostCell.swift; sourceTree = "<group>"; };
-		E5357A1629A617F700716CDF /* PostDeletePopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDeletePopupViewController.swift; sourceTree = "<group>"; };
 		E56E0E8729934661009FD906 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		E56E0E8829934661009FD906 /* PolicyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolicyViewController.swift; sourceTree = "<group>"; };
 		E56E0E8929934661009FD906 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
@@ -222,8 +220,6 @@
 		E56E0ED8299F0228009FD906 /* AlarmViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewCell.swift; sourceTree = "<group>"; };
 		E56E0EDA299F0D9F009FD906 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		E5E05EB02967C2F5004C3891 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
-		E5E05EB22967CAC7004C3891 /* EditPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostViewController.swift; sourceTree = "<group>"; };
-		E5E05EB42967CD2F004C3891 /* EditOrDeleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditOrDeleteViewController.swift; sourceTree = "<group>"; };
 		E5E05EB62967D025004C3891 /* CategoryActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryActionSheetViewController.swift; sourceTree = "<group>"; };
 		E5E05EB829697B87004C3891 /* ImageUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploadViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -260,7 +256,6 @@
 		5DB24CB32995CCA800654978 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				5DB24CB42995CCDE00654978 /* ContainerView.swift */,
 				5DCAA350299FBB7F005090E5 /* CheckView.swift */,
 				DB3545F429C095EA00A6087E /* UnderLineTextFiled.swift */,
 			);
@@ -353,6 +348,7 @@
 		DB5AFDF52960065C00667336 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				DB5E6A3229C0DF530078B27F /* Other */,
 				DB5AFE092960144000667336 /* Authentication */,
 				DB5AFE0B296014A600667336 /* Home */,
 				E56E0E8629934661009FD906 /* HomeSettings */,
@@ -419,6 +415,7 @@
 				DBC3619029A0B05C0011C319 /* NotificationName+.swift */,
 				DB2503ED29AA619F00B0AE39 /* UIImage+.swift */,
 				DB80B38229BA4998009F8E2E /* Date+.swift */,
+				DB5E6A3729C0ED2E0078B27F /* UIViewController+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -452,11 +449,8 @@
 				E5E05EB02967C2F5004C3891 /* PostViewController.swift */,
 				DB000F05297012010097D6C8 /* ProfileMakeViewController.swift */,
 				E5E05EB62967D025004C3891 /* CategoryActionSheetViewController.swift */,
-				E5E05EB22967CAC7004C3891 /* EditPostViewController.swift */,
-				E5E05EB42967CD2F004C3891 /* EditOrDeleteViewController.swift */,
 				E5E05EB829697B87004C3891 /* ImageUploadViewController.swift */,
 				E56E0ED6299F0152009FD906 /* AlarmViewController.swift */,
-				E5357A1629A617F700716CDF /* PostDeletePopupViewController.swift */,
 				DB7987A629BDA45700E0CACC /* FeedWithDayViewController.swift */,
 				DB3B601929BDD8800087B04B /* ActionSheetViewController.swift */,
 			);
@@ -471,6 +465,15 @@
 				DB3545EE29BEBF2900A6087E /* OtherProfileViewController.swift */,
 			);
 			path = LookAround;
+			sourceTree = "<group>";
+		};
+		DB5E6A3229C0DF530078B27F /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				DB5E6A3329C0DF850078B27F /* TermsOfUseViewController.swift */,
+				DB5E6A3529C0E6D00078B27F /* PrivacyTermsViewController.swift */,
+			);
+			path = Other;
 			sourceTree = "<group>";
 		};
 		DB7BDC8829615EDA00AA304B /* LookAround */ = {
@@ -552,7 +555,6 @@
 			children = (
 				E56E0EC929976763009FD906 /* ProfileCell.swift */,
 				E56E0ED8299F0228009FD906 /* AlarmViewCell.swift */,
-				E5357A1429A5F35D00716CDF /* SpecificPostCell.swift */,
 				DB80B38629BB7824009F8E2E /* CategoryCell.swift */,
 				DB7987A429BC6EEE00E0CACC /* CalendarCell.swift */,
 				DB3B601729BDB4D40087B04B /* FeedCellWithHome.swift */,
@@ -696,14 +698,13 @@
 				DB2503F029AA6BF600B0AE39 /* TopTapBarDelegate.swift in Sources */,
 				DB3545EF29BEBF2900A6087E /* OtherProfileViewController.swift in Sources */,
 				5DB24CAA2995BB5900654978 /* RegisterationController.swift in Sources */,
-				E5357A1529A5F35D00716CDF /* SpecificPostCell.swift in Sources */,
 				DB3545F129BED6AF00A6087E /* CalendarHeaderView.swift in Sources */,
 				DB3545F329BF4D7300A6087E /* DefaultModel.swift in Sources */,
 				25432FDB299E378900CC2FBC /* String+.swift in Sources */,
 				E56E0ECA29976763009FD906 /* ProfileCell.swift in Sources */,
 				DB80B38729BB7824009F8E2E /* CategoryCell.swift in Sources */,
 				DB2503EE29AA619F00B0AE39 /* UIImage+.swift in Sources */,
-				E5E05EB52967CD2F004C3891 /* EditOrDeleteViewController.swift in Sources */,
+				DB5E6A3429C0DF850078B27F /* TermsOfUseViewController.swift in Sources */,
 				DB284A7A29B8D9C800630FCE /* ProfileService.swift in Sources */,
 				E56E0E9B29934661009FD906 /* AccountSettingViewController.swift in Sources */,
 				DBC3619829A0F8CD0011C319 /* FeedService.swift in Sources */,
@@ -716,6 +717,7 @@
 				DB3DE7CA29B62A4D00A95218 /* ProfileModel.swift in Sources */,
 				DBC3618B29A097490011C319 /* StandardAlertController.swift in Sources */,
 				5DB24CB22995CC7D00654978 /* TokenService.swift in Sources */,
+				DB5E6A3629C0E6D00078B27F /* PrivacyTermsViewController.swift in Sources */,
 				E5E05EB72967D025004C3891 /* CategoryActionSheetViewController.swift in Sources */,
 				DB7BDC8C2961BCF400AA304B /* FeedCell.swift in Sources */,
 				E5E05EB12967C2F5004C3891 /* PostViewController.swift in Sources */,
@@ -735,6 +737,7 @@
 				DB61A71929BDEB0600D3CE06 /* DetailFeedModel.swift in Sources */,
 				E56E0E9F29934661009FD906 /* PrivacyViewController.swift in Sources */,
 				E56E0E9929934661009FD906 /* AlertViewController.swift in Sources */,
+				DB5E6A3829C0ED2E0078B27F /* UIViewController+.swift in Sources */,
 				5DCB6BDD29A9A32100EE5580 /* UIButton+.swift in Sources */,
 				DB3EB8BC299E086D00434666 /* LookAroundDelegate.swift in Sources */,
 				E56E0E9529934661009FD906 /* PolicyViewController.swift in Sources */,
@@ -744,7 +747,6 @@
 				E5E05EB929697B87004C3891 /* ImageUploadViewController.swift in Sources */,
 				DB3B464729AB3CF8005F90C3 /* CategoryModel.swift in Sources */,
 				DB3EB8BE299E384400434666 /* ReportViewController.swift in Sources */,
-				5DB24CB52995CCDE00654978 /* ContainerView.swift in Sources */,
 				DB2503EC29AA21F300B0AE39 /* ImgPageControlView.swift in Sources */,
 				25E32F52299B61E5003FF02B /* FindPasswordViewController.swift in Sources */,
 				DB5AFE0E2960171100667336 /* HomeViewController.swift in Sources */,
@@ -777,11 +779,9 @@
 				E56E0E9729934661009FD906 /* FeedbackConfirmViewController.swift in Sources */,
 				E56E0EA029934661009FD906 /* ServiceAlertViewController.swift in Sources */,
 				DBD8DD5F296315150081CD21 /* ProfileView.swift in Sources */,
-				E5E05EB32967CAC7004C3891 /* EditPostViewController.swift in Sources */,
 				E56E0E9D29934661009FD906 /* PrivacyViewController.swift in Sources */,
 				DB2503EA29A9EDFE00B0AE39 /* FeedListModel.swift in Sources */,
 				5DB24CA82995B76600654978 /* SettingCell.swift in Sources */,
-				E5357A1729A617F700716CDF /* PostDeletePopupViewController.swift in Sources */,
 				5DCAA353299FC619005090E5 /* AgreeViewController.swift in Sources */,
 				E56E0E9C29934661009FD906 /* PasswordResetViewController.swift in Sources */,
 				DB7987A529BC6EEE00E0CACC /* CalendarCell.swift in Sources */,

@@ -15,6 +15,7 @@ enum InputType {
 final class UnderLineTextField: UIView {
     private let inputType: InputType
     private var guideText: String?
+    private let identifier: String
     
     weak var delegate: UnderLineTextFieldDelegate?
     
@@ -50,11 +51,11 @@ final class UnderLineTextField: UIView {
     }
     
     //MARK: - Init
-    init(_ type: InputType, title: String) {
+    init(_ type: InputType, title: String, identifier: String) {
+        self.identifier = identifier
         self.inputType = type
         self.titleLabel.text = title
         super.init(frame: .zero)
-        
         self.addSubView()
         self.layout()
         self.addTarget()
@@ -65,7 +66,8 @@ final class UnderLineTextField: UIView {
         }
     }
     
-    init(_ type: InputType, title: String, guide: String) {
+    init(_ type: InputType, title: String, guide: String, identifier: String) {
+        self.identifier = identifier
         self.guideText = guide
         self.inputType = type
         self.guideLabel.text = guide
@@ -74,6 +76,12 @@ final class UnderLineTextField: UIView {
         self.addSubView()
         self.addSubview(self.guideLabel)
         self.layoutWithGuide()
+        self.addTarget()
+        
+        if type == .password {
+            self.textField.isSecureTextEntry = true
+            self.textField.clearsOnBeginEditing = true
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -81,7 +89,19 @@ final class UnderLineTextField: UIView {
     }
     
     @objc private func didChangeText(_ textfield: UITextField) {
-        delegate?.didChangeText(textfield)
+        delegate?.didChangeText(textfield, identifier: self.identifier)
+    }
+    
+    func warningGuideLabel(content: String) {
+        self.guideLabel.text = content
+        self.guideLabel.textColor = .point
+        self.underLineColor = .point
+    }
+    
+    func resetGuideLabel() {
+        self.guideLabel.text = self.guideText
+        self.guideLabel.textColor = .text3
+        self.underLineColor = .darkGray
     }
     
     private func addSubView() {

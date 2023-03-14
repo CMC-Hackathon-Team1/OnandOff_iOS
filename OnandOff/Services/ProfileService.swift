@@ -47,8 +47,8 @@ class ProfileService {
                                      "personaName" : personaName]
         
         let request = AF.upload(multipartFormData: { (multipartFormData) in
-            if let imageData = image.pngData() {
-                multipartFormData.append(imageData, withName: "image", fileName: "\(imageData).png", mimeType: "image/png")
+            if let imageData = image.jpegData(compressionQuality: 0.4) {
+                multipartFormData.append(imageData, withName: "image", fileName: "\(imageData).jpeg", mimeType: "image/jpeg")
             }
             for (key,value) in parameters {
                 multipartFormData.append("\(value)".data(using: .utf8)!, withName: key)
@@ -93,7 +93,6 @@ class ProfileService {
             case .failure(let error):
                 print(error)
             }
-            
         }
     }
 }

@@ -89,14 +89,14 @@ class PolicyViewController: UIViewController{
         dismiss(animated: true)
     }
     @objc func didClickServicePolicy(sender: UITapGestureRecognizer){
-        let VC = ServicePolicyViewController()
-        VC.modalPresentationStyle = .overCurrentContext
-        present(VC, animated: true)
+        let termsOfUseVC = TermsOfUseViewController()
+        termsOfUseVC.modalPresentationStyle = .fullScreen
+        self.present(termsOfUseVC, animated: true)
     }
     @objc func didClickPrivacyPolicy(sender: UITapGestureRecognizer){
-        let VC = PrivacyPolicyViewController()
-        VC.modalPresentationStyle = .overCurrentContext
-        present(VC, animated: true)
+        let privacyTermsVC = PrivacyTermsViewController()
+        privacyTermsVC.modalPresentationStyle = .fullScreen
+        present(privacyTermsVC, animated: true)
     }
     @objc func didClickServiceAlert(sender: UITapGestureRecognizer){
         let VC = ServiceAlertViewController()

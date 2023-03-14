@@ -147,7 +147,7 @@ final class EditProfileViewController: UIViewController {
     }
     
     private func presentWarning() {
-        let alert = StandardAlertController(title: nil, message: "반드시 하나의 프로필은 있어야합니다./n해당 프로필 삭제를 원하실 경우/n새프로필 생성 후 다시 진행해주세요.")
+        let alert = StandardAlertController(title: nil, message: "반드시 하나의 프로필은 있어야합니다.\n해당 프로필 삭제를 원하실 경우\n새프로필 생성 후 다시 진행해주세요.")
         alert.messageHighlight(highlightString: "하나의 프로필", color: .point)
         let cancel = StandardAlertAction(title: "취소", style: .cancel)
         let moveHome = StandardAlertAction(title: "홈으로 이동", style: .basic) { _ in
