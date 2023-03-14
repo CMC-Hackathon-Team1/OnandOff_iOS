@@ -127,7 +127,8 @@ final class EditProfileViewController: UIViewController {
         alert.titleHighlight(highlightString: "삭제", color: .point)
         let cancel = StandardAlertAction(title: "취소", style: .cancel)
         let delete = StandardAlertAction(title: "삭제", style: .basic) { _ in
-            ProfileService.getProfileModels { items in
+            ProfileService.getProfileModels { res in
+                guard let items = res.result else { return }
                 if items.count > 1 {
                     ProfileService.deleteProfile(self.profileId) {
                         self.navigationController?.popViewController(animated: true)

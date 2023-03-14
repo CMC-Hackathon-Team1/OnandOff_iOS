@@ -139,29 +139,39 @@ final class HomeViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = true
         if self.checkUserLogin() {
-            ProfileService.getProfileModels { [weak self] items in
-                let profileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
-                var profile: ProfileItem?
-                self?.profileImageDatas = []
-                self?.personaDatas = items
-                DispatchQueue.global().async {
-                    for item in items {
-                        if item.profileId == profileId { profile = item }
-                        do {
-                            guard let url = URL(string: item.profileImgUrl) else { return }
-                            let data = try Data(contentsOf: url)
-                            self?.profileImageDatas.append(UIImage(data: data) ?? UIImage())
-                        } catch let error {
-                            print(error)
+            ProfileService.getProfileModels { [weak self] res in
+                switch res.statusCode {
+                case 100:
+                    guard let items = res.result else { return }
+                    let profileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
+                    var profile: ProfileItem?
+                    self?.profileImageDatas = []
+                    self?.personaDatas = items
+                    DispatchQueue.global().async {
+                        for item in items {
+                            if item.profileId == profileId { profile = item }
+                            do {
+                                guard let url = URL(string: item.profileImgUrl) else { return }
+                                let data = try Data(contentsOf: url)
+                                self?.profileImageDatas.append(UIImage(data: data) ?? UIImage())
+                            } catch let error {
+                                print(error)
+                            }
+                        }
+                        DispatchQueue.main.async {
+                            if profileId == -1 { self?.selectedProfile = items[0] }
+                            if let profile { self?.selectedProfile = profile }
+                            if self?.selectedProfile == nil { self?.selectedProfile = items[0] }
+                            self?.profileCollectionView.reloadData()
                         }
                     }
-                    DispatchQueue.main.async {
-                        if profileId == -1 { self?.selectedProfile = items[0] }
-                        if let profile { self?.selectedProfile = profile }
-                        if self?.selectedProfile == nil { self?.selectedProfile = items[0] }
-                        self?.profileCollectionView.reloadData()
-                    }
+                case 1503:
+                    let profileMakeVC = UINavigationController(rootViewController: ProfileMakeViewController())
+                    profileMakeVC.modalPresentationStyle = .fullScreen
+                    self?.present(profileMakeVC, animated: true)
+                default: print("기타 오류")
                 }
             }
             
@@ -212,7 +222,6 @@ final class HomeViewController: UIViewController {
         self.view.backgroundColor = .white
         self.navigationItem.backButtonTitle = ""
         self.navigationController?.navigationBar.tintColor = .black
-        self.navigationController?.navigationBar.isHidden = true
     }
     
     private func addNotification() {

@@ -34,6 +34,8 @@
 		DB3545EF29BEBF2900A6087E /* OtherProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3545EE29BEBF2900A6087E /* OtherProfileViewController.swift */; };
 		DB3545F129BED6AF00A6087E /* CalendarHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3545F029BED6AF00A6087E /* CalendarHeaderView.swift */; };
 		DB3545F329BF4D7300A6087E /* DefaultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3545F229BF4D7300A6087E /* DefaultModel.swift */; };
+		DB3545F529C095EA00A6087E /* UnderLineTextFiled.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3545F429C095EA00A6087E /* UnderLineTextFiled.swift */; };
+		DB3545F729C0A42600A6087E /* UnderLineTextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3545F629C0A42600A6087E /* UnderLineTextFieldDelegate.swift */; };
 		DB3B464729AB3CF8005F90C3 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B464629AB3CF8005F90C3 /* CategoryModel.swift */; };
 		DB3B601829BDB4D40087B04B /* FeedCellWithHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B601729BDB4D40087B04B /* FeedCellWithHome.swift */; };
 		DB3B601A29BDD8800087B04B /* ActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B601929BDD8800087B04B /* ActionSheetViewController.swift */; };
@@ -143,6 +145,8 @@
 		DB3545EE29BEBF2900A6087E /* OtherProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileViewController.swift; sourceTree = "<group>"; };
 		DB3545F029BED6AF00A6087E /* CalendarHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHeaderView.swift; sourceTree = "<group>"; };
 		DB3545F229BF4D7300A6087E /* DefaultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultModel.swift; sourceTree = "<group>"; };
+		DB3545F429C095EA00A6087E /* UnderLineTextFiled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderLineTextFiled.swift; sourceTree = "<group>"; };
+		DB3545F629C0A42600A6087E /* UnderLineTextFieldDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderLineTextFieldDelegate.swift; sourceTree = "<group>"; };
 		DB3B464629AB3CF8005F90C3 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		DB3B601729BDB4D40087B04B /* FeedCellWithHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCellWithHome.swift; sourceTree = "<group>"; };
 		DB3B601929BDD8800087B04B /* ActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewController.swift; sourceTree = "<group>"; };
@@ -258,6 +262,7 @@
 			children = (
 				5DB24CB42995CCDE00654978 /* ContainerView.swift */,
 				5DCAA350299FBB7F005090E5 /* CheckView.swift */,
+				DB3545F429C095EA00A6087E /* UnderLineTextFiled.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -292,6 +297,7 @@
 				DB7987A229BB8D7500E0CACC /* CategoryDelegate.swift */,
 				DB3B601B29BDDF940087B04B /* HomdFeedDelegate.swift */,
 				DB61A71629BDE57B00D3CE06 /* ActionSheetDelegate.swift */,
+				DB3545F629C0A42600A6087E /* UnderLineTextFieldDelegate.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -720,6 +726,7 @@
 				DB5AFDE52960052D00667336 /* CustomActionSheet.swift in Sources */,
 				DBC3618D29A0A5340011C319 /* PaddingLabel.swift in Sources */,
 				DB80B37F29BA29BB009F8E2E /* StatisticsService.swift in Sources */,
+				DB3545F529C095EA00A6087E /* UnderLineTextFiled.swift in Sources */,
 				E56E0E9429934661009FD906 /* SettingViewController.swift in Sources */,
 				E56E0EDB299F0D9F009FD906 /* PostModel.swift in Sources */,
 				DB5AFDF92960068F00667336 /* UIColor+.swift in Sources */,
@@ -761,6 +768,7 @@
 				DB3EB8B9299E054800434666 /* ReportActionSheet.swift in Sources */,
 				DB5AFE102960171E00667336 /* LookAroundViewController.swift in Sources */,
 				DB3DE7C629B60BC000A95218 /* MyPageModel.swift in Sources */,
+				DB3545F729C0A42600A6087E /* UnderLineTextFieldDelegate.swift in Sources */,
 				DB5AFE0129600B6F00667336 /* TempService.swift in Sources */,
 				E56E0ECD299B1DCD009FD906 /* PersonaModel.swift in Sources */,
 				DB58082A29B729100095BEEF /* TextFieldComponent.swift in Sources */,
@@ -921,9 +929,11 @@
 				CODE_SIGN_ENTITLEMENTS = OnandOff/OnandOff.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = A6UJ99J8Q8;
+				DEVELOPMENT_TEAM = V2YNV9QV27;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OnandOff/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow to use Camera";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow access to selec a photo";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "프로필 사진 업로드를 위해 앨범에 접근합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -955,9 +965,11 @@
 				CODE_SIGN_ENTITLEMENTS = OnandOff/OnandOff.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = A6UJ99J8Q8;
+				DEVELOPMENT_TEAM = V2YNV9QV27;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OnandOff/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow to use Camera";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow access to selec a photo";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "프로필 사진 업로드를 위해 앨범에 접근합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;

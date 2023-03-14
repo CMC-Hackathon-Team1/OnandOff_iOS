@@ -9,55 +9,66 @@ import Alamofire
 import UIKit
 
 struct AuthService {
-    static func userLogin(_ parameter: AuthDataModel, completion: @escaping(AuthResultModel?) -> Void) {
-        AF.request("https://dev.onnoff.shop/auth/login",
-                   method: .post,
-                   parameters: parameter,
-                   encoder: JSONParameterEncoder.default,
-                   headers: nil).validate().responseDecodable(of: AuthResultModel.self) { response in
+    static let baseURL = "https://dev.onnoff.shop/"
+    
+    static func userLogin(email: String, password: String, completion: @escaping(AuthResultModel?) -> Void) {
+        let url = baseURL + "auth/login"
+        let parameter: Parameters = ["email" : email,
+                                      "password" : password]
+        AF.request(url, method: .post, parameters: parameter, encoding: JSONEncoding.default)
+                   .responseDecodable(of: AuthResultModel.self) { response in
             switch response.result {
             case .success(let result):
-                print("AccessToken: \(result.result?.jwt)")
                 completion(result)
-                
             case .failure(let error):
                 print("Login Error: \(error.localizedDescription)")
             }
         }
     }
     
-    static func kakaoLogin(_ parameter: KakaoDataModel, completion: @escaping(AuthResultModel?) -> Void) {
-        AF.request("https://dev.onnoff.shop/auth/kakao-login",
-                   method: .post,
-                   parameters: parameter,
-                   encoder: JSONParameterEncoder.default,
-                   headers: nil).validate().responseDecodable(of: AuthResultModel.self) { response in
+    static func kakaoLogin(_ accessToken: String, completion: @escaping(AuthResultModel?) -> Void) {
+        let url = baseURL + "auth/kakao-login"
+        print("kakao Token : \(accessToken)")
+        let parameter: Parameters = ["access_token" : accessToken]
+        AF.request(url, method: .post, parameters: parameter, encoding: JSONEncoding.default)
+            .responseDecodable(of: AuthResultModel.self) { res in
+                switch res.result {
+                case .success(let result):
+                    completion(result)
+                    
+                case .failure(let error):
+                    print("Login Error: \(error.localizedDescription)")
+                }
+            }
+    }
+    
+    static func googleLogin(_ idToken: String, completion: @escaping(AuthResultModel?) -> Void) {
+        let url = baseURL + "auth/google-login"
+        let parameter: Parameters = ["id_token" : idToken]
+        AF.request(url, method: .post, parameters: parameter, encoding: JSONEncoding.default)
+                   .responseDecodable(of: AuthResultModel.self) { response in
             switch response.result {
             case .success(let result):
-                print("AccessToken: \(result.result?.jwt)")
                 completion(result)
-                
             case .failure(let error):
                 print("Login Error: \(error.localizedDescription)")
             }
         }
     }
     
-    static func googleLogin(_ parameter: GoogleDataModel, completion: @escaping(AuthResultModel?) -> Void) {
-        AF.request("https://dev.onnoff.shop/auth/google-login",
-                   method: .post,
-                   parameters: parameter,
-                   encoder: JSONParameterEncoder.default,
-                   headers: nil).validate().responseDecodable(of: AuthResultModel.self) { response in
-            switch response.result {
-            case .success(let result):
-                print("AccessToken: \(result.result?.jwt)")
-                completion(result)
-                
-            case .failure(let error):
-                print("Login Error: \(error.localizedDescription)")
+    static func appleLogin(_ idToken: String, completion: @escaping(AuthResultModel?)->Void) {
+        let url = baseURL + "auth/apple-login"
+        let parameter: Parameters = ["identity_token" : idToken]
+    
+        AF.request(url, method: .post, parameters: parameter, encoding: JSONEncoding.default)
+            .responseDecodable(of: AuthResultModel.self) { res in
+                switch res.result {
+                case .success(let result):
+                    completion(result)
+                case .failure(let error):
+                    print(error)
+                }
             }
-        }
     }
     
     static func userRegister(_ parameter: AuthDataModel, completion: @escaping(AuthResultModel?) -> Void) {
