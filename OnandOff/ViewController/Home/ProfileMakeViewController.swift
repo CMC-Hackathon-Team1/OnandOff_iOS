@@ -172,6 +172,7 @@ final class ProfileMakeViewController: UIViewController {
                                              personaName: self.personaComponent.inputTextfield.text!,
                                              statusMessage: self.introductionComponent.inputTextfield.text ?? "",
                                              image: self.profileImage ?? UIImage(named: "ProfileInsertPhoto")!) {
+                    self.dismiss(animated: true)
                     self.navigationController?.popViewController(animated: true)
                 }
             }

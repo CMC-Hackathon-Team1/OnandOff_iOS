@@ -924,6 +924,8 @@
 				DEVELOPMENT_TEAM = A6UJ99J8Q8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OnandOff/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow to use Camera";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow access to selec a photo";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "프로필 사진 업로드를 위해 앨범에 접근합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -958,6 +960,8 @@
 				DEVELOPMENT_TEAM = A6UJ99J8Q8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OnandOff/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow to use Camera";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow access to selec a photo";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "프로필 사진 업로드를 위해 앨범에 접근합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;

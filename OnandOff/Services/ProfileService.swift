@@ -66,7 +66,7 @@ class ProfileService {
         }
     }
     
-    static func getProfileModels(_ completion: @escaping ([ProfileItem]) -> Void) {
+    static func getProfileModels(_ completion: @escaping (ProfileModels) -> Void) {
         let url = baseURL + "profiles/my-profiles"
         let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
 
@@ -74,7 +74,7 @@ class ProfileService {
         .responseDecodable(of: ProfileModels.self) { res in
             switch res.result{
             case .success(let models):
-                completion(models.result)
+                completion(models)
             case .failure(let error):
                 print("DEBUG>> GetPersonaDataRequest Error : \(error.localizedDescription)")
                 print(error.localizedDescription)

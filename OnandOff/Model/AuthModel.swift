@@ -26,8 +26,6 @@ struct AuthResultModel: Codable {
 struct UserData: Codable {
     let state: String?
     let jwt: String?
-    let userId: Int?
-    let TODO: String?
 }
 
 // MARK: - KakaoModel
