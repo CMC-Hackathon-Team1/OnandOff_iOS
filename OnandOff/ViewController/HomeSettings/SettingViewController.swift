@@ -35,6 +35,7 @@ final class SettingViewController: UIViewController{
     //MARK: - ConfigureNavigation
     private func configureNavigation() {
         self.navigationItem.title = "설정"
+        self.navigationController?.navigationBar.isHidden = false
     }
     
     //MARK: - AddSubview

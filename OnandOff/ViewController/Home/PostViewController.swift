@@ -81,6 +81,7 @@ final class PostViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         self.navigationItem.title = "글 작성하기"
         self.isEditMode = false
+        self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "작성", style: .plain, target: self, action: #selector(self.didClickSubmit)).then {
             $0.tintColor = .mainColor
         }

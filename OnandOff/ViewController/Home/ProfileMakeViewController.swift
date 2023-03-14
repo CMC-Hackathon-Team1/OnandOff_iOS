@@ -57,7 +57,7 @@ final class ProfileMakeViewController: UIViewController {
     
     private func configure() {
         self.navigationItem.title = "프로필 생성"
-        
+        self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "생성하기",
                                                                  style: .plain,
                                                                  target: self,

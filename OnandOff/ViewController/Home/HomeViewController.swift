@@ -212,6 +212,7 @@ final class HomeViewController: UIViewController {
         self.view.backgroundColor = .white
         self.navigationItem.backButtonTitle = ""
         self.navigationController?.navigationBar.tintColor = .black
+        self.navigationController?.navigationBar.isHidden = true
     }
     
     private func addNotification() {
@@ -269,7 +270,7 @@ final class HomeViewController: UIViewController {
     
     private func layout() {
         self.scrollView.snp.makeConstraints {
-            $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.top.bottom.equalTo(view.safeAreaLayoutGuide).offset(20)
             $0.leading.trailing.equalToSuperview()
         }
         

@@ -15,8 +15,7 @@ import KakaoSDKCommon
 import AuthenticationServices
 import GoogleSignIn
 
-class LoginViewController: UIViewController {
-
+final class LoginViewController: UIViewController {
     // MARK: - Properties
     private let backgroundImageView: UIImageView = {
         let imageView = UIImageView()
