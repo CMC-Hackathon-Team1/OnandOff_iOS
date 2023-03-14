@@ -14,9 +14,9 @@ final class EmailLoginViewController: UIViewController {
         return self.emailTextfileView.getText?.isEmpty == false && self.passwordTextFieldView.getText?.isEmpty == false
     }
     
-    private let emailTextfileView = UnderLineTextField(.other, title: "이메일   ")
+    private let emailTextfileView = UnderLineTextField(.other, title: "이메일   ", identifier: "email")
     
-    private let passwordTextFieldView = UnderLineTextField(.password, title: "패스워드")
+    private let passwordTextFieldView = UnderLineTextField(.password, title: "패스워드", identifier: "password")
 
     private lazy var loginButton = UIButton().then {
         $0.setTitle("로그인", for: .normal)
@@ -62,7 +62,7 @@ final class EmailLoginViewController: UIViewController {
         self.passwordTextFieldView.delegate = self
         
         self.navigationController?.navigationBar.tintColor = .black
-        self.navigationController?.navigationBar.topItem?.title = ""
+        self.navigationItem.backButtonTitle = ""
     }
     
     // MARK: - Actions
@@ -173,7 +173,7 @@ final class EmailLoginViewController: UIViewController {
 }
 
 extension EmailLoginViewController: UnderLineTextFieldDelegate {
-    func didChangeText(_ textfield: UITextField) {
+    func didChangeText(_ textfield: UITextField, identifier: String) {
         if self.isValid {
             loginButton.isEnabled = true
             loginButton.backgroundColor = #colorLiteral(red: 0.4056565464, green: 0.7636143565, blue: 0.6924937367, alpha: 1)

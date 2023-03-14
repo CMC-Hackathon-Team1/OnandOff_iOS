@@ -81,7 +81,7 @@ final class PostViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         self.navigationItem.title = "글 작성하기"
         self.isEditMode = false
-        self.navigationController?.navigationBar.isHidden = false
+        
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "작성", style: .plain, target: self, action: #selector(self.didClickSubmit)).then {
             $0.tintColor = .mainColor
         }
@@ -138,9 +138,9 @@ final class PostViewController: UIViewController {
         self.setUpView()
         self.layout()
         self.addTarget()
-        
+
         self.contentTextView.delegate = self
-        
+        if !self.isEditMode { self.navigationController?.navigationBar.isHidden = false }
         self.tabBarController?.tabBar.isHidden = true
     }
     
@@ -190,8 +190,15 @@ final class PostViewController: UIViewController {
                                hasTagList: hastag,
                                content: self.contentTextView.text!,
                                isSecret: isSecret,
-                               images: self.selectedImages) {
-            self.navigationController?.popViewController(animated: true)
+                               images: self.selectedImages) { res in
+            switch res.statusCode {
+            case 100: self.navigationController?.popViewController(animated: true)
+            case 2208:
+                self.defaultAlert(title: res.message) {
+                    self.navigationController?.popViewController(animated: true)
+                }
+            default: self.defaultAlert(title: res.message)
+            }
         }
     }
     
@@ -370,7 +377,7 @@ extension PostViewController: UITextViewDelegate {
 extension PostViewController: ImageUploadDelegate {
     func didClickFindAlbumButton() {
         var configuration = PHPickerConfiguration()
-        configuration.selectionLimit = 5
+        configuration.selectionLimit = 1
         configuration.filter = .images
         let photoPickerVC = PHPickerViewController(configuration: configuration)
         photoPickerVC.delegate = self

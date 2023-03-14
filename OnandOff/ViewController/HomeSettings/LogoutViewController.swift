@@ -18,7 +18,7 @@ class LogoutViewController: UIViewController{
     }
     let popupView = UIView().then{
         $0.backgroundColor = .white
-        $0.roundCorners(cornerRadius: 15, maskedCorners: [.layerMaxXMaxYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner])
+        $0.layer.cornerRadius = 15
     }
     let popupLabel = UILabel().then{
         $0.font = UIFont(name:"NotoSans-Bold", size: 14)

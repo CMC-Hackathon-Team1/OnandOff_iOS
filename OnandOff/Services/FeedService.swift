@@ -11,7 +11,7 @@ import Alamofire
 class FeedService {
     private static let baseURL = "https://dev.onnoff.shop/"
     
-    static func createFeed(_ profileId: Int, categoryId: Int, hasTagList: [String], content: String, isSecret: String, images: [UIImage], completion: @escaping () -> Void) {
+    static func createFeed(_ profileId: Int, categoryId: Int, hasTagList: [String], content: String, isSecret: String, images: [UIImage], completion: @escaping (DefaultModel) -> Void) {
         let url = baseURL + "feeds"
         var header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
         header?["Content-Type"] = "multipart/form-data"
@@ -22,7 +22,7 @@ class FeedService {
                                      "isSecret" : isSecret]
         let request = AF.upload(multipartFormData: { multipartFormData in
             for image in images {
-                if let imageData = image.jpegData(compressionQuality: 0.5) {
+                if let imageData = image.jpegData(compressionQuality: 0.4) {
                     multipartFormData.append(imageData, withName: "images", fileName: "\(imageData).jpeg", mimeType: "image/jpeg")
                 }
             }
@@ -30,12 +30,10 @@ class FeedService {
                 multipartFormData.append("\(value)".data(using: .utf8)!, withName: key)
             }
         }, to: url, method: .post, headers: header)
-        
-        request.responseString() { res in
+        request.responseDecodable(of: DefaultModel.self) { res in
             switch res.result {
-            case .success(let str):
-                print(str)
-                completion()
+            case .success(let model):
+                completion(model)
             case .failure(let error):
                 print(error)
             }

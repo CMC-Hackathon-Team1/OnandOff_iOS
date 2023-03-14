@@ -34,7 +34,7 @@ class FeedbackViewController: UIViewController{
         $0.backgroundColor = .white
         $0.layer.borderColor = UIColor.black.cgColor
         $0.layer.borderWidth = 1
-        $0.roundCorners(cornerRadius: 15, maskedCorners: [.layerMaxXMaxYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner])
+        $0.layer.cornerRadius = 15
     }
     
     private lazy var textView: UITextView = {

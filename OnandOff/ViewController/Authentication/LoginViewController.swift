@@ -44,7 +44,6 @@ final class LoginViewController: UIViewController {
         $0.configuration = configuration
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 12
-        $0.heightAnchor.constraint(equalToConstant: 44).isActive = true
         $0.addTarget(self, action: #selector(handleShowLogin), for: .touchUpInside)
     }
     
@@ -59,7 +58,6 @@ final class LoginViewController: UIViewController {
         $0.configuration = configuration
         $0.backgroundColor = #colorLiteral(red: 0.9983025193, green: 0.9065476656, blue: 0, alpha: 1)
         $0.layer.cornerRadius = 12
-        $0.heightAnchor.constraint(equalToConstant: 44).isActive = true
         $0.addTarget(self, action: #selector(didTapKakaoLoginButton), for: .touchUpInside)
     }
     
@@ -74,7 +72,6 @@ final class LoginViewController: UIViewController {
         $0.configuration = configuration
         $0.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         $0.layer.cornerRadius = 12
-        $0.heightAnchor.constraint(equalToConstant: 44).isActive = true
         $0.addTarget(self, action: #selector(didTapAppleLoginButton), for: .touchUpInside)
     }
     
@@ -89,7 +86,6 @@ final class LoginViewController: UIViewController {
         $0.configuration = configuration
         $0.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         $0.layer.cornerRadius = 12
-        $0.heightAnchor.constraint(equalToConstant: 44).isActive = true
         $0.addTarget(self, action: #selector(didTapGoogleLoginButton), for: .touchUpInside)
     }
     
@@ -97,6 +93,7 @@ final class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        self.navigationItem.backButtonTitle = ""
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -128,7 +125,7 @@ final class LoginViewController: UIViewController {
                         self.dismiss(animated: true)
                     case 400: print("body오류")
                     case 500: self.showAlert(title: "이메일 정보를 포함해주세요.")
-                    case 1012: self.showAlert(title: "카카오 인증 정보가 유효하지 않습니다./n다시 시도해주세요.")
+                    case 1012: self.showAlert(title: "카카오 인증 정보가 유효하지 않습니다.\n다시 시도해주세요.")
                     case 1102: self.showAlert(title: "다른 플랫폼으로 가입된 회원입니다.")
                     default:
                         print("기타 오류")
@@ -149,7 +146,7 @@ final class LoginViewController: UIViewController {
                             self.dismiss(animated: true)
                         case 400: print("body오류")
                         case 500: self.showAlert(title: "이메일 정보를 포함해주세요.")
-                        case 1012: self.showAlert(title: "카카오 인증 정보가 유효하지 않습니다./n다시 시도해주세요.")
+                        case 1012: self.showAlert(title: "카카오 인증 정보가 유효하지 않습니다.\n다시 시도해주세요.")
                         case 1102: self.showAlert(title: "다른 플랫폼으로 가입된 회원입니다.")
                         default:
                             print("기타 오류")
@@ -184,7 +181,7 @@ final class LoginViewController: UIViewController {
                     self.dismiss(animated: true)
                 case 400: print("body오류")
                 case 500: self.showAlert(title: "이메일 정보를 포함해주세요.")
-                case 1012: self.showAlert(title: "카카오 인증 정보가 유효하지 않습니다./n다시 시도해주세요.")
+                case 1012: self.showAlert(title: "카카오 인증 정보가 유효하지 않습니다.\n다시 시도해주세요.")
                 case 1102: self.showAlert(title: "다른 플랫폼으로 가입된 회원입니다.")
                 default:
                     print("기타 오류")
@@ -255,7 +252,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                     self.dismiss(animated: true)
                 case 400: print("body오류")
                 case 500: self.showAlert(title: "이메일 정보를 포함해주세요.")
-                case 1012: self.showAlert(title: "카카오 인증 정보가 유효하지 않습니다./n다시 시도해주세요.")
+                case 1012: self.showAlert(title: "카카오 인증 정보가 유효하지 않습니다.\n다시 시도해주세요.")
                 case 1102: self.showAlert(title: "다른 플랫폼으로 가입된 회원입니다.")
                 default:
                     print("기타 오류")
