@@ -139,8 +139,10 @@ final class HomeViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        print("ㅇㅇ")
         self.navigationController?.navigationBar.isHidden = true
         if self.checkUserLogin() {
+            
             ProfileService.getProfileModels { [weak self] res in
                 switch res.statusCode {
                 case 100:
@@ -380,9 +382,8 @@ final class HomeViewController: UIViewController {
     }
     
     @objc func didClickAlarm(sender: UITapGestureRecognizer) {
-        let vc = AlarmViewController()
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true)
+        let alarmVC = AlarmViewController()
+        self.navigationController?.pushViewController(alarmVC, animated: true)
     }
     
     @objc func didClickSetting(_ sender: UIButton) {
@@ -483,8 +484,6 @@ extension HomeViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalend
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
         if self.calendarDatas.contains(where: { $0.day == date.getDay }) {
-            print("profileId: \(self.selectedProfile?.profileId)")
-            print("feed id\(self.calendarDatas[0].feedId)")
             let feedVC = FeedWithDayViewController(profile: self.selectedProfile!, year: date.getYear, month: date.getMonth, day: date.getDay)
             self.present(feedVC, animated: true)
         }

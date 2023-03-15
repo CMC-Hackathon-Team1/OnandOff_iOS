@@ -92,7 +92,7 @@ final class FeedCellWithHome: UICollectionViewCell {
         self.dateLabel.text = self.convertDateFormat(item.createdAt)
         self.subLayout(item: item)
         self.imgPageView.setImageSlider(images: item.feedImgList)
-        self.hastagLabel.text = item.hashTagList.joined(separator: "#")
+        self.hastagLabel.text = "#" + item.hashTagList.joined(separator: "#")
     }
     
     override func prepareForReuse() {

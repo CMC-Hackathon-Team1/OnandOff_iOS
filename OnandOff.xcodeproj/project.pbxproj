@@ -35,6 +35,7 @@
 		DB3545F329BF4D7300A6087E /* DefaultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3545F229BF4D7300A6087E /* DefaultModel.swift */; };
 		DB3545F529C095EA00A6087E /* UnderLineTextFiled.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3545F429C095EA00A6087E /* UnderLineTextFiled.swift */; };
 		DB3545F729C0A42600A6087E /* UnderLineTextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3545F629C0A42600A6087E /* UnderLineTextFieldDelegate.swift */; };
+		DB36866429C1BF0500FE0C04 /* EmailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB36866329C1BF0500FE0C04 /* EmailModel.swift */; };
 		DB3B464729AB3CF8005F90C3 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B464629AB3CF8005F90C3 /* CategoryModel.swift */; };
 		DB3B601829BDB4D40087B04B /* FeedCellWithHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B601729BDB4D40087B04B /* FeedCellWithHome.swift */; };
 		DB3B601A29BDD8800087B04B /* ActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B601929BDD8800087B04B /* ActionSheetViewController.swift */; };
@@ -90,18 +91,10 @@
 		E56E0E9429934661009FD906 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0E8729934661009FD906 /* SettingViewController.swift */; };
 		E56E0E9529934661009FD906 /* PolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0E8829934661009FD906 /* PolicyViewController.swift */; };
 		E56E0E9629934661009FD906 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0E8929934661009FD906 /* FeedbackViewController.swift */; };
-		E56E0E9729934661009FD906 /* FeedbackConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0E8A29934661009FD906 /* FeedbackConfirmViewController.swift */; };
-		E56E0E9829934661009FD906 /* AccountDeleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0E8B29934661009FD906 /* AccountDeleteViewController.swift */; };
 		E56E0E9929934661009FD906 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0E8C29934661009FD906 /* AlertViewController.swift */; };
-		E56E0E9A29934661009FD906 /* ServicePolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0E8D29934661009FD906 /* ServicePolicyViewController.swift */; };
 		E56E0E9B29934661009FD906 /* AccountSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0E8E29934661009FD906 /* AccountSettingViewController.swift */; };
-		E56E0E9C29934661009FD906 /* PasswordResetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0E8F29934661009FD906 /* PasswordResetViewController.swift */; };
-		E56E0E9D29934661009FD906 /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0E9029934661009FD906 /* PrivacyViewController.swift */; };
-		E56E0E9E29934661009FD906 /* LogoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0E9129934661009FD906 /* LogoutViewController.swift */; };
-		E56E0E9F29934661009FD906 /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0E9229934661009FD906 /* PrivacyViewController.swift */; };
-		E56E0EA029934661009FD906 /* ServiceAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0E9329934661009FD906 /* ServiceAlertViewController.swift */; };
+		E56E0E9F29934661009FD906 /* UserPrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0E9229934661009FD906 /* UserPrivacyViewController.swift */; };
 		E56E0EC22993499D009FD906 /* AlertCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0EC12993499D009FD906 /* AlertCell.swift */; };
-		E56E0EC4299349CE009FD906 /* PrivacyPolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0EC3299349CE009FD906 /* PrivacyPolicyViewController.swift */; };
 		E56E0ECA29976763009FD906 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0EC929976763009FD906 /* ProfileCell.swift */; };
 		E56E0ECD299B1DCD009FD906 /* PersonaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0ECC299B1DCD009FD906 /* PersonaModel.swift */; };
 		E56E0ECF299B1F73009FD906 /* MakePersonaDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0ECE299B1F73009FD906 /* MakePersonaDataRequest.swift */; };
@@ -144,6 +137,7 @@
 		DB3545F229BF4D7300A6087E /* DefaultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultModel.swift; sourceTree = "<group>"; };
 		DB3545F429C095EA00A6087E /* UnderLineTextFiled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderLineTextFiled.swift; sourceTree = "<group>"; };
 		DB3545F629C0A42600A6087E /* UnderLineTextFieldDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderLineTextFieldDelegate.swift; sourceTree = "<group>"; };
+		DB36866329C1BF0500FE0C04 /* EmailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailModel.swift; sourceTree = "<group>"; };
 		DB3B464629AB3CF8005F90C3 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		DB3B601729BDB4D40087B04B /* FeedCellWithHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCellWithHome.swift; sourceTree = "<group>"; };
 		DB3B601929BDD8800087B04B /* ActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewController.swift; sourceTree = "<group>"; };
@@ -201,18 +195,11 @@
 		E56E0E8729934661009FD906 /* SettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		E56E0E8829934661009FD906 /* PolicyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolicyViewController.swift; sourceTree = "<group>"; };
 		E56E0E8929934661009FD906 /* FeedbackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
-		E56E0E8A29934661009FD906 /* FeedbackConfirmViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedbackConfirmViewController.swift; sourceTree = "<group>"; };
-		E56E0E8B29934661009FD906 /* AccountDeleteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountDeleteViewController.swift; sourceTree = "<group>"; };
 		E56E0E8C29934661009FD906 /* AlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
-		E56E0E8D29934661009FD906 /* ServicePolicyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServicePolicyViewController.swift; sourceTree = "<group>"; };
 		E56E0E8E29934661009FD906 /* AccountSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountSettingViewController.swift; sourceTree = "<group>"; };
-		E56E0E8F29934661009FD906 /* PasswordResetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordResetViewController.swift; sourceTree = "<group>"; };
 		E56E0E9029934661009FD906 /* PrivacyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyViewController.swift; sourceTree = "<group>"; };
-		E56E0E9129934661009FD906 /* LogoutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoutViewController.swift; sourceTree = "<group>"; };
-		E56E0E9229934661009FD906 /* PrivacyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyViewController.swift; sourceTree = "<group>"; };
-		E56E0E9329934661009FD906 /* ServiceAlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceAlertViewController.swift; sourceTree = "<group>"; };
+		E56E0E9229934661009FD906 /* UserPrivacyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserPrivacyViewController.swift; sourceTree = "<group>"; };
 		E56E0EC12993499D009FD906 /* AlertCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertCell.swift; path = OnandOff/View/HomeSetting/AlertCell.swift; sourceTree = SOURCE_ROOT; };
-		E56E0EC3299349CE009FD906 /* PrivacyPolicyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PrivacyPolicyViewController.swift; path = OnandOff/ViewController/HomeSettings/PrivacyPolicyViewController.swift; sourceTree = SOURCE_ROOT; };
 		E56E0EC929976763009FD906 /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		E56E0ECC299B1DCD009FD906 /* PersonaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaModel.swift; sourceTree = "<group>"; };
 		E56E0ECE299B1F73009FD906 /* MakePersonaDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakePersonaDataRequest.swift; sourceTree = "<group>"; };
@@ -273,6 +260,14 @@
 			path = LookAround;
 			sourceTree = "<group>";
 		};
+		DB36866229C1BEF300FE0C04 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				DB36866329C1BF0500FE0C04 /* EmailModel.swift */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
 		DB3DE7C429B60BA300A95218 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
@@ -304,6 +299,7 @@
 				DB5AFDDE2960052D00667336 /* Products */,
 				0113CF20B838685E88AD1D05 /* Pods */,
 				1BF422B16DA27E28191A8832 /* Frameworks */,
+				DBAB63E729C1D7CA00A056C7 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -361,6 +357,7 @@
 		DB5AFDF62960066D00667336 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DB36866229C1BEF300FE0C04 /* Setting */,
 				DB3DE7C429B60BA300A95218 /* MyPage */,
 				DB2503E829A9EDD200B0AE39 /* LookAround */,
 				E56E0ECB299B1DB2009FD906 /* Home */,
@@ -489,6 +486,14 @@
 			path = LookAround;
 			sourceTree = "<group>";
 		};
+		DBAB63E729C1D7CA00A056C7 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				E56E0E9029934661009FD906 /* PrivacyViewController.swift */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		DBC3618929A096DA0011C319 /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -524,19 +529,11 @@
 			isa = PBXGroup;
 			children = (
 				E56E0E8729934661009FD906 /* SettingViewController.swift */,
-				E56E0E8829934661009FD906 /* PolicyViewController.swift */,
-				E56E0E8929934661009FD906 /* FeedbackViewController.swift */,
-				E56E0E8A29934661009FD906 /* FeedbackConfirmViewController.swift */,
-				E56E0E8B29934661009FD906 /* AccountDeleteViewController.swift */,
-				E56E0EC3299349CE009FD906 /* PrivacyPolicyViewController.swift */,
-				E56E0E8C29934661009FD906 /* AlertViewController.swift */,
-				E56E0E8D29934661009FD906 /* ServicePolicyViewController.swift */,
 				E56E0E8E29934661009FD906 /* AccountSettingViewController.swift */,
-				E56E0E8F29934661009FD906 /* PasswordResetViewController.swift */,
-				E56E0E9029934661009FD906 /* PrivacyViewController.swift */,
-				E56E0E9129934661009FD906 /* LogoutViewController.swift */,
-				E56E0E9229934661009FD906 /* PrivacyViewController.swift */,
-				E56E0E9329934661009FD906 /* ServiceAlertViewController.swift */,
+				E56E0E9229934661009FD906 /* UserPrivacyViewController.swift */,
+				E56E0E8C29934661009FD906 /* AlertViewController.swift */,
+				E56E0E8929934661009FD906 /* FeedbackViewController.swift */,
+				E56E0E8829934661009FD906 /* PolicyViewController.swift */,
 			);
 			path = HomeSettings;
 			sourceTree = "<group>";
@@ -709,7 +706,6 @@
 				E56E0E9B29934661009FD906 /* AccountSettingViewController.swift in Sources */,
 				DBC3619829A0F8CD0011C319 /* FeedService.swift in Sources */,
 				DBC3619129A0B05C0011C319 /* NotificationName+.swift in Sources */,
-				E56E0E9A29934661009FD906 /* ServicePolicyViewController.swift in Sources */,
 				DB80B38329BA4998009F8E2E /* Date+.swift in Sources */,
 				DB284A7C29B8E70C00630FCE /* ImageUploadDelegate.swift in Sources */,
 				DB7987A329BB8D7500E0CACC /* CategoryDelegate.swift in Sources */,
@@ -722,6 +718,7 @@
 				DB7BDC8C2961BCF400AA304B /* FeedCell.swift in Sources */,
 				E5E05EB12967C2F5004C3891 /* PostViewController.swift in Sources */,
 				5DA014FF29A69DEA005F25AE /* EditProfileViewController.swift in Sources */,
+				DB36866429C1BF0500FE0C04 /* EmailModel.swift in Sources */,
 				E56E0E9629934661009FD906 /* FeedbackViewController.swift in Sources */,
 				DB3EB8C0299E3B1600434666 /* ReportType.swift in Sources */,
 				DBC3619629A0C3000011C319 /* mainButton.swift in Sources */,
@@ -735,7 +732,7 @@
 				DB61A71729BDE57B00D3CE06 /* ActionSheetDelegate.swift in Sources */,
 				DB58082829B722440095BEEF /* CalendarHeaderDelegate.swift in Sources */,
 				DB61A71929BDEB0600D3CE06 /* DetailFeedModel.swift in Sources */,
-				E56E0E9F29934661009FD906 /* PrivacyViewController.swift in Sources */,
+				E56E0E9F29934661009FD906 /* UserPrivacyViewController.swift in Sources */,
 				E56E0E9929934661009FD906 /* AlertViewController.swift in Sources */,
 				DB5E6A3829C0ED2E0078B27F /* UIViewController+.swift in Sources */,
 				5DCB6BDD29A9A32100EE5580 /* UIButton+.swift in Sources */,
@@ -743,7 +740,6 @@
 				E56E0E9529934661009FD906 /* PolicyViewController.swift in Sources */,
 				DB000F02297011D70097D6C8 /* LoginViewController.swift in Sources */,
 				5DCAA351299FBB7F005090E5 /* CheckView.swift in Sources */,
-				E56E0E9E29934661009FD906 /* LogoutViewController.swift in Sources */,
 				E5E05EB929697B87004C3891 /* ImageUploadViewController.swift in Sources */,
 				DB3B464729AB3CF8005F90C3 /* CategoryModel.swift in Sources */,
 				DB3EB8BE299E384400434666 /* ReportViewController.swift in Sources */,
@@ -753,14 +749,12 @@
 				DB3B601A29BDD8800087B04B /* ActionSheetViewController.swift in Sources */,
 				DB3B601829BDB4D40087B04B /* FeedCellWithHome.swift in Sources */,
 				E56E0ED9299F0228009FD906 /* AlarmViewCell.swift in Sources */,
-				E56E0E9829934661009FD906 /* AccountDeleteViewController.swift in Sources */,
 				5DB24CB02995CC6E00654978 /* AuthService.swift in Sources */,
 				DB58082529B70C5F0095BEEF /* CalendarHeader.swift in Sources */,
 				DBC3618F29A0A8550011C319 /* StandardAlertAction.swift in Sources */,
 				DB7987A729BDA45700E0CACC /* FeedWithDayViewController.swift in Sources */,
 				DB3DE7C829B60C8700A95218 /* MyPageService.swift in Sources */,
 				DB7BDC8A2961601200AA304B /* CustomTopTabbar.swift in Sources */,
-				E56E0EC4299349CE009FD906 /* PrivacyPolicyViewController.swift in Sources */,
 				DB5AFE122960173900667336 /* MyPageViewController.swift in Sources */,
 				DB3B601C29BDDF940087B04B /* FeedDelegate.swift in Sources */,
 				E56E0ED7299F0152009FD906 /* AlarmViewController.swift in Sources */,
@@ -776,14 +770,10 @@
 				DB58082A29B729100095BEEF /* TextFieldComponent.swift in Sources */,
 				DB5AFDE12960052D00667336 /* AppDelegate.swift in Sources */,
 				DB80B38529BA4CD6009F8E2E /* CalendarInfoModel.swift in Sources */,
-				E56E0E9729934661009FD906 /* FeedbackConfirmViewController.swift in Sources */,
-				E56E0EA029934661009FD906 /* ServiceAlertViewController.swift in Sources */,
 				DBD8DD5F296315150081CD21 /* ProfileView.swift in Sources */,
-				E56E0E9D29934661009FD906 /* PrivacyViewController.swift in Sources */,
 				DB2503EA29A9EDFE00B0AE39 /* FeedListModel.swift in Sources */,
 				5DB24CA82995B76600654978 /* SettingCell.swift in Sources */,
 				5DCAA353299FC619005090E5 /* AgreeViewController.swift in Sources */,
-				E56E0E9C29934661009FD906 /* PasswordResetViewController.swift in Sources */,
 				DB7987A529BC6EEE00E0CACC /* CalendarCell.swift in Sources */,
 				DB5AFDE32960052D00667336 /* SceneDelegate.swift in Sources */,
 				DBED0ED929B4C71900415219 /* ReportModel.swift in Sources */,

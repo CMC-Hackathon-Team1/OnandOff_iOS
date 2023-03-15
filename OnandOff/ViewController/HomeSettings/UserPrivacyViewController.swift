@@ -6,38 +6,28 @@
 //
 
 
-import Foundation
 import UIKit
-import SnapKit
-import Then
 
-class PrivacyViewController: UIViewController{
-    //MARK: - Datasource
-    
-    
-    //MARK: - Properties
-    let backButton = UIImageView().then{
-        $0.image = UIImage(named: "backbutton")?.withRenderingMode(.alwaysOriginal)
-    }
-    let settingLabel = UILabel().then{
-        $0.text = "개인정보 보호"
-        $0.font = UIFont(name:"NotoSans-Bold", size: 16)
-    }
+final class UserPrivacyViewController: UIViewController{
     let statusLabel = UILabel().then{
         $0.text = "계정 공개 상태"
         $0.font = UIFont(name:"NotoSans-Bold", size: 14)
     }
+    
     let publicAccountLabel = UILabel().then{
         $0.text = "공개 계정"
         $0.font = UIFont(name:"NotoSans-Regular", size: 14)
     }
+    
     let privateAccountLabel = UILabel().then{
         $0.text = "비공개 계정"
         $0.font = UIFont(name:"NotoSans-Regular", size: 14)
     }
+    
     let publicAccountCheck = UIImageView().then{
         $0.image = UIImage(named: "checkcircle")?.withRenderingMode(.alwaysOriginal)
     }
+    
     let privateAccountCheck = UIImageView().then{
         $0.image = UIImage(named: "uncheckcircle")?.withRenderingMode(.alwaysOriginal)
     }
@@ -53,13 +43,13 @@ class PrivacyViewController: UIViewController{
         setUpView()
         layout()
         addTarget()
+        
         self.view.backgroundColor = .white
+        self.title = "개인정보 보호"
     }
     
     //MARK: - AddSubview
-    func setUpView(){
-        self.view.addSubview(self.backButton)
-        self.view.addSubview(self.settingLabel)
+    private func setUpView(){
         self.view.addSubview(self.statusLabel)
         self.view.addSubview(self.publicAccountLabel)
         self.view.addSubview(self.privateAccountLabel)
@@ -68,19 +58,9 @@ class PrivacyViewController: UIViewController{
     }
     
     //MARK: - Layout
-    func layout(){
-        self.backButton.snp.makeConstraints{
-            $0.leading.equalToSuperview().offset(25.28)
-            $0.top.equalToSuperview().offset(55)
-            $0.width.equalTo(14)
-            $0.height.equalTo(16.22)
-        }
-        self.settingLabel.snp.makeConstraints{
-            $0.top.equalToSuperview().offset(50)
-            $0.centerX.equalToSuperview()
-        }
+    private func layout() {
         self.statusLabel.snp.makeConstraints{
-            $0.top.equalTo(self.settingLabel.snp.bottom).offset(37)
+            $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(37)
             $0.leading.equalToSuperview().offset(31)
         }
         self.publicAccountLabel.snp.makeConstraints{
@@ -90,6 +70,7 @@ class PrivacyViewController: UIViewController{
         self.publicAccountCheck.snp.makeConstraints{
             $0.top.equalTo(self.publicAccountLabel)
             $0.trailing.equalToSuperview().offset(-31)
+            $0.height.width.equalTo(20)
         }
         self.privateAccountLabel.snp.makeConstraints{
             $0.top.equalTo(self.publicAccountLabel.snp.bottom).offset(20)
@@ -98,16 +79,10 @@ class PrivacyViewController: UIViewController{
         self.privateAccountCheck.snp.makeConstraints{
             $0.top.equalTo(self.privateAccountLabel)
             $0.trailing.equalToSuperview().offset(-31)
+            $0.height.width.equalTo(20)
         }
-        
     }
     //MARK: - Selector
-   
-    @objc func didClickBackButton(sender: UITapGestureRecognizer){
-        dismiss(animated: true)
-    }
-    
-    
     @objc func didClickPublic(sender: UITapGestureRecognizer){
         self.publicAccountCheckindex = (self.publicAccountCheckindex >= self.publicAccountCheckArray.count-1) ? 0 : self.publicAccountCheckindex+1
         self.publicAccountCheck.image = UIImage(named:publicAccountCheckArray[publicAccountCheckindex])
@@ -116,7 +91,9 @@ class PrivacyViewController: UIViewController{
         }else{
             self.privateAccountCheck.image = UIImage(named:privateAccountCheckArray[0])
         }
+        AuthService.changeAccountState("ACTIVE")
     }
+    
     @objc func didClickPrivate(sender: UITapGestureRecognizer){
         self.privateAccountCheckindex = (self.privateAccountCheckindex >= self.privateAccountCheckArray.count-1) ? 0 : self.privateAccountCheckindex+1
         self.privateAccountCheck.image = UIImage(named:privateAccountCheckArray[privateAccountCheckindex])
@@ -125,16 +102,12 @@ class PrivacyViewController: UIViewController{
         }else{
             self.publicAccountCheck.image = UIImage(named:publicAccountCheckArray[0])
         }
+        AuthService.changeAccountState("HIDDEN")
     }
     
     
     //MARK: - Target
-    func addTarget(){
-
-        let backBtn = UITapGestureRecognizer(target: self, action: #selector(didClickBackButton))
-        backButton.isUserInteractionEnabled = true
-        backButton.addGestureRecognizer(backBtn)
-        
+    private func addTarget() {
         let publicAccountCheckBtn = UITapGestureRecognizer(target: self, action: #selector(didClickPublic))
         publicAccountCheck.isUserInteractionEnabled = true
         publicAccountCheck.addGestureRecognizer(publicAccountCheckBtn)
@@ -143,9 +116,6 @@ class PrivacyViewController: UIViewController{
         privateAccountCheck.isUserInteractionEnabled = true
         privateAccountCheck.addGestureRecognizer(privateAccountCheckBtn)
     }
-    
-
-
 }
 
 

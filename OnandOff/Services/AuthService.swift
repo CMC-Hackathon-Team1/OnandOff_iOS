@@ -101,14 +101,68 @@ struct AuthService {
         }
     }
 
-    static func getUserEmail() {
+    static func getUserEmail(completion: @escaping (EmailItem?)->Void) {
         let url = baseURL + "users/email"
         let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
         AF.request(url, headers: header)
-            .responseString() { res in
+            .responseDecodable(of: EmailModel.self) { res in
                 switch res.result {
-                case .success(let str):
-                    print(str)
+                case .success(let model):
+                    if let item = model.result {
+                        completion(item)
+                    } else { completion(nil) }
+                case .failure(let error):
+                    print(error)
+                }
+            }
+    }
+    
+    static func withdrawalMember(completion: @escaping (Bool)->Void) {
+        let url = baseURL + "users/account"
+        let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
+        AF.request(url, method: .delete, headers: header)
+            .responseDecodable(of: DefaultModel.self) { res in
+                switch res.result {
+                case .success(let model):
+                    if model.statusCode == 100 {
+                        completion(true)
+                    } else {
+                        completion(false)
+                    }
+                case .failure(let error):
+                    print(error)
+                }
+            }
+    }
+    
+    static func changeAccountState(_ userStatus: String) {
+        let url = baseURL + "users/status"
+        let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
+        let parameter: Parameters = ["userStatus" : userStatus]
+        AF.request(url, method: .patch, parameters: parameter, encoding: JSONEncoding.default, headers: header)
+            .responseDecodable(of: DefaultModel.self) { res in
+                switch res.result {
+                case .success(let model):
+                    if model.statusCode == 100 { print("성공") }
+                case .failure(let error):
+                    print(error)
+                }
+            }
+    }
+    
+    static func sendMail(content: String, completion: @escaping (Bool)->()) {
+        let url = baseURL + "users/send-mail"
+        let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
+        let parameter: Parameters = ["content" : content]
+        let request = AF.request(url, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header)
+            .responseDecodable(of: DefaultModel.self) { res in
+                switch res.result {
+                case .success(let model):
+                    if model.statusCode == 100 {
+                        completion(true)
+                    } else {
+                        completion(false)
+                    }
                 case .failure(let error):
                     print(error)
                 }

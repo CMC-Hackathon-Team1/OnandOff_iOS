@@ -48,12 +48,13 @@ final class SettingCell: UITableViewCell {
         self.settingImage.snp.makeConstraints{
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().offset(35.75)
-            $0.width.height.equalTo(25)
         }
+        
         self.title.snp.makeConstraints{
             $0.centerY.equalToSuperview()
             $0.leading.equalTo(settingImage.snp.trailing).offset(20.75)
         }
+        
         self.arrow.snp.makeConstraints{
             $0.centerY.equalToSuperview()
             $0.trailing.equalToSuperview().offset(-41)
