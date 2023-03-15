@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "허용 (1) 1.png",
+      "filename" : "onandoffLogo@1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "허용 (2) 1.png",
+      "filename" : "onandoffLogo@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "허용.png",
+      "filename" : "onandoffLogo@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

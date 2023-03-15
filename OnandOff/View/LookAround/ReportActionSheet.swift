@@ -60,9 +60,7 @@ final class ReportActionSheet: UIView {
         super.init(frame: .zero)
         self.addSubView()
         self.layout()
-        self.addTarget()
-        
-        
+        self.addTarget() 
     }
     
     required init?(coder: NSCoder) {

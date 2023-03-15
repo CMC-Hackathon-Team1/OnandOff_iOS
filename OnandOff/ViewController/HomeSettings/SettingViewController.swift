@@ -9,12 +9,12 @@ import UIKit
 
 final class SettingViewController: UIViewController{
     //MARK: - Properties
+    var settingImageArray = ["UserCircle", "LockSimple", "alarmButton", "ChatCenteredDots", "ClipboardText", "WarningCircle", "SignOut"]
+    var settingLabelArray = ["계정", "개인정보 보호", "알림", "피드백/문의하기", "약관 및 정책", "버전", "로그아웃"]
+    
     private let settingTableView = UITableView().then {
         $0.register(SettingCell.self, forCellReuseIdentifier: SettingCell.identifier)
     }
-    
-    var settingImageArray = [String]()
-    var settingLabelArray = [String]()
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
@@ -27,14 +27,12 @@ final class SettingViewController: UIViewController{
         
         self.settingTableView.delegate = self
         self.settingTableView.dataSource = self
-        
-        settingImageArray.append(contentsOf: ["UserCircle", "LockSimple", "alarmButton", "ChatCenteredDots", "ClipboardText", "WarningCircle", "SignOut"])
-        settingLabelArray.append(contentsOf: ["계정", "개인정보 보호", "알림", "피드백/문의하기", "약관 및 정책", "버전", "로그아웃"])
     }
     
     //MARK: - ConfigureNavigation
     private func configureNavigation() {
         self.navigationItem.title = "설정"
+        self.navigationItem.backButtonTitle = ""
         self.navigationController?.navigationBar.isHidden = false
     }
     
@@ -67,7 +65,7 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SettingCell.identifier, for: indexPath) as! SettingCell
-        
+        cell.selectionStyle = .none
         cell.settingImage.image = UIImage(named: "\(settingImageArray[indexPath.row])")?.withRenderingMode(.alwaysOriginal)
         cell.title.text = settingLabelArray[indexPath.row]
         if indexPath.row == 5{
@@ -80,11 +78,11 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 0{
+        if indexPath.row == 0 {
             let accountVC = AccountSettingViewController()
             self.navigationController?.pushViewController(accountVC, animated: true)
-        }else if indexPath.row == 1{
-            let privacyVC = PrivacyViewController()
+        } else if indexPath.row == 1 {
+            let privacyVC = UserPrivacyViewController()
             self.navigationController?.pushViewController(privacyVC, animated: true)
         }
         else if indexPath.row == 2{

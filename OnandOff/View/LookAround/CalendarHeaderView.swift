@@ -106,7 +106,9 @@ extension CalendarHeaderView: FSCalendarDelegate, FSCalendarDataSource, FSCalend
     }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        NotificationCenter.default.post(name: .clcikDay, object: date)
+        if self.calendarDatas.contains(where: { $0.day == date.getDay }) {
+            NotificationCenter.default.post(name: .clcikDay, object: date)
+        }
     }
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {

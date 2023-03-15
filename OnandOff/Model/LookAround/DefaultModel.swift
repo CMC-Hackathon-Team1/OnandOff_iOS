@@ -10,4 +10,5 @@ import Foundation
 class DefaultModel: Codable {
     let statusCode: Int
     let message: String
+    let error: String?
 }

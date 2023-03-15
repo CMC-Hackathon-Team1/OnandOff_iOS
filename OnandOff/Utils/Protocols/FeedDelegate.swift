@@ -10,4 +10,12 @@ import Foundation
 
 protocol FeedDelegate: AnyObject {
     func didClickEllipsisButton(id: Int)
+    func didClickHeartButton(id: Int)
+    func didClickFollowButtonn(id: Int)
+}
+
+extension FeedDelegate {
+    func didClickEllipsisButton(id: Int) { }
+    func didClickHeartButton(id: Int) { }
+    func didClickFollowButtonn(id: Int) { }
 }

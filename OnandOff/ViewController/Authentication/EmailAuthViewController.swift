@@ -46,7 +46,6 @@ final class EmailAuthViewController: UIViewController {
         self.configureLayout()
         self.title = "이메일 인증"
         self.view.backgroundColor = .white
-        self.navigationItem.title = ""
     }
     
     // MARK: - Actions

@@ -18,7 +18,7 @@ final class OtherProfileViewController: UIViewController {
     
     private let feedCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
         $0.register(CalendarHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CalendarHeaderView.identifier)
-        $0.register(MyPageCell.self, forCellWithReuseIdentifier: MyPageCell.identifier)
+        $0.register(OtherFeedCell.self, forCellWithReuseIdentifier: OtherFeedCell.identifier)
     }
     
     init(_ profileId: Int) {
@@ -52,7 +52,7 @@ final class OtherProfileViewController: UIViewController {
         let currentProfileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
         let year = String(Calendar.current.component(.year, from: Date()))
         let month = String(format: "%02d", Calendar.current.component(.month, from: Date()))
-//        let day = String(format: "%02d", Calendar.current.component(.day, from: Date()))
+
         MyPageService.fetchFeedWithDate(currentProfileId, targetId: self.profileId, year: year,
                                         month: month, day: nil, page: self.currentPage) { [weak self] items in
             self?.feedDatas = items
@@ -65,7 +65,8 @@ final class OtherProfileViewController: UIViewController {
     @objc private func presentFeed(notification: NSNotification) {
         guard let date = notification.object as? Date else { return }
         MyPageService.fetchProfile(self.profileId) { item in
-            let feedVC = FeedWithDayViewController(profile: item, year: date.getYear, month: date.getMonth, day: date.getDay)
+            let feedVC = OtherFeedWithDayViewController(profile: item, year: date.getYear, month: date.getMonth, day: date.getDay)
+            
             self.present(feedVC, animated: true)
         }
     }
@@ -104,8 +105,9 @@ extension OtherProfileViewController: UICollectionViewDelegate, UICollectionView
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyPageCell.identifier, for: indexPath) as! MyPageCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OtherFeedCell.identifier, for: indexPath) as! OtherFeedCell
         cell.prepareForReuse()
+        cell.delegate = self
 
         cell.configureCell(self.feedDatas[indexPath.row])
 
@@ -149,5 +151,27 @@ extension OtherProfileViewController: UICollectionViewDelegate, UICollectionView
         
         let width = collectionView.bounds.width
         return CGSize(width: width-48, height: contentSize.height + imgViewHeight + 12+16+16+20)
+    }
+}
+
+extension OtherProfileViewController: FeedDelegate {
+    func didClickHeartButton(id: Int) {
+        FeedService.toggleLike(profileId: self.profileId, feedId: id) { [weak self] in
+            if let idx = self?.feedDatas.firstIndex(where: { $0.feedId == id }) {
+                guard let isLike = self?.feedDatas[idx].isLike else { return }
+                self?.feedDatas[idx].isLike = !isLike
+                self?.feedCollectionView.reloadItems(at: [IndexPath(row: idx, section: 0)])
+            }
+        }
+    }
+    
+    func didClickEllipsisButton(id: Int) {
+        _ = ReportActionSheet(id).then {
+            self.view.addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.top.leading.trailing.equalToSuperview()
+                make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
+            }
+        }
     }
 }

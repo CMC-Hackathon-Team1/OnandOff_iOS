@@ -38,7 +38,7 @@ class ProfileService {
         }
     }
     
-    static func createProfile(profileName: String, personaName: String, statusMessage: String, image: UIImage, completion: @escaping ()->Void) {
+    static func createProfile(profileName: String, personaName: String, statusMessage: String, image: UIImage, completion: @escaping (Int)->Void) {
         let url = baseURL + "profiles/"
         var header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
         header?["Content-Type"] = "multipart/form-data"
@@ -55,13 +55,12 @@ class ProfileService {
             }
         }, to: url, method: .post, headers: header)
         
-        request.responseString() { res in
+        request.responseDecodable(of: CreateProfileModel.self) { res in
             switch res.result {
-            case .success(let str):
-                print(str)
-                completion()
+            case .success(let model):
+                completion(model.statusCode)
             case .failure(let error):
-                print(error.localizedDescription)
+                print(error)
             }
         }
     }

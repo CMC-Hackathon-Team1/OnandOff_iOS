@@ -183,9 +183,19 @@ final class ProfileMakeViewController: UIViewController {
                 ProfileService.createProfile(profileName: self.nickNameComponent.inputTextfield.text!,
                                              personaName: self.personaComponent.inputTextfield.text!,
                                              statusMessage: self.introductionComponent.inputTextfield.text ?? "",
-                                             image: self.profileImage ?? UIImage(named: "ProfileInsertPhoto")!) {
-                    self.dismiss(animated: true)
-                    self.navigationController?.popViewController(animated: true)
+                                             image: self.profileImage ?? UIImage(named: "defaultImage")!) { code in
+                    if code == 100 {
+                        self.dismiss(animated: true)
+                        self.navigationController?.popViewController(animated: true)
+                    } else if code == 1500 {
+                        self.defaultAlert(title: "사용자 프로필은 5개까지 생성 가능합니다.") {
+                            self.navigationController?.popViewController(animated: true)
+                        }
+                    } else if code == 1501 {
+                        self.defaultAlert(title: "이미 존재하는 페르소나 입니다.")
+                    } else {
+                        self.defaultAlert(title: "프로필 생성 실패")
+                    }
                 }
             }
             alert.addAction(cancel)
