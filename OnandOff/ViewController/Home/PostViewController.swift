@@ -96,6 +96,7 @@ final class PostViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         self.isEditMode = true
         self.photoButton.isEnabled = false
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
         self.navigationItem.title = "글 수정하기"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "수정", style: .plain, target: self, action: #selector(self.didClickEditButton)).then {
             $0.tintColor = .mainColor

@@ -80,6 +80,9 @@
 		DB80B38329BA4998009F8E2E /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB80B38229BA4998009F8E2E /* Date+.swift */; };
 		DB80B38529BA4CD6009F8E2E /* CalendarInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB80B38429BA4CD6009F8E2E /* CalendarInfoModel.swift */; };
 		DB80B38729BB7824009F8E2E /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB80B38629BB7824009F8E2E /* CategoryCell.swift */; };
+		DBAB63E929C203CA00A056C7 /* CreateProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAB63E829C203CA00A056C7 /* CreateProfileModel.swift */; };
+		DBAB63EB29C206C900A056C7 /* OtherFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAB63EA29C206C900A056C7 /* OtherFeedCell.swift */; };
+		DBAB63ED29C21B6400A056C7 /* OtherFeedWithDayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAB63EC29C21B6400A056C7 /* OtherFeedWithDayViewController.swift */; };
 		DBC3618B29A097490011C319 /* StandardAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC3618A29A097490011C319 /* StandardAlertController.swift */; };
 		DBC3618D29A0A5340011C319 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC3618C29A0A5340011C319 /* PaddingLabel.swift */; };
 		DBC3618F29A0A8550011C319 /* StandardAlertAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC3618E29A0A8550011C319 /* StandardAlertAction.swift */; };
@@ -97,7 +100,6 @@
 		E56E0EC22993499D009FD906 /* AlertCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0EC12993499D009FD906 /* AlertCell.swift */; };
 		E56E0ECA29976763009FD906 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0EC929976763009FD906 /* ProfileCell.swift */; };
 		E56E0ECD299B1DCD009FD906 /* PersonaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0ECC299B1DCD009FD906 /* PersonaModel.swift */; };
-		E56E0ECF299B1F73009FD906 /* MakePersonaDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0ECE299B1F73009FD906 /* MakePersonaDataRequest.swift */; };
 		E56E0ED7299F0152009FD906 /* AlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0ED6299F0152009FD906 /* AlarmViewController.swift */; };
 		E56E0ED9299F0228009FD906 /* AlarmViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0ED8299F0228009FD906 /* AlarmViewCell.swift */; };
 		E56E0EDB299F0D9F009FD906 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56E0EDA299F0D9F009FD906 /* PostModel.swift */; };
@@ -184,6 +186,9 @@
 		DB80B38229BA4998009F8E2E /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		DB80B38429BA4CD6009F8E2E /* CalendarInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarInfoModel.swift; sourceTree = "<group>"; };
 		DB80B38629BB7824009F8E2E /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
+		DBAB63E829C203CA00A056C7 /* CreateProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateProfileModel.swift; sourceTree = "<group>"; };
+		DBAB63EA29C206C900A056C7 /* OtherFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherFeedCell.swift; sourceTree = "<group>"; };
+		DBAB63EC29C21B6400A056C7 /* OtherFeedWithDayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherFeedWithDayViewController.swift; sourceTree = "<group>"; };
 		DBC3618A29A097490011C319 /* StandardAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardAlertController.swift; sourceTree = "<group>"; };
 		DBC3618C29A0A5340011C319 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		DBC3618E29A0A8550011C319 /* StandardAlertAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardAlertAction.swift; sourceTree = "<group>"; };
@@ -202,7 +207,6 @@
 		E56E0EC12993499D009FD906 /* AlertCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertCell.swift; path = OnandOff/View/HomeSetting/AlertCell.swift; sourceTree = SOURCE_ROOT; };
 		E56E0EC929976763009FD906 /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		E56E0ECC299B1DCD009FD906 /* PersonaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonaModel.swift; sourceTree = "<group>"; };
-		E56E0ECE299B1F73009FD906 /* MakePersonaDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakePersonaDataRequest.swift; sourceTree = "<group>"; };
 		E56E0ED6299F0152009FD906 /* AlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewController.swift; sourceTree = "<group>"; };
 		E56E0ED8299F0228009FD906 /* AlarmViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmViewCell.swift; sourceTree = "<group>"; };
 		E56E0EDA299F0D9F009FD906 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
@@ -273,6 +277,7 @@
 			children = (
 				DB3DE7C529B60BC000A95218 /* MyPageModel.swift */,
 				DB3DE7C929B62A4D00A95218 /* ProfileModel.swift */,
+				DBAB63E829C203CA00A056C7 /* CreateProfileModel.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -449,6 +454,7 @@
 				E5E05EB829697B87004C3891 /* ImageUploadViewController.swift */,
 				E56E0ED6299F0152009FD906 /* AlarmViewController.swift */,
 				DB7987A629BDA45700E0CACC /* FeedWithDayViewController.swift */,
+				DBAB63EC29C21B6400A056C7 /* OtherFeedWithDayViewController.swift */,
 				DB3B601929BDD8800087B04B /* ActionSheetViewController.swift */,
 			);
 			path = Home;
@@ -482,6 +488,7 @@
 				DB7BDC8B2961BCF400AA304B /* FeedCell.swift */,
 				DB3EB8C1299E414200434666 /* ReportCell.swift */,
 				DB3545F029BED6AF00A6087E /* CalendarHeaderView.swift */,
+				DBAB63EA29C206C900A056C7 /* OtherFeedCell.swift */,
 			);
 			path = LookAround;
 			sourceTree = "<group>";
@@ -564,7 +571,6 @@
 			isa = PBXGroup;
 			children = (
 				E56E0ECC299B1DCD009FD906 /* PersonaModel.swift */,
-				E56E0ECE299B1F73009FD906 /* MakePersonaDataRequest.swift */,
 				E56E0EDA299F0D9F009FD906 /* PostModel.swift */,
 				DB80B38429BA4CD6009F8E2E /* CalendarInfoModel.swift */,
 			);
@@ -688,6 +694,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E56E0EC22993499D009FD906 /* AlertCell.swift in Sources */,
+				DBAB63E929C203CA00A056C7 /* CreateProfileModel.swift in Sources */,
 				5DB24CAC2995BB8A00654978 /* EmailLoginViewController.swift in Sources */,
 				DB80B37D29BA0FDE009F8E2E /* StatisticsComponent.swift in Sources */,
 				DB000F06297012010097D6C8 /* ProfileMakeViewController.swift in Sources */,
@@ -731,6 +738,8 @@
 				DB5AFDF92960068F00667336 /* UIColor+.swift in Sources */,
 				DB61A71729BDE57B00D3CE06 /* ActionSheetDelegate.swift in Sources */,
 				DB58082829B722440095BEEF /* CalendarHeaderDelegate.swift in Sources */,
+				DBAB63EB29C206C900A056C7 /* OtherFeedCell.swift in Sources */,
+				DBAB63ED29C21B6400A056C7 /* OtherFeedWithDayViewController.swift in Sources */,
 				DB61A71929BDEB0600D3CE06 /* DetailFeedModel.swift in Sources */,
 				E56E0E9F29934661009FD906 /* UserPrivacyViewController.swift in Sources */,
 				E56E0E9929934661009FD906 /* AlertViewController.swift in Sources */,
@@ -778,7 +787,6 @@
 				DB5AFDE32960052D00667336 /* SceneDelegate.swift in Sources */,
 				DBED0ED929B4C71900415219 /* ReportModel.swift in Sources */,
 				DB3EB8C2299E414200434666 /* ReportCell.swift in Sources */,
-				E56E0ECF299B1F73009FD906 /* MakePersonaDataRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -935,7 +943,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = OnandOff.OnandOff;
+				PRODUCT_BUNDLE_IDENTIFIER = iosdevSW.OnandOff;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -971,7 +979,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = OnandOff.OnandOff;
+				PRODUCT_BUNDLE_IDENTIFIER = iosdevSW.OnandOff;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

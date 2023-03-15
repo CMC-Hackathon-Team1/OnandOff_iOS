@@ -19,7 +19,7 @@ class MyPageResult: Codable {
 
 class MyPageItem: Codable {
     let feedImgList: [String]
-    let isLike: Bool
+    var isLike: Bool
     let feedId: Int
     var feedContent: String
     let createdAt: String

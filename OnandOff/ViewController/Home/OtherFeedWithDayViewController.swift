@@ -1,13 +1,13 @@
 //
-//  FeedWithDayViewController.swift
+//  OtherFeedWithDayViewController.swift
 //  OnandOff
 //
-//  Created by 신상우 on 2023/03/12.
+//  Created by 신상우 on 2023/03/16.
 //
 
 import UIKit
 
-final class FeedWithDayViewController: UIViewController {
+final class OtherFeedWithDayViewController: UIViewController {
     //MARK: - Properties
     private let profile: ProfileItem
     private var profileImage: UIImage?
@@ -80,15 +80,19 @@ final class FeedWithDayViewController: UIViewController {
     }
     
     @objc private func showAlert() {
-        let actionSheetVC = ActionSheetViewController(title: "글 편집",
-                                                      firstImage: UIImage(named: "edit")!,
-                                                      firstText: "수정",
-                                                      secondImage: UIImage(named: "delete")!,
-                                                      secondText: "삭제")
-        actionSheetVC.delegate = self
-        actionSheetVC.id = self.feedDatas[0].feedId
-        
-        self.present(actionSheetVC, animated: false)
+        _ = ReportActionSheet(self.feedDatas[0].feedId).then {
+            self.view.addSubview($0)
+            $0.snp.makeConstraints { make in
+                make.top.leading.trailing.equalToSuperview()
+                make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
+            }
+        }
+    }
+    
+    @objc private func didClickReportButton(_ notification: Notification) {
+        guard let feedId = notification.object as? Int else { return }
+        let reportVC = ReportViewController(feedId)
+        self.navigationController?.pushViewController(reportVC, animated: false)
     }
     
     deinit {
@@ -138,7 +142,7 @@ final class FeedWithDayViewController: UIViewController {
     }
 }
 
-extension FeedWithDayViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension OtherFeedWithDayViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         self.feedDatas.count
     }
@@ -178,28 +182,5 @@ extension FeedWithDayViewController: UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: 2, height: 2)
-    }
-}
-
-extension FeedWithDayViewController: ActionSheetDelegate {
-    func didClickFirstItem(id: Int) { // 수정
-        let postVC = UINavigationController(rootViewController: PostViewController(self.profile, feedId: id))
-        postVC.modalPresentationStyle = .fullScreen
-        self.present(postVC, animated: true)
-    }
-    
-    func didClickSecondItem(id: Int) { // 변경
-        let alert = StandardAlertController(title: "이 글을 정말로 삭제하시겠습니까?", message: nil)
-        alert.titleHighlight(highlightString: "삭제", color: .point)
-        let cancel = StandardAlertAction(title: "취소", style: .cancel)
-        let ok = StandardAlertAction(title: "삭제", style: .basic) { _ in
-            FeedService.deleteFeed(profileId: self.profile.profileId, feedId: id) {
-                self.dismissVC()
-            }
-        }
-        alert.addAction(cancel)
-        alert.addAction(ok)
-        
-        self.present(alert, animated: false)
     }
 }

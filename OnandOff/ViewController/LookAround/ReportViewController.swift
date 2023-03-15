@@ -58,10 +58,11 @@ final class ReportViewController: UIViewController {
         guard let selectedType else { return }
         
         if self.selectedType != nil {
+            let cell = self.reportTableView.cellForRow(at: IndexPath(row: 5, section: 0)) as! ReportCell
             let alert = StandardAlertController(title: nil, message: "해당 게시글을 신고하시겠습니까?")
             let cancel = StandardAlertAction(title: "취소", style: .cancel)
             let report = StandardAlertAction(title: "신고", style: .basic) { _ in
-                FeedService.reportFeed(feedId: self.feedId, categoryId: selectedType.rawValue, content: nil) { response in
+                FeedService.reportFeed(feedId: self.feedId, categoryId: selectedType.rawValue, content: cell.otherTextField.text) { response in
                     self.respondToStatusCode(response)
                 }
             }
@@ -81,7 +82,7 @@ final class ReportViewController: UIViewController {
         default: message = res.message
         }
         let alert = StandardAlertController(title: nil, message: message)
-        let ok = StandardAlertAction(title: "확인", style: .basic)
+        let ok = StandardAlertAction(title: "확인", style: .basic) { _ in self.navigationController?.popViewController(animated: true) }
         alert.addAction(ok)
         
         self.present(alert, animated: true)
@@ -137,11 +138,15 @@ extension ReportViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.selectedType = ReportType.allCases[indexPath.row]
+        if self.selectedType != .other {
+            let cell = tableView.cellForRow(at: IndexPath(row: 5, section: 0)) as! ReportCell
+            cell.otherTextField.text = ""
+        }
+        
         tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return tableView.rowHeight
     }
-    
 }

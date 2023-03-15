@@ -18,4 +18,5 @@ extension Notification.Name {
     static let clickFollow = Notification.Name("clickFollow")
     static let changeCurrentPage = Notification.Name("changeCurrentPage")
     static let changeFeed = Notification.Name("changeFeed")
+    static let didCloseFeedWithDayVC = Notification.Name("didCloseFeedWithDayVC")
 }

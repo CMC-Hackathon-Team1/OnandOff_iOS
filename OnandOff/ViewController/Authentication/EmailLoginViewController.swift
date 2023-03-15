@@ -62,6 +62,7 @@ final class EmailLoginViewController: UIViewController {
         self.passwordTextFieldView.delegate = self
         
         self.navigationController?.navigationBar.tintColor = .black
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
         self.navigationItem.backButtonTitle = ""
     }
     
@@ -100,18 +101,7 @@ final class EmailLoginViewController: UIViewController {
     }
     
     @objc func handleFindPassword() {
-//        guard let email = emailTextField.text else { return }
-//        if email.isEmpty {
-//            let alert = StandardAlertController(title: nil, message: "이메일을 입력한 뒤 다시 버튼을 눌려주세요")
-//            let report = StandardAlertAction(title: "확인", style: .basic)
-//            alert.addAction(report)
-//            self.present(alert, animated: false)
-//        } else {
-//            let alert = StandardAlertController(title: nil, message: "비밀번호 재설정 이메일이 \n \(email)으로 전송되었습니다")
-//            let report = StandardAlertAction(title: "확인", style: .basic)
-//            alert.addAction(report)
-//            self.present(alert, animated: false)
-//        }
+        self.defaultAlert(title: "비밀번호 재설정은\nhackathonerss@gmail.com으로 문의해주세요.")
     }
     
     private func showAlert(title: String) {

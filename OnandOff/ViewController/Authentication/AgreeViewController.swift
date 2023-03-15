@@ -184,8 +184,10 @@ final class AgreeViewController: UIViewController {
     }
     
     @objc func didTapAgreeButton() {
-        let vc = self.navigationController?.viewControllers.prefix(2).map { $0 }
-        self.navigationController?.viewControllers = vc ?? []
+        self.defaultAlert(title: "회원가입 성공!") {
+            let vc = self.navigationController?.viewControllers.prefix(2).map { $0 }
+            self.navigationController?.viewControllers = vc ?? []
+        }
     }
     
     // MARK: - Helpers

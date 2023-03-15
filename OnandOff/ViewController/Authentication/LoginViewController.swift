@@ -112,8 +112,9 @@ final class LoginViewController: UIViewController {
     }
     
     @objc func didTapKakaoLoginButton() {
-        if (UserApi.isKakaoTalkLoginAvailable()) {
+        if UserApi.isKakaoTalkLoginAvailable() {
             UserApi.shared.loginWithKakaoTalk() {(oauthToken, error) in
+                
                 guard let oauthToken else { print(error!); return }
                 
                 AuthService.kakaoLogin(oauthToken.accessToken) { res in

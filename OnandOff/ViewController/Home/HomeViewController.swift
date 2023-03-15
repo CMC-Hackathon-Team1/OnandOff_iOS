@@ -224,10 +224,12 @@ final class HomeViewController: UIViewController {
         self.view.backgroundColor = .white
         self.navigationItem.backButtonTitle = ""
         self.navigationController?.navigationBar.tintColor = .black
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
     }
     
     private func addNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.logout), name: .presentLoginVC, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.didCloseFeedWithCell), name: .didCloseFeedWithDayVC, object: nil)
     }
     
     //MARK: - CalendarUI
@@ -437,6 +439,10 @@ final class HomeViewController: UIViewController {
             }
             return
         }
+    }
+    
+    @objc private func didCloseFeedWithCell() {
+        self.updateCalendar()
     }
     
     //MARK: - AddTarget
