@@ -8,9 +8,9 @@ import UIKit
 import SnapKit
 
 final class MyPageCell: UICollectionViewCell {
-   
     // MARK: - Properties
     static let identifier = "MyPageCell"
+    weak var delegate: FeedDelegate?
     
     private let postDateLabel = UILabel().then {
         $0.font = .notoSans(size: 14, family: .Bold)
@@ -60,12 +60,8 @@ final class MyPageCell: UICollectionViewCell {
     }
     
     // MARK: - Actions
-    @objc func didTapHeartButton() {
-        print(#function)
-    }
-    
-    @objc func didTapEllipsisButton() {
-        print(#function)
+    @objc func didTapEllipsisButton(_ button: UIButton) {
+        self.delegate?.didClickEllipsisButton(id: button.tag)
     }
     
     override func prepareForReuse() {
@@ -92,6 +88,7 @@ final class MyPageCell: UICollectionViewCell {
     }
     
     func configureCell(_ item: MyPageItem) {
+        self.ellipsisButton.tag = item.feedId
         self.postDateLabel.text = self.convertDateFormat(item.createdAt)
         self.contentLabel.text = item.feedContent
         self.likeCountLabel.text = "\(item.likeNum)"
@@ -164,7 +161,6 @@ final class MyPageCell: UICollectionViewCell {
     }
     
     private func addTarget() {
-        self.heartButton.addTarget(self, action: #selector(didTapHeartButton), for: .touchUpInside)
         self.ellipsisButton.addTarget(self, action: #selector(didTapEllipsisButton), for: .touchUpInside)
     }
 }

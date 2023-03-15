@@ -50,6 +50,7 @@ final class MyPageViewController: UIViewController {
         
         // 선택된 ProfileId 변경 옵저버 추가 -> 변경시 nextpage = true feeddata 빈배열 currentPage = 1로 바꿔주기.
         NotificationCenter.default.addObserver(self, selector: #selector(changeProfileId), name: .changeProfileId, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didChangeFeed), name: .changeFeed, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -107,6 +108,14 @@ final class MyPageViewController: UIViewController {
         }
     }
     
+    @objc private func didChangeFeed(notification: Notification) {
+        guard let model = notification.object as? MypageTempModel else { return }
+        if let idx = self.MyPageFeedData.firstIndex(where: { $0.feedId == model.feedId }) {
+            self.MyPageFeedData[idx].feedContent = model.feedContent
+            self.myPageCollectionView.reloadItems(at: [IndexPath(item: idx, section: 0)])
+        }
+    }
+    
     // MARK: - configureNavigation
     private func configureNavigation() {
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor : UIColor.black]
@@ -157,6 +166,7 @@ extension MyPageViewController: UICollectionViewDataSource, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyPageCell.identifier, for: indexPath) as! MyPageCell
         cell.prepareForReuse()
+        cell.delegate = self
         cell.configureCell(self.MyPageFeedData[indexPath.row])
         
         return cell
@@ -219,5 +229,47 @@ extension MyPageViewController: CalendarHeaderDelegate {
             self?.MyPageFeedData = items
             self?.myPageCollectionView.reloadData()
         }
+    }
+}
+
+extension MyPageViewController: FeedDelegate {
+    func didClickEllipsisButton(id: Int) {
+        let actionSheet = ActionSheetViewController(title: "글 편집",
+                                                    firstImage: UIImage(named: "edit")?.withRenderingMode(.alwaysOriginal) ?? UIImage(),
+                                                    firstText: "수정",
+                                                    secondImage: UIImage(named: "delete")?.withRenderingMode(.alwaysOriginal) ?? UIImage(),
+                                                    secondText: "삭제")
+        actionSheet.id = id
+        actionSheet.delegate = self
+        actionSheet.modalPresentationStyle = .fullScreen
+        self.present(actionSheet, animated: false)
+    }
+}
+
+extension MyPageViewController: ActionSheetDelegate {
+    func didClickFirstItem(id: Int) {
+        MyPageService.fetchProfile(self.currentProfileId) { [weak self] item in
+            let postVC = UINavigationController(rootViewController: PostViewController(item, feedId: id))
+            postVC.modalPresentationStyle = .fullScreen
+            self?.present(postVC, animated: true)
+        }
+    }
+    
+    func didClickSecondItem(id: Int) {
+        let alert = StandardAlertController(title: "이 글을 정말로 삭제하시겠습니까?", message: nil)
+        alert.titleHighlight(highlightString: "삭제", color: .point)
+        let cancel = StandardAlertAction(title: "취소", style: .cancel)
+        let ok = StandardAlertAction(title: "삭제", style: .basic) { _ in
+            FeedService.deleteFeed(profileId: self.currentProfileId, feedId: id) {
+                if let idx = self.MyPageFeedData.firstIndex(where: { $0.feedId == id }) {
+                    self.MyPageFeedData.remove(at: idx)
+                    self.myPageCollectionView.reloadData()
+                }
+            }
+        }
+        alert.addAction(cancel)
+        alert.addAction(ok)
+        
+        self.present(alert, animated: false)
     }
 }

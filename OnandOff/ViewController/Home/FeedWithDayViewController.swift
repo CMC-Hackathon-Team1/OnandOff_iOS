@@ -31,6 +31,10 @@ final class FeedWithDayViewController: UIViewController {
         $0.register(FeedCellWithHome.self, forCellWithReuseIdentifier: FeedCellWithHome.identifier)
     }
     
+    private let ellipsisButton = UIButton(type: .system).then {
+        $0.setImage(UIImage(named: "ellipsis")?.withRenderingMode(.alwaysOriginal), for: .normal)
+    }
+    
     init(profile: ProfileItem, year: String, month: String, day: String) {
         self.profile = profile
         self.date = (year, month, day)
@@ -59,6 +63,9 @@ final class FeedWithDayViewController: UIViewController {
         self.feedCollectionView.dataSource = self
         
         self.backButton.addTarget(self, action: #selector(self.dismissVC), for: .touchUpInside)
+        self.ellipsisButton.addTarget(self, action: #selector(self.showAlert), for: .touchUpInside)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.changeFeed), name: .changeFeed, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -73,10 +80,31 @@ final class FeedWithDayViewController: UIViewController {
         self.dismiss(animated: true)
     }
     
+    @objc private func showAlert() {
+        let actionSheetVC = ActionSheetViewController(title: "글 편집",
+                                                      firstImage: UIImage(named: "edit")!,
+                                                      firstText: "수정",
+                                                      secondImage: UIImage(named: "delete")!,
+                                                      secondText: "삭제")
+        actionSheetVC.delegate = self
+        actionSheetVC.id = self.feedDatas[0].feedId
+        
+        self.present(actionSheetVC, animated: false)
+    }
+    
+    @objc private func changeFeed(notification: Notification) {
+        guard let model = notification.object as? MypageTempModel else { return }
+        self.feedDatas[0].feedContent = model.feedContent
+        self.feedDatas[0].hashTagList = model.hashTag
+        
+        self.feedCollectionView.reloadData()
+    }
+    
     //MARK: - AddSubView
     private func addSubView() {
         self.view.addSubview(self.frameView)
         
+        self.frameView.addSubview(self.ellipsisButton)
         self.frameView.addSubview(self.backButton)
         self.frameView.addSubview(self.feedCollectionView)
     }
@@ -94,8 +122,14 @@ final class FeedWithDayViewController: UIViewController {
             $0.width.height.equalTo(15)
         }
         
+        self.ellipsisButton.snp.makeConstraints {
+            $0.trailing.equalToSuperview().offset(-27)
+            $0.top.equalToSuperview().offset(20)
+            $0.width.height.equalTo(15)
+        }
+        
         self.feedCollectionView.snp.makeConstraints {
-            $0.top.equalTo(self.backButton.snp.bottom).offset(16)
+            $0.top.equalTo(self.backButton.snp.bottom).offset(14)
             $0.bottom.leading.trailing.equalToSuperview()
         }
     }
@@ -109,7 +143,6 @@ extension FeedWithDayViewController: UICollectionViewDelegate, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedCellWithHome.identifier, for: indexPath) as! FeedCellWithHome
         cell.prepareForReuse()
-        cell.delegate = self
         cell.configureCell(self.profile, item: self.feedDatas[indexPath.row])
         
         return cell
@@ -145,19 +178,6 @@ extension FeedWithDayViewController: UICollectionViewDelegate, UICollectionViewD
     }
 }
 
-extension FeedWithDayViewController: HomeFeedDelegate {
-    func didClickEllipsisButton(id: Int) {
-        let actionSheetVC = ActionSheetViewController(title: "글 편집",
-                                           firstImage: UIImage(named: "edit")!,
-                                           firstText: "수정",
-                                           secondImage: UIImage(named: "delete")!,
-                                           secondText: "삭제")
-        actionSheetVC.delegate = self
-        actionSheetVC.id = id
-        self.present(actionSheetVC, animated: false)
-    }
-}
-
 extension FeedWithDayViewController: ActionSheetDelegate {
     func didClickFirstItem(id: Int) { // 수정
         let postVC = UINavigationController(rootViewController: PostViewController(self.profile, feedId: id))
@@ -171,7 +191,7 @@ extension FeedWithDayViewController: ActionSheetDelegate {
         let cancel = StandardAlertAction(title: "취소", style: .cancel)
         let ok = StandardAlertAction(title: "삭제", style: .basic) { _ in
             FeedService.deleteFeed(profileId: self.profile.profileId, feedId: id) {
-                print("성공")
+                self.dismissVC()
             }
         }
         alert.addAction(cancel)

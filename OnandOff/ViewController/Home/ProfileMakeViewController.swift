@@ -12,10 +12,15 @@ final class ProfileMakeViewController: UIViewController {
     private var profileImage: UIImage?
     
     private let profileImageButton = UIButton().then {
-        $0.setImage(UIImage(named: "ProfileInsertPhoto")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        $0.setImage(UIImage(named: "defaultImage")?.withRenderingMode(.alwaysOriginal), for: .normal)
         $0.layer.cornerRadius = 47.5
         $0.contentMode = .scaleAspectFit
         $0.layer.masksToBounds = true
+    }
+    
+    private let photoInsertImageView = UIImageView().then {
+        $0.image = UIImage(named: "insertCamera")?.withRenderingMode(.alwaysOriginal)
+        $0.contentMode = .scaleAspectFit
     }
     
     private let personaComponent = TextFieldComponent(title: "페르소나").then {
@@ -75,6 +80,7 @@ final class ProfileMakeViewController: UIViewController {
         self.view.addSubview(self.introductionComponent)
         self.view.addSubview(self.personaWarningLabel)
         self.view.addSubview(self.nickNameWarningLabel)
+        self.view.addSubview(self.photoInsertImageView)
     }
     
     private func layout() {
@@ -83,6 +89,12 @@ final class ProfileMakeViewController: UIViewController {
             $0.height.equalTo(95)
             $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(70)
             $0.centerX.equalToSuperview()
+        }
+        
+        self.photoInsertImageView.snp.makeConstraints {
+            $0.width.height.equalTo(27)
+            $0.leading.equalTo(self.profileImageButton.snp.centerX).offset(20)
+            $0.bottom.equalTo(self.profileImageButton.snp.bottom)
         }
         
         self.personaComponent.snp.makeConstraints {

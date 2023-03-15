@@ -229,6 +229,8 @@ final class PostViewController: UIViewController {
                                hashTagList: hastag,
                                content: self.contentTextView.text!,
                                isSecret: isSecret) {
+            let model = MypageTempModel(feedContent: self.contentTextView.text!, feedId: self.feedId!, hashTag: hastag)
+            NotificationCenter.default.post(name: .changeFeed, object: model)
             self.dismiss(animated: true)
         }
     }

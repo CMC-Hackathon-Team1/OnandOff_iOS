@@ -482,8 +482,12 @@ extension HomeViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalend
     }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        let feedVC = FeedWithDayViewController(profile: self.selectedProfile!, year: date.getYear, month: date.getMonth, day: date.getDay)
-        self.present(feedVC, animated: true)
+        if self.calendarDatas.contains(where: { $0.day == date.getDay }) {
+            print("profileId: \(self.selectedProfile?.profileId)")
+            print("feed id\(self.calendarDatas[0].feedId)")
+            let feedVC = FeedWithDayViewController(profile: self.selectedProfile!, year: date.getYear, month: date.getMonth, day: date.getDay)
+            self.present(feedVC, animated: true)
+        }
     }
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {

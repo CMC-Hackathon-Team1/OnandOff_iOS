@@ -11,10 +11,10 @@ final class FeedCellWithHome: UICollectionViewCell {
     //MARK: - Properties
     static let identifier = "FeedCell"
     
-    weak var delegate: HomeFeedDelegate?
+    weak var delegate: FeedDelegate?
     
     let profileImageView = UIImageView().then {
-        $0.layer.cornerRadius = 21
+        $0.layer.cornerRadius = 24
         $0.backgroundColor = .lightGray
         $0.clipsToBounds = true
     }
@@ -50,10 +50,6 @@ final class FeedCellWithHome: UICollectionViewCell {
         $0.setImage(#imageLiteral(resourceName: "heart.fill"), for: .normal)
     }
     
-    let ellipsisButton = UIButton(type: .system).then {
-        $0.setImage(UIImage(named: "ellipsis")?.withRenderingMode(.alwaysOriginal), for: .normal)
-    }
-    
     private let likeCountLabel = UILabel().then {
         $0.font = .notoSans(size: 11, family: .Regular)
         $0.textColor = #colorLiteral(red: 0.5924945474, green: 0.5924944878, blue: 0.5924944282, alpha: 1)
@@ -67,7 +63,6 @@ final class FeedCellWithHome: UICollectionViewCell {
         self.configure()
         self.addSubView()
         self.layout()
-        self.addTarget()
     }
     
     required init?(coder: NSCoder) {
@@ -82,11 +77,11 @@ final class FeedCellWithHome: UICollectionViewCell {
     //MARK: - Configure
     private func configure() {
         self.backgroundColor = .white
-        self.layer.cornerRadius = 8
-        self.layer.shadowColor = UIColor.lightGray.cgColor
-        self.layer.shadowOffset = .init(width: 1, height: 1)
-        self.layer.shadowOpacity = 0.7
-        self.layer.position = self.center
+//        self.layer.cornerRadius = 8
+//        self.layer.shadowColor = UIColor.lightGray.cgColor
+//        self.layer.shadowOffset = .init(width: 1, height: 1)
+//        self.layer.shadowOpacity = 0.7
+//        self.layer.position = self.center
     }
     
     func configureCell(_ profileItem: ProfileItem, item: MyPageItem) {
@@ -97,7 +92,7 @@ final class FeedCellWithHome: UICollectionViewCell {
         self.dateLabel.text = self.convertDateFormat(item.createdAt)
         self.subLayout(item: item)
         self.imgPageView.setImageSlider(images: item.feedImgList)
-        self.ellipsisButton.tag = item.feedId
+        self.hastagLabel.text = item.hashTagList.joined(separator: "#")
     }
     
     override func prepareForReuse() {
@@ -140,7 +135,6 @@ final class FeedCellWithHome: UICollectionViewCell {
         self.addSubview(self.contentLabel)
         self.addSubview(self.nameLabel)
         self.addSubview(self.dateLabel)
-        self.addSubview(self.ellipsisButton)
         self.addSubview(self.imgPageView)
         self.addSubview(self.hastagLabel)
         self.addSubview(self.likeCountLabel)
@@ -152,7 +146,7 @@ final class FeedCellWithHome: UICollectionViewCell {
         self.profileImageView.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(20)
             $0.top.equalToSuperview().offset(20)
-            $0.width.height.equalTo(42)
+            $0.width.height.equalTo(48)
         }
         
         self.nameLabel.snp.makeConstraints {
@@ -171,21 +165,15 @@ final class FeedCellWithHome: UICollectionViewCell {
             $0.leading.equalToSuperview().offset(20)
         }
         
-        self.heartButton.snp.makeConstraints { make in
-            make.centerY.equalTo(self.profileImageView.snp.centerY)
-            make.trailing.equalTo(self.likeCountLabel.snp.leading).offset(-4.5)
-            make.width.height.equalTo(12)
-        }
-        
-        self.likeCountLabel.snp.makeConstraints { make in
-            make.centerY.equalTo(self.profileImageView.snp.centerY)
-            make.trailing.equalTo(self.ellipsisButton.snp.leading).offset(-16)
-        }
-        
-        self.ellipsisButton.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-15)
-            $0.width.height.equalTo(22)
+        self.heartButton.snp.makeConstraints {
             $0.centerY.equalTo(self.profileImageView.snp.centerY)
+            $0.trailing.equalToSuperview().offset(-25)
+            $0.width.height.equalTo(18)
+        }
+        
+        self.likeCountLabel.snp.makeConstraints {
+            $0.centerX.equalTo(self.heartButton.snp.centerX)
+            $0.top.equalTo(self.heartButton.snp.bottom).offset(2)
         }
         
         self.imgPageView.snp.remakeConstraints {
@@ -199,10 +187,5 @@ final class FeedCellWithHome: UICollectionViewCell {
             $0.leading.equalToSuperview().offset(20)
             $0.top.equalTo(self.profileImageView.snp.bottom).offset(20)
         }
-    }
-    
-    //MARK: - AddTarget
-    private func addTarget() {
-        self.ellipsisButton.addTarget(self, action: #selector(self.didClickEllipsisButton), for: .touchUpInside)
     }
 }

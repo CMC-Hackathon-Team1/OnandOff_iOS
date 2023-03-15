@@ -8,6 +8,6 @@
 import Foundation
 
 
-protocol HomeFeedDelegate: AnyObject {
+protocol FeedDelegate: AnyObject {
     func didClickEllipsisButton(id: Int)
 }

@@ -17,10 +17,17 @@ final class EditProfileViewController: UIViewController {
     private var oldIntroduction = ""
     private let profileId: Int
     private var isDefaultImage = false
+    
     private let profileImageButton = UIButton(type: .system).then {
-        $0.setImage(UIImage(named: "ProfileInsertPhoto")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        $0.setImage(UIImage(named: "defaultImage")?.withRenderingMode(.alwaysOriginal), for: .normal)
         $0.contentMode = .scaleAspectFit
+        $0.layer.cornerRadius = 95 / 2
         $0.layer.masksToBounds = true
+    }
+    
+    private let photoInsertImageView = UIImageView().then {
+        $0.image = UIImage(named: "insertCamera")?.withRenderingMode(.alwaysOriginal)
+        $0.contentMode = .scaleAspectFit
     }
     
     private let personaComponent = TextFieldComponent(title: "페르소나").then {
@@ -166,7 +173,8 @@ final class EditProfileViewController: UIViewController {
         self.view.addSubview(self.personaComponent)
         self.view.addSubview(self.nickNameComponent)
         self.view.addSubview(self.introductionComponent)
-        view.addSubview(changeButton)
+        self.view.addSubview(self.changeButton)
+        self.view.addSubview(self.photoInsertImageView)
     }
     
     private func configureNavigation() {
@@ -185,7 +193,11 @@ final class EditProfileViewController: UIViewController {
             $0.centerX.equalToSuperview()
         }
         
-        self.profileImageButton.layer.cornerRadius = 95 / 2
+        self.photoInsertImageView.snp.makeConstraints {
+            $0.width.height.equalTo(27)
+            $0.leading.equalTo(self.profileImageButton.snp.centerX).offset(20)
+            $0.bottom.equalTo(self.profileImageButton.snp.bottom)
+        }
         
         self.personaComponent.snp.makeConstraints {
             $0.top.equalTo(self.profileImageButton.snp.bottom).offset(85)

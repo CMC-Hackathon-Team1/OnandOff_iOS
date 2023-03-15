@@ -20,6 +20,7 @@ class FeedService {
                                      "hashTagList" : hasTagList,
                                      "content" : content,
                                      "isSecret" : isSecret]
+        
         let request = AF.upload(multipartFormData: { multipartFormData in
             for image in images {
                 if let imageData = image.jpegData(compressionQuality: 0.4) {
@@ -27,7 +28,12 @@ class FeedService {
                 }
             }
             for (key,value) in parameters {
-                multipartFormData.append("\(value)".data(using: .utf8)!, withName: key)
+                if key == "hasTagList" {
+                    let data = try! JSONSerialization.data(withJSONObject: value, options: [.withoutEscapingSlashes])
+                    multipartFormData.append(data, withName: key)
+                } else {
+                    multipartFormData.append("\(value)".data(using: .utf8)!, withName: key)
+                }
             }
         }, to: url, method: .post, headers: header)
         request.responseDecodable(of: DefaultModel.self) { res in

@@ -38,7 +38,7 @@
 		DB3B464729AB3CF8005F90C3 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B464629AB3CF8005F90C3 /* CategoryModel.swift */; };
 		DB3B601829BDB4D40087B04B /* FeedCellWithHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B601729BDB4D40087B04B /* FeedCellWithHome.swift */; };
 		DB3B601A29BDD8800087B04B /* ActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B601929BDD8800087B04B /* ActionSheetViewController.swift */; };
-		DB3B601C29BDDF940087B04B /* HomdFeedDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B601B29BDDF940087B04B /* HomdFeedDelegate.swift */; };
+		DB3B601C29BDDF940087B04B /* FeedDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B601B29BDDF940087B04B /* FeedDelegate.swift */; };
 		DB3DE7C629B60BC000A95218 /* MyPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3DE7C529B60BC000A95218 /* MyPageModel.swift */; };
 		DB3DE7C829B60C8700A95218 /* MyPageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3DE7C729B60C8700A95218 /* MyPageService.swift */; };
 		DB3DE7CA29B62A4D00A95218 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3DE7C929B62A4D00A95218 /* ProfileModel.swift */; };
@@ -147,7 +147,7 @@
 		DB3B464629AB3CF8005F90C3 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		DB3B601729BDB4D40087B04B /* FeedCellWithHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCellWithHome.swift; sourceTree = "<group>"; };
 		DB3B601929BDD8800087B04B /* ActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewController.swift; sourceTree = "<group>"; };
-		DB3B601B29BDDF940087B04B /* HomdFeedDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomdFeedDelegate.swift; sourceTree = "<group>"; };
+		DB3B601B29BDDF940087B04B /* FeedDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDelegate.swift; sourceTree = "<group>"; };
 		DB3DE7C529B60BC000A95218 /* MyPageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageModel.swift; sourceTree = "<group>"; };
 		DB3DE7C729B60C8700A95218 /* MyPageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageService.swift; sourceTree = "<group>"; };
 		DB3DE7C929B62A4D00A95218 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
@@ -290,7 +290,7 @@
 				DB58082729B722440095BEEF /* CalendarHeaderDelegate.swift */,
 				DB284A7B29B8E70C00630FCE /* ImageUploadDelegate.swift */,
 				DB7987A229BB8D7500E0CACC /* CategoryDelegate.swift */,
-				DB3B601B29BDDF940087B04B /* HomdFeedDelegate.swift */,
+				DB3B601B29BDDF940087B04B /* FeedDelegate.swift */,
 				DB61A71629BDE57B00D3CE06 /* ActionSheetDelegate.swift */,
 				DB3545F629C0A42600A6087E /* UnderLineTextFieldDelegate.swift */,
 			);
@@ -762,7 +762,7 @@
 				DB7BDC8A2961601200AA304B /* CustomTopTabbar.swift in Sources */,
 				E56E0EC4299349CE009FD906 /* PrivacyPolicyViewController.swift in Sources */,
 				DB5AFE122960173900667336 /* MyPageViewController.swift in Sources */,
-				DB3B601C29BDDF940087B04B /* HomdFeedDelegate.swift in Sources */,
+				DB3B601C29BDDF940087B04B /* FeedDelegate.swift in Sources */,
 				E56E0ED7299F0152009FD906 /* AlarmViewController.swift in Sources */,
 				DB000F00297011A50097D6C8 /* MyPageCell.swift in Sources */,
 				5DCAA34F299F9A63005090E5 /* EmailAuthViewController.swift in Sources */,

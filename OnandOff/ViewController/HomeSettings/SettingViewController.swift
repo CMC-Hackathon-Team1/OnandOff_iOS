@@ -9,8 +9,8 @@ import UIKit
 
 final class SettingViewController: UIViewController{
     //MARK: - Properties
-    let settingCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
-        $0.register(SettingCell.self, forCellWithReuseIdentifier: SettingCell.identifier)
+    private let settingTableView = UITableView().then {
+        $0.register(SettingCell.self, forCellReuseIdentifier: SettingCell.identifier)
     }
     
     var settingImageArray = [String]()
@@ -25,8 +25,8 @@ final class SettingViewController: UIViewController{
         
         self.view.backgroundColor = .white
         
-        self.settingCollectionView.delegate = self
-        self.settingCollectionView.dataSource = self
+        self.settingTableView.delegate = self
+        self.settingTableView.dataSource = self
         
         settingImageArray.append(contentsOf: ["UserCircle", "LockSimple", "alarmButton", "ChatCenteredDots", "ClipboardText", "WarningCircle", "SignOut"])
         settingLabelArray.append(contentsOf: ["계정", "개인정보 보호", "알림", "피드백/문의하기", "약관 및 정책", "버전", "로그아웃"])
@@ -40,14 +40,14 @@ final class SettingViewController: UIViewController{
     
     //MARK: - AddSubview
     private func setUpView(){
-        self.view.addSubview(self.settingCollectionView)
+        self.view.addSubview(self.settingTableView)
     }
     
     //MARK: - Selector
     
     //MARK: - Layout
     private func layout(){
-        self.settingCollectionView.snp.makeConstraints{
+        self.settingTableView.snp.makeConstraints{
             $0.top.equalToSuperview().offset(35)
             $0.leading.trailing.bottom.equalToSuperview()
         }
@@ -60,17 +60,13 @@ final class SettingViewController: UIViewController{
 }
 
 //MARK: - CollectionVIew
-extension SettingViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.settingLabelArray.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return settingImageArray.count
-    }
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SettingCell.identifier, for: indexPath) as! SettingCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: SettingCell.identifier, for: indexPath) as! SettingCell
         
         cell.settingImage.image = UIImage(named: "\(settingImageArray[indexPath.row])")?.withRenderingMode(.alwaysOriginal)
         cell.title.text = settingLabelArray[indexPath.row]
@@ -83,8 +79,7 @@ extension SettingViewController: UICollectionViewDelegate, UICollectionViewDataS
         
         return cell
     }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0{
             let accountVC = AccountSettingViewController()
             self.navigationController?.pushViewController(accountVC, animated: true)
@@ -116,22 +111,5 @@ extension SettingViewController: UICollectionViewDelegate, UICollectionViewDataS
             
             self.present(alert, animated: false)
         }
-
-        
-    }
-}
-        
-extension SettingViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: self.view.frame.width , height: 50)
-        
     }
 }

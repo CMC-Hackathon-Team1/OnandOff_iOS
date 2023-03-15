@@ -53,11 +53,7 @@ class PrivacyViewController: UIViewController{
         setUpView()
         layout()
         addTarget()
-        
-        self.navigationController?.navigationBar.isHidden = true;
         self.view.backgroundColor = .white
-
-        
     }
     
     //MARK: - AddSubview
@@ -69,10 +65,7 @@ class PrivacyViewController: UIViewController{
         self.view.addSubview(self.privateAccountLabel)
         self.view.addSubview(self.publicAccountCheck)
         self.view.addSubview(self.privateAccountCheck)
-
     }
-    
-
     
     //MARK: - Layout
     func layout(){
