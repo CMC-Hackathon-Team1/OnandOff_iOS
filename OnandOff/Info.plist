@@ -25,7 +25,7 @@
 	</array>
 	<key>GIDClientID</key>
 	<string>751634127071-vl4nnmic44tk880b9q1586v35l5itcml.apps.googleusercontent.com</string>
-	<key>LSApplicatioonQueriesSchemes</key>
+	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>kakaolink</string>
 		<string>kakaokompathauth</string>

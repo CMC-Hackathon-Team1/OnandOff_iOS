@@ -134,24 +134,21 @@ final class LoginViewController: UIViewController {
                 }
             }
         } else {
-            UserApi.shared.loginWithKakaoAccount(scopes: ["account_email"]) {(oauthToken, error) in
+            UserApi.shared.loginWithKakaoAccount() {(oauthToken, error) in
                 guard let oauthToken else { print(error!); return }
-                UserApi.shared.me() { _,_ in
-                    if let error { print(error); return }
-                    AuthService.kakaoLogin(oauthToken.accessToken) { res in
-                        switch res?.statusCode {
-                        case 100:
-                            guard let result = res?.result,
-                                  let jwt = result.jwt else { return }
-                            TokenService().create("https://dev.onnoff.shop/auth/login", account: "accessToken", value: jwt)
-                            self.dismiss(animated: true)
-                        case 400: print("body오류")
-                        case 500: self.showAlert(title: "이메일 정보를 포함해주세요.")
-                        case 1012: self.showAlert(title: "카카오 인증 정보가 유효하지 않습니다.\n다시 시도해주세요.")
-                        case 1102: self.showAlert(title: "다른 플랫폼으로 가입된 회원입니다.")
-                        default:
-                            print("기타 오류")
-                        }
+                AuthService.kakaoLogin(oauthToken.accessToken) { res in
+                    switch res?.statusCode {
+                    case 100:
+                        guard let result = res?.result,
+                              let jwt = result.jwt else { return }
+                        TokenService().create("https://dev.onnoff.shop/auth/login", account: "accessToken", value: jwt)
+                        self.dismiss(animated: true)
+                    case 400: print("body오류")
+                    case 500: self.showAlert(title: "이메일 정보를 포함해주세요.")
+                    case 1012: self.showAlert(title: "카카오 인증 정보가 유효하지 않습니다.\n다시 시도해주세요.")
+                    case 1102: self.showAlert(title: "다른 플랫폼으로 가입된 회원입니다.")
+                    default:
+                        print("기타 오류")
                     }
                 }
             }

@@ -9,13 +9,8 @@ target 'OnandOff' do
 	pod 'SnapKit', '~> 5.0.0'
 	pod 'Then'
 	pod 'FSCalendar'
-        pod 'KakaoSDK'
         pod 'GoogleSignIn'
-        post_install do |installer|
-            installer.pods_project.targets.each do |target|
-                target.build_configurations.each do |config|
-                    config.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'YES'
-                end
-            end
-       end
+       	pod 'KakaoSDKCommon'
+       	pod 'KakaoSDKAuth'
+       	pod 'KakaoSDKUser'
     end
