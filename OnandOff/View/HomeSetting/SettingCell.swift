@@ -18,6 +18,7 @@ final class SettingCell: UITableViewCell {
     
     var title = UILabel().then{
         $0.text = "설정 이름"
+        $0.textColor = .black
         $0.font = .notoSans(size: 14)
     }
     
@@ -30,6 +31,8 @@ final class SettingCell: UITableViewCell {
         self.setupView()
         self.setupLayout()
         self.addTarget()
+        
+        self.backgroundColor = .white
     }
     
     required init?(coder: NSCoder) {

@@ -19,6 +19,13 @@ final class TextFieldComponent: UIView {
         $0.font = .notoSans(size: 12, family: .Regular)
     }
     
+    var placeholder: String {
+        get { return self.placeholder }
+        set {
+            self.inputTextfield.attributedPlaceholder = NSAttributedString(string: newValue, attributes: [NSAttributedString.Key.foregroundColor : UIColor.text3])
+        }
+    }
+    
     private var lineLayer: CALayer?
     
     init(title: String) {

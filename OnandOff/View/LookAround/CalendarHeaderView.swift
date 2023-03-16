@@ -26,6 +26,8 @@ class CalendarHeaderView: UICollectionReusableView {
         
         self.calendarView.dataSource = self
         self.calendarView.delegate = self
+        
+        self.backgroundColor = .white
     }
     
     required init?(coder: NSCoder) {
@@ -106,8 +108,9 @@ extension CalendarHeaderView: FSCalendarDelegate, FSCalendarDataSource, FSCalend
     }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        if self.calendarDatas.contains(where: { $0.day == date.getDay }) {
-            NotificationCenter.default.post(name: .clcikDay, object: date)
+        if let idx = self.calendarDatas.firstIndex(where: { $0.day == date.getDay }) {
+            let feedId = self.calendarDatas[idx].feedId
+            NotificationCenter.default.post(name: .clickDay, object: feedId)
         }
     }
     

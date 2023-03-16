@@ -25,17 +25,17 @@ final class ProfileMakeViewController: UIViewController {
     
     private let personaComponent = TextFieldComponent(title: "페르소나").then {
         $0.inputTextfield.tag = 0
-        $0.inputTextfield.placeholder = "최대 4글자"
+        $0.placeholder = "최대 4글자"
     }
     
     private let nickNameComponent = TextFieldComponent(title: "닉네임").then {
         $0.inputTextfield.tag = 1
-        $0.inputTextfield.placeholder = "최대 8글자"
+        $0.placeholder = "최대 8글자"
     }
     
     private let introductionComponent = TextFieldComponent(title: "한줄소개").then {
         $0.inputTextfield.tag = 2
-        $0.inputTextfield.placeholder = "최대 30자까지 가능합니다."
+        $0.placeholder = "최대 30자까지 가능합니다."
     }
     
     private let personaWarningLabel = UILabel().then {
@@ -63,6 +63,7 @@ final class ProfileMakeViewController: UIViewController {
     private func configure() {
         self.navigationItem.title = "프로필 생성"
         self.navigationController?.navigationBar.isHidden = false
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "생성하기",
                                                                  style: .plain,
                                                                  target: self,

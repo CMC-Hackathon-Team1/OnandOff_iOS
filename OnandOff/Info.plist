@@ -15,8 +15,6 @@
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>kakaoae1a0ec9bf2a22467f3c77957ae9fffb</string>
@@ -27,8 +25,8 @@
 	<string>751634127071-vl4nnmic44tk880b9q1586v35l5itcml.apps.googleusercontent.com</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>kakaokompassauth</string>
 		<string>kakaolink</string>
-		<string>kakaokompathauth</string>
 	</array>
 	<key>UIAppFonts</key>
 	<array>

@@ -37,10 +37,12 @@ final class LookAroundViewController: UIViewController {
     
     private let explorationCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
         $0.register(FeedCell.self, forCellWithReuseIdentifier: FeedCell.identifier)
+        $0.backgroundColor = .white
     }
     
     private let followingCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
         $0.register(FeedCell.self, forCellWithReuseIdentifier: FeedCell.identifier)
+        $0.backgroundColor = .white
         $0.isHidden = true
     }
     
@@ -70,9 +72,9 @@ final class LookAroundViewController: UIViewController {
         self.searchBar.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(didSelectCategory), name: .selectCategory, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(didClickReportButton), name: .presentReportVC, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didChangeProfileId), name: .changeProfileId, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(toggleFollow), name: .clickFollow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(toggleHeart), name: .clickHeart, object: nil)
         
         self.currentProfileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
         self.fetchFeed(profileId: self.currentProfileId, text: nil)
@@ -82,7 +84,7 @@ final class LookAroundViewController: UIViewController {
     private func configureNavigation() {
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor : UIColor.black]
         self.navigationItem.backButtonTitle = ""
-        self.navigationItem.backBarButtonItem?.tintColor = . black
+        self.navigationController?.navigationBar.tintColor = .black
         
         self.navigationItem.titleView = self.searchBar
     }
@@ -201,12 +203,6 @@ final class LookAroundViewController: UIViewController {
         }
     }
     
-    @objc private func didClickReportButton(_ notification: Notification) {
-        guard let feedId = notification.object as? Int else { return }
-        let reportVC = ReportViewController(feedId)
-        self.navigationController?.pushViewController(reportVC, animated: false)
-    }
-    
     @objc private func didChangeProfileId() {
         self.currentProfileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
         self.fetchFeed(profileId: self.currentProfileId, text: self.searchBar.text, isReset: true)
@@ -225,6 +221,21 @@ final class LookAroundViewController: UIViewController {
             if v.profileId == toProfileId {
                 v.isFollowing = !v.isFollowing
                 self.followingCollectionView.reloadItems(at: [IndexPath(item: i, section: 0)])
+            }
+        }
+    }
+    
+    @objc private func toggleHeart(notification: Notification) {
+        guard let isLike = notification.userInfo?["isLike"] as? Bool else { return }
+        if let feedId = notification.object as? Int {
+            if let idx = self.followingDatas.firstIndex(where: {$0.feedId == feedId }) {
+                self.followingDatas[idx].isLike = isLike
+                self.followingCollectionView.reloadItems(at: [IndexPath(row: idx, section: 0)])
+            }
+            
+            if let idx = self.explorationDatas.firstIndex(where: {$0.feedId == feedId }) {
+                self.explorationDatas[idx].isLike = isLike
+                self.explorationCollectionView.reloadItems(at: [IndexPath(row: idx, section: 0)])
             }
         }
     }
@@ -354,33 +365,31 @@ extension LookAroundViewController: LookAroundDelegate {
     }
     
     func didClickHeart(_ feedId: Int) {
-        FeedService.toggleLike(profileId: self.currentProfileId, feedId: feedId) { [weak self] in
+        FeedService.toggleLike(profileId: self.currentProfileId, feedId: feedId) { [weak self] isLike in
             if let idx = self?.followingDatas.firstIndex(where: {$0.feedId == feedId }) {
-                guard let isLike = self?.followingDatas[idx].isLike else { return }
-                self?.followingDatas[idx].isLike = !isLike
+                self?.followingDatas[idx].isLike = isLike
                 self?.followingCollectionView.reloadItems(at: [IndexPath(row: idx, section: 0)])
             }
             
             if let idx = self?.explorationDatas.firstIndex(where: {$0.feedId == feedId }) {
-                guard let isLike = self?.explorationDatas[idx].isLike else { return }
-                self?.explorationDatas[idx].isLike = !isLike
+                self?.explorationDatas[idx].isLike = isLike
                 self?.explorationCollectionView.reloadItems(at: [IndexPath(row: idx, section: 0)])
             }
         }
     }
     
     func didClickFollow(_ toProfileId: Int) {
-        FeedService.togglefollow(fromProfileId: self.currentProfileId, toProfileId: toProfileId) { [weak self] in
+        FeedService.togglefollow(fromProfileId: self.currentProfileId, toProfileId: toProfileId) { [weak self] isFollow in
             self?.explorationDatas.enumerated().forEach { (i,v) in
                 if v.profileId == toProfileId {
-                    v.isFollowing = !v.isFollowing
+                    v.isFollowing = isFollow
                     self?.explorationCollectionView.reloadItems(at: [IndexPath(item: i, section: 0)])
                 }
             }
             
             self?.followingDatas.enumerated().forEach { (i,v) in
                 if v.profileId == toProfileId {
-                    v.isFollowing = !v.isFollowing
+                    v.isFollowing = isFollow
                     self?.followingCollectionView.reloadItems(at: [IndexPath(item: i, section: 0)])
                 }
             }
@@ -436,5 +445,12 @@ extension LookAroundViewController: UIScrollViewDelegate {
                 if isPaging == false && followingHasNextPage { self.paging() }
             }
         }
+    }
+}
+
+extension LookAroundViewController: ReportViewDelegate {
+    func presentReportViewController(_ feedId: Int) {
+        let reportVC = ReportViewController(feedId)
+        self.navigationController?.pushViewController(reportVC, animated: true)
     }
 }

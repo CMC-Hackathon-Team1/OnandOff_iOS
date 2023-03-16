@@ -19,14 +19,17 @@ final class AlarmViewCell: UICollectionViewCell {
         $0.text = "2.0 버전 업데이트 안내"
         $0.font = UIFont(name:"NotoSans-Bold", size: 14)
     }
+    
     var timeLabel = UILabel().then{
         $0.text = "4시간 전"
         $0.font = .notoSans(size: 12)
         $0.textColor = .systemGray4
     }
+    
     let arrow = UIImageView().then{
         $0.image = UIImage(named: "rightArrow")?.withRenderingMode(.alwaysOriginal)
     }
+    
     let line = UIView().then{
         $0.backgroundColor = UIColor.systemGray4
     }
@@ -37,6 +40,8 @@ final class AlarmViewCell: UICollectionViewCell {
         self.setupView()
         self.setupLayout()
         self.addTarget()
+        
+        self.backgroundColor = .white
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -88,6 +93,4 @@ final class AlarmViewCell: UICollectionViewCell {
     private func addTarget(){
         
     }
-    
-    
 }

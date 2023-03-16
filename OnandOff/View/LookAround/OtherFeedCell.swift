@@ -46,6 +46,8 @@ final class OtherFeedCell: UICollectionViewCell {
         self.addSubView()
         self.configureLayout()
         self.addTarget()
+        
+        self.backgroundColor = .white
     }
     
     required init?(coder: NSCoder) {

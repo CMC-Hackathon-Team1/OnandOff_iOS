@@ -112,9 +112,9 @@ final class LoginViewController: UIViewController {
     }
     
     @objc func didTapKakaoLoginButton() {
+        UserApi.isKakaoTalkLoginAvailable()
         if UserApi.isKakaoTalkLoginAvailable() {
             UserApi.shared.loginWithKakaoTalk() {(oauthToken, error) in
-                
                 guard let oauthToken else { print(error!); return }
                 
                 AuthService.kakaoLogin(oauthToken.accessToken) { res in
@@ -227,10 +227,10 @@ final class LoginViewController: UIViewController {
         }
         
         stackView.snp.makeConstraints {
-            $0.top.equalTo(view.snp.top).offset(582)
-            $0.left.equalTo(view.snp.left).offset(20)
-            $0.right.equalTo(view.snp.right).offset(-20)
-            $0.bottom.equalTo(view.snp.top).offset(800)
+            $0.height.equalTo(250)
+            $0.left.equalToSuperview().offset(20)
+            $0.right.equalToSuperview().offset(-20)
+            $0.bottom.equalToSuperview().offset(-60)
         }
     }
 }
@@ -242,6 +242,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             guard let idToken = credential.identityToken,
                   let tokenStr = String(data: idToken, encoding: .utf8) else { return }
             AuthService.appleLogin(tokenStr) { res in
+                print(tokenStr)
                 switch res?.statusCode {
                 case 100:
                     guard let result = res?.result,
@@ -253,6 +254,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                 case 1012: self.showAlert(title: "카카오 인증 정보가 유효하지 않습니다.\n다시 시도해주세요.")
                 case 1102: self.showAlert(title: "다른 플랫폼으로 가입된 회원입니다.")
                 default:
+                    print(res?.message)
                     print("기타 오류")
                 }
             }

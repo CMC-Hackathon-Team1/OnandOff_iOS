@@ -15,5 +15,5 @@ class CreateProfileModel: Codable {
 }
 
 class CreateProfileItem: Codable {
-    let profileId: Int
+    let profileId: Int?
 }

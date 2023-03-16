@@ -34,6 +34,8 @@ final class ProfileCell: UICollectionViewCell {
         self.setupView()
         self.layout()
         self.addTarget()
+        
+        self.backgroundColor = .white
     }
     
     required init?(coder: NSCoder) {
@@ -53,9 +55,6 @@ final class ProfileCell: UICollectionViewCell {
     }
     
     // MARK: - Selector
-//    @objc func didClickProfile(sender: UITapGestureRecognizer) {
-//        print("didClickProfile")
-//    }
     
     //MARK: - addSubView
     private func setupView(){

@@ -36,6 +36,14 @@ final class ReportViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
+    
+    init(feedIdWithPage: Int) {
+        self.feedId = feedIdWithPage
+        super.init(nibName: nil, bundle: nil)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "calendarleft")?.withRenderingMode(.alwaysOriginal),
+                                                                style: .plain, target: self, action: #selector(self.dismissVC))
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -48,6 +56,7 @@ final class ReportViewController: UIViewController {
 
         self.view.backgroundColor = .white
         self.navigationItem.title = "신고하기"
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
         
         self.reportTableView.delegate = self
         self.reportTableView.dataSource = self
@@ -82,10 +91,17 @@ final class ReportViewController: UIViewController {
         default: message = res.message
         }
         let alert = StandardAlertController(title: nil, message: message)
-        let ok = StandardAlertAction(title: "확인", style: .basic) { _ in self.navigationController?.popViewController(animated: true) }
+        let ok = StandardAlertAction(title: "확인", style: .basic) { _ in
+            self.dismiss(animated: true)
+            self.navigationController?.popViewController(animated: true)
+        }
         alert.addAction(ok)
         
         self.present(alert, animated: true)
+    }
+    
+    @objc private func dismissVC() {
+        self.dismiss(animated: true)
     }
     
     //MARK: - AddSubView

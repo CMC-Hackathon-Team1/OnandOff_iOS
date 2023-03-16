@@ -17,6 +17,7 @@ final class OtherProfileViewController: UIViewController {
     private lazy var profileView = ProfileView(toProfileId: self.profileId)
     
     private let feedCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
+        $0.backgroundColor = .white
         $0.register(CalendarHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CalendarHeaderView.identifier)
         $0.register(OtherFeedCell.self, forCellWithReuseIdentifier: OtherFeedCell.identifier)
     }
@@ -34,6 +35,10 @@ final class OtherProfileViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.addSubView()
@@ -43,9 +48,12 @@ final class OtherProfileViewController: UIViewController {
 
         self.navigationItem.title = "프로필"
         self.navigationController?.navigationBar.tintColor = .black
+        self.navigationItem.backButtonTitle = ""
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.presentFeed), name: .clcikDay, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.presentFeed), name: .clickDay, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.didChangeCurrentPage), name: .changeCurrentPage, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.toggleFollow), name: .clickFollow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.toggleHeart), name: .clickHeart, object: nil)
     }
     
     private func fetchFeed() {
@@ -62,10 +70,27 @@ final class OtherProfileViewController: UIViewController {
         }
     }
     
+    @objc private func toggleFollow(notification: Notification) {
+        let fromProfileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
+        FeedService.isFollowing(fromProfileId: fromProfileId, toProfileId: self.profileId) { isFollow in
+            self.profileView.isFollow = isFollow
+        }
+    }
+    
+    @objc private func toggleHeart(notification: Notification) {
+        guard let isLike = notification.userInfo?["isLike"] as? Bool else { return }
+        if let feedId = notification.object as? Int {
+            if let idx = self.feedDatas.firstIndex(where: {$0.feedId == feedId }) {
+                self.feedDatas[idx].isLike = isLike
+                self.feedCollectionView.reloadItems(at: [IndexPath(row: idx, section: 0)])
+            }
+        }
+    }
+    
     @objc private func presentFeed(notification: NSNotification) {
-        guard let date = notification.object as? Date else { return }
+        guard let feedId = notification.object as? Int else { return }
         MyPageService.fetchProfile(self.profileId) { item in
-            let feedVC = OtherFeedWithDayViewController(profile: item, year: date.getYear, month: date.getMonth, day: date.getDay)
+            let feedVC = OtherFeedWithDayViewController(profile: item, feedId: feedId)
             
             self.present(feedVC, animated: true)
         }
@@ -94,7 +119,8 @@ final class OtherProfileViewController: UIViewController {
         
         self.feedCollectionView.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview()
-            $0.top.equalTo(self.profileView.snp.bottom).offset(23)        }
+            $0.top.equalTo(self.profileView.snp.bottom).offset(23)
+        }
     }
 }
 
@@ -156,10 +182,11 @@ extension OtherProfileViewController: UICollectionViewDelegate, UICollectionView
 
 extension OtherProfileViewController: FeedDelegate {
     func didClickHeartButton(id: Int) {
-        FeedService.toggleLike(profileId: self.profileId, feedId: id) { [weak self] in
+        let myProfileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
+        FeedService.toggleLike(profileId: myProfileId, feedId: id) { [weak self] isLike in
             if let idx = self?.feedDatas.firstIndex(where: { $0.feedId == id }) {
-                guard let isLike = self?.feedDatas[idx].isLike else { return }
-                self?.feedDatas[idx].isLike = !isLike
+                NotificationCenter.default.post(name: .clickHeart, object: id, userInfo: ["isLike" : isLike])
+                self?.feedDatas[idx].isLike = isLike
                 self?.feedCollectionView.reloadItems(at: [IndexPath(row: idx, section: 0)])
             }
         }
@@ -168,10 +195,18 @@ extension OtherProfileViewController: FeedDelegate {
     func didClickEllipsisButton(id: Int) {
         _ = ReportActionSheet(id).then {
             self.view.addSubview($0)
+            $0.delegate = self
             $0.snp.makeConstraints { make in
                 make.top.leading.trailing.equalToSuperview()
                 make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
             }
         }
+    }
+}
+
+extension OtherProfileViewController: ReportViewDelegate {
+    func presentReportViewController(_ feedId: Int) {
+        let reportVC = ReportViewController(feedId)
+        self.navigationController?.pushViewController(reportVC, animated: true)
     }
 }

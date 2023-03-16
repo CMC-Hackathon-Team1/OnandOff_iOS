@@ -42,6 +42,8 @@ final class CalendarHeader: UIView {
         self.setToday()
         self.setTitleLabel()
         self.addTarget()
+        
+        self.backgroundColor = .white
     }
     
     required init?(coder: NSCoder) {
