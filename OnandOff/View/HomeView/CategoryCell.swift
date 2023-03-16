@@ -27,6 +27,8 @@ final class CategoryCell: UITableViewCell {
         self.addSubview(self.nameLabel)
         
         self.layout()
+        
+        self.backgroundColor = .white
     }
     
     required init?(coder: NSCoder) {

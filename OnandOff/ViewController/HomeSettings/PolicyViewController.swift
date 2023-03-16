@@ -13,6 +13,7 @@ final class PolicyViewController: UIViewController{
     private let tableViewDatas = ["서비스 이용 약관", "개인정보 처리방침"]
     
     private let tableView = UITableView().then {
+        $0.backgroundColor = .white
         $0.register(SettingCell.self, forCellReuseIdentifier: SettingCell.identifier)
     }
     

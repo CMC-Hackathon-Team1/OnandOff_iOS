@@ -9,6 +9,7 @@ import UIKit
 
 final class TermsOfUseViewController: UIViewController {
     let textView = UITextView().then {
+        $0.backgroundColor = .white
         $0.font = .notoSans(size: 16)
         $0.textColor = .black
     }

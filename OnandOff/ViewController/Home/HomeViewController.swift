@@ -37,6 +37,7 @@ final class HomeViewController: UIViewController {
     private let profileCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
         $0.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)
         $0.showsHorizontalScrollIndicator = false
+        $0.backgroundColor = .white
         if let layout = $0.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = .horizontal
         }
@@ -54,11 +55,13 @@ final class HomeViewController: UIViewController {
     
     private let nickNameLbl = UILabel().then {
         $0.font = .notoSans(size: 20, family: .Bold)
+        $0.textColor = .black
         $0.text = "직업 + 닉네임"
     }
     
     private let introduceLbl = UILabel().then {
         $0.font = .notoSans(size: 20, family: .Regular)
+        $0.textColor = .black
         $0.text = "오늘 당신의 하루를 공유해주세요 ✏️"
     }
     
@@ -94,6 +97,7 @@ final class HomeViewController: UIViewController {
     
     private let personaLabel = UILabel().then {
         $0.font = .notoSans(size: 18, family: .Bold)
+        $0.textColor = .black
         $0.text = "작가"
     }
     
@@ -139,10 +143,8 @@ final class HomeViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("ㅇㅇ")
         self.navigationController?.navigationBar.isHidden = true
         if self.checkUserLogin() {
-            
             ProfileService.getProfileModels { [weak self] res in
                 switch res.statusCode {
                 case 100:
@@ -346,12 +348,12 @@ final class HomeViewController: UIViewController {
         
         self.calendarRight.snp.makeConstraints{
             $0.top.equalToSuperview().offset(12)
-            $0.trailing.equalToSuperview().offset(-129)
+            $0.leading.equalTo(self.view.snp.centerX).offset(50)
         }
         
         self.calendarLeft.snp.makeConstraints{
             $0.top.equalToSuperview().offset(12)
-            $0.leading.equalToSuperview().offset(127)
+            $0.trailing.equalTo(self.view.snp.centerX).offset(-50)
         }
         
         view4.snp.makeConstraints {
@@ -420,10 +422,10 @@ final class HomeViewController: UIViewController {
     @objc private func logout() {
         AuthService.userLogOut() { response in
             if let response = response {
-                print(response.message)
                 switch response.statusCode {
                 case 100:
                     TokenService().delete("https://dev.onnoff.shop/auth/login", account: "accessToken") // JWT 삭제
+                    UserDefaults.standard.removeObject(forKey: "selectedProfileId")
                     let loginVC = UINavigationController(rootViewController: LoginViewController())
                     loginVC.modalPresentationStyle = .fullScreen
                     self.present(loginVC, animated: true)

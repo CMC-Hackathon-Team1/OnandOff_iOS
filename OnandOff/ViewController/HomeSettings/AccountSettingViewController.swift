@@ -11,16 +11,18 @@ import UIKit
 final class AccountSettingViewController: UIViewController{
     //MARK: - Properties
     private let emailFrameView = UIView().then{
-        $0.backgroundColor = .systemGray6
+        $0.backgroundColor = .text3
     }
     
     private let emailLabelTitle = UILabel().then{
         $0.text = "연동된 이메일"
+        $0.textColor = .black
         $0.font = UIFont(name:"NotoSans-Regular", size: 14)
     }
     
     private let userEmail = UILabel().then{
         $0.text = "hackathonerss@gmail.com"
+        $0.textColor = .black
         $0.font = UIFont(name:"NotoSans-Bold", size: 14)
     }
     
@@ -96,6 +98,7 @@ final class AccountSettingViewController: UIViewController{
             AuthService.withdrawalMember() { isSuccess in
                 if isSuccess {
                     TokenService().delete("https://dev.onnoff.shop/auth/login", account: "accessToken")
+                    UserDefaults.standard.removeObject(forKey: "selectedProfileId")
                     self.navigationController?.popToRootViewController(animated: false)
                 } else {
                     self.defaultAlert(title: "계정삭제에 실패하였습니다.\nhackathonerss@gmail.com으로 문의해주세요.")

@@ -30,6 +30,7 @@ final class ReportCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
+        self.backgroundColor = .white
         
         self.contentView.addSubview(self.checkImageView)
         self.contentView.addSubview(self.describtionLabel)
@@ -77,7 +78,5 @@ final class ReportCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
-    }
-
-    
+    }  
 }

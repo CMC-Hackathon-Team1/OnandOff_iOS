@@ -16,6 +16,7 @@ final class FeedbackViewController: UIViewController{
     
     private let mainLabel = UILabel().then{
         $0.text = "에게 궁금하거나 제안할 점이 있다면 이메일을 보내주세요."
+        $0.textColor = .black
         $0.font = .notoSans(size: 12)
     }
     

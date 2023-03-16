@@ -27,6 +27,7 @@ final class FeedWithDayViewController: UIViewController {
     }
     
     private let feedCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
+        $0.backgroundColor = .white
         $0.register(FeedCellWithHome.self, forCellWithReuseIdentifier: FeedCellWithHome.identifier)
     }
     

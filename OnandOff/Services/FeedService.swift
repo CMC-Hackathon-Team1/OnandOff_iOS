@@ -48,7 +48,6 @@ class FeedService {
     
     static func fetchFeed(_ profileId: Int, categoryId: Int, page: Int = 1, fResult: Bool = false, completion: @escaping ([FeedItem])->()) {
         let url = baseURL + "feeds/feedlist/\(profileId)?page=\(page)&categoryId=\(categoryId)&fResult=\(fResult)"
-        print(url)
         let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
         let request = AF.request(url, headers: header)
     
@@ -62,34 +61,61 @@ class FeedService {
         }
     }
     
-    static func toggleLike(profileId: Int, feedId: Int, completion: @escaping ()->()) {
-        let url = baseURL + "likes"
-        let parameter: Parameters = ["profileId" : profileId,
-                                     "feedId" : feedId ]
+    static func fetchOtherFeed(_ profileId: Int, feedId: Int, completion: @escaping (FeedInfo)->Void) {
+        let url = baseURL + "feeds/\(feedId)/profiles/\(profileId)"
         let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
-        let request = AF.request(url, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header)
-        request.responseString() { res in
+        let request = AF.request(url, headers: header)
+        
+        request.responseDecodable(of: FeedInfo.self) { res in
             switch res.result {
-            case .success(let str):
-                print(str)
-                completion()
+            case .success(let model):
+               completion(model)
             case .failure(let error):
                 print(error)
             }
         }
     }
     
-    static func togglefollow(fromProfileId: Int, toProfileId: Int, completion: @escaping ()->()) {
+    static func toggleLike(profileId: Int, feedId: Int, completion: @escaping (Bool)->()) {
+        let url = baseURL + "likes"
+        let parameter: Parameters = ["profileId" : profileId,
+                                     "feedId" : feedId ]
+        let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
+        let request = AF.request(url, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header)
+        
+        request.responseDecodable(of: DefaultModel.self) { res in
+            switch res.result {
+            case .success(let model):
+                if model.statusCode == 2000 {
+                    completion(true)
+                } else if model.statusCode == 2001 {
+                    completion(false)
+                } else {
+                    print(model.message)
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    static func togglefollow(fromProfileId: Int, toProfileId: Int, completion: @escaping (Bool)->()) {
         let url = baseURL + "follow"
         let parameter: Parameters = ["fromProfileId" : fromProfileId,
                                      "toProfileId" : toProfileId ]
         let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
         let request = AF.request(url, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header)
-        request.responseString() { res in
+        
+        request.responseDecodable(of: DefaultModel.self) { res in
             switch res.result {
-            case .success(let str):
-                print(str)
-                completion()
+            case .success(let model):
+                if model.statusCode == 2101 {
+                    completion(true)
+                } else if model.statusCode == 2102 {
+                    completion(false)
+                } else {
+                    print(model.message)
+                }
             case .failure(let error):
                 print(error)
             }
@@ -199,7 +225,7 @@ class FeedService {
     
     static func deleteFeed(profileId: Int, feedId: Int, completion: @escaping () -> Void) {
         let url = baseURL + "feeds/status"
-        var header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
+        let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
         let parameter: Parameters = ["profileId" : profileId,
                                      "feedId" : feedId]
         let request = AF.request(url, method: .patch, parameters: parameter, encoding: JSONEncoding.default, headers: header)
@@ -216,7 +242,7 @@ class FeedService {
     
     static func isFollowing(fromProfileId: Int, toProfileId: Int, completion: @escaping (Bool)->Void) {
         let url = baseURL + "follow/test"
-        var header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
+        let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
         let parameter: Parameters = ["fromProfileId" : fromProfileId,
                                      "toProfileId" : toProfileId]
         let request = AF.request(url, method: .post, parameters: parameter,headers: header)
@@ -224,7 +250,7 @@ class FeedService {
             switch res.result {
             case .success(let model):
                 print(model)
-                var isFollowing = model.message == "Follow" ? true : false
+                let isFollowing = model.message == "Follow" ? true : false
                 completion(isFollowing)
             case .failure(let error):
                 print(error)

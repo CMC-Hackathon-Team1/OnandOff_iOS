@@ -40,12 +40,21 @@ final class UserPrivacyViewController: UIViewController{
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
-        setUpView()
-        layout()
-        addTarget()
+//        setUpView()
+//        layout()
+//        addTarget()
         
         self.view.backgroundColor = .white
         self.title = "개인정보 보호"
+        
+        _ = UILabel().then {
+            $0.text = "추후 업데이트 예정입니다."
+            $0.textColor = .black
+            self.view.addSubview($0)
+            $0.snp.makeConstraints() { make in
+                make.centerY.centerX.equalToSuperview()
+            }
+        }
     }
     
     //MARK: - AddSubview

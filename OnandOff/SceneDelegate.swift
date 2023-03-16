@@ -28,7 +28,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         myPageVC.tabBarItem.image = UIImage(named: "user")
         
         let tabbar = UITabBarController().then {
-            $0.tabBar.backgroundColor = .white
+            let appearance = UITabBarAppearance()
+            appearance.backgroundColor = .white
+            $0.tabBar.standardAppearance = appearance
+            $0.tabBar.scrollEdgeAppearance = appearance
             $0.viewControllers = [homeVC, LookAroundVC, myPageVC]
             $0.tabBar.tintColor = .mainColor
             $0.tabBar.unselectedItemTintColor = .darkGray

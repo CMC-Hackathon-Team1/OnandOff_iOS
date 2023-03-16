@@ -89,8 +89,8 @@ final class ProfileView: UIView {
     
     @objc private func didClickFollow() {
         let fromProfileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
-        FeedService.togglefollow(fromProfileId: fromProfileId, toProfileId: self.toProfileId!) {
-            self.isFollow = !self.isFollow
+        FeedService.togglefollow(fromProfileId: fromProfileId, toProfileId: self.toProfileId!) { isFollow in
+            self.isFollow = isFollow
             NotificationCenter.default.post(name: .clickFollow, object: self.toProfileId!)
         }
     }

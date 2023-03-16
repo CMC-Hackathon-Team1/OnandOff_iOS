@@ -13,6 +13,7 @@ final class SettingViewController: UIViewController{
     var settingLabelArray = ["계정", "개인정보 보호", "알림", "피드백/문의하기", "약관 및 정책", "버전", "로그아웃"]
     
     private let settingTableView = UITableView().then {
+        $0.backgroundColor = .white
         $0.register(SettingCell.self, forCellReuseIdentifier: SettingCell.identifier)
     }
     
@@ -34,6 +35,12 @@ final class SettingViewController: UIViewController{
         self.navigationItem.title = "설정"
         self.navigationItem.backButtonTitle = ""
         self.navigationController?.navigationBar.isHidden = false
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = .white
+        appearance.titleTextAttributes = [.foregroundColor : UIColor.black]
+        self.navigationController?.navigationBar.standardAppearance = appearance
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
     //MARK: - AddSubview

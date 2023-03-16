@@ -10,9 +10,7 @@ import UIKit
 final class OtherFeedWithDayViewController: UIViewController {
     //MARK: - Properties
     private let profile: ProfileItem
-    private var profileImage: UIImage?
-    private let date: (year: String, month: String, day: String)
-    private var feedDatas: [MyPageItem] = []
+    private var feedDatas: [FeedInfo] = []
     
     private let frameView = UIView().then {
         $0.backgroundColor = .white
@@ -27,25 +25,21 @@ final class OtherFeedWithDayViewController: UIViewController {
     }
     
     private let feedCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
-        $0.register(FeedCellWithHome.self, forCellWithReuseIdentifier: FeedCellWithHome.identifier)
+        $0.register(OtherFeedCellWithDay.self, forCellWithReuseIdentifier: OtherFeedCellWithDay.identifier)
+        $0.backgroundColor = .white
     }
     
     private let ellipsisButton = UIButton(type: .system).then {
         $0.setImage(UIImage(named: "ellipsis")?.withRenderingMode(.alwaysOriginal), for: .normal)
     }
     
-    init(profile: ProfileItem, year: String, month: String, day: String) {
+    init(profile: ProfileItem, feedId: Int) {
         self.profile = profile
-        self.date = (year, month, day)
         super.init(nibName: nil, bundle: nil)
-        guard let url = URL(string: self.profile.profileImgUrl) else { return }
-        DispatchQueue.global().async {
-            do {
-                let data = try Data(contentsOf: url)
-                self.profileImage = UIImage(data: data)
-            } catch let error {
-                print(error)
-            }
+        let profileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
+        FeedService.fetchOtherFeed(profileId, feedId: feedId) { item in
+            self.feedDatas = [item]
+            self.feedCollectionView.reloadData()
         }
     }
     
@@ -63,16 +57,6 @@ final class OtherFeedWithDayViewController: UIViewController {
         
         self.backButton.addTarget(self, action: #selector(self.dismissVC), for: .touchUpInside)
         self.ellipsisButton.addTarget(self, action: #selector(self.showAlert), for: .touchUpInside)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.changeFeed), name: .changeFeed, object: nil)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        MyPageService.fetchFeedWithDate(self.profile.profileId, targetId: self.profile.profileId, year: date.year, month: date.month, day: date.day) { [weak self] items in
-            self?.feedDatas = items
-            self?.feedCollectionView.reloadData()
-        }
     }
     
     @objc private func dismissVC() {
@@ -82,29 +66,13 @@ final class OtherFeedWithDayViewController: UIViewController {
     @objc private func showAlert() {
         _ = ReportActionSheet(self.feedDatas[0].feedId).then {
             self.view.addSubview($0)
+            $0.delegate = self
             $0.snp.makeConstraints { make in
-                make.top.leading.trailing.equalToSuperview()
+                make.leading.trailing.equalToSuperview()
+                make.top.equalTo(self.frameView).offset(4)
                 make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
             }
         }
-    }
-    
-    @objc private func didClickReportButton(_ notification: Notification) {
-        guard let feedId = notification.object as? Int else { return }
-        let reportVC = ReportViewController(feedId)
-        self.navigationController?.pushViewController(reportVC, animated: false)
-    }
-    
-    deinit {
-        NotificationCenter.default.post(name: .didCloseFeedWithDayVC, object: nil)
-    }
-    
-    @objc private func changeFeed(notification: Notification) {
-        guard let model = notification.object as? MypageTempModel else { return }
-        self.feedDatas[0].feedContent = model.feedContent
-        self.feedDatas[0].hashTagList = model.hashTag
-        
-        self.feedCollectionView.reloadData()
     }
     
     //MARK: - AddSubView
@@ -148,9 +116,10 @@ extension OtherFeedWithDayViewController: UICollectionViewDelegate, UICollection
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedCellWithHome.identifier, for: indexPath) as! FeedCellWithHome
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OtherFeedCellWithDay.identifier, for: indexPath) as! OtherFeedCellWithDay
         cell.prepareForReuse()
-        cell.configureCell(self.profile, item: self.feedDatas[indexPath.row])
+        cell.delegate = self
+        cell.configureCell(item: self.feedDatas[indexPath.row])
         
         return cell
     }
@@ -182,5 +151,33 @@ extension OtherFeedWithDayViewController: UICollectionViewDelegate, UICollection
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: 2, height: 2)
+    }
+}
+
+extension OtherFeedWithDayViewController: ReportViewDelegate {
+    func presentReportViewController(_ feedId: Int) {
+        let reportVC = UINavigationController(rootViewController: ReportViewController(feedIdWithPage: feedId))
+        reportVC.modalPresentationStyle = .fullScreen
+        self.present(reportVC, animated: true)
+    }
+}
+
+extension OtherFeedWithDayViewController: FeedDelegate {
+    func didClickFollowButtonn(id: Int) {
+        let myProfileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
+        FeedService.togglefollow(fromProfileId: myProfileId, toProfileId: self.profile.profileId) { isFollow in
+            NotificationCenter.default.post(name: .clickFollow, object: self.profile.profileId)
+            self.feedDatas[0].isFollowing = isFollow
+            self.feedCollectionView.reloadData()
+        }
+    }
+    
+    func didClickHeartButton(id: Int) {
+        let myProfileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
+        FeedService.toggleLike(profileId: myProfileId, feedId: self.feedDatas[0].feedId) { isLike in
+            NotificationCenter.default.post(name: .clickHeart, object: self.feedDatas[0].feedId, userInfo: ["isLike" : isLike])
+            self.feedDatas[0].isLike = isLike
+            self.feedCollectionView.reloadData()
+        }
     }
 }

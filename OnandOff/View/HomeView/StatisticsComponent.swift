@@ -16,6 +16,7 @@ final class StatisticsComponent: UIView {
     
     let statisticLabel = UILabel().then {
         $0.contentMode = .top
+        $0.textColor = .black
         $0.font = .notoSans(size: 12, family: .Regular)
         $0.numberOfLines = 0
         $0.textAlignment = .center
@@ -26,6 +27,8 @@ final class StatisticsComponent: UIView {
         self.addSubview(self.imageIconLabel)
         self.addSubview(self.statisticLabel)
         self.layout()
+        
+        self.backgroundColor = .white
     }
     
     required init?(coder: NSCoder) {

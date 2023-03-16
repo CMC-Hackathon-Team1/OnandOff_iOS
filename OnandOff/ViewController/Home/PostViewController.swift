@@ -34,6 +34,7 @@ final class PostViewController: UIViewController {
     
     private let categoryLabel = UILabel().then {
         $0.textAlignment = .center
+        $0.textColor = .black
         $0.text = "카테고리"
         $0.font = .notoSans(size: 16, family: .Bold)
     }
@@ -48,6 +49,7 @@ final class PostViewController: UIViewController {
     
     private let hashtagTextfield = UITextField().then {
         $0.placeholder = "해시태그를 달아보세요. (ex: #에세이, #수필)"
+        $0.textColor = .black
         $0.font = .notoSans(size: 16)
     }
     
@@ -57,6 +59,7 @@ final class PostViewController: UIViewController {
     
     private let contentTextView = UITextView().then {
         $0.font = .notoSans(size:14)
+        $0.textColor = .black
         $0.backgroundColor = .white
     }
     
@@ -96,7 +99,6 @@ final class PostViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         self.isEditMode = true
         self.photoButton.isEnabled = false
-        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
         self.navigationItem.title = "글 수정하기"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "수정", style: .plain, target: self, action: #selector(self.didClickEditButton)).then {
             $0.tintColor = .mainColor
@@ -135,7 +137,7 @@ final class PostViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-        
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
         self.setUpView()
         self.layout()
         self.addTarget()

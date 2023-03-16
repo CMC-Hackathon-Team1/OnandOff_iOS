@@ -8,7 +8,7 @@
 import UIKit
 
 final class ReportActionSheet: UIView {
-    weak var delegate: LookAroundDelegate?
+    weak var delegate: ReportViewDelegate?
     private let feedId: Int
     
     private let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .regular)).then {
@@ -19,7 +19,8 @@ final class ReportActionSheet: UIView {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 10
         $0.layer.shadowOpacity = 1.0
-        $0.layer.shadowOffset = .zero
+        $0.layer.shadowRadius = 1
+        $0.layer.shadowOffset = .init(width: 0, height: -2)
         $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
     
@@ -83,7 +84,7 @@ final class ReportActionSheet: UIView {
     
     @objc private func didClickReportButton() {
         self.removeFromSuperview()
-        NotificationCenter.default.post(name: .presentReportVC, object: self.feedId)
+        delegate?.presentReportViewController(self.feedId)
     }
     
     //MARK: - AddSubView

@@ -60,6 +60,16 @@ class ProfileService {
             case .success(let model):
                 completion(model.statusCode)
             case .failure(let error):
+                print(error.localizedDescription)
+                print(error)
+            }
+        }
+        
+        request.responseString() { res in
+            switch res.result {
+            case .success(let str):
+                print(str)
+            case .failure(let error):
                 print(error)
             }
         }
