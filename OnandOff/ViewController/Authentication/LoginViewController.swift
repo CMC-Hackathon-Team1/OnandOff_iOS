@@ -254,7 +254,6 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                 case 1012: self.showAlert(title: "카카오 인증 정보가 유효하지 않습니다.\n다시 시도해주세요.")
                 case 1102: self.showAlert(title: "다른 플랫폼으로 가입된 회원입니다.")
                 default:
-                    print(res?.message)
                     print("기타 오류")
                 }
             }

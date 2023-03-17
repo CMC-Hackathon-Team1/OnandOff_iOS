@@ -61,6 +61,7 @@ final class ActionSheetViewController: UIViewController {
         self.firstButton.setImage(firstImage.withRenderingMode(.alwaysOriginal), for: .normal)
         self.secondButton.setTitle(secondText, for: .normal)
         self.secondButton.setImage(secondImage.withRenderingMode(.alwaysOriginal), for: .normal)
+        self.modalPresentationStyle = .overFullScreen
     }
     
     required init?(coder: NSCoder) {
@@ -72,8 +73,11 @@ final class ActionSheetViewController: UIViewController {
         self.addSubView()
         self.layout()
         self.addTarget()
-        
-        self.view.backgroundColor = .systemGray4
+        self.view.backgroundColor = .clear
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.dismiss(animated: false)
     }
     
     //MARK: - Selector

@@ -49,6 +49,7 @@ final class MyPageViewController: UIViewController {
         self.layout()
         self.configureNavigation()
         self.setRefreshControl()
+        self.setGesture()
         
         self.myPageCollectionView.dataSource = self
         self.myPageCollectionView.delegate = self
@@ -74,14 +75,23 @@ final class MyPageViewController: UIViewController {
             }
         }
     }
-    
+    // MARK: - Method
     private func setRefreshControl() {
         self.myPageCollectionView.refreshControl = UIRefreshControl().then {
             $0.addTarget(self, action: #selector(self.pullToRefresh(_:)), for: .valueChanged)
         }
     }
     
-    // MARK: - Method
+    private func setGesture() {
+        let leftSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(self.willChangeMonth))
+        leftSwipeGesture.direction = .left
+        self.view.addGestureRecognizer(leftSwipeGesture)
+        
+        let rightSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(self.willChangeMonth))
+        rightSwipeGesture.direction = .right
+        self.view.addGestureRecognizer(rightSwipeGesture)
+    }
+    
     private func paging() {
         self.isPaging = true
         self.currentPage += 1
@@ -94,6 +104,14 @@ final class MyPageViewController: UIViewController {
     }
     
     // MARK: - Selector
+    @objc private func willChangeMonth(_ gesutre: UISwipeGestureRecognizer) {
+        if gesutre.direction == .left {
+            self.calendarHeaderView.changeMonth(direction: 1) // 다음 달
+        } else {
+            self.calendarHeaderView.changeMonth(direction: 0) // 이전 달
+        }
+    }
+    
     @objc private func didClickEditButton(_ button: UIButton) {
         let controller = EditProfileViewController(self.currentProfileId)
         self.navigationController?.pushViewController(controller, animated: true)
@@ -257,7 +275,7 @@ extension MyPageViewController: FeedDelegate {
                                                     secondText: "삭제")
         actionSheet.id = id
         actionSheet.delegate = self
-        actionSheet.modalPresentationStyle = .fullScreen
+        
         self.present(actionSheet, animated: false)
     }
 }

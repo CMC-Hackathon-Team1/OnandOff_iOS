@@ -142,7 +142,6 @@ final class ProfileMakeViewController: UIViewController {
                                                       secondImage: UIImage(named: "camera")?.withRenderingMode(.alwaysOriginal) ?? UIImage(),
                                                       secondText: "촬영")
         actionSheetVC.delegatePhoto = self
-        actionSheetVC.modalPresentationStyle = .fullScreen
         
         self.present(actionSheetVC, animated: false)
     }

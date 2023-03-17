@@ -96,7 +96,6 @@ final class EditProfileViewController: UIViewController {
                                                       secondImage: UIImage(named: "searchfromalbum")?.withRenderingMode(.alwaysOriginal) ?? UIImage(),
                                                       secondText: "앨범에서 찾기")
         actionSheetVC.delegatePhoto = self
-        actionSheetVC.modalPresentationStyle = .fullScreen
         
         self.present(actionSheetVC, animated: false)
     }

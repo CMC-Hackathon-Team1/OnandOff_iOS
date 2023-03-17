@@ -64,7 +64,11 @@ final class CalendarHeader: UIView {
     
     //MARK: - Selector
     @objc private func willChangeMonth(_ button: UIButton) {
-        var newMonth = button.tag == 0 ? self.dateComponent.month! - 1 : self.dateComponent.month! + 1
+        self.changeMonth(direction: button.tag)
+    }
+    
+    func changeMonth(direction: Int) { // 0 = 이전 / 1 = 다음
+        var newMonth = direction == 0 ? self.dateComponent.month! - 1 : self.dateComponent.month! + 1
         var newYear = self.dateComponent.year!
         
         if newMonth < 1 {

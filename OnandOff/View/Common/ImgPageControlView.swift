@@ -9,7 +9,8 @@ import UIKit
 
 final class ImgPageControlView: UIView {
     private let scrollView = UIScrollView().then {
-        $0.isPagingEnabled = true
+        $0.isScrollEnabled = false
+        $0.isPagingEnabled = false
         $0.showsHorizontalScrollIndicator = false
     }
     
