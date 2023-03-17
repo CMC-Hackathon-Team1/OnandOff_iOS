@@ -951,7 +951,7 @@
 				DEVELOPMENT_TEAM = V2YNV9QV27;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OnandOff/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = OnandOff;
+				INFOPLIST_KEY_CFBundleDisplayName = "온앤오프";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow to use Camera";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow access to selec a photo";
@@ -991,7 +991,7 @@
 				DEVELOPMENT_TEAM = V2YNV9QV27;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OnandOff/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = OnandOff;
+				INFOPLIST_KEY_CFBundleDisplayName = "온앤오프";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow to use Camera";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow access to selec a photo";
