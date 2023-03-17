@@ -35,6 +35,7 @@ final class TextFieldComponent: UIView {
         self.addSubview(self.titleLabel)
         self.addSubview(self.inputTextfield)
         self.layout()
+        self.inputTextfield.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -74,3 +75,9 @@ final class TextFieldComponent: UIView {
     }
 }
 
+extension TextFieldComponent: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}

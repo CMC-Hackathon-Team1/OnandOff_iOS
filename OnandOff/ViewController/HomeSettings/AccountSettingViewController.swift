@@ -98,7 +98,7 @@ final class AccountSettingViewController: UIViewController{
             AuthService.withdrawalMember() { isSuccess in
                 if isSuccess {
                     TokenService().delete("https://dev.onnoff.shop/auth/login", account: "accessToken")
-                    UserDefaults.standard.removeObject(forKey: "selectedProfileId")
+                    UserDefaults.standard.set(-1, forKey: "selectedProfileId")
                     self.navigationController?.popToRootViewController(animated: false)
                 } else {
                     self.defaultAlert(title: "계정삭제에 실패하였습니다.\nhackathonerss@gmail.com으로 문의해주세요.")

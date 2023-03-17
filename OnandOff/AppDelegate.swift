@@ -18,7 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         KakaoSDK.initSDK(appKey: "ae1a0ec9bf2a22467f3c77957ae9fffb")
         
-        
         GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
             if error != nil || user == nil {
                 // Show the app's signed-out state.
@@ -28,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         self.registerForPushNotifications()
+        UNUserNotificationCenter.current().delegate = self
         
         return true
     }
@@ -89,3 +89,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 }
 
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        print("테스트트트트ㅡ트트트으으ㅡㅇ으ㅡ으음으으응")
+        let content = notification.request.content
+        print("title: \(content.title)")
+        print("body: \(content.body)")
+//        print("")
+        completionHandler([.badge , .banner, .sound])
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        print("이잉민이미ㅏㅇㅁ나이머나어미너이ㅏㅁ너임너ㅏㅣㅇㅁ너ㅣㅇㅁ니ㅓ")
+    }
+}

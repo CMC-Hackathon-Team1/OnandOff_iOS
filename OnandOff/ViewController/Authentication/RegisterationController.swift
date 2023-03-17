@@ -44,6 +44,10 @@ final class RegisterationController: UIViewController {
         self.navigationItem.backButtonTitle = ""
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     // MARK: - Actions
     @objc func handleRegister() {
         guard let email = emailTextFieldView.getText else { return }

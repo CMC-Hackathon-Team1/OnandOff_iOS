@@ -48,7 +48,8 @@ final class PostViewController: UIViewController {
     }
     
     private let hashtagTextfield = UITextField().then {
-        $0.placeholder = "해시태그를 달아보세요. (ex: #에세이, #수필)"
+        $0.attributedPlaceholder = NSAttributedString(string: "해시태그를 달아보세요. (ex: #에세이, #수필)",
+                                                      attributes: [.foregroundColor : UIColor.text3])
         $0.textColor = .black
         $0.font = .notoSans(size: 16)
     }
@@ -59,7 +60,7 @@ final class PostViewController: UIViewController {
     
     private let contentTextView = UITextView().then {
         $0.font = .notoSans(size:14)
-        $0.textColor = .black
+        $0.textColor = .text3
         $0.backgroundColor = .white
     }
     
@@ -69,10 +70,12 @@ final class PostViewController: UIViewController {
     
     private let anonymousCheckButton = UIButton().then {
         $0.setImage(UIImage(named: "anonymousCheckOff")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        $0.contentMode = .scaleAspectFit
     }
     
     private let anonymousLabel = UILabel().then {
         $0.textAlignment = .center
+        $0.textColor = .black
         $0.text = "비공개"
         $0.font = .notoSans(size: 14)
     }
@@ -88,7 +91,7 @@ final class PostViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "작성", style: .plain, target: self, action: #selector(self.didClickSubmit)).then {
             $0.tintColor = .mainColor
         }
-        self.contentTextView.textColor = .placeholderText
+        self.contentTextView.textColor = .text3
         self.contentTextView.text = "\(self.selectedProfileItem.profileName + self.selectedProfileItem.personaName)님의 하루를 기록하고 공유해주세요."
     }
     
@@ -131,6 +134,10 @@ final class PostViewController: UIViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
     //MARK: - LifeCycle
@@ -239,11 +246,15 @@ final class PostViewController: UIViewController {
     }
     
     @objc func didClickPhoto(sender: UITapGestureRecognizer) {
-        let imageUploadVC = ImageUploadViewController()
-        imageUploadVC.modalPresentationStyle = .fullScreen
-        imageUploadVC.delegate = self
+        let actionSheetVC = ActionSheetViewController(title: "프로필 사진 업로드",
+                                                      firstImage: UIImage(named: "searchfromalbum")?.withRenderingMode(.alwaysOriginal) ?? UIImage(),
+                                                      firstText: "앨범에서 찾기",
+                                                      secondImage: UIImage(named: "camera")?.withRenderingMode(.alwaysOriginal) ?? UIImage(),
+                                                      secondText: "촬영")
+        actionSheetVC.delegatePhoto = self
+        actionSheetVC.modalPresentationStyle = .fullScreen
         
-        self.present(imageUploadVC, animated: false)
+        self.present(actionSheetVC, animated: false)
     }
     
     @objc func didClickCategory(sender: UITapGestureRecognizer) {
@@ -345,10 +356,11 @@ final class PostViewController: UIViewController {
         self.anonymousCheckButton.snp.makeConstraints{
             $0.bottom.equalTo(self.view.safeAreaLayoutGuide)
             $0.leading.equalToSuperview().offset(20)
+            $0.width.height.equalTo(30)
         }
         
         self.anonymousLabel.snp.makeConstraints{
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide)
+            $0.centerY.equalTo(self.anonymousCheckButton.snp.centerY)
             $0.leading.equalTo(self.anonymousCheckButton.snp.trailing).offset(10)
         }
     }
@@ -365,35 +377,25 @@ final class PostViewController: UIViewController {
 
 extension PostViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        guard textView.textColor == .placeholderText else { return }
-        textView.textColor = .label
+        guard textView.textColor == .text3 else { return }
+        textView.textColor = .black
         textView.text = nil
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
             textView.text = "\(self.selectedProfileItem.profileName + self.selectedProfileItem.personaName)님의 하루를 기록하고 공유해주세요."
-            textView.textColor = .placeholderText
+            textView.textColor = .text3
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
 
 //MARK: - ImageUploadDelegate
-extension PostViewController: ImageUploadDelegate {
-    func didClickFindAlbumButton() {
-        var configuration = PHPickerConfiguration()
-        configuration.selectionLimit = 1
-        configuration.filter = .images
-        let photoPickerVC = PHPickerViewController(configuration: configuration)
-        photoPickerVC.delegate = self
-        self.present(photoPickerVC, animated: true)
-    }
-    
-    func didClickSecondMenu() {
-        print("")
-    }
-}
-
 extension PostViewController: CategoryDelegate {
     func selectedCategory(_ categoryId: Int) {
         self.selectedCategoryId = categoryId
@@ -420,5 +422,44 @@ extension PostViewController: PHPickerViewControllerDelegate {
                 }
             }
         }
+    }
+}
+
+extension PostViewController: ActionSheetPhotoDelegate {
+    func didClickFirstItem() {
+        var configuration = PHPickerConfiguration()
+        configuration.selectionLimit = 1
+        configuration.filter = .images
+        let photoPickerVC = PHPickerViewController(configuration: configuration)
+        photoPickerVC.delegate = self
+        self.present(photoPickerVC, animated: true)
+    }
+    
+    func didClickSecondItem() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .camera
+        imagePicker.cameraDevice = .front
+        imagePicker.cameraCaptureMode = .photo
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        
+        present(imagePicker, animated: true)
+    }
+}
+
+extension PostViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        var selectedImage: UIImage?
+        if let img = info[.originalImage] as? UIImage { selectedImage = img }
+        if let img = info[.editedImage] as? UIImage { selectedImage = img }
+        guard let selectedImage else { return }
+        self.selectedImages = [selectedImage]
+        self.photoButton.setImage(selectedImage.withRenderingMode(.alwaysOriginal), for: .normal)
+        
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: true)
     }
 }

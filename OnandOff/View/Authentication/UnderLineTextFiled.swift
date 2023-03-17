@@ -59,6 +59,7 @@ final class UnderLineTextField: UIView {
         self.addSubView()
         self.layout()
         self.addTarget()
+        self.textField.delegate = self
         
         if type == .password {
             self.textField.isSecureTextEntry = true
@@ -77,6 +78,7 @@ final class UnderLineTextField: UIView {
         self.addSubview(self.guideLabel)
         self.layoutWithGuide()
         self.addTarget()
+        self.textField.delegate = self
         
         if type == .password {
             self.textField.isSecureTextEntry = true
@@ -162,5 +164,13 @@ final class UnderLineTextField: UIView {
     
     private func addTarget() {
         self.textField.addTarget(self, action: #selector(self.didChangeText), for: .editingChanged)
+    }
+}
+
+
+extension UnderLineTextField: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }

@@ -108,7 +108,6 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             let alert = StandardAlertController(title: "로그아웃 하시겠습니까?", message: nil)
             let cancel = StandardAlertAction(title: "취소", style: .cancel)
             let logout = StandardAlertAction(title: "로그아웃", style: .basic) { _ in
-                self.navigationController?.popViewController(animated: false)
                 NotificationCenter.default.post(name: .presentLoginVC, object: nil)
             }
             alert.addAction(cancel)

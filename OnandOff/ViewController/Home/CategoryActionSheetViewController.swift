@@ -29,6 +29,7 @@ final class CategoryActionSheetViewController: UIViewController {
     
     private let categoryTableView = UITableView().then {
         $0.register(CategoryCell.self, forCellReuseIdentifier: CategoryCell.identifier)
+        $0.backgroundColor = .white
     }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {

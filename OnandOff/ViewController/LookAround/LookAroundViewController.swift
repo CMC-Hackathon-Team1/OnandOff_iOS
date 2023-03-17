@@ -53,6 +53,10 @@ final class LookAroundViewController: UIViewController {
         $0.isHidden = false
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -454,3 +458,11 @@ extension LookAroundViewController: ReportViewDelegate {
         self.navigationController?.pushViewController(reportVC, animated: true)
     }
 }
+
+extension LookAroundViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}
+

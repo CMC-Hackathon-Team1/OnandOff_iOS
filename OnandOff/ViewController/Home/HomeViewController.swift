@@ -17,13 +17,14 @@ final class HomeViewController: UIViewController {
     
     private var selectedProfile: ProfileItem? {
         didSet {
-            self.nickNameLbl.text = self.selectedProfile!.personaName + " " + self.selectedProfile!.profileName
-            self.personaLabel.text = "\(self.selectedProfile!.personaName)님,"
+            guard let newValue = selectedProfile else { return }
+            self.nickNameLbl.text = newValue.personaName + " " + newValue.profileName
+            self.personaLabel.text = "\(newValue.personaName)님,"
             
             self.fetchStatistic()
             self.updateCalendar()
             
-            UserDefaults.standard.set(self.selectedProfile!.profileId, forKey: "selectedProfileId")
+            UserDefaults.standard.set(newValue.profileId, forKey: "selectedProfileId")
             NotificationCenter.default.post(name: .changeProfileId, object: nil)
         }
     }
@@ -146,12 +147,13 @@ final class HomeViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
         if self.checkUserLogin() {
             ProfileService.getProfileModels { [weak self] res in
+                self?.profileImageDatas = []
+                self?.personaDatas = []
                 switch res.statusCode {
                 case 100:
                     guard let items = res.result else { return }
                     let profileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
                     var profile: ProfileItem?
-                    self?.profileImageDatas = []
                     self?.personaDatas = items
                     DispatchQueue.global().async {
                         for item in items {
@@ -165,7 +167,7 @@ final class HomeViewController: UIViewController {
                             }
                         }
                         DispatchQueue.main.async {
-                            if profileId == -1 { self?.selectedProfile = items[0] }
+                            if profileId == -1 { self?.selectedProfile = nil }
                             if let profile { self?.selectedProfile = profile }
                             if self?.selectedProfile == nil { self?.selectedProfile = items[0] }
                             self?.profileCollectionView.reloadData()
@@ -425,7 +427,8 @@ final class HomeViewController: UIViewController {
                 switch response.statusCode {
                 case 100:
                     TokenService().delete("https://dev.onnoff.shop/auth/login", account: "accessToken") // JWT 삭제
-                    UserDefaults.standard.removeObject(forKey: "selectedProfileId")
+                    UserDefaults.standard.set(-1, forKey: "selectedProfileId")
+                    self.navigationController?.popToRootViewController(animated: true)
                     let loginVC = UINavigationController(rootViewController: LoginViewController())
                     loginVC.modalPresentationStyle = .fullScreen
                     self.present(loginVC, animated: true)

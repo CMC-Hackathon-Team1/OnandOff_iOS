@@ -43,11 +43,17 @@ final class FeedbackViewController: UIViewController{
         $0.titleLabel?.font = .notoSans(size: 16, family: .Bold)
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     //MARK: - LifeCycle
     override func viewDidLoad() {
         self.setUpView()
         self.layout()
         self.addTarget()
+        
+        self.textView.delegate = self
         
         self.view.backgroundColor = .white
         self.title = "피드백/문의하기"
@@ -127,5 +133,12 @@ extension FeedbackViewController: UITextViewDelegate {
             textView.text = "(최대 400자까지 작성할 수 있습니다.)"
             textView.textColor = .placeholderText
         }
+    }
+}
+
+extension FeedbackViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
