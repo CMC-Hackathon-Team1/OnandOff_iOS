@@ -951,6 +951,8 @@
 				DEVELOPMENT_TEAM = V2YNV9QV27;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OnandOff/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = OnandOff;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow to use Camera";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow access to selec a photo";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "프로필 사진 업로드를 위해 앨범에 접근합니다.";
@@ -989,6 +991,8 @@
 				DEVELOPMENT_TEAM = V2YNV9QV27;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OnandOff/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = OnandOff;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow to use Camera";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow access to selec a photo";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "프로필 사진 업로드를 위해 앨범에 접근합니다.";
