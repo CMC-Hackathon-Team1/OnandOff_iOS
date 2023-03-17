@@ -9,7 +9,11 @@ import UIKit
 
 final class MyPageViewController: UIViewController {
     // MARK: - Properties
-    private var MyPageFeedData: [MyPageItem] = []
+    private var MyPageFeedData: [MyPageItem] = [] {
+        didSet {
+            self.guideLabel.isHidden = !self.MyPageFeedData.isEmpty
+        }
+    }
     private var hasNextPage: Bool = true
     private var isPaging: Bool = false
     private var currentPage: Int = 1
@@ -19,6 +23,13 @@ final class MyPageViewController: UIViewController {
             self.hasNextPage = true
             self.currentPage = 1
         }
+    }
+    
+    private let guideLabel = UILabel().then {
+        $0.textColor = .text3
+        $0.font = .notoSans(size: 16)
+        $0.text = "게시글이 존재하지 않습니다."
+        $0.isHidden = true
     }
     
     private let profileView = ProfileView()
@@ -134,6 +145,7 @@ final class MyPageViewController: UIViewController {
         self.view.addSubview(self.profileView)
         self.view.addSubview(self.calendarHeaderView)
         self.view.addSubview(self.myPageCollectionView)
+        self.view.addSubview(self.guideLabel)
     }
     
     // MARK: - Layout
@@ -154,6 +166,10 @@ final class MyPageViewController: UIViewController {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(self.calendarHeaderView.snp.bottom).offset(17)
             $0.bottom.equalToSuperview()
+        }
+        
+        self.guideLabel.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
         }
     }
 }
