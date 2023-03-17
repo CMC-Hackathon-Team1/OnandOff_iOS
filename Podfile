@@ -13,4 +13,5 @@ target 'OnandOff' do
        	pod 'KakaoSDKCommon'
        	pod 'KakaoSDKAuth'
        	pod 'KakaoSDKUser'
+	pod 'Firebase/Messaging'
     end

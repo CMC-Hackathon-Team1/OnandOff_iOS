@@ -51,6 +51,7 @@
 		DB3EB8BE299E384400434666 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3EB8BD299E384400434666 /* ReportViewController.swift */; };
 		DB3EB8C0299E3B1600434666 /* ReportType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3EB8BF299E3B1600434666 /* ReportType.swift */; };
 		DB3EB8C2299E414200434666 /* ReportCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3EB8C1299E414200434666 /* ReportCell.swift */; };
+		DB4FACF129C4A1CC004E51C2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DB4FACF029C4A1CC004E51C2 /* GoogleService-Info.plist */; };
 		DB58082529B70C5F0095BEEF /* CalendarHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB58082429B70C5F0095BEEF /* CalendarHeader.swift */; };
 		DB58082829B722440095BEEF /* CalendarHeaderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB58082729B722440095BEEF /* CalendarHeaderDelegate.swift */; };
 		DB58082A29B729100095BEEF /* TextFieldComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB58082929B729100095BEEF /* TextFieldComponent.swift */; };
@@ -159,6 +160,7 @@
 		DB3EB8BD299E384400434666 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
 		DB3EB8BF299E3B1600434666 /* ReportType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportType.swift; sourceTree = "<group>"; };
 		DB3EB8C1299E414200434666 /* ReportCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCell.swift; sourceTree = "<group>"; };
+		DB4FACF029C4A1CC004E51C2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DB58082429B70C5F0095BEEF /* CalendarHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHeader.swift; sourceTree = "<group>"; };
 		DB58082729B722440095BEEF /* CalendarHeaderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarHeaderDelegate.swift; sourceTree = "<group>"; };
 		DB58082929B729100095BEEF /* TextFieldComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldComponent.swift; sourceTree = "<group>"; };
@@ -340,6 +342,7 @@
 				DB5AFDE22960052D00667336 /* SceneDelegate.swift */,
 				DB5AFDEB2960053100667336 /* LaunchScreen.storyboard */,
 				DB5AFDEE2960053100667336 /* Info.plist */,
+				DB4FACF029C4A1CC004E51C2 /* GoogleService-Info.plist */,
 			);
 			path = OnandOff;
 			sourceTree = "<group>";
@@ -607,6 +610,8 @@
 			dependencies = (
 			);
 			name = OnandOff;
+			packageProductDependencies = (
+			);
 			productName = OnandOff;
 			productReference = DB5AFDDD2960052D00667336 /* OnandOff.app */;
 			productType = "com.apple.product-type.application";
@@ -635,6 +640,8 @@
 				Base,
 			);
 			mainGroup = DB5AFDD42960052D00667336;
+			packageReferences = (
+			);
 			productRefGroup = DB5AFDDE2960052D00667336 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -651,6 +658,7 @@
 			files = (
 				DB5AFE062960130C00667336 /* NotoSans-Bold.ttf in Resources */,
 				DB5AFE052960130900667336 /* NotoSans-Regular.ttf in Resources */,
+				DB4FACF129C4A1CC004E51C2 /* GoogleService-Info.plist in Resources */,
 				DB5AFDED2960053100667336 /* LaunchScreen.storyboard in Resources */,
 				DB5AFDEA2960053100667336 /* Assets.xcassets in Resources */,
 			);
@@ -949,9 +957,9 @@
 				INFOPLIST_FILE = OnandOff/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "온앤오프";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
-				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow to use Camera";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow access to selec a photo";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "프로필 사진 업로드를 위해 앨범에 접근합니다.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "프로필 사진 및 게시글 이미지 촬영을 위해 카메라에 접근합니다.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "프로필 사진 및 게시글 이미지 업로드를 위해 앨범에 접근합니다.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "프로필 사진 및 게시글 이미지 업로드를 위해 앨범에 접근합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -989,9 +997,9 @@
 				INFOPLIST_FILE = OnandOff/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "온앤오프";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
-				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow to use Camera";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Please allow access to selec a photo";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "프로필 사진 업로드를 위해 앨범에 접근합니다.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "프로필 사진 및 게시글 이미지 촬영을 위해 카메라에 접근합니다.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "프로필 사진 및 게시글 이미지 업로드를 위해 앨범에 접근합니다.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "프로필 사진 및 게시글 이미지 업로드를 위해 앨범에 접근합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

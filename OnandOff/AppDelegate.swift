@@ -10,6 +10,8 @@ import KakaoSDKCommon
 import AuthenticationServices
 import GoogleSignIn
 import UserNotifications
+import Firebase
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -27,8 +29,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         self.registerForPushNotifications()
-        UNUserNotificationCenter.current().delegate = self
         
+        FirebaseApp.configure()
+        UNUserNotificationCenter.current().delegate = self
+        Messaging.messaging().delegate = self
+
         return true
     }
     
@@ -57,13 +62,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     //MARK: - RemotePushNotification
     func registerForPushNotifications() {
-        // 1 - UNUserNotificationCenter는 푸시 알림을 포함하여 앱의 모든 알림 관련 활동을 처리합니다.
-        UNUserNotificationCenter.current()
-        // 2 -알림을 표시하기 위한 승인을 요청합니다. 전달된 옵션은 앱에서 사용하려는 알림 유형을 나타냅니다. 여기에서 알림(alert), 소리(sound) 및 배지(badge)를 요청합니다.
-            .requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
                 print("Permission granted: \(granted)")
-                guard granted else { return }
-                            self.getNotificationSettings()
+                self.getNotificationSettings()
             }
     }
     
@@ -78,28 +79,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
-        let token = tokenParts.joined()
-        UserDefaults.standard.set(token, forKey: "DeviceToken")
-        print("Device Token: \(token)")
+        print("디바이스 토큰 정상 발급 완료")
+        Messaging.messaging().apnsToken = deviceToken
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("Failed to register: \(error)")
+        print("Failed to register(deviceToken): \(error)")
     }
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
+    // 포그라운드에서 받았을 때
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        print("테스트트트트ㅡ트트트으으ㅡㅇ으ㅡ으음으으응")
         let content = notification.request.content
         print("title: \(content.title)")
         print("body: \(content.body)")
-//        print("")
         completionHandler([.badge , .banner, .sound])
     }
-    
+    // 백그라운드에서 받았을 때
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        print("이잉민이미ㅏㅇㅁ나이머나어미너이ㅏㅁ너임너ㅏㅣㅇㅁ너ㅣㅇㅁ니ㅓ")
+        let content = response.notification.request.content
+        print("title: \(content.title)")
+        print("body: \(content.body)")
+    }
+}
+
+extension AppDelegate: MessagingDelegate {
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        // FCM 토큰 발급!
+        guard let fcmToken else { return }
+        print("fcmToken 정상 발급 : \(fcmToken)")
+        UserDefaults.standard.set(fcmToken, forKey: "fcmToken")
     }
 }

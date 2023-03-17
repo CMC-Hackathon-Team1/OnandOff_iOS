@@ -28,8 +28,11 @@ class TokenService {
         // 3. Create
         let status: OSStatus = SecItemAdd(keyChainQuery, nil)
         assert(status == noErr, "failed to saving Token")
-        let deviceToken = UserDefaults.standard.string(forKey: "DeviceToken") ?? ""
-        AlarmService.sendToken(deviceToken)
+        let fcmToken = UserDefaults.standard.string(forKey: "fcmToken") ?? ""
+        print("-----------")
+        print(fcmToken)
+        print("-----------")
+        AlarmService.sendToken(fcmToken)
     }
     
     // Read

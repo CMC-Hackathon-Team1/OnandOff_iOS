@@ -21,6 +21,8 @@
 			</array>
 		</dict>
 	</array>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 	<key>GIDClientID</key>
 	<string>751634127071-vl4nnmic44tk880b9q1586v35l5itcml.apps.googleusercontent.com</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -51,5 +53,9 @@
 			</array>
 		</dict>
 	</dict>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 </dict>
 </plist>
