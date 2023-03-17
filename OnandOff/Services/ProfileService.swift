@@ -38,7 +38,7 @@ class ProfileService {
         }
     }
     
-    static func createProfile(profileName: String, personaName: String, statusMessage: String, image: UIImage, completion: @escaping ()->Void) {
+    static func createProfile(profileName: String, personaName: String, statusMessage: String, image: UIImage, completion: @escaping (Int)->Void) {
         let url = baseURL + "profiles/"
         var header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
         header?["Content-Type"] = "multipart/form-data"
@@ -47,26 +47,35 @@ class ProfileService {
                                      "personaName" : personaName]
         
         let request = AF.upload(multipartFormData: { (multipartFormData) in
-            if let imageData = image.pngData() {
-                multipartFormData.append(imageData, withName: "image", fileName: "\(imageData).png", mimeType: "image/png")
+            if let imageData = image.jpegData(compressionQuality: 0.4) {
+                multipartFormData.append(imageData, withName: "image", fileName: "\(imageData).jpeg", mimeType: "image/jpeg")
             }
             for (key,value) in parameters {
                 multipartFormData.append("\(value)".data(using: .utf8)!, withName: key)
             }
         }, to: url, method: .post, headers: header)
         
+        request.responseDecodable(of: CreateProfileModel.self) { res in
+            switch res.result {
+            case .success(let model):
+                completion(model.statusCode)
+            case .failure(let error):
+                print(error.localizedDescription)
+                print(error)
+            }
+        }
+        
         request.responseString() { res in
             switch res.result {
             case .success(let str):
                 print(str)
-                completion()
             case .failure(let error):
-                print(error.localizedDescription)
+                print(error)
             }
         }
     }
     
-    static func getProfileModels(_ completion: @escaping ([ProfileItem]) -> Void) {
+    static func getProfileModels(_ completion: @escaping (ProfileModels) -> Void) {
         let url = baseURL + "profiles/my-profiles"
         let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
 
@@ -74,10 +83,24 @@ class ProfileService {
         .responseDecodable(of: ProfileModels.self) { res in
             switch res.result{
             case .success(let models):
-                completion(models.result)
+                completion(models)
             case .failure(let error):
                 print("DEBUG>> GetPersonaDataRequest Error : \(error.localizedDescription)")
                 print(error.localizedDescription)
+            }
+        }
+    }
+    
+    static func deleteProfile(_ profileId: Int, completion: @escaping () -> Void) {
+        let url = baseURL + "profiles/\(profileId)"
+        let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
+        AF.request(url, method: .delete, headers: header).responseString() { res in
+            switch res.result {
+            case .success(let str):
+                print(str)
+                completion()
+            case .failure(let error):
+                print(error)
             }
         }
     }

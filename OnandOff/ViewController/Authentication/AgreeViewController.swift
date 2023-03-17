@@ -6,10 +6,8 @@
 //
 
 import UIKit
-import SwiftUI
 
-class AgreeViewController: UIViewController {
-    
+final class AgreeViewController: UIViewController {
     // MARK: - Properties
     var allFlag: Bool = false
     var ageFlag: Bool = false
@@ -102,6 +100,7 @@ class AgreeViewController: UIViewController {
         self.title = "서비스 이용 동의"
         configureLayout()
         view.backgroundColor = .white
+        self.navigationItem.backButtonTitle = ""
     }
     
     // MARK: - Actions
@@ -185,7 +184,10 @@ class AgreeViewController: UIViewController {
     }
     
     @objc func didTapAgreeButton() {
-        print(#function)
+        self.defaultAlert(title: "회원가입 성공!") {
+            let vc = self.navigationController?.viewControllers.prefix(2).map { $0 }
+            self.navigationController?.viewControllers = vc ?? []
+        }
     }
     
     // MARK: - Helpers

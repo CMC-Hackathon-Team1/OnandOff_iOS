@@ -5,9 +5,9 @@
 //  Created by SangWoo's MacBook on 2022/12/31.
 //
 
-import SnapKit
-import SwiftUI
+
 import UIKit
+import SnapKit
 import Alamofire
 import KakaoSDKUser
 import KakaoSDKAuth
@@ -15,95 +15,85 @@ import KakaoSDKCommon
 import AuthenticationServices
 import GoogleSignIn
 
-class LoginViewController: UIViewController {
-
+final class LoginViewController: UIViewController {
     // MARK: - Properties
-    private let backgroundImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = #imageLiteral(resourceName: "Login")
-        imageView.contentMode = .scaleAspectFill
-        return imageView
-    }()
+    private let backgroundImageView = UIImageView().then {
+        $0.image = #imageLiteral(resourceName: "Login")
+        $0.contentMode = .scaleAspectFill
+    }
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "세상에 없던 멀티 자아 기록 플랫폼"
-        label.numberOfLines = 3
-        label.textColor = .white
-        label.font = .notoSans(size: 40, family: .Bold)
-        return label
-    }()
+    private let titleLabel = UILabel().then {
+        $0.text = "세상에 없던 멀티 자아 기록 플랫폼"
+        $0.numberOfLines = 3
+        $0.textColor = .white
+        $0.font = .notoSans(size: 40, family: .Bold)
+    }
     
-    private let logoImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = #imageLiteral(resourceName: "OnOff")
-        return imageView
-    }()
+    private let logoImageView = UIImageView().then {
+        $0.image = #imageLiteral(resourceName: "OnOff")
+    }
     
-    private lazy var loginButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("로그인", for: .normal)
-        button.titleLabel?.font = .notoSans(size: 18, family: .Bold)
-        button.tintColor = .black
-        button.setTitleColor(#colorLiteral(red: 0.3450980392, green: 0.7215686275, blue: 0.631372549, alpha: 1), for: .normal)
-        button.backgroundColor = .white
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 12
-        button.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        button.addTarget(self, action: #selector(handleShowLogin), for: .touchUpInside)
-        return button
-    }()
+    private lazy var loginButton = UIButton(type: .system).then {
+        var configuration = UIButton.Configuration.plain()
+        configuration.baseForegroundColor = .mainColor
+        configuration.image = UIImage(named: "OnandOffIcon")?.withRenderingMode(.alwaysOriginal)
+        configuration.imagePlacement = .leading
+        configuration.imagePadding = 80
+        configuration.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 90)
+        configuration.title = "On&Off로그인"
+        $0.configuration = configuration
+        $0.backgroundColor = .white
+        $0.layer.cornerRadius = 12
+        $0.addTarget(self, action: #selector(handleShowLogin), for: .touchUpInside)
+    }
     
-    private lazy var kakaoLoginButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("카카오 로그인", for: .normal)
-        // button.setImage(#imageLiteral(resourceName: "Kakao"), for: .normal)
-        button.contentHorizontalAlignment = .center
-        button.semanticContentAttribute = .forceLeftToRight
-        button.imageEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 150)
-        button.titleLabel?.font = .notoSans(size: 16, family: .Regular)
-        button.tintColor = .black
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = #colorLiteral(red: 0.9983025193, green: 0.9065476656, blue: 0, alpha: 1)
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 12
-        button.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        button.addTarget(self, action: #selector(didTapKakaoLoginButton), for: .touchUpInside)
-        return button
-    }()
+    private lazy var kakaoLoginButton = UIButton(type: .system).then {
+        var configuration = UIButton.Configuration.plain()
+        configuration.baseForegroundColor = .black
+        configuration.image = UIImage(named: "KakaoIcon")?.withRenderingMode(.alwaysOriginal)
+        configuration.imagePlacement = .leading
+        configuration.imagePadding = 80
+        configuration.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 90)
+        configuration.title = "카카오 로그인"
+        $0.configuration = configuration
+        $0.backgroundColor = #colorLiteral(red: 0.9983025193, green: 0.9065476656, blue: 0, alpha: 1)
+        $0.layer.cornerRadius = 12
+        $0.addTarget(self, action: #selector(didTapKakaoLoginButton), for: .touchUpInside)
+    }
     
-    private lazy var appleLoginButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Apple 로그인", for: .normal)
-        button.titleLabel?.font = .notoSans(size: 16, family: .Bold)
-        button.tintColor = .black
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 12
-        button.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        button.addTarget(self, action: #selector(didTapAppleLoginButton), for: .touchUpInside)
-        return button
-    }()
+    private lazy var appleLoginButton = UIButton().then {
+        var configuration = UIButton.Configuration.plain()
+        configuration.baseForegroundColor = .white
+        configuration.image = UIImage(named: "AppleIcon")?.withRenderingMode(.alwaysOriginal)
+        configuration.imagePlacement = .leading
+        configuration.imagePadding = 80
+        configuration.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 90)
+        configuration.title = "Apple 로그인"
+        $0.configuration = configuration
+        $0.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        $0.layer.cornerRadius = 12
+        $0.addTarget(self, action: #selector(didTapAppleLoginButton), for: .touchUpInside)
+    }
     
-    private lazy var googleLoginButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Google 계정으로 로그인", for: .normal)
-        button.titleLabel?.font = .notoSans(size: 16, family: .Bold)
-        button.tintColor = .black
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 12
-        button.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        button.addTarget(self, action: #selector(didTapGoogleLoginButton), for: .touchUpInside)
-        return button
-    }()
+    private lazy var googleLoginButton = UIButton().then {
+        var configuration = UIButton.Configuration.plain()
+        configuration.baseForegroundColor = .black
+        configuration.image = UIImage(named: "GoogleIcon")?.withRenderingMode(.alwaysOriginal)
+        configuration.imagePlacement = .leading
+        configuration.imagePadding = 50
+        configuration.contentInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 40)
+        configuration.title = "Google 계정으로 로그인"
+        $0.configuration = configuration
+        $0.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        $0.layer.cornerRadius = 12
+        $0.addTarget(self, action: #selector(didTapGoogleLoginButton), for: .touchUpInside)
+    }
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        self.navigationItem.backButtonTitle = ""
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -113,30 +103,6 @@ class LoginViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        // 카카오 로그인 유효 토큰 검사
-        if (AuthApi.hasToken()) {
-            UserApi.shared.accessTokenInfo { (_, error) in
-                if let error = error {
-                    if let sdkError = error as? SdkError, sdkError.isInvalidTokenError() == true  {
-                        // 로그인 필요
-                    }
-                    else {
-                        // 기타 에러
-                    }
-                }
-                
-                else {
-                    // 토큰 유효성 체크 성공(필요 시 토큰 갱신됨)
-                    
-                    // 사용자 정보를 가져오고 화면전환을 하는 커스텀 메서드
-                    self.moveToHomeVC()
-                }
-            }
-        }
-        else {
-            // 로그인 필요
-        }
     }
     
     // MARK: - Actions
@@ -146,157 +112,90 @@ class LoginViewController: UIViewController {
     }
     
     @objc func didTapKakaoLoginButton() {
-        print(#function)
-        // 카카오톡 설치 여부 확인
-        if (UserApi.isKakaoTalkLoginAvailable()) {
-            UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
-                if let error = error {
-                    print(error)
-                }
-                else {
-                    print("loginWithKakaoTalk() success.")
-                    
-                    if let accessToken = oauthToken?.accessToken {
-                        print(accessToken)
-                        AuthService.kakaoLogin(KakaoDataModel(access_token: accessToken)) { response in
-                            if let response = response {
-                                switch response.statusCode {
-                                case 100:
-                                    guard let accessToken = response.result?.jwt else { return }
-                                    let tokenService = TokenService()
-                                    tokenService.create("https://dev.onnoff.shop/auth/login", account: "accessToken", value: accessToken)
-                                    print("KakaoLogin Complete, AccessToken is \(TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken") ?? "")")
-                                    self.dismiss(animated: true)
-                                    
-                                case 400:
-                                    print(response.message)
-                                case 500:
-                                    print(response.message)
-                                case 1012:
-                                    print(response.message)
-                                case 1013:
-                                    print(response.message)
-                                case 1014:
-                                    print(response.message)
-                                case 1102:
-                                    print(response.message)
-                                default:
-                                    break
-                                }
-                            }
-                            return
-                        }
+        UserApi.isKakaoTalkLoginAvailable()
+        if UserApi.isKakaoTalkLoginAvailable() {
+            UserApi.shared.loginWithKakaoTalk() {(oauthToken, error) in
+                guard let oauthToken else { print(error!); return }
+                
+                AuthService.kakaoLogin(oauthToken.accessToken) { res in
+                    switch res?.statusCode {
+                    case 100:
+                        guard let result = res?.result,
+                              let jwt = result.jwt else { return }
+                        TokenService().create("https://dev.onnoff.shop/auth/login", account: "accessToken", value: jwt)
+                        self.dismiss(animated: true)
+                    case 400: print("body오류")
+                    case 500: self.showAlert(title: "이메일 정보를 포함해주세요.")
+                    case 1012: self.showAlert(title: "카카오 인증 정보가 유효하지 않습니다.\n다시 시도해주세요.")
+                    case 1102: self.showAlert(title: "다른 플랫폼으로 가입된 회원입니다.")
+                    default:
+                        print("기타 오류")
                     }
-                  
-                    // 사용자정보를 성공적으로 가져오면 화면전환 한다.
-                    self.moveToHomeVC()
                 }
             }
-        }
-        //  카카오톡 미설치
-        else {
-            print("카카오톡 미설치")
-            UserApi.shared.loginWithKakaoAccount {(oauthToken, error) in
-                if let error = error {
-                    print(error)
-                }
-                else {
-                    print("loginWithKakaoAccount() success.")
-                    if let accessToken = oauthToken?.accessToken {
-                        print("AccessToken: \(accessToken)")
-                        AuthService.kakaoLogin(KakaoDataModel(access_token: accessToken)) { response in
-                            if let response = response {
-                                switch response.statusCode {
-                                case 100:
-                                    guard let accessToken = response.result?.jwt else { return }
-                                    let tokenService = TokenService()
-                                    tokenService.create("https://dev.onnoff.shop/auth/login", account: "accessToken", value: accessToken)
-                                    print("KakaoLogin Complete, AccessToken is \(TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken") ?? "")")
-                                    self.dismiss(animated: true)
-                                case 400:
-                                    print(response.message)
-                                case 500:
-                                    print(response.message)
-                                case 1012:
-                                    print(response.message)
-                                case 1013:
-                                    print(response.message)
-                                case 1014:
-                                    print(response.message)
-                                case 1022:
-                                    print(response.message)
-                                case 1102:
-                                    print(response.message)
-                                default:
-                                    break
-                                }
-                            }
-                            return
-                        }
+        } else {
+            UserApi.shared.loginWithKakaoAccount() {(oauthToken, error) in
+                guard let oauthToken else { print(error!); return }
+                AuthService.kakaoLogin(oauthToken.accessToken) { res in
+                    switch res?.statusCode {
+                    case 100:
+                        guard let result = res?.result,
+                              let jwt = result.jwt else { return }
+                        TokenService().create("https://dev.onnoff.shop/auth/login", account: "accessToken", value: jwt)
+                        self.dismiss(animated: true)
+                    case 400: print("body오류")
+                    case 500: self.showAlert(title: "이메일 정보를 포함해주세요.")
+                    case 1012: self.showAlert(title: "카카오 인증 정보가 유효하지 않습니다.\n다시 시도해주세요.")
+                    case 1102: self.showAlert(title: "다른 플랫폼으로 가입된 회원입니다.")
+                    default:
+                        print("기타 오류")
                     }
-                    // 사용자정보를 성공적으로 가져오면 화면전환 한다.
-                    self.moveToHomeVC()
                 }
             }
         }
     }
     
     @objc func didTapAppleLoginButton() {
-        print(#function)
         let request = ASAuthorizationAppleIDProvider().createRequest()
         request.requestedScopes = [.fullName, .email]
 
         let controller = ASAuthorizationController(authorizationRequests: [request])
-        controller.delegate = self as? ASAuthorizationControllerDelegate
+        controller.delegate = self
         controller.presentationContextProvider = self as? ASAuthorizationControllerPresentationContextProviding
         controller.performRequests()
     }
 
-    
     @objc func didTapGoogleLoginButton() {
-        print(#function)
-        // let googleClientId = "237346784269-d5qkltgq5i6ccfn9fia49d52slp63180.apps.googleusercontent.com"
-        // let signInConfig = GIDConfiguration.init(clientID: googleClientId)
- 
         GIDSignIn.sharedInstance.signIn(withPresenting: self) { signInResult, error in
             guard error == nil else { return }
-            guard let signInResult = signInResult else { return }
-                
-            if let idToken = signInResult.user.idToken?.tokenString {
-                AuthService.googleLogin(GoogleDataModel(id_token: idToken)) { response in
-                    if let response = response {
-                        switch response.statusCode {
-                        case 100:
-                            guard let accessToken = response.result?.jwt else { return }
-                            let tokenService = TokenService()
-                            tokenService.create("https://dev.onnoff.shop/auth/login", account: "accessToken", value: accessToken)
-                            print("GoogleLogin Complete, AccessToken is \(TokenService().read("https://dev.onnoff.shop/auth/login", account: "accessToken") ?? "")")
-                            self.dismiss(animated: true)
-                            
-                        case 400:
-                            print(response.message)
-                        case 500:
-                            print(response.message)
-                        case 1020:
-                            print(response.message)
-                        case 1021:
-                            print(response.message)
-                        case 1022:
-                            print(response.message)
-                        case 1102:
-                            print(response.message)
-                        default:
-                            break
-                        }
-                    }
-                    return
+            guard let signInResult = signInResult,
+            let idToken = signInResult.user.idToken?.tokenString else { return }
+            AuthService.googleLogin(idToken) { res in
+                switch res?.statusCode {
+                case 100:
+                    guard let result = res?.result,
+                          let jwt = result.jwt else { return }
+                    TokenService().create("https://dev.onnoff.shop/auth/login", account: "accessToken", value: jwt)
+                    self.dismiss(animated: true)
+                case 400: print("body오류")
+                case 500: self.showAlert(title: "이메일 정보를 포함해주세요.")
+                case 1012: self.showAlert(title: "카카오 인증 정보가 유효하지 않습니다.\n다시 시도해주세요.")
+                case 1102: self.showAlert(title: "다른 플랫폼으로 가입된 회원입니다.")
+                default:
+                    print("기타 오류")
                 }
             }
         }
-        self.moveToHomeVC()
+    }
+    
+    private func showAlert(title: String) {
+        let alert = StandardAlertController(title: title, message: nil)
+        let ok = StandardAlertAction(title: "확인", style: .basic)
+        alert.addAction(ok)
+        
+        self.present(alert, animated: false)
     }
 
-    
     // MARK: - Helpers
     func configureUI() {
         view.addSubview(backgroundImageView)
@@ -320,82 +219,50 @@ class LoginViewController: UIViewController {
             $0.height.equalTo(49)
         }
         
-        let stackView = UIStackView(arrangedSubviews: [loginButton, kakaoLoginButton, appleLoginButton, googleLoginButton])
-        stackView.axis = .vertical
-        stackView.distribution = .fillEqually
-        stackView.spacing = 15
-        view.addSubview(stackView)
+        let stackView = UIStackView(arrangedSubviews: [loginButton, kakaoLoginButton, appleLoginButton, googleLoginButton]).then {
+            $0.axis = .vertical
+            $0.distribution = .fillEqually
+            $0.spacing = 15
+            self.view.addSubview($0)
+        }
         
         stackView.snp.makeConstraints {
-            $0.top.equalTo(view.snp.top).offset(582)
-            $0.left.equalTo(view.snp.left).offset(20)
-            $0.right.equalTo(view.snp.right).offset(-20)
-            $0.bottom.equalTo(view.snp.top).offset(800)
-        }
-    }
-}
-
-// MARK: - KaKaoOAuth
-extension LoginViewController {
-    // 로그인 성공 -> 화면 전환
-    private func moveToHomeVC() {
-        // 사용자 정보 가져오기
-        UserApi.shared.me() {(user, error) in
-            if let error = error {
-                print(error)
-            }
-            else {
-                print("me() success.")
-
-                // 닉네임, 이메일 정보
-                // let nickname = user?.kakaoAccount?.profile?.nickname
-                // let email = user?.kakaoAccount?.email
-
-                // 화면전환
-                self.dismiss(animated: true, completion: nil)
-            }
+            $0.height.equalTo(250)
+            $0.left.equalToSuperview().offset(20)
+            $0.right.equalToSuperview().offset(-20)
+            $0.bottom.equalToSuperview().offset(-60)
         }
     }
 }
 
 // MARK: - AppleLogin
 extension LoginViewController: ASAuthorizationControllerDelegate {
-    // 성공 후 동작
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let credential = authorization.credential as? ASAuthorizationAppleIDCredential {
-
-            let idToken = credential.identityToken!
-            let tokeStr = String(data: idToken, encoding: .utf8)
-            print(tokeStr)
-
-            guard let code = credential.authorizationCode else { return }
-            let codeStr = String(data: code, encoding: .utf8)
-            print(codeStr)
-
-            let user = credential.user
-            print(user)
-
+            guard let idToken = credential.identityToken,
+                  let tokenStr = String(data: idToken, encoding: .utf8) else { return }
+            AuthService.appleLogin(tokenStr) { res in
+                print(tokenStr)
+                switch res?.statusCode {
+                case 100:
+                    guard let result = res?.result,
+                          let jwt = result.jwt else { return }
+                    TokenService().create("https://dev.onnoff.shop/auth/login", account: "accessToken", value: jwt)
+                    self.dismiss(animated: true)
+                case 400: print("body오류")
+                case 500: self.showAlert(title: "이메일 정보를 포함해주세요.")
+                case 1012: self.showAlert(title: "카카오 인증 정보가 유효하지 않습니다.\n다시 시도해주세요.")
+                case 1102: self.showAlert(title: "다른 플랫폼으로 가입된 회원입니다.")
+                default:
+                    print(res?.message)
+                    print("기타 오류")
+                }
+            }
         }
     }
 
     // 실패 후 동작
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        print("error")
-    }
-}
-
-struct LoginViewControllerRepresentable: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> some UIViewController {
-        UINavigationController(rootViewController: LoginViewController())
-    }
-    
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-        
-    }
-}
-
-struct LoginViewController_Previews: PreviewProvider {
-    static var previews: some View {
-        LoginViewControllerRepresentable()
+        print(error)
     }
 }

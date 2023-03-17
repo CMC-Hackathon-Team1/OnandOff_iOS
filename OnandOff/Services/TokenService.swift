@@ -12,7 +12,6 @@ import UIKit
 class TokenService {
 
     func create(_ service: String, account: String, value: String) {
-        
         // 1. query작성
         let keyChainQuery: NSDictionary = [
             kSecClass : kSecClassGenericPassword,
@@ -29,6 +28,8 @@ class TokenService {
         // 3. Create
         let status: OSStatus = SecItemAdd(keyChainQuery, nil)
         assert(status == noErr, "failed to saving Token")
+        let deviceToken = UserDefaults.standard.string(forKey: "DeviceToken") ?? ""
+        AlarmService.sendToken(deviceToken)
     }
     
     // Read

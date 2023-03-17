@@ -36,6 +36,14 @@ final class ReportViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
+    
+    init(feedIdWithPage: Int) {
+        self.feedId = feedIdWithPage
+        super.init(nibName: nil, bundle: nil)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "calendarleft")?.withRenderingMode(.alwaysOriginal),
+                                                                style: .plain, target: self, action: #selector(self.dismissVC))
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -48,6 +56,7 @@ final class ReportViewController: UIViewController {
 
         self.view.backgroundColor = .white
         self.navigationItem.title = "신고하기"
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
         
         self.reportTableView.delegate = self
         self.reportTableView.dataSource = self
@@ -58,10 +67,11 @@ final class ReportViewController: UIViewController {
         guard let selectedType else { return }
         
         if self.selectedType != nil {
+            let cell = self.reportTableView.cellForRow(at: IndexPath(row: 5, section: 0)) as! ReportCell
             let alert = StandardAlertController(title: nil, message: "해당 게시글을 신고하시겠습니까?")
             let cancel = StandardAlertAction(title: "취소", style: .cancel)
             let report = StandardAlertAction(title: "신고", style: .basic) { _ in
-                FeedService.reportFeed(feedId: self.feedId, categoryId: selectedType.rawValue, content: nil) { response in
+                FeedService.reportFeed(feedId: self.feedId, categoryId: selectedType.rawValue, content: cell.otherTextField.text) { response in
                     self.respondToStatusCode(response)
                 }
             }
@@ -81,10 +91,17 @@ final class ReportViewController: UIViewController {
         default: message = res.message
         }
         let alert = StandardAlertController(title: nil, message: message)
-        let ok = StandardAlertAction(title: "확인", style: .basic)
+        let ok = StandardAlertAction(title: "확인", style: .basic) { _ in
+            self.dismiss(animated: true)
+            self.navigationController?.popViewController(animated: true)
+        }
         alert.addAction(ok)
         
         self.present(alert, animated: true)
+    }
+    
+    @objc private func dismissVC() {
+        self.dismiss(animated: true)
     }
     
     //MARK: - AddSubView
@@ -137,11 +154,15 @@ extension ReportViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.selectedType = ReportType.allCases[indexPath.row]
+        if self.selectedType != .other {
+            let cell = tableView.cellForRow(at: IndexPath(row: 5, section: 0)) as! ReportCell
+            cell.otherTextField.text = ""
+        }
+        
         tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return tableView.rowHeight
     }
-    
 }

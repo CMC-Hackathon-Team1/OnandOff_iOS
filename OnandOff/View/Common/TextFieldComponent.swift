@@ -19,6 +19,13 @@ final class TextFieldComponent: UIView {
         $0.font = .notoSans(size: 12, family: .Regular)
     }
     
+    var placeholder: String {
+        get { return self.placeholder }
+        set {
+            self.inputTextfield.attributedPlaceholder = NSAttributedString(string: newValue, attributes: [NSAttributedString.Key.foregroundColor : UIColor.text3])
+        }
+    }
+    
     private var lineLayer: CALayer?
     
     init(title: String) {
@@ -28,6 +35,7 @@ final class TextFieldComponent: UIView {
         self.addSubview(self.titleLabel)
         self.addSubview(self.inputTextfield)
         self.layout()
+        self.inputTextfield.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -67,3 +75,9 @@ final class TextFieldComponent: UIView {
     }
 }
 
+extension TextFieldComponent: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}

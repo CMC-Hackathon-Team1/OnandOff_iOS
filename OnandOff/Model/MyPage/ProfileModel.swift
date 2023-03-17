@@ -16,7 +16,8 @@ class ProfileModel: Codable {
 class ProfileModels: Codable {
     let statusCode: Int
     let message: String
-    let result: [ProfileItem]
+    let result: [ProfileItem]?
+    let error: String?
 }
 
 class ProfileItem: Codable {

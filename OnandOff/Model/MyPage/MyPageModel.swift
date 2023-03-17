@@ -5,7 +5,7 @@
 //  Created by 신상우 on 2023/03/06.
 //
 
-import Foundation
+import UIKit
 
 class MyPageModel: Codable {
     let statusCode: Int
@@ -19,9 +19,16 @@ class MyPageResult: Codable {
 
 class MyPageItem: Codable {
     let feedImgList: [String]
-    let isLike: Bool
+    var isLike: Bool
     let feedId: Int
-    let feedContent: String
+    var feedContent: String
     let createdAt: String
     let likeNum: Int
+    var hashTagList: [String]
+}
+
+struct MypageTempModel {
+    let feedContent: String
+    let feedId: Int
+    let hashTag: [String]
 }

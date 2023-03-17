@@ -15,7 +15,8 @@ final class ImageUploadViewController: UIViewController {
     
     let mainView = UIView().then{
         $0.backgroundColor = .white
-        $0.roundCorners(cornerRadius: 20, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
+        $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        $0.layer.cornerRadius = 20
     }
     
     private let closeButton = UIImageView().then{

@@ -21,7 +21,9 @@ final class CustomActionSheet: UIView {
     //MARK: - Init
     init(frame: CGRect, ASFrame: CGRect, currentCategoryId: Int) {
         self.ASFrame = ASFrame
-        self.categoryTableView = UITableView(frame: ASFrame)
+        self.categoryTableView = UITableView(frame: ASFrame).then {
+            $0.backgroundColor = .white
+        }
         self.currentCategoryId = currentCategoryId
         super.init(frame: frame)
         

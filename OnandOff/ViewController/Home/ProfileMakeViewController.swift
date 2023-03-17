@@ -12,25 +12,30 @@ final class ProfileMakeViewController: UIViewController {
     private var profileImage: UIImage?
     
     private let profileImageButton = UIButton().then {
-        $0.setImage(UIImage(named: "ProfileInsertPhoto")?.withRenderingMode(.alwaysOriginal), for: .normal)
+        $0.setImage(UIImage(named: "defaultImage")?.withRenderingMode(.alwaysOriginal), for: .normal)
         $0.layer.cornerRadius = 47.5
         $0.contentMode = .scaleAspectFit
         $0.layer.masksToBounds = true
     }
     
+    private let photoInsertImageView = UIImageView().then {
+        $0.image = UIImage(named: "insertCamera")?.withRenderingMode(.alwaysOriginal)
+        $0.contentMode = .scaleAspectFit
+    }
+    
     private let personaComponent = TextFieldComponent(title: "페르소나").then {
         $0.inputTextfield.tag = 0
-        $0.inputTextfield.placeholder = "최대 4글자"
+        $0.placeholder = "최대 4글자"
     }
     
     private let nickNameComponent = TextFieldComponent(title: "닉네임").then {
         $0.inputTextfield.tag = 1
-        $0.inputTextfield.placeholder = "최대 8글자"
+        $0.placeholder = "최대 8글자"
     }
     
     private let introductionComponent = TextFieldComponent(title: "한줄소개").then {
         $0.inputTextfield.tag = 2
-        $0.inputTextfield.placeholder = "최대 30자까지 가능합니다."
+        $0.placeholder = "최대 30자까지 가능합니다."
     }
     
     private let personaWarningLabel = UILabel().then {
@@ -47,6 +52,10 @@ final class ProfileMakeViewController: UIViewController {
         $0.isHidden = true
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setUpView()
@@ -57,7 +66,8 @@ final class ProfileMakeViewController: UIViewController {
     
     private func configure() {
         self.navigationItem.title = "프로필 생성"
-        
+        self.navigationController?.navigationBar.isHidden = false
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "생성하기",
                                                                  style: .plain,
                                                                  target: self,
@@ -75,6 +85,7 @@ final class ProfileMakeViewController: UIViewController {
         self.view.addSubview(self.introductionComponent)
         self.view.addSubview(self.personaWarningLabel)
         self.view.addSubview(self.nickNameWarningLabel)
+        self.view.addSubview(self.photoInsertImageView)
     }
     
     private func layout() {
@@ -83,6 +94,12 @@ final class ProfileMakeViewController: UIViewController {
             $0.height.equalTo(95)
             $0.top.equalTo(self.view.safeAreaLayoutGuide).offset(70)
             $0.centerX.equalToSuperview()
+        }
+        
+        self.photoInsertImageView.snp.makeConstraints {
+            $0.width.height.equalTo(27)
+            $0.leading.equalTo(self.profileImageButton.snp.centerX).offset(20)
+            $0.bottom.equalTo(self.profileImageButton.snp.bottom)
         }
         
         self.personaComponent.snp.makeConstraints {
@@ -119,11 +136,15 @@ final class ProfileMakeViewController: UIViewController {
     
     //MARK: - Selector
     @objc func didClickInsertPhotoButton(sender: UIButton) {
-        let controller = ImageUploadViewController()
-        controller.modalPresentationStyle = .fullScreen
-        controller.delegate = self
+        let actionSheetVC = ActionSheetViewController(title: "프로필 사진 업로드",
+                                                      firstImage: UIImage(named: "searchfromalbum")?.withRenderingMode(.alwaysOriginal) ?? UIImage(),
+                                                      firstText: "앨범에서 찾기",
+                                                      secondImage: UIImage(named: "camera")?.withRenderingMode(.alwaysOriginal) ?? UIImage(),
+                                                      secondText: "촬영")
+        actionSheetVC.delegatePhoto = self
+        actionSheetVC.modalPresentationStyle = .fullScreen
         
-        self.present(controller, animated: false)
+        self.present(actionSheetVC, animated: false)
     }
     
     @objc func didChangeText(_ sender: UITextField) {
@@ -167,8 +188,19 @@ final class ProfileMakeViewController: UIViewController {
                 ProfileService.createProfile(profileName: self.nickNameComponent.inputTextfield.text!,
                                              personaName: self.personaComponent.inputTextfield.text!,
                                              statusMessage: self.introductionComponent.inputTextfield.text ?? "",
-                                             image: self.profileImage ?? UIImage(named: "ProfileInsertPhoto")!) {
-                    self.navigationController?.popViewController(animated: true)
+                                             image: self.profileImage ?? UIImage(named: "defaultImage")!) { code in
+                    if code == 100 {
+                        self.dismiss(animated: true)
+                        self.navigationController?.popViewController(animated: true)
+                    } else if code == 1500 {
+                        self.defaultAlert(title: "사용자 프로필은 5개까지 생성 가능합니다.") {
+                            self.navigationController?.popViewController(animated: true)
+                        }
+                    } else if code == 1501 {
+                        self.defaultAlert(title: "이미 존재하는 페르소나 입니다.")
+                    } else {
+                        self.defaultAlert(title: "프로필 생성 실패")
+                    }
                 }
             }
             alert.addAction(cancel)
@@ -194,8 +226,8 @@ final class ProfileMakeViewController: UIViewController {
     }
 }
 
-extension ProfileMakeViewController: ImageUploadDelegate {
-    func didClickFindAlbumButton() {
+extension ProfileMakeViewController: ActionSheetPhotoDelegate {
+    func didClickFirstItem() {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary
@@ -204,8 +236,14 @@ extension ProfileMakeViewController: ImageUploadDelegate {
         self.present(imagePicker, animated: true)
     }
     
-    func didClickSecondMenu() {
-        print("didClickSecondMenu")
+    func didClickSecondItem() {
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .camera
+        imagePicker.cameraDevice = .front
+        imagePicker.cameraCaptureMode = .photo
+        imagePicker.delegate = self
+        
+        present(imagePicker, animated: true)
     }
 }
 

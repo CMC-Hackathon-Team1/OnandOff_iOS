@@ -2,16 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Please allow access to selec a photo</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Please allow to use Camera</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.237346784269-d5qkltgq5i6ccfn9fia49d52slp63180</string>
+				<string>com.googleusercontent.apps.751634127071-vl4nnmic44tk880b9q1586v35l5itcml</string>
 			</array>
 		</dict>
 		<dict>
@@ -24,7 +22,7 @@
 		</dict>
 	</array>
 	<key>GIDClientID</key>
-	<string>237346784269-d5qkltgq5i6ccfn9fia49d52slp63180.apps.googleusercontent.com</string>
+	<string>751634127071-vl4nnmic44tk880b9q1586v35l5itcml.apps.googleusercontent.com</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>kakaokompassauth</string>

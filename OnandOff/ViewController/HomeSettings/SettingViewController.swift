@@ -9,12 +9,13 @@ import UIKit
 
 final class SettingViewController: UIViewController{
     //MARK: - Properties
-    let settingCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
-        $0.register(SettingCell.self, forCellWithReuseIdentifier: SettingCell.identifier)
-    }
+    var settingImageArray = ["UserCircle", "LockSimple", "alarmButton", "ChatCenteredDots", "ClipboardText", "WarningCircle", "SignOut"]
+    var settingLabelArray = ["계정", "개인정보 보호", "알림", "피드백/문의하기", "약관 및 정책", "버전", "로그아웃"]
     
-    var settingImageArray = [String]()
-    var settingLabelArray = [String]()
+    private let settingTableView = UITableView().then {
+        $0.backgroundColor = .white
+        $0.register(SettingCell.self, forCellReuseIdentifier: SettingCell.identifier)
+    }
     
     //MARK: - LifeCycle
     override func viewDidLoad() {
@@ -25,28 +26,33 @@ final class SettingViewController: UIViewController{
         
         self.view.backgroundColor = .white
         
-        self.settingCollectionView.delegate = self
-        self.settingCollectionView.dataSource = self
-        
-        settingImageArray.append(contentsOf: ["UserCircle", "LockSimple", "alarmButton", "ChatCenteredDots", "ClipboardText", "WarningCircle", "SignOut"])
-        settingLabelArray.append(contentsOf: ["계정", "개인정보 보호", "알림", "피드백/문의하기", "약관 및 정책", "버전", "로그아웃"])
+        self.settingTableView.delegate = self
+        self.settingTableView.dataSource = self
     }
     
     //MARK: - ConfigureNavigation
     private func configureNavigation() {
         self.navigationItem.title = "설정"
+        self.navigationItem.backButtonTitle = ""
+        self.navigationController?.navigationBar.isHidden = false
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = .white
+        appearance.titleTextAttributes = [.foregroundColor : UIColor.black]
+        self.navigationController?.navigationBar.standardAppearance = appearance
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
     //MARK: - AddSubview
     private func setUpView(){
-        self.view.addSubview(self.settingCollectionView)
+        self.view.addSubview(self.settingTableView)
     }
     
     //MARK: - Selector
     
     //MARK: - Layout
     private func layout(){
-        self.settingCollectionView.snp.makeConstraints{
+        self.settingTableView.snp.makeConstraints{
             $0.top.equalToSuperview().offset(35)
             $0.leading.trailing.bottom.equalToSuperview()
         }
@@ -59,18 +65,14 @@ final class SettingViewController: UIViewController{
 }
 
 //MARK: - CollectionVIew
-extension SettingViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.settingLabelArray.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return settingImageArray.count
-    }
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SettingCell.identifier, for: indexPath) as! SettingCell
-        
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: SettingCell.identifier, for: indexPath) as! SettingCell
+        cell.selectionStyle = .none
         cell.settingImage.image = UIImage(named: "\(settingImageArray[indexPath.row])")?.withRenderingMode(.alwaysOriginal)
         cell.title.text = settingLabelArray[indexPath.row]
         if indexPath.row == 5{
@@ -82,13 +84,12 @@ extension SettingViewController: UICollectionViewDelegate, UICollectionViewDataS
         
         return cell
     }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.row == 0{
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
             let accountVC = AccountSettingViewController()
             self.navigationController?.pushViewController(accountVC, animated: true)
-        }else if indexPath.row == 1{
-            let privacyVC = PrivacyViewController()
+        } else if indexPath.row == 1 {
+            let privacyVC = UserPrivacyViewController()
             self.navigationController?.pushViewController(privacyVC, animated: true)
         }
         else if indexPath.row == 2{
@@ -107,7 +108,6 @@ extension SettingViewController: UICollectionViewDelegate, UICollectionViewDataS
             let alert = StandardAlertController(title: "로그아웃 하시겠습니까?", message: nil)
             let cancel = StandardAlertAction(title: "취소", style: .cancel)
             let logout = StandardAlertAction(title: "로그아웃", style: .basic) { _ in
-                self.navigationController?.popViewController(animated: false)
                 NotificationCenter.default.post(name: .presentLoginVC, object: nil)
             }
             alert.addAction(cancel)
@@ -115,22 +115,5 @@ extension SettingViewController: UICollectionViewDelegate, UICollectionViewDataS
             
             self.present(alert, animated: false)
         }
-
-        
-    }
-}
-        
-extension SettingViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: self.view.frame.width , height: 50)
-        
     }
 }

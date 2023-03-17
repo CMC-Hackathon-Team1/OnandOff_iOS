@@ -14,7 +14,8 @@ final class CategoryActionSheetViewController: UIViewController {
     
     private let mainView = UIView().then{
         $0.backgroundColor = .white
-        $0.roundCorners(cornerRadius: 20, maskedCorners: [.layerMinXMinYCorner, .layerMaxXMinYCorner])
+        $0.layer.cornerRadius = 20
+        $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
     
     private let mainLabel = UILabel().then{
@@ -28,6 +29,7 @@ final class CategoryActionSheetViewController: UIViewController {
     
     private let categoryTableView = UITableView().then {
         $0.register(CategoryCell.self, forCellReuseIdentifier: CategoryCell.identifier)
+        $0.backgroundColor = .white
     }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {

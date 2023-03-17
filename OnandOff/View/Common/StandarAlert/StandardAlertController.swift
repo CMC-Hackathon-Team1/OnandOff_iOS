@@ -113,8 +113,9 @@ final class StandardAlertController: UIViewController{
     // MARK: - Layout
     private func layout() {
         self.alertView.snp.makeConstraints {
-            $0.centerY.centerX.equalToSuperview()
-            $0.width.equalTo(320)
+            $0.centerY.equalToSuperview()
+            $0.leading.equalToSuperview().offset(20)
+            $0.trailing.equalToSuperview().offset(-20)
         }
 
         self.blurEffectView.snp.makeConstraints {

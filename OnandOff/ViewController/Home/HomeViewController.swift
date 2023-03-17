@@ -6,7 +6,6 @@
 //
 //
 import UIKit
-import KakaoSDKUser
 import FSCalendar
 
 final class HomeViewController: UIViewController {
@@ -14,18 +13,18 @@ final class HomeViewController: UIViewController {
     private var personaDatas: [ProfileItem] = []
     private var profileImageDatas: [UIImage] = []
     private var calendarDatas: [CalendarInfoItem] = []
-    private var calendarImageDatas: [UIImage?] = []
+    private var calendarImages: [String : UIImage?] = [:]
     
     private var selectedProfile: ProfileItem? {
         didSet {
-            print("change")
-            self.nickNameLbl.text = self.selectedProfile!.personaName + " " + self.selectedProfile!.profileName
-            self.personaLabel.text = "\(self.selectedProfile!.personaName)님,"
+            guard let newValue = selectedProfile else { return }
+            self.nickNameLbl.text = newValue.personaName + " " + newValue.profileName
+            self.personaLabel.text = "\(newValue.personaName)님,"
             
             self.fetchStatistic()
             self.updateCalendar()
             
-            UserDefaults.standard.set(self.selectedProfile!.profileId, forKey: "selectedProfileId")
+            UserDefaults.standard.set(newValue.profileId, forKey: "selectedProfileId")
             NotificationCenter.default.post(name: .changeProfileId, object: nil)
         }
     }
@@ -39,6 +38,7 @@ final class HomeViewController: UIViewController {
     private let profileCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout()).then {
         $0.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)
         $0.showsHorizontalScrollIndicator = false
+        $0.backgroundColor = .white
         if let layout = $0.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = .horizontal
         }
@@ -56,11 +56,13 @@ final class HomeViewController: UIViewController {
     
     private let nickNameLbl = UILabel().then {
         $0.font = .notoSans(size: 20, family: .Bold)
+        $0.textColor = .black
         $0.text = "직업 + 닉네임"
     }
     
     private let introduceLbl = UILabel().then {
         $0.font = .notoSans(size: 20, family: .Regular)
+        $0.textColor = .black
         $0.text = "오늘 당신의 하루를 공유해주세요 ✏️"
     }
     
@@ -96,6 +98,7 @@ final class HomeViewController: UIViewController {
     
     private let personaLabel = UILabel().then {
         $0.font = .notoSans(size: 18, family: .Bold)
+        $0.textColor = .black
         $0.text = "작가"
     }
     
@@ -141,29 +144,40 @@ final class HomeViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = true
         if self.checkUserLogin() {
-            ProfileService.getProfileModels { [weak self] items in
-                let profileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
+            ProfileService.getProfileModels { [weak self] res in
                 self?.profileImageDatas = []
-                self?.personaDatas = items
-                self?.selectedProfile = items[0]
-                DispatchQueue.global().async {
-                    for item in items {
+                self?.personaDatas = []
+                switch res.statusCode {
+                case 100:
+                    guard let items = res.result else { return }
+                    let profileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
+                    var profile: ProfileItem?
+                    self?.personaDatas = items
+                    DispatchQueue.global().async {
+                        for item in items {
+                            if item.profileId == profileId { profile = item }
+                            do {
+                                guard let url = URL(string: item.profileImgUrl) else { return }
+                                let data = try Data(contentsOf: url)
+                                self?.profileImageDatas.append(UIImage(data: data) ?? UIImage())
+                            } catch let error {
+                                print(error)
+                            }
+                        }
                         DispatchQueue.main.async {
-                            if item.profileId == profileId { self?.selectedProfile = item }
-                        }
-                        do {
-                            guard let url = URL(string: item.profileImgUrl) else { return }
-                            let data = try Data(contentsOf: url)
-                            self?.profileImageDatas.append(UIImage(data: data) ?? UIImage())
-                        } catch let error {
-                            print(error)
+                            if profileId == -1 { self?.selectedProfile = nil }
+                            if let profile { self?.selectedProfile = profile }
+                            if self?.selectedProfile == nil { self?.selectedProfile = items[0] }
+                            self?.profileCollectionView.reloadData()
                         }
                     }
-                    if self?.selectedProfile == nil { self?.selectedProfile = items[0] }
-                    DispatchQueue.main.async {
-                        self?.profileCollectionView.reloadData()
-                    }
+                case 1503:
+                    let profileMakeVC = UINavigationController(rootViewController: ProfileMakeViewController())
+                    profileMakeVC.modalPresentationStyle = .fullScreen
+                    self?.present(profileMakeVC, animated: true)
+                default: print("기타 오류")
                 }
             }
             
@@ -184,23 +198,21 @@ final class HomeViewController: UIViewController {
     }
     
     private func updateCalendar() {
-        self.calendarDatas = []
-        self.calendarImageDatas = []
         let current = self.calendarView.currentPage
         FeedService.getCalendarInfo(profileId: self.selectedProfile!.profileId, year: current.getYear, month: current.getMonth) { [weak self] items in
             self?.calendarDatas = items
+            self?.calendarImages = [:]
             DispatchQueue.global().async {
                 for item in items {
-                    print(item.feedId)
                     do {
                         if let urlString = item.feedImgUrl {
                             guard let url = URL(string: urlString) else { return }
                             let data = try Data(contentsOf: url)
-                            self?.calendarImageDatas.append(UIImage(data: data))
-                        } else {
-                            self?.calendarImageDatas.append(nil)
+                            self?.calendarImages[item.day] = UIImage(data: data)
                         }
-                        
+                        DispatchQueue.main.async {
+                            self?.calendarView.reloadData()
+                        }
                     } catch let error {
                         print(error)
                     }
@@ -216,10 +228,12 @@ final class HomeViewController: UIViewController {
         self.view.backgroundColor = .white
         self.navigationItem.backButtonTitle = ""
         self.navigationController?.navigationBar.tintColor = .black
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
     }
     
     private func addNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.logout), name: .presentLoginVC, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.didCloseFeedWithCell), name: .didCloseFeedWithDayVC, object: nil)
     }
     
     //MARK: - CalendarUI
@@ -273,7 +287,7 @@ final class HomeViewController: UIViewController {
     
     private func layout() {
         self.scrollView.snp.makeConstraints {
-            $0.top.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.top.bottom.equalTo(view.safeAreaLayoutGuide).offset(20)
             $0.leading.trailing.equalToSuperview()
         }
         
@@ -336,12 +350,12 @@ final class HomeViewController: UIViewController {
         
         self.calendarRight.snp.makeConstraints{
             $0.top.equalToSuperview().offset(12)
-            $0.trailing.equalToSuperview().offset(-129)
+            $0.leading.equalTo(self.view.snp.centerX).offset(50)
         }
         
         self.calendarLeft.snp.makeConstraints{
             $0.top.equalToSuperview().offset(12)
-            $0.leading.equalToSuperview().offset(127)
+            $0.trailing.equalTo(self.view.snp.centerX).offset(-50)
         }
         
         view4.snp.makeConstraints {
@@ -374,9 +388,8 @@ final class HomeViewController: UIViewController {
     }
     
     @objc func didClickAlarm(sender: UITapGestureRecognizer) {
-        let vc = AlarmViewController()
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true)
+        let alarmVC = AlarmViewController()
+        self.navigationController?.pushViewController(alarmVC, animated: true)
     }
     
     @objc func didClickSetting(_ sender: UIButton) {
@@ -411,10 +424,11 @@ final class HomeViewController: UIViewController {
     @objc private func logout() {
         AuthService.userLogOut() { response in
             if let response = response {
-                print(response.message)
                 switch response.statusCode {
                 case 100:
                     TokenService().delete("https://dev.onnoff.shop/auth/login", account: "accessToken") // JWT 삭제
+                    UserDefaults.standard.set(-1, forKey: "selectedProfileId")
+                    self.navigationController?.popToRootViewController(animated: true)
                     let loginVC = UINavigationController(rootViewController: LoginViewController())
                     loginVC.modalPresentationStyle = .fullScreen
                     self.present(loginVC, animated: true)
@@ -430,6 +444,10 @@ final class HomeViewController: UIViewController {
             }
             return
         }
+    }
+    
+    @objc private func didCloseFeedWithCell() {
+        self.updateCalendar()
     }
     
     //MARK: - AddTarget
@@ -458,9 +476,10 @@ final class HomeViewController: UIViewController {
 extension HomeViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     // 특정 날짜에 이미지 세팅
     func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
-        if let idx = self.calendarDatas.firstIndex(where: { $0.day == date.getDay }) {
-            return self.calendarImageDatas[idx]
+        if let item = self.calendarImages.filter({ $0.key == date.getDay }).first {
+            return item.value
         }
+        
         return nil
     }
     
@@ -475,8 +494,10 @@ extension HomeViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalend
     }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        
-        
+        if self.calendarDatas.contains(where: { $0.day == date.getDay }) {
+            let feedVC = FeedWithDayViewController(profile: self.selectedProfile!, year: date.getYear, month: date.getMonth, day: date.getDay)
+            self.present(feedVC, animated: true)
+        }
     }
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
