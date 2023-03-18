@@ -54,7 +54,8 @@ final class LookAroundViewController: UIViewController {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
+        super.touchesBegan(touches, with: event)
+        self.searchBar.endEditing(true)
     }
     
     //MARK: - LifeCycle
@@ -244,6 +245,11 @@ final class LookAroundViewController: UIViewController {
         }
     }
     
+    @objc private func dismissKeyboard() {
+        print("asdsa")
+        self.searchBar.endEditing(true)
+    }
+    
     //MARK: - addSubView
     private func addSubView() {
         self.view.addSubview(self.topTabbar)
@@ -285,6 +291,11 @@ final class LookAroundViewController: UIViewController {
     //MARK: - AddTarget
     private func addTarget() {
         self.categoryButton.addTarget(self, action: #selector(self.didClickCategory(_:)), for: .touchUpInside)
+        
+        let followingTapGesutre = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
+        self.followingCollectionView.addGestureRecognizer(followingTapGesutre)
+        let explorationTapGesutre = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
+        self.explorationCollectionView.addGestureRecognizer(explorationTapGesutre)
     }
 }
 
