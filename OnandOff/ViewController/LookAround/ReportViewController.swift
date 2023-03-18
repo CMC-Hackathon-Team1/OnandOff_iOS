@@ -84,7 +84,7 @@ final class ReportViewController: UIViewController {
     private func respondToStatusCode(_ res: ReportModel) {
         var message = "다시 시도해주세요."
         switch res.statusCode {
-        case 100: message = "신고가 완료되었습니다."
+        case 100: message = "신고가 접수되었습니다.\n신고 내역은 최대 24시간 내에 처리됩니다."
         case 400: print(" 올바르지 않은 paramerter")
         case 401: print("인증 에러")
         case 501: print("DB 에러")

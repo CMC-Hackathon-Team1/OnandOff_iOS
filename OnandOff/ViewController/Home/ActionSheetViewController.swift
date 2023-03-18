@@ -17,7 +17,7 @@ final class ActionSheetViewController: UIViewController {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 10
         $0.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        $0.layer.shadowOpacity = 1.0
+        $0.layer.shadowOpacity = 0.6
         $0.layer.shadowOffset = .zero
     }
     
@@ -77,7 +77,7 @@ final class ActionSheetViewController: UIViewController {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.dismiss(animated: false)
+        self.dismiss(animated: true)
     }
     
     //MARK: - Selector

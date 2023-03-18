@@ -173,7 +173,7 @@ final class PostViewController: UIViewController {
     @objc private func dismissVC() {
         self.dismiss(animated: true)
     }
-    
+    //적절하거나 불쾌감을 줄 수 있는 컨텐츠는 제재를 받을 수 있습니다
     @objc private func didClickSubmit(_ button: UIButton) {
         if self.contentTextView.text.isEmpty || self.contentTextView.text == "\(self.selectedProfileItem.profileName + self.selectedProfileItem.personaName)님의 하루를 기록하고 공유해주세요." {
             let alert = StandardAlertController(title: "작성된 내용이 없습니다.", message: nil)
@@ -195,19 +195,24 @@ final class PostViewController: UIViewController {
         
         let hastag = self.hashtagTextfield.text!.split(separator: "#").map { String($0) }
         let isSecret = self.isAnonymous ? "PRIVATE" : "PUBLIC"
-        FeedService.createFeed(self.selectedProfileItem.profileId,
-                               categoryId: self.selectedCategoryId,
-                               hasTagList: hastag,
-                               content: self.contentTextView.text!,
-                               isSecret: isSecret,
-                               images: self.selectedImages) { res in
-            switch res.statusCode {
-            case 100: self.navigationController?.popViewController(animated: true)
-            case 2208:
-                self.defaultAlert(title: res.message) {
-                    self.navigationController?.popViewController(animated: true)
+        
+        self.defaultAlert(title: "적절하지 못하거나 불쾌감을 줄 수 있는 컨텐츠는 제재를 받을 수 있습니다.") {
+            FeedService.createFeed(self.selectedProfileItem.profileId,
+                                   categoryId: self.selectedCategoryId,
+                                   hasTagList: hastag,
+                                   content: self.contentTextView.text!,
+                                   isSecret: isSecret,
+                                   images: self.selectedImages) { res in
+                switch res.statusCode {
+                case 100: self.defaultAlert(title: "게시글 작성 완료") {
+                    self.navigationController?.popToRootViewController(animated: true)
                 }
-            default: self.defaultAlert(title: res.message)
+                case 2208:
+                    self.defaultAlert(title: res.message) {
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                default: self.defaultAlert(title: res.message)
+                }
             }
         }
     }
@@ -259,7 +264,7 @@ final class PostViewController: UIViewController {
     @objc func didClickCategory(sender: UITapGestureRecognizer) {
         let categoryVC = CategoryActionSheetViewController()
         categoryVC.delegate = self
-        categoryVC.modalPresentationStyle = .fullScreen
+        categoryVC.modalPresentationStyle = .overFullScreen
         
         self.present(categoryVC, animated: true)
     }

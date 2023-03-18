@@ -15,6 +15,9 @@ final class CategoryActionSheetViewController: UIViewController {
     private let mainView = UIView().then{
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 20
+        $0.layer.shadowOpacity = 0.6
+        $0.layer.shadowOffset = .init(width: 0, height: -1)
+        $0.layer.shadowRadius = 1.5
         $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     }
     
@@ -48,7 +51,7 @@ final class CategoryActionSheetViewController: UIViewController {
     //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .systemGray
+        self.view.backgroundColor = .clear
         
         setUpView()
         layout()
@@ -56,6 +59,10 @@ final class CategoryActionSheetViewController: UIViewController {
         
         self.categoryTableView.delegate = self
         self.categoryTableView.dataSource = self
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.dismiss(animated: false)
     }
     
     //MARK: - Selector
