@@ -443,19 +443,6 @@ final class HomeViewController: UIViewController {
 
 //MARK: - CalendarDelegate
 extension HomeViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
-    // 특정 날짜에 이미지 세팅
-//    func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
-//        if let item = self.calendarImages.filter({ $0.key == date.getDay }).first {
-//            return item.value
-//        }
-//
-//        return nil
-//    }
-    
-//    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, imageOffsetFor date: Date) -> CGPoint {
-//        return .init(x: 0, y: 5)
-//    }
-    
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
         let cell = calendar.dequeueReusableCell(withIdentifier: CalendarCell.identifier, for: date, at: position) as! CalendarCell
         cell.prepareForReuse()
