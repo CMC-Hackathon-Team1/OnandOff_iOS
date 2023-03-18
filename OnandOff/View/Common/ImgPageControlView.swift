@@ -47,26 +47,16 @@ final class ImgPageControlView: UIView {
         self.pageControl.numberOfPages = images.count
         let width = UIScreen.main.bounds.width-88
         for index in 0..<images.count {
-            DispatchQueue.global().async {
-                guard let url = URL(string: images[index]) else { return }
-                do {
-                    let data = try Data(contentsOf: url)
-                    DispatchQueue.main.async {
-                        _ = UIImageView().then {
-                            $0.image = UIImage(data: data)
-                            $0.contentMode = .scaleAspectFit
-                            $0.clipsToBounds = true
-                            
-                            let xPosition = width * CGFloat(index)
-                            $0.frame = CGRect(x: xPosition, y: 0, width: width, height: 303)
-                            
-                            self.scrollView.contentSize.width = width * CGFloat(index+1)
-                            self.scrollView.addSubview($0)
-                        }
-                    }
-                } catch(let error) {
-                    print(error)
-                }
+            _ = UIImageView().then {
+                $0.loadImage(images[index])
+                $0.contentMode = .scaleAspectFit
+                $0.clipsToBounds = true
+                
+                let xPosition = width * CGFloat(index)
+                $0.frame = CGRect(x: xPosition, y: 0, width: width, height: 303)
+                
+                self.scrollView.contentSize.width = width * CGFloat(index+1)
+                self.scrollView.addSubview($0)
             }
         }
     }
