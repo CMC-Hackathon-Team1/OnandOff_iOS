@@ -10,15 +10,24 @@ import Alamofire
 
 extension UIImageView {
     func loadImage(_ urlString: String) {
-        DispatchQueue.global().async {
-            guard let url = URL(string: urlString) else { return }
-            do {
-                let data = try Data(contentsOf: url)
-                DispatchQueue.main.async {
-                    self.image = UIImage(data: data)
+        let cacheKey = NSString(string: urlString)
+        
+        if let cacheImage = ImageCacheManager.shared.object(forKey: cacheKey) {
+            self.image = cacheImage
+            return
+        }
+        
+        AF.request(urlString).responseData() { res in
+            switch res.result {
+            case .success(let data):
+                if let image = UIImage(data: data) {
+                    ImageCacheManager.shared.setObject(image, forKey: cacheKey)
+                    self.image = image
+                } else {
+                    print("올바르지 않은 이미지 URL")
                 }
-            } catch(let error) {
-                print(error)
+            case .failure(let error):
+                print("Image load error : \(error)")
             }
         }
     }

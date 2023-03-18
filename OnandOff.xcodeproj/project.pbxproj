@@ -39,6 +39,7 @@
 		DB3732CC29C3238A004A2DD2 /* ReportViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3732CB29C3238A004A2DD2 /* ReportViewDelegate.swift */; };
 		DB3732CE29C32DED004A2DD2 /* OtherFeedCellWithDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3732CD29C32DED004A2DD2 /* OtherFeedCellWithDay.swift */; };
 		DB3732D029C33420004A2DD2 /* FeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3732CF29C33420004A2DD2 /* FeedModel.swift */; };
+		DB39C06029C5CBBB008B566C /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB39C05F29C5CBBB008B566C /* ImageCacheManager.swift */; };
 		DB3B464729AB3CF8005F90C3 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B464629AB3CF8005F90C3 /* CategoryModel.swift */; };
 		DB3B601829BDB4D40087B04B /* FeedCellWithHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B601729BDB4D40087B04B /* FeedCellWithHome.swift */; };
 		DB3B601A29BDD8800087B04B /* ActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B601929BDD8800087B04B /* ActionSheetViewController.swift */; };
@@ -61,7 +62,6 @@
 		DB5AFDEA2960053100667336 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB5AFDE92960053100667336 /* Assets.xcassets */; };
 		DB5AFDED2960053100667336 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB5AFDEB2960053100667336 /* LaunchScreen.storyboard */; };
 		DB5AFDF92960068F00667336 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFDF82960068F00667336 /* UIColor+.swift */; };
-		DB5AFE0129600B6F00667336 /* TempService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFE0029600B6F00667336 /* TempService.swift */; };
 		DB5AFE052960130900667336 /* NotoSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DB5AFE042960130900667336 /* NotoSans-Regular.ttf */; };
 		DB5AFE062960130C00667336 /* NotoSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DB5AFE03296012FB00667336 /* NotoSans-Bold.ttf */; };
 		DB5AFE082960134400667336 /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5AFE072960134400667336 /* UIFont+.swift */; };
@@ -148,6 +148,7 @@
 		DB3732CB29C3238A004A2DD2 /* ReportViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewDelegate.swift; sourceTree = "<group>"; };
 		DB3732CD29C32DED004A2DD2 /* OtherFeedCellWithDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherFeedCellWithDay.swift; sourceTree = "<group>"; };
 		DB3732CF29C33420004A2DD2 /* FeedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedModel.swift; sourceTree = "<group>"; };
+		DB39C05F29C5CBBB008B566C /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		DB3B464629AB3CF8005F90C3 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		DB3B601729BDB4D40087B04B /* FeedCellWithHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCellWithHome.swift; sourceTree = "<group>"; };
 		DB3B601929BDD8800087B04B /* ActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewController.swift; sourceTree = "<group>"; };
@@ -172,7 +173,6 @@
 		DB5AFDEC2960053100667336 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DB5AFDEE2960053100667336 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DB5AFDF82960068F00667336 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
-		DB5AFE0029600B6F00667336 /* TempService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempService.swift; sourceTree = "<group>"; };
 		DB5AFE03296012FB00667336 /* NotoSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Bold.ttf"; sourceTree = "<group>"; };
 		DB5AFE042960130900667336 /* NotoSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSans-Regular.ttf"; sourceTree = "<group>"; };
 		DB5AFE072960134400667336 /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
@@ -393,6 +393,7 @@
 			children = (
 				DB3EB8BA299E085000434666 /* Protocols */,
 				DB5AFE0229600E3600667336 /* Extensions */,
+				DB39C05F29C5CBBB008B566C /* ImageCacheManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -400,7 +401,6 @@
 		DB5AFDFE296008CF00667336 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				DB5AFE0029600B6F00667336 /* TempService.swift */,
 				5DB24CAF2995CC6E00654978 /* AuthService.swift */,
 				5DB24CB12995CC7D00654978 /* TokenService.swift */,
 				DBC3619729A0F8CD0011C319 /* FeedService.swift */,
@@ -777,6 +777,7 @@
 				DB3B464729AB3CF8005F90C3 /* CategoryModel.swift in Sources */,
 				DB3EB8BE299E384400434666 /* ReportViewController.swift in Sources */,
 				DB2503EC29AA21F300B0AE39 /* ImgPageControlView.swift in Sources */,
+				DB39C06029C5CBBB008B566C /* ImageCacheManager.swift in Sources */,
 				25E32F52299B61E5003FF02B /* FindPasswordViewController.swift in Sources */,
 				DB5AFE0E2960171100667336 /* HomeViewController.swift in Sources */,
 				DB3B601A29BDD8800087B04B /* ActionSheetViewController.swift in Sources */,
@@ -798,7 +799,6 @@
 				DB5AFE102960171E00667336 /* LookAroundViewController.swift in Sources */,
 				DB3DE7C629B60BC000A95218 /* MyPageModel.swift in Sources */,
 				DB3545F729C0A42600A6087E /* UnderLineTextFieldDelegate.swift in Sources */,
-				DB5AFE0129600B6F00667336 /* TempService.swift in Sources */,
 				E56E0ECD299B1DCD009FD906 /* PersonaModel.swift in Sources */,
 				DB58082A29B729100095BEEF /* TextFieldComponent.swift in Sources */,
 				DB5AFDE12960052D00667336 /* AppDelegate.swift in Sources */,

@@ -44,7 +44,7 @@ final class ProfileCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         self.profileImageView.contentMode = .scaleAspectFit
-//        self.profileImageView.image = nil
+        self.profileImageView.image = nil
         self.profileImageView.layer.borderWidth = 1
         self.profileImageView.layer.borderColor = UIColor.text3.cgColor
     }

@@ -11,7 +11,6 @@ import FSCalendar
 final class HomeViewController: UIViewController {
     //MARK: - Properties
     private var personaDatas: [ProfileItem] = []
-    private var profileImageDatas: [UIImage] = []
     private var calendarDatas: [CalendarInfoItem] = []
     private var calendarImages: [String : UIImage?] = [:]
     
@@ -147,32 +146,21 @@ final class HomeViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
         if self.checkUserLogin() {
             ProfileService.getProfileModels { [weak self] res in
-                self?.profileImageDatas = []
                 self?.personaDatas = []
                 switch res.statusCode {
                 case 100:
                     guard let items = res.result else { return }
                     let profileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
-                    var profile: ProfileItem?
                     self?.personaDatas = items
-                    DispatchQueue.global().async {
-                        for item in items {
-                            if item.profileId == profileId { profile = item }
-                            do {
-                                guard let url = URL(string: item.profileImgUrl) else { return }
-                                let data = try Data(contentsOf: url)
-                                self?.profileImageDatas.append(UIImage(data: data) ?? UIImage())
-                            } catch let error {
-                                print(error)
-                            }
-                        }
-                        DispatchQueue.main.async {
-                            if profileId == -1 { self?.selectedProfile = nil }
-                            if let profile { self?.selectedProfile = profile }
-                            if self?.selectedProfile == nil { self?.selectedProfile = items[0] }
-                            self?.profileCollectionView.reloadData()
-                        }
+                    
+                    if let idx = items.firstIndex(where: { $0.profileId == profileId }) {
+                        self?.selectedProfile = items[idx]
+                    } else if profileId == -1 {
+                        self?.selectedProfile = nil
                     }
+                    
+                    if self?.selectedProfile == nil { self?.selectedProfile = items[0] }
+                    self?.profileCollectionView.reloadData()
                 case 1503:
                     let profileMakeVC = UINavigationController(rootViewController: ProfileMakeViewController())
                     profileMakeVC.modalPresentationStyle = .fullScreen
@@ -201,26 +189,7 @@ final class HomeViewController: UIViewController {
         let current = self.calendarView.currentPage
         FeedService.getCalendarInfo(profileId: self.selectedProfile!.profileId, year: current.getYear, month: current.getMonth) { [weak self] items in
             self?.calendarDatas = items
-            self?.calendarImages = [:]
-            DispatchQueue.global().async {
-                for item in items {
-                    do {
-                        if let urlString = item.feedImgUrl {
-                            guard let url = URL(string: urlString) else { return }
-                            let data = try Data(contentsOf: url)
-                            self?.calendarImages[item.day] = UIImage(data: data)
-                        }
-                        DispatchQueue.main.async {
-                            self?.calendarView.reloadData()
-                        }
-                    } catch let error {
-                        print(error)
-                    }
-                }
-                DispatchQueue.main.async {
-                    self?.calendarView.reloadData()
-                }
-            }
+            self?.calendarView.reloadData()
         }
     }
     
@@ -247,9 +216,9 @@ final class HomeViewController: UIViewController {
             $0.appearance.headerTitleColor = .black
             $0.appearance.weekdayFont = UIFont.notoSans(size: 12)
             $0.appearance.weekdayTextColor = .black
-            $0.appearance.todayColor = .white
+            $0.appearance.todayColor = .none
             $0.appearance.titleTodayColor = .black
-            $0.appearance.selectionColor = .white
+            $0.appearance.selectionColor = .none
             $0.appearance.titleSelectionColor = .black
             $0.appearance.eventDefaultColor = UIColor.mainColor
             $0.appearance.eventSelectionColor = UIColor.mainColor
@@ -475,20 +444,25 @@ final class HomeViewController: UIViewController {
 //MARK: - CalendarDelegate
 extension HomeViewController: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     // 특정 날짜에 이미지 세팅
-    func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
-        if let item = self.calendarImages.filter({ $0.key == date.getDay }).first {
-            return item.value
-        }
-        
-        return nil
-    }
+//    func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
+//        if let item = self.calendarImages.filter({ $0.key == date.getDay }).first {
+//            return item.value
+//        }
+//
+//        return nil
+//    }
     
-    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, imageOffsetFor date: Date) -> CGPoint {
-        return .init(x: 0, y: 5)
-    }
+//    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, imageOffsetFor date: Date) -> CGPoint {
+//        return .init(x: 0, y: 5)
+//    }
     
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
         let cell = calendar.dequeueReusableCell(withIdentifier: CalendarCell.identifier, for: date, at: position) as! CalendarCell
+        cell.prepareForReuse()
+        if let item = self.calendarDatas.first(where: { $0.day == date.getDay }),
+           let urlString = item.feedImgUrl {
+            cell.customImageView.loadImage(urlString)
+        }
         
         return cell
     }
@@ -531,8 +505,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             cell.profileImageView.image = UIImage(named: "plus")?.withRenderingMode(.alwaysOriginal)
         }else{
             if self.selectedProfile!.profileId == self.personaDatas[indexPath.row].profileId { cell.configureSelectedItem() }
-            if !self.profileImageDatas.isEmpty { cell.profileImageView.image = self.profileImageDatas[indexPath.row] }
             cell.profileNameLabel.text = self.personaDatas[indexPath.row].personaName
+            cell.profileImageView.loadImage(self.personaDatas[indexPath.row].profileImgUrl)
         }
         
         return cell
