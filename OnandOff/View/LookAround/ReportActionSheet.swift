@@ -18,7 +18,7 @@ final class ReportActionSheet: UIView {
     private let frameView = UIView().then {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 10
-        $0.layer.shadowOpacity = 1.0
+        $0.layer.shadowOpacity = 0.6
         $0.layer.shadowRadius = 1
         $0.layer.shadowOffset = .init(width: 0, height: -2)
         $0.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]

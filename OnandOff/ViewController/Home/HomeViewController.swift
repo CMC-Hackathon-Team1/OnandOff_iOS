@@ -225,6 +225,16 @@ final class HomeViewController: UIViewController {
         }        
     }
     
+    private func userLogout() {
+        TokenService().delete("https://dev.onnoff.shop/auth/login", account: "accessToken") // JWT 삭제
+        UserDefaults.standard.set(-1, forKey: "selectedProfileId")
+        self.navigationController?.popToRootViewController(animated: true)
+        let loginVC = UINavigationController(rootViewController: LoginViewController())
+        loginVC.modalPresentationStyle = .fullScreen
+        
+        self.present(loginVC, animated: true)
+    }
+    
     private func setUpView() {
         self.view.addSubview(self.scrollView)
         
@@ -395,15 +405,12 @@ final class HomeViewController: UIViewController {
             if let response = response {
                 switch response.statusCode {
                 case 100:
-                    TokenService().delete("https://dev.onnoff.shop/auth/login", account: "accessToken") // JWT 삭제
-                    UserDefaults.standard.set(-1, forKey: "selectedProfileId")
-                    self.navigationController?.popToRootViewController(animated: true)
-                    let loginVC = UINavigationController(rootViewController: LoginViewController())
-                    loginVC.modalPresentationStyle = .fullScreen
-                    self.present(loginVC, animated: true)
+                    self.userLogout()
                 case 400:
                     print(response.message)
-                case 401:
+                case 401: fallthrough
+                case 1002:
+                    self.userLogout()
                     print(response.message)
                 case 500:
                     print(response.message)

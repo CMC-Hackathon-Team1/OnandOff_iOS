@@ -64,15 +64,15 @@ final class OtherFeedWithDayViewController: UIViewController {
     }
     
     @objc private func showAlert() {
-        _ = ReportActionSheet(self.feedDatas[0].feedId).then {
-            self.view.addSubview($0)
-            $0.delegate = self
-            $0.snp.makeConstraints { make in
-                make.leading.trailing.equalToSuperview()
-                make.top.equalTo(self.frameView).offset(4)
-                make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
-            }
+        let actionSheet = StandardActionSheetViewcontroller(title: "신고하기")
+        let report = StandardActionSheetAction(title: "게시글 신고하기", image: UIImage(named: "Warning")?.withRenderingMode(.alwaysOriginal)) { _ in
+            let reportVC = UINavigationController(rootViewController: ReportViewController(self.feedDatas[0].feedId))
+            reportVC.modalPresentationStyle = .fullScreen
+            self.present(reportVC, animated: true)
         }
+        actionSheet.modalPresentationStyle = .overFullScreen
+        actionSheet.addAction(report)
+        self.present(actionSheet, animated: true)
     }
     
     //MARK: - AddSubView
@@ -151,14 +151,6 @@ extension OtherFeedWithDayViewController: UICollectionViewDelegate, UICollection
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: 2, height: 2)
-    }
-}
-
-extension OtherFeedWithDayViewController: ReportViewDelegate {
-    func presentReportViewController(_ feedId: Int) {
-        let reportVC = UINavigationController(rootViewController: ReportViewController(feedIdWithPage: feedId))
-        reportVC.modalPresentationStyle = .fullScreen
-        self.present(reportVC, animated: true)
     }
 }
 

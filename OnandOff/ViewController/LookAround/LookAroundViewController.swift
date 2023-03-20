@@ -246,7 +246,6 @@ final class LookAroundViewController: UIViewController {
     }
     
     @objc private func dismissKeyboard() {
-        print("asdsa")
         self.searchBar.endEditing(true)
     }
     
@@ -369,14 +368,14 @@ extension LookAroundViewController: LookAroundDelegate {
     }
     
     func didClickEllipsis(_ feedId: Int) {
-        _ = ReportActionSheet(feedId).then {
-            $0.delegate = self
-            self.view.addSubview($0)
-            $0.snp.makeConstraints { make in
-                make.top.leading.trailing.equalToSuperview()
-                make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
-            }
+        let actionSheet = StandardActionSheetViewcontroller(title: "신고하기")
+        let report = StandardActionSheetAction(title: "게시글 신고하기", image: UIImage(named: "Warning")?.withRenderingMode(.alwaysOriginal)) { _ in
+            let reportVC = ReportViewController(feedId)
+            self.navigationController?.pushViewController(reportVC, animated: true)
         }
+        actionSheet.addAction(report)
+        
+        self.present(actionSheet, animated: true)
     }
     
     func didClickHeart(_ feedId: Int) {
