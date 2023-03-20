@@ -10,8 +10,8 @@ import FSCalendar
 
 class CalendarHeaderView: UICollectionReusableView {
     static let identifier = "CalendarHeaderView"
+    
     private var calendarDatas: [CalendarInfoItem] = []
-    private var images: [String : UIImage?] = [:]
     var profileId = 0
     
     private let calendarView = FSCalendar().then {
@@ -40,28 +40,7 @@ class CalendarHeaderView: UICollectionReusableView {
             let current = self.calendarView.currentPage
             FeedService.getCalendarInfo(profileId: self.profileId, year: current.getYear, month: current.getMonth) { [weak self] items in
                 self?.calendarDatas = items
-                self?.images = [:]
-                DispatchQueue.global().async {
-                    for item in items {
-                        do {
-                            if let urlString = item.feedImgUrl {
-                                
-                                guard let url = URL(string: urlString) else { return }
-                                
-                                let data = try Data(contentsOf: url)
-                                self?.images[item.day] = UIImage(data: data)
-                            }
-                            DispatchQueue.main.async {
-                                self?.calendarView.reloadData()
-                            }
-                        } catch let error {
-                            print(error)
-                        }
-                    }
-                    DispatchQueue.main.async {
-                        self?.calendarView.reloadData()
-                    }
-                }
+                self?.calendarView.reloadData()
             }
         }
     }
@@ -89,20 +68,17 @@ class CalendarHeaderView: UICollectionReusableView {
 //MARK: - CalendarDelegate
 extension CalendarHeaderView: FSCalendarDelegate, FSCalendarDataSource, FSCalendarDelegateAppearance {
     // 특정 날짜에 이미지 세팅
-    func calendar(_ calendar: FSCalendar, imageFor date: Date) -> UIImage? {
-        if let item = images.filter({ $0.key == date.getDay }).first {
-            return item.value
-        }
-        
-        return nil
-    }
-    
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, imageOffsetFor date: Date) -> CGPoint {
         return .init(x: 0, y: 5)
     }
     
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
         let cell = calendar.dequeueReusableCell(withIdentifier: CalendarCell.identifier, for: date, at: position) as! CalendarCell
+        cell.prepareForReuse()
+        if let item = self.calendarDatas.first(where: { $0.day == date.getDay }),
+           let urlString = item.feedImgUrl {
+            cell.customImageView.loadImage(urlString)
+        }
         
         return cell
     }

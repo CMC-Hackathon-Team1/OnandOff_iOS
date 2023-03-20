@@ -22,6 +22,7 @@ final class OtherProfileViewController: UIViewController {
         $0.register(OtherFeedCell.self, forCellWithReuseIdentifier: OtherFeedCell.identifier)
     }
     
+    // MARK: - Init
     init(_ profileId: Int) {
         self.profileId = profileId
         super.init(nibName: nil, bundle: nil)
@@ -39,21 +40,19 @@ final class OtherProfileViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.addSubView()
         self.layout()
+        self.configureNavigation()
         
         self.view.backgroundColor = .white
-
-        self.navigationItem.title = "프로필"
-        self.navigationController?.navigationBar.tintColor = .black
-        self.navigationItem.backButtonTitle = ""
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.presentFeed), name: .clickDay, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.didChangeCurrentPage), name: .changeCurrentPage, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.toggleFollow), name: .clickFollow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.toggleHeart), name: .clickHeart, object: nil)
+        self.feedCollectionView.delegate = self
+        self.feedCollectionView.dataSource = self
+
+        self.addObserver()
     }
     
     private func fetchFeed() {
@@ -64,10 +63,19 @@ final class OtherProfileViewController: UIViewController {
         MyPageService.fetchFeedWithDate(currentProfileId, targetId: self.profileId, year: year,
                                         month: month, day: nil, page: self.currentPage) { [weak self] items in
             self?.feedDatas = items
-            self?.feedCollectionView.delegate = self
-            self?.feedCollectionView.dataSource = self
             self?.feedCollectionView.reloadData()
         }
+    }
+    
+    //MARK: - Selector
+    @objc private func didClickUserEllipsisButton() {
+        let actionSheetVC = StandardActionSheetViewcontroller(title: "신고하기")
+        let blockUser = StandardActionSheetAction(title: "유저 신고하기", image: UIImage(named: "Warning")?.withRenderingMode(.alwaysOriginal))
+        let blockUser2 = StandardActionSheetAction(title: "유저 차단하기", image: UIImage(named: "Warning")?.withRenderingMode(.alwaysOriginal))
+        actionSheetVC.addAction(blockUser)
+        actionSheetVC.addAction(blockUser2)
+        
+        self.present(actionSheetVC, animated: true)
     }
     
     @objc private func toggleFollow(notification: Notification) {
@@ -105,11 +113,30 @@ final class OtherProfileViewController: UIViewController {
         }
     }
     
+    private func configureNavigation() {
+        self.navigationItem.title = "프로필"
+        self.navigationController?.navigationBar.tintColor = .black
+        self.navigationItem.backButtonTitle = ""
+        let a = UIBarButtonItem(image: UIImage(named: "ellipsis"), style: .plain, target: self, action: #selector(self.didClickUserEllipsisButton))
+        self.navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: UIView(frame: .init(x: 0, y: 0, width: 1, height: 1))),
+                                                   UIBarButtonItem(image: UIImage(named: "ellipsis"), style: .plain, target: self, action: #selector(self.didClickUserEllipsisButton))]
+    }
+    
+    //MARK: - AddObserver
+    private func addObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.presentFeed), name: .clickDay, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.didChangeCurrentPage), name: .changeCurrentPage, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.toggleFollow), name: .clickFollow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.toggleHeart), name: .clickHeart, object: nil)
+    }
+    
+    //MARK: - AddSubView
     private func addSubView() {
         self.view.addSubview(self.profileView)
         self.view.addSubview(self.feedCollectionView)
     }
     
+    //MARK: - Layout
     private func layout() {
         self.profileView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
@@ -193,20 +220,12 @@ extension OtherProfileViewController: FeedDelegate {
     }
     
     func didClickEllipsisButton(id: Int) {
-        _ = ReportActionSheet(id).then {
-            self.view.addSubview($0)
-            $0.delegate = self
-            $0.snp.makeConstraints { make in
-                make.top.leading.trailing.equalToSuperview()
-                make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
-            }
+        let actionSheet = StandardActionSheetViewcontroller(title: "신고하기")
+        let report = StandardActionSheetAction(title: "게시글 신고하기", image: UIImage(named: "Warning")?.withRenderingMode(.alwaysOriginal)) { _ in
+            let reportVC = ReportViewController(id)
+            self.navigationController?.pushViewController(reportVC, animated: true)
         }
-    }
-}
-
-extension OtherProfileViewController: ReportViewDelegate {
-    func presentReportViewController(_ feedId: Int) {
-        let reportVC = ReportViewController(feedId)
-        self.navigationController?.pushViewController(reportVC, animated: true)
+        actionSheet.addAction(report)
+        self.present(actionSheet, animated: true)
     }
 }
