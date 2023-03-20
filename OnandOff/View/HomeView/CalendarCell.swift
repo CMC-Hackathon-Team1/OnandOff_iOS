@@ -19,7 +19,7 @@ final class CalendarCell: FSCalendarCell {
     
     override init!(frame: CGRect) {
         super.init(frame: frame)
-      
+        self.backgroundColor = .clear
         self.addSubview(self.customImageView)
         self.customImageView.snp.remakeConstraints {
             $0.top.equalTo(self.titleLabel.snp.bottom).offset(-7)

@@ -27,7 +27,7 @@ class CalendarHeaderView: UICollectionReusableView {
         self.calendarView.dataSource = self
         self.calendarView.delegate = self
         
-        self.backgroundColor = .white
+        self.backgroundColor = .clear
     }
     
     required init?(coder: NSCoder) {

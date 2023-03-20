@@ -376,14 +376,6 @@ extension LookAroundViewController: LookAroundDelegate {
         actionSheet.addAction(report)
         
         self.present(actionSheet, animated: true)
-//        _ = ReportActionSheet(feedId).then {
-//            $0.delegate = self
-//            self.view.addSubview($0)
-//            $0.snp.makeConstraints { make in
-//                make.top.leading.trailing.equalToSuperview()
-//                make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
-//            }
-//        }
     }
     
     func didClickHeart(_ feedId: Int) {

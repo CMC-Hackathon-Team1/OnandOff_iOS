@@ -39,11 +39,12 @@ class CheckView: UIView {
         checkButton.snp.makeConstraints {
             $0.left.equalTo(snp.left)
             $0.centerY.equalTo(snp.centerY)
+            $0.height.width.equalTo(30)
         }
         
         addSubview(label)
         label.snp.makeConstraints {
-            $0.centerY.equalTo(snp.centerY)
+            $0.centerY.equalTo(checkButton.snp.centerY)
             $0.height.equalTo(14)
             $0.left.equalTo(checkButton.snp.right).offset(9)
             // $0.right.equalTo(snp.right).offset(24)
@@ -52,7 +53,7 @@ class CheckView: UIView {
         addSubview(nextImage)
         nextImage.snp.makeConstraints {
             $0.right.equalTo(snp.right)
-            $0.centerY.equalTo(snp.centerY)
+            $0.centerY.equalTo(checkButton.snp.centerY)
         }
     }
     

@@ -20,15 +20,14 @@ final class AgreeViewController: UIViewController {
     
     private lazy var allAgreeView: CheckView = {
         return CheckView(firstSentence: "", secondSentence: "약관 전체동의", checkButton: allAgreeButton, imageName: "")
+        
     }()
     
     private lazy var allAgreeButton: UIButton = {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "anonymousCheckOff"), for: .normal)
         button.tintColor = #colorLiteral(red: 0.1529411765, green: 0.1450980392, blue: 0.1215686275, alpha: 1)
-        button.snp.makeConstraints { $0.height.width.equalTo(16) }
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 16 / 2
+        button.contentMode = .scaleAspectFit
         button.addTarget(self, action: #selector(didTapAllAgreeButton), for: .touchUpInside)
         return button
     }()
@@ -47,9 +46,6 @@ final class AgreeViewController: UIViewController {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "anonymousCheckOff"), for: .normal)
         button.tintColor = #colorLiteral(red: 0.1529411765, green: 0.1450980392, blue: 0.1215686275, alpha: 1)
-        button.snp.makeConstraints { $0.height.width.equalTo(16) }
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 16 / 2
         button.addTarget(self, action: #selector(didTapAgeAgreeButton), for: .touchUpInside)
         return button
     }()
@@ -62,9 +58,6 @@ final class AgreeViewController: UIViewController {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "anonymousCheckOff"), for: .normal)
         button.tintColor = #colorLiteral(red: 0.1529411765, green: 0.1450980392, blue: 0.1215686275, alpha: 1)
-        button.snp.makeConstraints { $0.height.width.equalTo(16) }
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 16 / 2
         button.addTarget(self, action: #selector(didTapServiceAgreeButton), for: .touchUpInside)
         return button
     }()
@@ -77,9 +70,6 @@ final class AgreeViewController: UIViewController {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "anonymousCheckOff"), for: .normal)
         button.tintColor = #colorLiteral(red: 0.1529411765, green: 0.1450980392, blue: 0.1215686275, alpha: 1)
-        button.snp.makeConstraints { $0.height.width.equalTo(16) }
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 16 / 2
         button.addTarget(self, action: #selector(didTapInfoAgreeButton), for: .touchUpInside)
         return button
     }()
