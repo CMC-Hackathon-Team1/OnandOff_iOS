@@ -40,4 +40,7 @@ extension Notification.Name {
     
     /// 홈 달력 클릭시 나타나는 피드 deinit 감지 옵저버
     static let didCloseFeedWithDayVC = Notification.Name("didCloseFeedWithDayVC")
+    
+    /// 유저 차단 감지
+    static let blockProfile = Notification.Name("blockProfile")
 }

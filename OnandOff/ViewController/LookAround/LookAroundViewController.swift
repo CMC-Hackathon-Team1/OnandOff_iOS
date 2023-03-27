@@ -47,8 +47,8 @@ final class LookAroundViewController: UIViewController {
     }
     
     private let guideLabel = UILabel().then {
-        $0.font = .notoSans(size: 12)
-        $0.textColor = .black
+        $0.textColor = .text3
+        $0.font = .notoSans(size: 16)
         $0.text = "검색 결과가 없습니다."
         $0.isHidden = false
     }
@@ -80,6 +80,7 @@ final class LookAroundViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(didChangeProfileId), name: .changeProfileId, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(toggleFollow), name: .clickFollow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(toggleHeart), name: .clickHeart, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(blockProfile), name: .blockProfile, object: nil)
         
         self.currentProfileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
         self.fetchFeed(profileId: self.currentProfileId, text: nil)
@@ -108,12 +109,12 @@ final class LookAroundViewController: UIViewController {
         let isFollowing = self.topTabbar.selectedItem == .following
         let text = text ?? ""
         if isReset { self.resetData() }
-        self.guideLabel.isHidden = true
         
         if !text.isEmpty {
             if isFollowing {
-                FeedService.searchFeed(profileId, text: text, categoryId: self.currentProfileId, page: self.followingPage, fResult: isFollowing) { list in
+                FeedService.searchFeed(profileId, text: text, categoryId: self.currentCategoryId, page: self.followingPage, fResult: isFollowing) { list in
                     if list.isEmpty { self.followingHasNextPage = false }
+                    self.guideLabel.isHidden = true
                     self.followingDatas.append(contentsOf: list)
                     self.followingCollectionView.reloadData()
                     if self.followingDatas.isEmpty { self.guideLabel.isHidden = false }
@@ -121,8 +122,9 @@ final class LookAroundViewController: UIViewController {
                     completion?()
                 }
             } else {
-                FeedService.searchFeed(profileId, text: text, categoryId: self.currentCategoryId, page: self.followingPage, fResult: isFollowing) { list in
+                FeedService.searchFeed(profileId, text: text, categoryId: self.currentCategoryId, page: self.explorationPage, fResult: isFollowing) { list in
                     if list.isEmpty { self.explorationHasNextPage = false }
+                    self.guideLabel.isHidden = true
                     self.explorationDatas.append(contentsOf: list)
                     self.explorationCollectionView.reloadData()
                     if self.explorationDatas.isEmpty { self.guideLabel.isHidden = false }
@@ -134,6 +136,7 @@ final class LookAroundViewController: UIViewController {
             if isFollowing {
                 FeedService.fetchFeed(profileId, categoryId: self.currentCategoryId, page: self.followingPage, fResult: isFollowing) { list in
                     if list.isEmpty { self.followingHasNextPage = false }
+                    self.guideLabel.isHidden = true
                     self.followingDatas.append(contentsOf: list)
                     self.followingCollectionView.reloadData()
                     if self.followingDatas.isEmpty { self.guideLabel.isHidden = false }
@@ -143,6 +146,7 @@ final class LookAroundViewController: UIViewController {
             } else {
                 FeedService.fetchFeed(profileId, categoryId: self.currentCategoryId, page: self.explorationPage, fResult: isFollowing) { list in
                     if list.isEmpty { self.explorationHasNextPage = false }
+                    self.guideLabel.isHidden = true
                     self.explorationDatas.append(contentsOf: list)
                     self.explorationCollectionView.reloadData()
                     if self.explorationDatas.isEmpty { self.guideLabel.isHidden = false }
@@ -247,6 +251,15 @@ final class LookAroundViewController: UIViewController {
     
     @objc private func dismissKeyboard() {
         self.searchBar.endEditing(true)
+    }
+    
+    @objc private func blockProfile(_ notification: Notification) {
+        if let profileId = notification.object as? Int {
+            self.explorationDatas = self.explorationDatas.filter { $0.profileId != profileId }
+            self.explorationCollectionView.reloadData()
+            self.followingDatas = self.followingDatas.filter { $0.profileId != profileId }
+            self.followingCollectionView.reloadData()
+        }
     }
     
     //MARK: - addSubView
