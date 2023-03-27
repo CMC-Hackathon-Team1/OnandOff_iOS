@@ -70,8 +70,20 @@ final class OtherProfileViewController: UIViewController {
     //MARK: - Selector
     @objc private func didClickUserEllipsisButton() {
         let actionSheetVC = StandardActionSheetViewcontroller(title: "신고하기")
-        let blockUser = StandardActionSheetAction(title: "유저 신고하기", image: UIImage(named: "Warning")?.withRenderingMode(.alwaysOriginal))
-        let blockUser2 = StandardActionSheetAction(title: "유저 차단하기", image: UIImage(named: "Warning")?.withRenderingMode(.alwaysOriginal))
+        let blockUser = StandardActionSheetAction(title: "유저 신고하기", image: UIImage(named: "Warning")?.withTintColor(.mainColor)) { _ in
+            let reportVC = ReportViewController(self.profileId)
+            self.navigationController?.pushViewController(reportVC, animated: true)
+        }
+        let blockUser2 = StandardActionSheetAction(title: "유저 차단하기", image: UIImage(named: "block")?.withRenderingMode(.alwaysOriginal)) { _ in
+            ProfileService.blockProfile(self.profileId) { [weak self] code in
+                if code == 3703 {
+                    self?.defaultAlert(title: "차단되었습니다.") {
+                        NotificationCenter.default.post(name: .blockProfile, object: self?.profileId)
+                        self?.navigationController?.popViewController(animated: true)
+                    }
+                }
+            }
+        }
         actionSheetVC.addAction(blockUser)
         actionSheetVC.addAction(blockUser2)
         
@@ -117,7 +129,7 @@ final class OtherProfileViewController: UIViewController {
         self.navigationItem.title = "프로필"
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationItem.backButtonTitle = ""
-        let a = UIBarButtonItem(image: UIImage(named: "ellipsis"), style: .plain, target: self, action: #selector(self.didClickUserEllipsisButton))
+        
         self.navigationItem.rightBarButtonItems = [UIBarButtonItem(customView: UIView(frame: .init(x: 0, y: 0, width: 1, height: 1))),
                                                    UIBarButtonItem(image: UIImage(named: "ellipsis"), style: .plain, target: self, action: #selector(self.didClickUserEllipsisButton))]
     }

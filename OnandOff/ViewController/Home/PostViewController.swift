@@ -148,10 +148,12 @@ final class PostViewController: UIViewController {
         self.setUpView()
         self.layout()
         self.addTarget()
-
+        
         self.contentTextView.delegate = self
         if !self.isEditMode { self.navigationController?.navigationBar.isHidden = false }
         self.tabBarController?.tabBar.isHidden = true
+        
+        self.defaultAlert(title: nil, message: "적절하지 못하거나 불쾌감을 줄 수 있는 컨텐츠나 폭력적인 사용자는 강력한 서비스 이용 제재를 받을 수 있습니다.")
     }
     
     //MARK: - Delegate
@@ -196,23 +198,21 @@ final class PostViewController: UIViewController {
         let hastag = self.hashtagTextfield.text!.split(separator: "#").map { String($0) }
         let isSecret = self.isAnonymous ? "PRIVATE" : "PUBLIC"
         
-        self.defaultAlert(title: "적절하지 못하거나 불쾌감을 줄 수 있는 컨텐츠는 제재를 받을 수 있습니다.") {
-            FeedService.createFeed(self.selectedProfileItem.profileId,
-                                   categoryId: self.selectedCategoryId,
-                                   hasTagList: hastag,
-                                   content: self.contentTextView.text!,
-                                   isSecret: isSecret,
-                                   images: self.selectedImages) { res in
-                switch res.statusCode {
-                case 100: self.defaultAlert(title: "게시글 작성 완료") {
-                    self.navigationController?.popToRootViewController(animated: true)
+        FeedService.createFeed(self.selectedProfileItem.profileId,
+                               categoryId: self.selectedCategoryId,
+                               hasTagList: hastag,
+                               content: self.contentTextView.text!,
+                               isSecret: isSecret,
+                               images: self.selectedImages) { res in
+            switch res.statusCode {
+            case 100: self.defaultAlert(title: "게시글 작성 완료") {
+                self.navigationController?.popToRootViewController(animated: true)
+            }
+            case 2208:
+                self.defaultAlert(title: res.message) {
+                    self.navigationController?.popViewController(animated: true)
                 }
-                case 2208:
-                    self.defaultAlert(title: res.message) {
-                        self.navigationController?.popViewController(animated: true)
-                    }
-                default: self.defaultAlert(title: res.message)
-                }
+            default: self.defaultAlert(title: res.message)
             }
         }
     }
