@@ -110,7 +110,7 @@ class ProfileService {
         let fromProfileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
         let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
         let parameter: Parameters = ["fromProfileId" : fromProfileId,
-                                     "toProfileId" : 15]
+                                     "toProfileId" : toProfileId]
     
         let request = AF.request(url, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header)
         request.responseDecodable(of: DefaultModel.self) { res in
