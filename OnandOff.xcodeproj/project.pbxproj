@@ -35,6 +35,8 @@
 		DB3545F329BF4D7300A6087E /* DefaultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3545F229BF4D7300A6087E /* DefaultModel.swift */; };
 		DB3545F529C095EA00A6087E /* UnderLineTextFiled.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3545F429C095EA00A6087E /* UnderLineTextFiled.swift */; };
 		DB3545F729C0A42600A6087E /* UnderLineTextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3545F629C0A42600A6087E /* UnderLineTextFieldDelegate.swift */; };
+		DB3632B829C78391006157F9 /* StandardActionSheetViewcontroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3632B729C78391006157F9 /* StandardActionSheetViewcontroller.swift */; };
+		DB3632BB29C78D37006157F9 /* StandardActionSheetAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3632BA29C78D37006157F9 /* StandardActionSheetAction.swift */; };
 		DB36866429C1BF0500FE0C04 /* EmailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB36866329C1BF0500FE0C04 /* EmailModel.swift */; };
 		DB3732CC29C3238A004A2DD2 /* ReportViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3732CB29C3238A004A2DD2 /* ReportViewDelegate.swift */; };
 		DB3732CE29C32DED004A2DD2 /* OtherFeedCellWithDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3732CD29C32DED004A2DD2 /* OtherFeedCellWithDay.swift */; };
@@ -144,6 +146,8 @@
 		DB3545F229BF4D7300A6087E /* DefaultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultModel.swift; sourceTree = "<group>"; };
 		DB3545F429C095EA00A6087E /* UnderLineTextFiled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderLineTextFiled.swift; sourceTree = "<group>"; };
 		DB3545F629C0A42600A6087E /* UnderLineTextFieldDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderLineTextFieldDelegate.swift; sourceTree = "<group>"; };
+		DB3632B729C78391006157F9 /* StandardActionSheetViewcontroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardActionSheetViewcontroller.swift; sourceTree = "<group>"; };
+		DB3632BA29C78D37006157F9 /* StandardActionSheetAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardActionSheetAction.swift; sourceTree = "<group>"; };
 		DB36866329C1BF0500FE0C04 /* EmailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailModel.swift; sourceTree = "<group>"; };
 		DB3732CB29C3238A004A2DD2 /* ReportViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewDelegate.swift; sourceTree = "<group>"; };
 		DB3732CD29C32DED004A2DD2 /* OtherFeedCellWithDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherFeedCellWithDay.swift; sourceTree = "<group>"; };
@@ -273,6 +277,15 @@
 				DB3732CF29C33420004A2DD2 /* FeedModel.swift */,
 			);
 			path = LookAround;
+			sourceTree = "<group>";
+		};
+		DB3632B929C783AD006157F9 /* StandardActionSheet */ = {
+			isa = PBXGroup;
+			children = (
+				DB3632B729C78391006157F9 /* StandardActionSheetViewcontroller.swift */,
+				DB3632BA29C78D37006157F9 /* StandardActionSheetAction.swift */,
+			);
+			path = StandardActionSheet;
 			sourceTree = "<group>";
 		};
 		DB36866229C1BEF300FE0C04 /* Setting */ = {
@@ -519,7 +532,8 @@
 		DBC3618929A096DA0011C319 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				DBC3619429A0BE590011C319 /* StandarAlert */,
+				DB3632B929C783AD006157F9 /* StandardActionSheet */,
+				DBC3619429A0BE590011C319 /* StandardAlert */,
 				DBC3618C29A0A5340011C319 /* PaddingLabel.swift */,
 				DBC3619529A0C3000011C319 /* mainButton.swift */,
 				DB2503EB29AA21F300B0AE39 /* ImgPageControlView.swift */,
@@ -528,13 +542,13 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
-		DBC3619429A0BE590011C319 /* StandarAlert */ = {
+		DBC3619429A0BE590011C319 /* StandardAlert */ = {
 			isa = PBXGroup;
 			children = (
 				DBC3618A29A097490011C319 /* StandardAlertController.swift */,
 				DBC3618E29A0A8550011C319 /* StandardAlertAction.swift */,
 			);
-			path = StandarAlert;
+			path = StandardAlert;
 			sourceTree = "<group>";
 		};
 		DBD8DD5D296315020081CD21 /* MyPage */ = {
@@ -731,6 +745,7 @@
 				DB2503EE29AA619F00B0AE39 /* UIImage+.swift in Sources */,
 				DB5E6A3429C0DF850078B27F /* TermsOfUseViewController.swift in Sources */,
 				DB284A7A29B8D9C800630FCE /* ProfileService.swift in Sources */,
+				DB3632B829C78391006157F9 /* StandardActionSheetViewcontroller.swift in Sources */,
 				E56E0E9B29934661009FD906 /* AccountSettingViewController.swift in Sources */,
 				DBC3619829A0F8CD0011C319 /* FeedService.swift in Sources */,
 				DBAB63F129C2D01400A056C7 /* AlarmStatusModel.swift in Sources */,
@@ -756,6 +771,7 @@
 				DB5AFDE52960052D00667336 /* CustomActionSheet.swift in Sources */,
 				DBC3618D29A0A5340011C319 /* PaddingLabel.swift in Sources */,
 				DB80B37F29BA29BB009F8E2E /* StatisticsService.swift in Sources */,
+				DB3632BB29C78D37006157F9 /* StandardActionSheetAction.swift in Sources */,
 				DB3545F529C095EA00A6087E /* UnderLineTextFiled.swift in Sources */,
 				E56E0E9429934661009FD906 /* SettingViewController.swift in Sources */,
 				E56E0EDB299F0D9F009FD906 /* PostModel.swift in Sources */,

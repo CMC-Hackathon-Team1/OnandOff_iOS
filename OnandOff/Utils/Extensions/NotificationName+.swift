@@ -11,6 +11,9 @@ extension Notification.Name {
     ///  표준알림창 액션감지 옵저버
     static let dismissStandardAlert = Notification.Name("dismissStandardAlert")
     
+    /// 표준액션시트 액션감지 옵저버
+    static let dismissStandardActionSheet = Notification.Name("dismissStandardActionSheet")
+    
     /// 둘러보기 선택 카테고리 옵저버
     static let selectCategory = Notification.Name("selectCategory")
 
