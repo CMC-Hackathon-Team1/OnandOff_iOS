@@ -46,6 +46,8 @@
 		DB3B601829BDB4D40087B04B /* FeedCellWithHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B601729BDB4D40087B04B /* FeedCellWithHome.swift */; };
 		DB3B601A29BDD8800087B04B /* ActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B601929BDD8800087B04B /* ActionSheetViewController.swift */; };
 		DB3B601C29BDDF940087B04B /* FeedDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3B601B29BDDF940087B04B /* FeedDelegate.swift */; };
+		DB3BB9D12A1524AF00E4432A /* UserBlockListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3BB9D02A1524AF00E4432A /* UserBlockListViewController.swift */; };
+		DB3BB9D32A1527EE00E4432A /* BlockProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3BB9D22A1527EE00E4432A /* BlockProfileCell.swift */; };
 		DB3DE7C629B60BC000A95218 /* MyPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3DE7C529B60BC000A95218 /* MyPageModel.swift */; };
 		DB3DE7C829B60C8700A95218 /* MyPageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3DE7C729B60C8700A95218 /* MyPageService.swift */; };
 		DB3DE7CA29B62A4D00A95218 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3DE7C929B62A4D00A95218 /* ProfileModel.swift */; };
@@ -157,6 +159,8 @@
 		DB3B601729BDB4D40087B04B /* FeedCellWithHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCellWithHome.swift; sourceTree = "<group>"; };
 		DB3B601929BDD8800087B04B /* ActionSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewController.swift; sourceTree = "<group>"; };
 		DB3B601B29BDDF940087B04B /* FeedDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDelegate.swift; sourceTree = "<group>"; };
+		DB3BB9D02A1524AF00E4432A /* UserBlockListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserBlockListViewController.swift; sourceTree = "<group>"; };
+		DB3BB9D22A1527EE00E4432A /* BlockProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockProfileCell.swift; sourceTree = "<group>"; };
 		DB3DE7C529B60BC000A95218 /* MyPageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageModel.swift; sourceTree = "<group>"; };
 		DB3DE7C729B60C8700A95218 /* MyPageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageService.swift; sourceTree = "<group>"; };
 		DB3DE7C929B62A4D00A95218 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
@@ -566,6 +570,7 @@
 			children = (
 				E56E0E8729934661009FD906 /* SettingViewController.swift */,
 				E56E0E8E29934661009FD906 /* AccountSettingViewController.swift */,
+				DB3BB9D02A1524AF00E4432A /* UserBlockListViewController.swift */,
 				E56E0E9229934661009FD906 /* UserPrivacyViewController.swift */,
 				E56E0E8C29934661009FD906 /* AlertViewController.swift */,
 				E56E0E8929934661009FD906 /* FeedbackViewController.swift */,
@@ -579,6 +584,7 @@
 			children = (
 				E56E0EC12993499D009FD906 /* AlertCell.swift */,
 				5DB24CA72995B76600654978 /* SettingCell.swift */,
+				DB3BB9D22A1527EE00E4432A /* BlockProfileCell.swift */,
 			);
 			path = HomeSetting;
 			sourceTree = "<group>";
@@ -744,9 +750,11 @@
 				DB80B38729BB7824009F8E2E /* CategoryCell.swift in Sources */,
 				DB2503EE29AA619F00B0AE39 /* UIImage+.swift in Sources */,
 				DB5E6A3429C0DF850078B27F /* TermsOfUseViewController.swift in Sources */,
+				DB3BB9D32A1527EE00E4432A /* BlockProfileCell.swift in Sources */,
 				DB284A7A29B8D9C800630FCE /* ProfileService.swift in Sources */,
 				DB3632B829C78391006157F9 /* StandardActionSheetViewcontroller.swift in Sources */,
 				E56E0E9B29934661009FD906 /* AccountSettingViewController.swift in Sources */,
+				DB3BB9D12A1524AF00E4432A /* UserBlockListViewController.swift in Sources */,
 				DBC3619829A0F8CD0011C319 /* FeedService.swift in Sources */,
 				DBAB63F129C2D01400A056C7 /* AlarmStatusModel.swift in Sources */,
 				DBC3619129A0B05C0011C319 /* NotificationName+.swift in Sources */,
