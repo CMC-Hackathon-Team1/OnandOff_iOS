@@ -59,12 +59,13 @@ final class BlockProfileCell: UITableViewCell {
     func configureCell(_ item: BlockProfileItem) {
         self.profileImageView.loadImage(item.profileImgUrl)
         self.nameLabel.text = item.personaName + item.profileName
+        self.unBlockButton.tag = item.profileId
     }
     
     //MARK: - Selector
-    @objc private func didClickUnLockButton() {
+    @objc private func didClickUnLockButton(_ button: UIButton) {
         //해제할 profile ID object로 전달하기
-        NotificationCenter.default.post(name: .unBlockProfile, object: nil)
+        NotificationCenter.default.post(name: .unBlockProfile, object: button.tag)
     }
     
     //MARK: - AddSubView

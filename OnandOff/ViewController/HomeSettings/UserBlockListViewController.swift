@@ -48,7 +48,25 @@ final class UserBlockListViewController: UIViewController {
         
         let cancel = StandardAlertAction(title: "취소", style: .cancel)
         let ok = StandardAlertAction(title: "차단 해제", style: .basic) { _ in
-            print("차단 해제 API 호출")
+            let toProfileId = notification.object as! Int
+            ProfileService.blockProfile(toProfileId, block: false) { statusCode in
+                switch statusCode {
+                case 3704:
+                    let alert = StandardAlertController(title: nil, message: "차단 해제하였습니다.\n검색을 통해 해당 유저를 다시 만나 볼 수 있습니다.")
+                    alert.messageHighlight(highlightString: "차단 해제", color: .point)
+                    let ok = StandardAlertAction(title: "확인", style: .basic) { _ in
+                        ProfileService.fetchBlockProfileList() { [weak self] model in
+                            self?.userList = model.result ?? []
+                            self?.tableView.reloadData()
+                        }
+                    }
+                    alert.addAction(ok)
+                    
+                    self.present(alert, animated: false)
+                default:
+                    self.defaultAlert(title: "차단 해제 실패")
+                }
+            }
         }
         
         alert.addAction(cancel)

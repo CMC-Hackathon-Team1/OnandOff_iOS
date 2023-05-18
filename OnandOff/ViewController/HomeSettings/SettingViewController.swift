@@ -75,9 +75,9 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         cell.selectionStyle = .none
         cell.settingImage.image = UIImage(named: "\(settingImageArray[indexPath.row])")?.withRenderingMode(.alwaysOriginal)
         cell.title.text = settingLabelArray[indexPath.row]
-        if indexPath.row == 5{
+        if indexPath.row == 6{
             cell.arrow.isHidden = true
-        }else if indexPath.row == 6{
+        }else if indexPath.row == 7{
             cell.title.textColor = .red
             cell.arrow.isHidden = true
         }
