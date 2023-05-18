@@ -124,4 +124,21 @@ class ProfileService {
             }
         }
     }
+    
+    static func fetchBlockProfileList(completion: @escaping (BlockProfileModel) -> Void) {
+        let profileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
+        let url = baseURL + "profile-block/blocked-profiles?profileId=\(profileId)"
+        let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
+        
+        let request = AF.request(url, headers: header)
+        
+        request.responseDecodable(of: BlockProfileModel.self) { res in
+            switch res.result {
+            case .success(let model):
+                completion(model)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
 }

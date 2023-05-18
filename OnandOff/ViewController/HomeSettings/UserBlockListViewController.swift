@@ -9,6 +9,8 @@ import UIKit
 
 final class UserBlockListViewController: UIViewController {
     //MARK: - Properties
+    var userList = [BlockProfileItem]()
+    
     private let tableView = UITableView().then {
         $0.separatorStyle = .none
         $0.register(BlockProfileCell.self, forCellReuseIdentifier: BlockProfileCell.identifier)
@@ -32,6 +34,11 @@ final class UserBlockListViewController: UIViewController {
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.willUnBlockProfile), name: .unBlockProfile, object: nil)
+        
+        ProfileService.fetchBlockProfileList() { [weak self] model in
+            self?.userList = model.result ?? []
+            self?.tableView.reloadData()
+        }
     }
     
     //MARK: - Selector
@@ -53,11 +60,12 @@ final class UserBlockListViewController: UIViewController {
 
 extension UserBlockListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return self.userList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: BlockProfileCell.identifier, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: BlockProfileCell.identifier, for: indexPath) as! BlockProfileCell
+        cell.configureCell(self.userList[indexPath.row])
         
         return cell
     }

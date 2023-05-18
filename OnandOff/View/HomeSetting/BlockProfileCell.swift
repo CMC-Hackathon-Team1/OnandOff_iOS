@@ -12,6 +12,7 @@ final class BlockProfileCell: UITableViewCell {
     
     //MARK: - Properties
     private let profileImageView = UIImageView().then {
+        $0.layer.masksToBounds = true
         $0.contentMode = .scaleAspectFit
         $0.backgroundColor = .lightGray
         $0.layer.cornerRadius = 26.5
@@ -48,6 +49,16 @@ final class BlockProfileCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.profileImageView.image = nil
+    }
+    
+    func configureCell(_ item: BlockProfileItem) {
+        self.profileImageView.loadImage(item.profileImgUrl)
+        self.nameLabel.text = item.personaName + item.profileName
     }
     
     //MARK: - Selector
