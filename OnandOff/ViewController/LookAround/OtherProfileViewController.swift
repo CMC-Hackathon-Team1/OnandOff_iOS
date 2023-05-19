@@ -75,7 +75,7 @@ final class OtherProfileViewController: UIViewController {
             self.navigationController?.pushViewController(reportVC, animated: true)
         }
         let blockUser2 = StandardActionSheetAction(title: "유저 차단하기", image: UIImage(named: "block")?.withRenderingMode(.alwaysOriginal)) { _ in
-            ProfileService.blockProfile(self.profileId) { [weak self] code in
+            ProfileService.blockProfile(self.profileId, block: true) { [weak self] code in
                 if code == 3703 {
                     self?.defaultAlert(title: "차단되었습니다.") {
                         NotificationCenter.default.post(name: .blockProfile, object: self?.profileId)

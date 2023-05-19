@@ -9,8 +9,8 @@ import UIKit
 
 final class SettingViewController: UIViewController{
     //MARK: - Properties
-    var settingImageArray = ["UserCircle", "LockSimple", "alarmButton", "ChatCenteredDots", "ClipboardText", "WarningCircle", "SignOut"]
-    var settingLabelArray = ["계정", "개인정보 보호", "알림", "피드백/문의하기", "약관 및 정책", "버전", "로그아웃"]
+    var settingImageArray = ["UserCircle", "LockSimple", "blockListIcon", "alarmButton", "ChatCenteredDots", "ClipboardText", "WarningCircle", "SignOut"]
+    var settingLabelArray = ["계정", "개인정보 보호", "차단된 계정", "알림", "피드백/문의하기", "약관 및 정책", "버전", "로그아웃"]
     
     private let settingTableView = UITableView().then {
         $0.backgroundColor = .white
@@ -75,9 +75,9 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         cell.selectionStyle = .none
         cell.settingImage.image = UIImage(named: "\(settingImageArray[indexPath.row])")?.withRenderingMode(.alwaysOriginal)
         cell.title.text = settingLabelArray[indexPath.row]
-        if indexPath.row == 5{
+        if indexPath.row == 6{
             cell.arrow.isHidden = true
-        }else if indexPath.row == 6{
+        }else if indexPath.row == 7{
             cell.title.textColor = .red
             cell.arrow.isHidden = true
         }
@@ -91,20 +91,19 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
         } else if indexPath.row == 1 {
             let privacyVC = UserPrivacyViewController()
             self.navigationController?.pushViewController(privacyVC, animated: true)
-        }
-        else if indexPath.row == 2{
+        } else if indexPath.row == 2 {
+            let userBlockListVC = UserBlockListViewController()
+            self.navigationController?.pushViewController(userBlockListVC, animated: true)
+        } else if indexPath.row == 3 {
             let alertVC = AlertViewController()
             self.navigationController?.pushViewController(alertVC, animated: true)
-        }
-        else if indexPath.row == 3{
+        } else if indexPath.row == 4 {
             let feedbackVC = FeedbackViewController()
             self.navigationController?.pushViewController(feedbackVC, animated: true)
-        }
-        else if indexPath.row == 4{
+        } else if indexPath.row == 5 {
             let plicyVC = PolicyViewController()
             self.navigationController?.pushViewController(plicyVC, animated: true)
-        }
-        else if indexPath.row == 6{
+        } else if indexPath.row == 7 {
             let alert = StandardAlertController(title: "로그아웃 하시겠습니까?", message: nil)
             let cancel = StandardAlertAction(title: "취소", style: .cancel)
             let logout = StandardAlertAction(title: "로그아웃", style: .basic) { _ in

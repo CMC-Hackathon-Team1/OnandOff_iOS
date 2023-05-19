@@ -43,4 +43,7 @@ extension Notification.Name {
     
     /// 유저 차단 감지
     static let blockProfile = Notification.Name("blockProfile")
+    
+    /// 유저 차단 해제
+    static let unBlockProfile = Notification.Name("unBlockProfile")
 }

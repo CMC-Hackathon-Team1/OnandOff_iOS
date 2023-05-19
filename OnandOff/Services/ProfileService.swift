@@ -105,12 +105,14 @@ class ProfileService {
         }
     }
     
-    static func blockProfile(_ toProfileId: Int, completion: @escaping (Int) -> Void) {
+    static func blockProfile(_ toProfileId: Int, block: Bool, completion: @escaping (Int) -> Void) {
         let url = baseURL + "profile-block"
         let fromProfileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
         let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
         let parameter: Parameters = ["fromProfileId" : fromProfileId,
-                                     "toProfileId" : toProfileId]
+                                     "toProfileId" : toProfileId,
+                                     "type" : block ? "BLOCK" : "UNBLOCK"
+        ]
     
         let request = AF.request(url, method: .post, parameters: parameter, encoding: JSONEncoding.default, headers: header)
         request.responseDecodable(of: DefaultModel.self) { res in
@@ -119,6 +121,23 @@ class ProfileService {
                 completion(model.statusCode)
             case .failure(let error):
                 print("HTTP Error: \(error)")
+            }
+        }
+    }
+    
+    static func fetchBlockProfileList(completion: @escaping (BlockProfileModel) -> Void) {
+        let profileId = UserDefaults.standard.integer(forKey: "selectedProfileId")
+        let url = baseURL + "profile-block/blocked-profiles?profileId=\(profileId)"
+        let header = TokenService().getAuthorizationHeader(serviceID: "https://dev.onnoff.shop/auth/login")
+        
+        let request = AF.request(url, headers: header)
+        
+        request.responseDecodable(of: BlockProfileModel.self) { res in
+            switch res.result {
+            case .success(let model):
+                completion(model)
+            case .failure(let error):
+                print(error)
             }
         }
     }
